@@ -60,6 +60,9 @@ public class QuestsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_quests, container, false);
         ButterKnife.bind(this, view);
 
+
+
+
         navController = NavHostFragment.findNavController(this);
 
         setHasOptionsMenu(true);
