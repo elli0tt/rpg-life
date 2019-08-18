@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/add_quest_confirm_button"
+        android:title="@string/add_quest_toolbar_menu_confirm"
+        android:icon="@drawable/ic_done_white_24dp"
+        app:showAsAction="ifRoom"/>
+
+</menu>

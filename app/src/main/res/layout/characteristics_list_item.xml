@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/characteristic_image"
+        android:layout_width="@dimen/characteristics_list_image_size"
+        android:layout_height="@dimen/characteristics_list_image_size"
+        android:layout_margin="@dimen/characteristics_list_items_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tool:src="@drawable/ic_endurance" />
+
+    <TextView
+        android:id="@+id/characteristic_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/characteristics_list_items_margin"
+        android:textSize="@dimen/characteristics_list_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/characteristic_image"
+        app:layout_constraintTop_toTopOf="parent"
+        tool:text="Strength:" />
+
+    <TextView
+        android:id="@+id/characteristic_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/characteristics_list_items_margin"
+        android:textSize="@dimen/characteristics_list_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/characteristic_name"
+        app:layout_constraintTop_toTopOf="parent"
+        tool:text="100" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/characteristics_list_item_menu_button"
+        android:layout_width="@dimen/characteristics_list_menu_dots_size"
+        android:layout_height="@dimen/characteristics_list_menu_dots_size"
+        android:src="@drawable/ic_menu_dots"
+        android:background="?android:attr/colorBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="4dp"
+    android:background="?android:attr/selectableItemBackground">
+
+    <CheckBox
+        android:id="@+id/quest_is_completed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/quest_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@id/quest_is_important_check_box"
+        app:layout_constraintStart_toEndOf="@+id/quest_is_completed"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Read book" />
+
+    <TextView
+        android:id="@+id/quest_difficulty_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:text="@string/quest_difficulty_label_text"
+        app:layout_constraintStart_toEndOf="@+id/quest_is_completed"
+        app:layout_constraintTop_toBottomOf="@id/quest_name" />
+
+    <TextView
+        android:id="@+id/quest_difficulty_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        app:layout_constraintStart_toEndOf="@id/quest_difficulty_label"
+        app:layout_constraintTop_toBottomOf="@id/quest_name"
+        tools:text="Normal" />
+
+    <!--Star style for checkBox. It's a bit inconvenient way because I haven't found out how to change -->
+    <!--the color of this particular checkbox. I save this line for if I would like to use it later.-->
+    <!--style="?android:attr/starStyle"-->
+    <CheckBox
+        android:id="@+id/quest_is_important_check_box"
+        android:button="@drawable/is_important_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
