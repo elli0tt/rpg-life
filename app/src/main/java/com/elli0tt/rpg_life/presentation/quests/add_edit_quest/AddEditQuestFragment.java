@@ -37,7 +37,7 @@ public class AddEditQuestFragment extends Fragment {
 
     private NavController navController;
 
-    private AddEditQuestViewModel addEditQuestViewModel;
+    private AddEditQuestViewModel viewModel;
 
     //Tags for Log.d()
     private static final String ON_FOCUS_CHANGE_TAG = "On focus change";
@@ -46,11 +46,12 @@ public class AddEditQuestFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        addEditQuestViewModel = ViewModelProviders.of(this).get(AddEditQuestViewModel.class);
-        FragmentAddEditQuestBinding binding = FragmentAddEditQuestBinding.inflate(inflater, container, false);
+        viewModel = ViewModelProviders.of(this).get(AddEditQuestViewModel.class);
+        FragmentAddEditQuestBinding binding =
+                FragmentAddEditQuestBinding.inflate(inflater, container, false);
         ButterKnife.bind(this, binding.getRoot());
 
-        binding.setViewModel(addEditQuestViewModel);
+        binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
 
         navController = NavHostFragment.findNavController(this);
@@ -58,7 +59,7 @@ public class AddEditQuestFragment extends Fragment {
         setupDifficultySpinner();
         setHasOptionsMenu(true);
 
-        addEditQuestViewModel.start(AddEditQuestFragmentArgs.fromBundle(getArguments()).getQuestId());
+        viewModel.start(AddEditQuestFragmentArgs.fromBundle(getArguments()).getQuestId());
         return binding.getRoot();
     }
 
@@ -82,7 +83,7 @@ public class AddEditQuestFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_quest_confirm_button:
-                addEditQuestViewModel.saveQuest();
+                viewModel.saveQuest();
                 navController.popBackStack();
                 return true;
             default:

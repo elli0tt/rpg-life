@@ -33,7 +33,7 @@ import butterknife.OnClick;
 
 public class QuestsFragment extends Fragment {
 
-    private QuestsViewModel questsViewModel;
+    private QuestsViewModel viewModel;
 
     private QuestsAdapter questsAdapter = new QuestsAdapter();
     private NavController navController;
@@ -79,12 +79,12 @@ public class QuestsFragment extends Fragment {
         questsAdapter.setOnIsCompleteCheckBoxClickListener((isCompleted, position) -> {
             Quest currentQuest = allQuestsList.getValue().get(position);
             currentQuest.setCompleted(isCompleted);
-            questsViewModel.update(currentQuest);
+            viewModel.update(currentQuest);
         });
         questsAdapter.setOnIsImportantCheckBoxClickListener((isImportant, position) -> {
             Quest currentQuest = allQuestsList.getValue().get(position);
             currentQuest.setImportant(isImportant);
-            questsViewModel.update(currentQuest);
+            viewModel.update(currentQuest);
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), RecyclerView.VERTICAL));
@@ -101,21 +101,9 @@ public class QuestsFragment extends Fragment {
     }
 
     private void setupQuestsViewModel() {
-        questsViewModel = ViewModelProviders.of(this).get(QuestsViewModel.class);
-        allQuestsList = questsViewModel.getAllQuestsList();
+        viewModel = ViewModelProviders.of(this).get(QuestsViewModel.class);
+        allQuestsList = viewModel.getAllQuestsList();
         allQuestsList.observe(this, questList -> questsAdapter.submitList(questList));
-    }
-
-    private List<Quest> generateSampleQuestsList() {
-        List<Quest> result = new ArrayList<>();
-        for (int i = 0; i < 10; ++i) {
-            result.add(new Quest("Quest " + i));
-        }
-        return result;
-    }
-
-    private void populateDataBaseWithSamples() {
-        questsViewModel.insert(generateSampleQuestsList());
     }
 
     @Override
@@ -149,10 +137,10 @@ public class QuestsFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.quests_toolbar_menu_delete_all:
-                questsViewModel.deleteAll();
+                viewModel.deleteAll();
                 break;
             case R.id.quest_toolbar_menu_populate_with_samples:
-                populateDataBaseWithSamples();
+                viewModel.populateWithSamples();
                 break;
 
         }

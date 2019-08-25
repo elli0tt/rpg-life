@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl;
 import com.elli0tt.rpg_life.domain.modal.Quest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class QuestsViewModel extends AndroidViewModel {
@@ -35,6 +36,18 @@ public class QuestsViewModel extends AndroidViewModel {
 
     public void update(Quest quest){
         repository.update(quest);
+    }
+
+    private List<Quest> generateSampleQuestsList() {
+        List<Quest> result = new ArrayList<>();
+        for (int i = 0; i < 10; ++i) {
+            result.add(new Quest("Quest " + i));
+        }
+        return result;
+    }
+
+    public void populateWithSamples(){
+        repository.insert(generateSampleQuestsList());
     }
 
 }

@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import com.elli0tt.rpg_life.data.repository.CharacteristicsRepositoryImpl;
 import com.elli0tt.rpg_life.domain.modal.Characteristic;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CharacteristicsViewModel extends AndroidViewModel {
@@ -29,7 +30,20 @@ public class CharacteristicsViewModel extends AndroidViewModel {
         characteristicsRepository.insert(characteristic);
     }
 
-    public void insert(List<Characteristic> characteristicList){
-        characteristicsRepository.insert(characteristicList);
+    private List<Characteristic> generateSampleCharacteristicsList() {
+        List<Characteristic> resultList = new ArrayList<>();
+        resultList.add(new Characteristic("Strength"));
+        resultList.add(new Characteristic("Intelligence"));
+        resultList.add(new Characteristic("Agility"));
+        resultList.add(new Characteristic("Endurance"));
+        resultList.add(new Characteristic("Willpower"));
+        resultList.add(new Characteristic("Procrastination"));
+        resultList.add(new Characteristic("Self-confidence"));
+        resultList.add(new Characteristic("Communication"));
+        return resultList;
+    }
+
+    public void populateWithSamples(){
+        characteristicsRepository.insert(generateSampleCharacteristicsList());
     }
 }
