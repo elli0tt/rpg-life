@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.domain.modal.Quest;
-import com.elli0tt.rpg_life.presentation.quests.edit_quest.EditQuestViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -35,7 +34,6 @@ import butterknife.OnClick;
 public class QuestsFragment extends Fragment {
 
     private QuestsViewModel questsViewModel;
-    private EditQuestViewModel editQuestViewModel;
 
     private QuestsAdapter questsAdapter = new QuestsAdapter();
     private NavController navController;
@@ -59,10 +57,6 @@ public class QuestsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_quests, container, false);
         ButterKnife.bind(this, view);
-
-
-
-
         navController = NavHostFragment.findNavController(this);
 
         setHasOptionsMenu(true);
@@ -71,22 +65,15 @@ public class QuestsFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        editQuestViewModel = ViewModelProviders.of(getActivity()).get(EditQuestViewModel.class);
-    }
-
     @OnClick(R.id.quests_fab)
     void onFabClick(){
-        showAddQuestScreen();
+        navigateToAddQuestScreen();
     }
 
     private void setupQuestsRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setAdapter(questsAdapter);
         questsAdapter.setOnItemClickListener(position -> {
-            editQuestViewModel.setCurrentQuest(allQuestsList.getValue().get(position));
-            showEditQuestScreen();
+            navigateToEditQuestScreen(allQuestsList.getValue().get(position).getId());
         });
         questsAdapter.setOnItemLongClickListener(position -> startMode(Mode.REMOVE));
         questsAdapter.setOnIsCompleteCheckBoxClickListener((isCompleted, position) -> {
@@ -172,13 +159,16 @@ public class QuestsFragment extends Fragment {
         return true;
     }
 
-    private void showAddQuestScreen() {
-        navController.getGraph().findNode(R.id.add_quest_screen).setLabel("Add quest");
-        navController.navigate(QuestsFragmentDirections.actionToAddQuestScreen());
+    private void navigateToAddQuestScreen() {
+        QuestsFragmentDirections.ActionQuestsScreenToAddQuestScreen action =
+                QuestsFragmentDirections.actionQuestsScreenToAddQuestScreen();
+        navController.navigate(action);
     }
 
-    private void showEditQuestScreen() {
-        navController.getGraph().findNode(R.id.edit_quest_screen).setLabel("Edit quest");
-        navController.navigate(QuestsFragmentDirections.actionToEditQuestScreen());
+    private void navigateToEditQuestScreen(int questId) {
+        QuestsFragmentDirections.ActionQuestsScreenToEditQuestScreen action =
+                QuestsFragmentDirections.actionQuestsScreenToEditQuestScreen();
+        action.setQuestId(questId);
+        navController.navigate(action);
     }
 }

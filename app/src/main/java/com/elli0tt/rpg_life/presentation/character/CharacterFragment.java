@@ -2,6 +2,8 @@ package com.elli0tt.rpg_life.presentation.character;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -45,7 +46,7 @@ public class CharacterFragment extends Fragment implements PopupMenu.OnMenuItemC
         view.findViewById(R.id.button).setOnClickListener(v -> showPopupMenu(v));
 
         setupCharacteristicsViewModel();
-
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -104,11 +105,23 @@ public class CharacterFragment extends Fragment implements PopupMenu.OnMenuItemC
     private void setupCharacteristicsViewModel() {
         characteristicsViewModel = ViewModelProviders.of(this)
                 .get(CharacteristicsViewModel.class);
-        characteristicsViewModel.getAllCharacteristics().observe(this, new Observer<List<Characteristic>>() {
-            @Override
-            public void onChanged(List<Characteristic> characteristics) {
-                adapter.setCharacteristicList(characteristics);
-            }
-        });
+        characteristicsViewModel.getAllCharacteristics().observe(this,
+                characteristics -> adapter.setCharacteristicList(characteristics));
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.character_toolbar_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.character_toolbar_item_populate_with_samples:
+                populateDatabaseWithSampleList();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

@@ -65,28 +65,19 @@ public class Quest {
     public static final int VERY_HARD = 4;
     public static final int IMPOSSIBLE = 5;
 
-    @PrimaryKey(autoGenerate = true)
-    private int id;
+    @PrimaryKey(autoGenerate = true) private int id;
 
-    @NonNull
-    private String name = "";
-    @NonNull
-    private String description = "";
-    @Difficulty
-    private int difficulty = NORMAL;
-    @Ignore
-    private List<Quest> subquests = new ArrayList<>();
-    @Ignore
-    private List<Reward> rewards = new ArrayList<>();
+    @NonNull private String name = "";
+    @NonNull private String description = "";
+    @Difficulty private int difficulty = NORMAL;
+    @Ignore private List<Quest> subquests = new ArrayList<>();
+    @Ignore private List<Reward> rewards = new ArrayList<>();
     private boolean isImportant = false;
-
     private boolean isCompleted = false;
-    // TODO set default values for start and finish dates
-    @Ignore
-    private Calendar startDate;
-    @Ignore
-    private Calendar finishDate;
 
+    // TODO set default values for start and finish dates
+    @Ignore private Calendar startDate;
+    @Ignore private Calendar finishDate;
 
     @Ignore
     public Quest(@NonNull String name,
@@ -118,6 +109,16 @@ public class Quest {
         this.description = description;
         this.difficulty = difficulty;
     }
+
+    @Ignore
+    public Quest(int id, @NonNull String name, @NonNull String description, @Difficulty int difficulty) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.difficulty = difficulty;
+    }
+
+
 
     private static final int COMPLETED_PERCENTAGE = 100;
 

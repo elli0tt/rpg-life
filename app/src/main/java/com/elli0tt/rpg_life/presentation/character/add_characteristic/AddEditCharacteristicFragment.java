@@ -11,12 +11,16 @@ import androidx.fragment.app.Fragment;
 
 import com.elli0tt.rpg_life.R;
 
-public class AddCharacteristicFragment extends Fragment {
+public class AddEditCharacteristicFragment extends Fragment {
+
+    private AddEditCharacteristicViewModel addEditCharacteristicViewModel;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add_characteristic, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_edit_characteristic, container, false);
+
+
         return view;
     }
 }

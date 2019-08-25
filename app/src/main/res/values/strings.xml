@@ -40,6 +40,7 @@
 
     <string name="quest_name_default_value"></string>
     <string name="quest_description_default_value"></string>
+    <string name="character_toolbar_menu_item_populate_with_samples">Populate with samples</string>
 
 
 </resources>

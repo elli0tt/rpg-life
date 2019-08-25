@@ -21,12 +21,15 @@ public interface QuestsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(List<Quest> questList);
 
+    @Query("SELECT * FROM quest_table WHERE id = :questId")
+    Quest getQuestById(int questId);
+
     @Query("SELECT * FROM quest_table ORDER BY name ")
     LiveData<List<Quest>> getAllQuests();
 
-    @Query("DELETE FROM quest_table")
-    void deleteAll();
-
     @Update
     void update(Quest quest);
+
+    @Query("DELETE FROM quest_table")
+    void deleteAll();
 }

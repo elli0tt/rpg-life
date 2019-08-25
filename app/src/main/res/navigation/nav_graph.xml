@@ -30,17 +30,32 @@
         android:name="com.elli0tt.rpg_life.presentation.quests.QuestsFragment"
         android:label="Quests"
         tools:layout="@layout/fragment_quests">
+        <!--<action-->
+            <!--android:id="@+id/action_to_add_quest_screen"-->
+            <!--app:destination="@id/add_quest_screen"-->
+            <!--app:enterAnim="@anim/nav_default_enter_anim"-->
+            <!--app:exitAnim="@anim/nav_default_exit_anim"-->
+            <!--app:popEnterAnim="@anim/nav_default_pop_enter_anim"-->
+            <!--app:popExitAnim="@anim/nav_default_pop_exit_anim" />-->
+
+        <!--<action-->
+            <!--android:id="@+id/action_to_edit_quest_screen"-->
+            <!--app:destination="@id/edit_quest_screen"-->
+            <!--app:enterAnim="@anim/nav_default_enter_anim"-->
+            <!--app:exitAnim="@anim/nav_default_exit_anim"-->
+            <!--app:popEnterAnim="@anim/nav_default_pop_enter_anim"-->
+            <!--app:popExitAnim="@anim/nav_default_pop_exit_anim" />-->
         <action
-            android:id="@+id/action_to_add_quest_screen"
-            app:destination="@id/add_quest_screen"
+            android:id="@+id/action_quests_screen_to_add_quest_screen"
+            app:destination="@id/add_edit_quest_screen"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
         <action
-            android:id="@+id/action_to_edit_quest_screen"
-            app:destination="@id/edit_quest_screen"
+            android:id="@+id/action_quests_screen_to_edit_quest_screen"
+            app:destination="@id/add_edit_quest_screen"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -72,17 +87,20 @@
         tools:layout="@layout/fragment_about_me" />
     <fragment
         android:id="@+id/new_characteristic_screen"
-        android:name="com.elli0tt.rpg_life.presentation.character.add_characteristic.AddCharacteristicFragment"
+        android:name="com.elli0tt.rpg_life.presentation.character.add_characteristic.AddEditCharacteristicFragment"
         android:label="Add new characteristic"
-        tools:layout="@layout/fragment_add_characteristic" />
-    <fragment
-        android:id="@+id/add_quest_screen"
-        android:name="com.elli0tt.rpg_life.presentation.quests.add_quest.AddQuestFragment"
-        tools:layout="@layout/fragment_add_edit_quest"/>
+        tools:layout="@layout/fragment_add_edit_characteristic" />
 
     <fragment
-        android:id="@+id/edit_quest_screen"
-        android:name="com.elli0tt.rpg_life.presentation.quests.edit_quest.EditQuestFragment"
-        tools:layout="@layout/fragment_add_edit_quest"/>
+        android:id="@+id/add_edit_quest_screen"
+        android:name="com.elli0tt.rpg_life.presentation.quests.add_edit_quest.AddEditQuestFragment"
+        android:label="AddEditQuestFragment"
+        tools:layout="@layout/fragment_add_edit_quest">
+        <argument
+            android:name="questId"
+            app:argType="java.lang.Integer"
+            android:defaultValue="@null"
+            app:nullable="true" />
+    </fragment>
 
 </navigation>

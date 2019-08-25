@@ -32,13 +32,25 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="add_edit_quest_screen">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="375" />
+                            <option name="y" value="-61" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="add_quest_screen">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="122" />
-                            <option name="y" value="-70" />
+                            <option name="x" value="105" />
+                            <option name="y" value="-276" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -70,8 +82,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="12" />
-                            <option name="y" value="12" />
+                            <option name="x" value="112" />
+                            <option name="y" value="248" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -106,18 +118,18 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-178" />
+                            <option name="x" value="-175" />
                             <option name="y" value="-71" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_to_add_quest_screen">
+                            <entry key="action_quests_screen_to_add_quest_screen">
                               <value>
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_to_edit_quest_screen">
+                            <entry key="action_quests_screen_to_edit_quest_screen">
                               <value>
                                 <LayoutPositions />
                               </value>

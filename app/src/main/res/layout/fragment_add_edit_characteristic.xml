@@ -5,14 +5,14 @@
     android:orientation="vertical">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/characteristic_name_input"
+        android:id="@+id/add_edt_characteristic_name_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:hint="@string/characteristic_name_input_hint">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/characteristic_name_edit"
+            android:id="@+id/add_edt_characteristic_name_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"/>

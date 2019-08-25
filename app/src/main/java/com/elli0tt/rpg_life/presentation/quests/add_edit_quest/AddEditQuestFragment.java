@@ -1,4 +1,4 @@
-package com.elli0tt.rpg_life.presentation.quests;
+package com.elli0tt.rpg_life.presentation.quests.add_edit_quest;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -17,36 +18,48 @@ import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.elli0tt.rpg_life.R;
+import com.elli0tt.rpg_life.databinding.FragmentAddEditQuestBinding;
 import com.elli0tt.rpg_life.domain.modal.Quest;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnFocusChange;
 
-public abstract class BaseAddEditQuestFragment extends Fragment {
+public class AddEditQuestFragment extends Fragment {
+    @BindView(R.id.add_edit_quest_name_edit_text) EditText nameEditText;
+    @BindView(R.id.add_edit_quest_description_edit_text) EditText descriptionEditText;
+    @BindView(R.id.add_edit_quest_difficulty_spinner) Spinner difficultySpinner;
 
-    protected @BindView(R.id.add_edit_quest_name_edit_text) EditText nameEditText;
-    protected @BindView(R.id.add_edit_quest_description_edit_text) EditText descriptionEditText;
-    protected @BindView(R.id.add_edit_quest_difficulty_spinner) Spinner difficultySpinner;
+    private NavController navController;
 
-    protected NavController navController;
+    private AddEditQuestViewModel addEditQuestViewModel;
 
+    //Tags for Log.d()
     private static final String ON_FOCUS_CHANGE_TAG = "On focus change";
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add_edit_quest, container, false);
-        ButterKnife.bind(this, view);
+
+        addEditQuestViewModel = ViewModelProviders.of(this).get(AddEditQuestViewModel.class);
+        FragmentAddEditQuestBinding binding = FragmentAddEditQuestBinding.inflate(inflater, container, false);
+        ButterKnife.bind(this, binding.getRoot());
+
+        binding.setViewModel(addEditQuestViewModel);
+        binding.setLifecycleOwner(this);
 
         navController = NavHostFragment.findNavController(this);
+
         setupDifficultySpinner();
         setHasOptionsMenu(true);
-        return view;
+
+        addEditQuestViewModel.start(AddEditQuestFragmentArgs.fromBundle(getArguments()).getQuestId());
+        return binding.getRoot();
     }
 
     private void setupDifficultySpinner() {
@@ -65,6 +78,18 @@ public abstract class BaseAddEditQuestFragment extends Fragment {
         inflater.inflate(R.menu.add_quest_toolbar_menu, menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.add_quest_confirm_button:
+                addEditQuestViewModel.saveQuest();
+                navController.popBackStack();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
 
     @OnFocusChange({R.id.add_edit_quest_name_edit_text, R.id.add_edit_quest_description_edit_text})
     void onEditTextsFocusChange(View v, boolean hasFocus) {

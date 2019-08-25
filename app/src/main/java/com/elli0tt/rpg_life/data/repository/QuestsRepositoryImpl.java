@@ -14,16 +14,18 @@ import java.util.List;
 
 public class QuestsRepositoryImpl implements QuestRepository {
     private QuestsDao dao;
-    private LiveData<List<Quest>> allQuestsList;
 
     public QuestsRepositoryImpl(Application application){
         AppRoomDatabase database = AppRoomDatabase.getDatabase(application);
         dao = database.getQuestDao();
-        allQuestsList = dao.getAllQuests();
+    }
+
+    public Quest getQuestById(int id){
+        return dao.getQuestById(id);
     }
 
     public LiveData<List<Quest>> getAllQuestsList() {
-        return allQuestsList;
+        return dao.getAllQuests();
     }
 
     public void insert(Quest quest){
@@ -63,6 +65,24 @@ public class QuestsRepositoryImpl implements QuestRepository {
         }
     }
 
+    public void update(Quest quest){
+        new UpdateAsyncTask(dao).execute(quest);
+    }
+
+    private static class UpdateAsyncTask extends AsyncTask<Quest, Void, Void>{
+        private QuestsDao dao;
+
+        UpdateAsyncTask(QuestsDao dao){
+            this.dao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Quest... quests) {
+            dao.update(quests[0]);
+            return null;
+        }
+    }
+
     public void deleteAll(){
         new DeleteAllAsyncTask(dao).execute();
     }
@@ -81,21 +101,4 @@ public class QuestsRepositoryImpl implements QuestRepository {
         }
     }
 
-    public void update(Quest quest){
-        new UpdateAsyncTask(dao).execute(quest);
-    }
-
-    private static class UpdateAsyncTask extends AsyncTask<Quest, Void, Void>{
-        private QuestsDao dao;
-
-        UpdateAsyncTask(QuestsDao dao){
-            this.dao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(Quest... quests) {
-            dao.update(quests[0]);
-            return null;
-        }
-    }
 }
