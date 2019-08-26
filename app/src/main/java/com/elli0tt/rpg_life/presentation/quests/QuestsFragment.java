@@ -23,7 +23,6 @@ import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.domain.modal.Quest;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -72,9 +71,7 @@ public class QuestsFragment extends Fragment {
 
     private void setupQuestsRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setAdapter(questsAdapter);
-        questsAdapter.setOnItemClickListener(position -> {
-            navigateToEditQuestScreen(allQuestsList.getValue().get(position).getId());
-        });
+        questsAdapter.setOnItemClickListener(position -> navigateToEditQuestScreen(allQuestsList.getValue().get(position).getId()));
         questsAdapter.setOnItemLongClickListener(position -> startMode(Mode.REMOVE));
         questsAdapter.setOnIsCompleteCheckBoxClickListener((isCompleted, position) -> {
             Quest currentQuest = allQuestsList.getValue().get(position);

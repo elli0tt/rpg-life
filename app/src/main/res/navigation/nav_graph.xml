@@ -93,7 +93,7 @@
 
     <fragment
         android:id="@+id/add_edit_quest_screen"
-        android:name="com.elli0tt.rpg_life.presentation.quests.add_edit_quest.AddEditQuestFragment"
+        android:name="com.elli0tt.rpg_life.presentation.add_edit_quest.AddEditQuestFragment"
         android:label="AddEditQuestFragment"
         tools:layout="@layout/fragment_add_edit_quest">
         <argument

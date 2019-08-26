@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.elli0tt.rpg_life.presentation.quests.add_edit_quest.AddEditQuestViewModel" />
+            type="com.elli0tt.rpg_life.presentation.add_edit_quest.AddEditQuestViewModel" />
     </data>
 
     <ScrollView
@@ -28,13 +28,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/add_quest_name_hint"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/add_edit_quest_name_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@={viewModel.name}"/>
+                    android:text="@={viewModel.name}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -44,7 +45,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/add_quest_items_margin_top"
                 android:hint="@string/add_quest_description_hint"
-                app:layout_constraintTop_toBottomOf="@id/add_edit_quest_name_text_input">
+                app:layout_constraintTop_toBottomOf="@id/add_edit_quest_name_text_input"
+                app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/add_edit_quest_description_edit_text"

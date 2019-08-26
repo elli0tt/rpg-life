@@ -1,10 +1,11 @@
-package com.elli0tt.rpg_life.presentation.quests.add_edit_quest;
+package com.elli0tt.rpg_life.presentation.add_edit_quest;
 
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl;
@@ -17,6 +18,8 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private MutableLiveData<String> name = new MutableLiveData<>();
     private MutableLiveData<String> description = new MutableLiveData<>();
     private MutableLiveData<Integer> difficulty = new MutableLiveData<>();
+
+    private MutableLiveData<String> nameErrorMessage = new MutableLiveData<>();
 
     /**
      * Id of quest to open in edit mode
@@ -43,16 +46,8 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         return difficulty;
     }
 
-    public void setName(String name) {
-        this.name.setValue(name);
-    }
-
-    public void setDescription(String description) {
-        this.description.setValue(description);
-    }
-
-    public void setDifficulty(@Quest.Difficulty int difficulty) {
-        this.difficulty.setValue(difficulty);
+    public LiveData<String> getNameErrorMessage(){
+        return nameErrorMessage;
     }
 
     public void start(@Nullable Integer id) {
@@ -88,27 +83,42 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         isDataLoaded = true;
     }
 
+    private boolean isNameValid(){
+        return name.getValue() != null && !name.getValue().isEmpty();
+    }
 
-    public void saveQuest() {
+
+    public boolean saveQuest() {
+        if (!isNameValid()){
+            nameErrorMessage.setValue("Field can't be empty");
+            return false;
+        }
+
+        //description field might be not filled by user, so it's necessary to set it manually to ""
+        if (description.getValue() == null){
+            description.setValue("");
+        }
+
+        nameErrorMessage.setValue(null);
+
         if (isNewQuest) {
             repository.insert(new Quest(
                     name.getValue(),
                     description.getValue(),
                     difficulty.getValue()));
         } else{
-            updateQuest();
-        }
-    }
-
-    public void updateQuest(){
-        if (isNewQuest){
-            throw new RuntimeException("updateQuest() was called for a new quest");
+            repository.update(new Quest(
+                    id,
+                    name.getValue(),
+                    description.getValue(),
+                    difficulty.getValue()));
         }
 
-        repository.update(new Quest(
-                id,
-                name.getValue(),
-                description.getValue(),
-                difficulty.getValue()));
+        return true;
+
     }
+
+
+
+
 }

@@ -44,18 +44,6 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="add_quest_screen">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="105" />
-                            <option name="y" value="-276" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
                   <entry key="character_screen">
                     <value>
                       <LayoutPositions>
@@ -73,18 +61,6 @@
                               </value>
                             </entry>
                           </map>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="edit_quest_screen">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="112" />
-                            <option name="y" value="248" />
-                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>

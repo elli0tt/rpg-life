@@ -1,4 +1,4 @@
-package com.elli0tt.rpg_life.presentation.quests.add_edit_quest;
+package com.elli0tt.rpg_life.presentation.add_edit_quest;
 
 import android.app.Activity;
 import android.content.Context;
@@ -25,6 +25,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.databinding.FragmentAddEditQuestBinding;
 import com.elli0tt.rpg_life.domain.modal.Quest;
+import com.google.android.material.textfield.TextInputLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +35,7 @@ public class AddEditQuestFragment extends Fragment {
     @BindView(R.id.add_edit_quest_name_edit_text) EditText nameEditText;
     @BindView(R.id.add_edit_quest_description_edit_text) EditText descriptionEditText;
     @BindView(R.id.add_edit_quest_difficulty_spinner) Spinner difficultySpinner;
+    @BindView(R.id.add_edit_quest_name_text_input) TextInputLayout nameTextInput;
 
     private NavController navController;
 
@@ -59,6 +61,8 @@ public class AddEditQuestFragment extends Fragment {
         setupDifficultySpinner();
         setHasOptionsMenu(true);
 
+        viewModel.getNameErrorMessage().observe(this, s -> nameTextInput.setError(s));
+
         viewModel.start(AddEditQuestFragmentArgs.fromBundle(getArguments()).getQuestId());
         return binding.getRoot();
     }
@@ -83,8 +87,9 @@ public class AddEditQuestFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_quest_confirm_button:
-                viewModel.saveQuest();
-                navController.popBackStack();
+                if (viewModel.saveQuest()) {
+                    navController.popBackStack();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
