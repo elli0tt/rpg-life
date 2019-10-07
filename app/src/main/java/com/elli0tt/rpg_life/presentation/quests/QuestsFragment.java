@@ -10,11 +10,17 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.selection.ItemKeyProvider;
+import androidx.recyclerview.selection.SelectionPredicates;
+import androidx.recyclerview.selection.SelectionTracker;
+import androidx.recyclerview.selection.StorageStrategy;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,6 +55,11 @@ public class QuestsFragment extends Fragment {
         NORMAL, REMOVE
     }
 
+    private ActionMode actionMode;
+    private ActionModeController actionModeController;
+
+    private static final String SELECTION_ID = "quest fragment selection id";
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -58,9 +69,10 @@ public class QuestsFragment extends Fragment {
         ButterKnife.bind(this, view);
         navController = NavHostFragment.findNavController(this);
 
+        setupQuestsViewModel();
         setHasOptionsMenu(true);
         setupQuestsRecyclerView(view.findViewById(R.id.quests_list));
-        setupQuestsViewModel();
+
         return view;
     }
 
@@ -69,10 +81,18 @@ public class QuestsFragment extends Fragment {
         navigateToAddQuestScreen();
     }
 
+    private QuestsAdapter.OnItemClickListener onItemClickListener =
+            position -> navigateToEditQuestScreen(allQuestsList.getValue().get(position).getId());
+
     private void setupQuestsRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setAdapter(questsAdapter);
-        questsAdapter.setOnItemClickListener(position -> navigateToEditQuestScreen(allQuestsList.getValue().get(position).getId()));
-        questsAdapter.setOnItemLongClickListener(position -> startMode(Mode.REMOVE));
+        questsAdapter.setOnItemClickListener(onItemClickListener);
+//        questsAdapter.setOnItemLongClickListener(position -> {
+//            if (actionMode != null) {
+//                return;
+//            }
+//            actionMode = getActivity().startActionMode(actionModeCallback);
+//        });
         questsAdapter.setOnIsCompleteCheckBoxClickListener((isCompleted, position) -> {
             Quest currentQuest = allQuestsList.getValue().get(position);
             currentQuest.setCompleted(isCompleted);
@@ -83,6 +103,41 @@ public class QuestsFragment extends Fragment {
             currentQuest.setImportant(isImportant);
             viewModel.update(currentQuest);
         });
+
+        SelectionTracker<Long> selectionTracker = new SelectionTracker.Builder<>(
+                SELECTION_ID,
+                recyclerView,
+                new QuestsItemKeyProvider(recyclerView),
+                new QuestsItemDetailsLookup(recyclerView),
+                StorageStrategy.createLongStorage()
+        ).withSelectionPredicate(
+                SelectionPredicates.createSelectAnything()
+        ).build();
+
+        selectionTracker.addObserver(new SelectionTracker.SelectionObserver() {
+
+
+            @Override
+            public void onSelectionChanged() {
+                super.onSelectionChanged();
+                if (selectionTracker.hasSelection() && actionMode == null) {
+                    AppCompatActivity activity = (AppCompatActivity) getActivity();
+                    if (activity != null) {
+                        actionMode = activity.startSupportActionMode(
+                                new ActionModeController(selectionTracker, viewModel));
+                        questsAdapter.removeOnItemClickListener();
+                    }
+                } else if (!selectionTracker.hasSelection() && actionMode != null) {
+                    actionMode.finish();
+                    actionMode = null;
+                    questsAdapter.setOnItemClickListener(onItemClickListener);
+                }
+            }
+
+        });
+
+        questsAdapter.setSelectionTracker(selectionTracker);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), RecyclerView.VERTICAL));
 
@@ -107,9 +162,9 @@ public class QuestsFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.quests_toolbar_menu, menu);
         deleteAllToolbarMenuItem = menu.findItem(R.id.quests_toolbar_menu_delete_all);
-        populateWithSamplesMenuItem = menu.findItem(R.id.quest_toolbar_menu_populate_with_samples);
-        deleteToolbarMenuItem = menu.findItem(R.id.quest_toolbar_menu_delete);
-        selectAllMenuItem = menu.findItem(R.id.quest_toolbar_menu_select_all);
+        populateWithSamplesMenuItem = menu.findItem(R.id.quests_toolbar_menu_populate_with_samples);
+        deleteToolbarMenuItem = menu.findItem(R.id.quests_toolbar_menu_delete);
+        selectAllMenuItem = menu.findItem(R.id.quests_toolbar_menu_select_all);
         startMode(Mode.NORMAL);
     }
 
@@ -136,7 +191,7 @@ public class QuestsFragment extends Fragment {
             case R.id.quests_toolbar_menu_delete_all:
                 viewModel.deleteAll();
                 break;
-            case R.id.quest_toolbar_menu_populate_with_samples:
+            case R.id.quests_toolbar_menu_populate_with_samples:
                 viewModel.populateWithSamples();
                 break;
 

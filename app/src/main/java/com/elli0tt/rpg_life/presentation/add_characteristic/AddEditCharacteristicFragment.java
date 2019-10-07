@@ -1,4 +1,4 @@
-package com.elli0tt.rpg_life.presentation.character.add_characteristic;
+package com.elli0tt.rpg_life.presentation.add_characteristic;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

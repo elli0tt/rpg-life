@@ -1,6 +1,5 @@
 package com.elli0tt.rpg_life.presentation.quests;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +7,9 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.selection.ItemDetailsLookup;
+import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,10 +22,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.ViewHolder> {
+public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHolder> {
 
     public interface OnItemClickListener {
-        void onClick(int position);
+        void onItemClick(int position);
     }
 
     public interface OnItemLongClickListener {
@@ -43,10 +45,11 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.ViewHolder> 
     private OnItemClickListener onItemClickListener;
     private OnItemLongClickListener onItemLongClickListener;
 
-    private Context context;
+    private SelectionTracker<Long> selectionTracker;
 
-    QuestsAdapter() {
+    public QuestsAdapter() {
         super(DIFF_CALLBACK);
+        setHasStableIds(true);
     }
 
     private static final DiffUtil.ItemCallback<Quest> DIFF_CALLBACK = new DiffUtil.ItemCallback<Quest>() {
@@ -62,29 +65,36 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.ViewHolder> 
         }
     };
 
-    void setOnIsCompleteCheckBoxClickListener(OnIsCompleteCheckBoxClickListener listener) {
+    public void setOnIsCompleteCheckBoxClickListener(OnIsCompleteCheckBoxClickListener listener) {
         onIsCompleteCheckBoxClickListener = listener;
     }
 
-    void setOnIsImportantCheckBoxClickListener(OnIsImportantCheckBoxClickListener listener) {
+    public void setOnIsImportantCheckBoxClickListener(OnIsImportantCheckBoxClickListener listener) {
         onIsImportantCheckBoxClickListener = listener;
     }
 
-    void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 
-    void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
         this.onItemLongClickListener = onItemLongClickListener;
+    }
+
+    public void setSelectionTracker(SelectionTracker<Long> selectionTracker) {
+        this.selectionTracker = selectionTracker;
+    }
+
+    public void removeOnItemClickListener(){
+        onItemClickListener = null;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public QuestsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.quest_list_item, parent, false);
-        context = parent.getContext();
-        return new ViewHolder(
+        return new QuestsViewHolder(
                 view,
                 onIsCompleteCheckBoxClickListener,
                 onIsImportantCheckBoxClickListener,
@@ -93,11 +103,16 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(getItem(position));
+    public void onBindViewHolder(@NonNull QuestsViewHolder holder, int position) {
+        holder.bind(getItem(position), selectionTracker.isSelected((long) (position)));
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    static class QuestsViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.quest_is_completed) CheckBox isCompletedCheckBox;
         @BindView(R.id.quest_name) TextView nameTextView;
         @BindView(R.id.quest_difficulty_value) TextView difficultyTextView;
@@ -111,17 +126,17 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.ViewHolder> 
         @BindString(R.string.difficulty_impossible_text) String difficultyImpossibleText;
         @BindString(R.string.difficulty_error_text) String difficultyErrorText;
 
-        OnIsCompleteCheckBoxClickListener onIsCompleteCheckBoxClickListener;
-        OnIsImportantCheckBoxClickListener onIsImportantCheckBoxClickListener;
-        OnItemClickListener onItemClickListener;
-        OnItemLongClickListener onItemLongClickListener;
+        private QuestsAdapter.OnIsCompleteCheckBoxClickListener onIsCompleteCheckBoxClickListener;
+        private QuestsAdapter.OnIsImportantCheckBoxClickListener onIsImportantCheckBoxClickListener;
+        private QuestsAdapter.OnItemClickListener onItemClickListener;
+        private QuestsAdapter.OnItemLongClickListener onItemLongClickListener;
 
-        ViewHolder(
+        QuestsViewHolder(
                 @NonNull View itemView,
-                final OnIsCompleteCheckBoxClickListener onIsCompleteCheckBoxClickListener,
-                final OnIsImportantCheckBoxClickListener onIsImportantCheckBoxClickListener,
-                final OnItemClickListener onItemClickListener,
-                final OnItemLongClickListener onItemLongClickListener) {
+                final QuestsAdapter.OnIsCompleteCheckBoxClickListener onIsCompleteCheckBoxClickListener,
+                final QuestsAdapter.OnIsImportantCheckBoxClickListener onIsImportantCheckBoxClickListener,
+                final QuestsAdapter.OnItemClickListener onItemClickListener,
+                final QuestsAdapter.OnItemLongClickListener onItemLongClickListener) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             this.onIsCompleteCheckBoxClickListener = onIsCompleteCheckBoxClickListener;
@@ -130,15 +145,16 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.ViewHolder> 
             this.onItemLongClickListener = onItemLongClickListener;
 
             itemView.setOnClickListener(createOnItemClickListener(onItemClickListener));
-            itemView.setOnLongClickListener(
-                    createOnItemLongClickListener(onItemLongClickListener));
+//            itemView.setOnLongClickListener(
+//                    createOnItemLongClickListener(onItemLongClickListener));
         }
 
-        void bind(Quest quest) {
+        void bind(Quest quest, boolean isActivated) {
             isCompletedCheckBox.setChecked(quest.isCompleted());
             nameTextView.setText(quest.getName());
             difficultyTextView.setText(getDifficultyStringValue(quest.getDifficulty()));
             isImportantCheckBox.setChecked(quest.isImportant());
+            itemView.setActivated(isActivated);
         }
 
         private String getDifficultyStringValue(@Quest.Difficulty int difficultyLevel) {
@@ -177,24 +193,39 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.ViewHolder> 
         }
 
         private View.OnClickListener createOnItemClickListener(
-                final OnItemClickListener listener){
+                final QuestsAdapter.OnItemClickListener listener) {
             return v -> {
                 int position = getAdapterPosition();
                 if (listener != null && position != RecyclerView.NO_POSITION) {
-                        listener.onClick(position);
+                    listener.onItemClick(position);
 
                 }
             };
         }
 
         private View.OnLongClickListener createOnItemLongClickListener(
-                final OnItemLongClickListener listener){
+                final QuestsAdapter.OnItemLongClickListener listener) {
             return v -> {
                 int position = getAdapterPosition();
                 if (listener != null && position != RecyclerView.NO_POSITION) {
-                        listener.onLongClick(position);
+                    listener.onLongClick(position);
                 }
                 return true;
+            };
+        }
+
+        ItemDetailsLookup.ItemDetails<Long> getItemDetails() {
+            return new androidx.recyclerview.selection.ItemDetailsLookup.ItemDetails<Long>() {
+                @Override
+                public int getPosition() {
+                    return getAdapterPosition();
+                }
+
+                @Nullable
+                @Override
+                public Long getSelectionKey() {
+                    return getItemId();
+                }
             };
         }
     }

@@ -87,7 +87,7 @@
         tools:layout="@layout/fragment_about_me" />
     <fragment
         android:id="@+id/new_characteristic_screen"
-        android:name="com.elli0tt.rpg_life.presentation.character.add_characteristic.AddEditCharacteristicFragment"
+        android:name="com.elli0tt.rpg_life.presentation.add_characteristic.AddEditCharacteristicFragment"
         android:label="Add new characteristic"
         tools:layout="@layout/fragment_add_edit_characteristic" />
 
