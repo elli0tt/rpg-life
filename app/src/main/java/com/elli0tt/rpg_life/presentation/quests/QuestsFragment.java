@@ -17,10 +17,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.recyclerview.selection.ItemKeyProvider;
-import androidx.recyclerview.selection.SelectionPredicates;
-import androidx.recyclerview.selection.SelectionTracker;
-import androidx.recyclerview.selection.StorageStrategy;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,21 +40,10 @@ public class QuestsFragment extends Fragment {
     private NavController navController;
     private LiveData<List<Quest>> allQuestsList;
 
-    private MenuItem deleteAllToolbarMenuItem;
-    private MenuItem populateWithSamplesMenuItem;
-    private MenuItem selectAllMenuItem;
-    private MenuItem deleteToolbarMenuItem;
-
-    @BindView(R.id.quests_fab) FloatingActionButton fab;
-
-    private enum Mode {
-        NORMAL, REMOVE
-    }
+    @BindView(R.id.quests_fab)
+    FloatingActionButton fab;
 
     private ActionMode actionMode;
-    private ActionModeController actionModeController;
-
-    private static final String SELECTION_ID = "quest fragment selection id";
 
     @Nullable
     @Override
@@ -77,77 +62,60 @@ public class QuestsFragment extends Fragment {
     }
 
     @OnClick(R.id.quests_fab)
-    void onFabClick(){
+    void onFabClick() {
         navigateToAddQuestScreen();
     }
 
-    private QuestsAdapter.OnItemClickListener onItemClickListener =
-            position -> navigateToEditQuestScreen(allQuestsList.getValue().get(position).getId());
+    private QuestsAdapter.OnItemClickListener onItemClickListener = position -> {
+                if (allQuestsList.getValue() != null) {
+                    navigateToEditQuestScreen(allQuestsList.getValue().get(position).getId());
+                }
+            };
 
     private void setupQuestsRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setAdapter(questsAdapter);
         questsAdapter.setOnItemClickListener(onItemClickListener);
-//        questsAdapter.setOnItemLongClickListener(position -> {
-//            if (actionMode != null) {
-//                return;
-//            }
-//            actionMode = getActivity().startActionMode(actionModeCallback);
-//        });
+        questsAdapter.setOnItemLongClickListener(position -> {
+            AppCompatActivity activity = (AppCompatActivity) getActivity();
+            if (activity != null) {
+                actionMode = activity.startSupportActionMode(
+                        new ActionModeController(viewModel, questsAdapter));
+            }
+            questsAdapter.startSelection(position);
+        });
+        questsAdapter.setOnSelectionFinishedListener(() -> {
+            if (actionMode != null) {
+                actionMode.finish();
+                actionMode = null;
+            }
+        });
         questsAdapter.setOnIsCompleteCheckBoxClickListener((isCompleted, position) -> {
-            Quest currentQuest = allQuestsList.getValue().get(position);
-            currentQuest.setCompleted(isCompleted);
-            viewModel.update(currentQuest);
+            if (allQuestsList.getValue() != null) {
+                Quest currentQuest = allQuestsList.getValue().get(position);
+                currentQuest.setCompleted(isCompleted);
+                viewModel.update(currentQuest);
+            }
         });
         questsAdapter.setOnIsImportantCheckBoxClickListener((isImportant, position) -> {
-            Quest currentQuest = allQuestsList.getValue().get(position);
-            currentQuest.setImportant(isImportant);
-            viewModel.update(currentQuest);
-        });
-
-        SelectionTracker<Long> selectionTracker = new SelectionTracker.Builder<>(
-                SELECTION_ID,
-                recyclerView,
-                new QuestsItemKeyProvider(recyclerView),
-                new QuestsItemDetailsLookup(recyclerView),
-                StorageStrategy.createLongStorage()
-        ).withSelectionPredicate(
-                SelectionPredicates.createSelectAnything()
-        ).build();
-
-        selectionTracker.addObserver(new SelectionTracker.SelectionObserver() {
-
-
-            @Override
-            public void onSelectionChanged() {
-                super.onSelectionChanged();
-                if (selectionTracker.hasSelection() && actionMode == null) {
-                    AppCompatActivity activity = (AppCompatActivity) getActivity();
-                    if (activity != null) {
-                        actionMode = activity.startSupportActionMode(
-                                new ActionModeController(selectionTracker, viewModel));
-                        questsAdapter.removeOnItemClickListener();
-                    }
-                } else if (!selectionTracker.hasSelection() && actionMode != null) {
-                    actionMode.finish();
-                    actionMode = null;
-                    questsAdapter.setOnItemClickListener(onItemClickListener);
-                }
+            if (allQuestsList.getValue() != null) {
+                Quest currentQuest = allQuestsList.getValue().get(position);
+                currentQuest.setImportant(isImportant);
+                viewModel.update(currentQuest);
             }
-
         });
 
-        questsAdapter.setSelectionTracker(selectionTracker);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL
+                , false));
         recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), RecyclerView.VERTICAL));
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-           @Override
+            @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-               if (dy < 0 && !fab.isShown())
-                   fab.show();
-               else if(dy > 0 && fab.isShown())
-                   fab.hide();
+                if (dy < 0 && !fab.isShown()) {
+                    fab.show();
+                } else if (dy > 0 && fab.isShown()) {
+                    fab.hide();
+                }
             }
         });
     }
@@ -161,28 +129,6 @@ public class QuestsFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.quests_toolbar_menu, menu);
-        deleteAllToolbarMenuItem = menu.findItem(R.id.quests_toolbar_menu_delete_all);
-        populateWithSamplesMenuItem = menu.findItem(R.id.quests_toolbar_menu_populate_with_samples);
-        deleteToolbarMenuItem = menu.findItem(R.id.quests_toolbar_menu_delete);
-        selectAllMenuItem = menu.findItem(R.id.quests_toolbar_menu_select_all);
-        startMode(Mode.NORMAL);
-    }
-
-    private void startMode(Mode modeToStart) {
-        switch (modeToStart) {
-            case NORMAL:
-                deleteAllToolbarMenuItem.setVisible(true);
-                populateWithSamplesMenuItem.setVisible(true);
-                deleteToolbarMenuItem.setVisible(false);
-                selectAllMenuItem.setVisible(false);
-                break;
-            case REMOVE:
-                deleteAllToolbarMenuItem.setVisible(false);
-                populateWithSamplesMenuItem.setVisible(false);
-                deleteToolbarMenuItem.setVisible(true);
-                selectAllMenuItem.setVisible(true);
-                break;
-        }
     }
 
     @Override

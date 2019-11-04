@@ -2,6 +2,7 @@ package com.elli0tt.rpg_life.data.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -28,6 +29,9 @@ public interface QuestsDao {
 
     @Update
     void update(Quest quest);
+
+    @Delete
+    void delete(List<Quest> questList);
 
     @Query("DELETE FROM quest_table")
     void deleteAll();

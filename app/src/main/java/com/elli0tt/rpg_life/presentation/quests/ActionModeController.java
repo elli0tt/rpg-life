@@ -5,28 +5,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import androidx.appcompat.view.ActionMode;
-import androidx.recyclerview.selection.SelectionTracker;
 
 import com.elli0tt.rpg_life.R;
-import com.elli0tt.rpg_life.domain.modal.Quest;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 public class ActionModeController implements ActionMode.Callback {
 
-    private SelectionTracker<Long> tracker;
-    private List<Quest> allItems;
     private QuestsViewModel viewModel;
+    private QuestsAdapter adapter;
 
-    public ActionModeController(SelectionTracker<Long> tracker, QuestsViewModel viewModel) {
-        this.tracker = tracker;
+    ActionModeController(QuestsViewModel viewModel, QuestsAdapter adapter) {
         this.viewModel = viewModel;
-    }
-
-    public void setAllItems(List<Quest> allItems){
-        this.allItems = allItems;
+        this.adapter = adapter;
     }
 
     @Override
@@ -49,18 +38,24 @@ public class ActionModeController implements ActionMode.Callback {
                 return true;
 
             case R.id.quest_selection_toolbar_menu_delete:
-
+                deleteSelected();
                 return true;
         }
         return false;
     }
 
-    @Override
-    public void onDestroyActionMode(ActionMode mode) {
-        tracker.clearSelection();
+    private void selectAll() {
+        adapter.selectAll();
     }
 
-    private void selectAll() {
-        tracker.setItemsSelected(viewModel.getAllKeys(), true);
+    private void deleteSelected() {
+        viewModel.delete(adapter.getSelectedQuests());
+        adapter.finishSelection();
     }
+
+    @Override
+    public void onDestroyActionMode(ActionMode mode) {
+        adapter.finishSelection();
+    }
+
 }
