@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/quests_filtering_popup_menu_all"
+        android:title="@string/filtering_popup_menu_all_title"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/quests_filtering_popup_menu_active"
+        android:title="@string/filtering_popup_menu_active_title"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/quests_filtering_popup_menu_completed"
+        android:title="@string/quests_filtering_popup_menu_completed_title"
+        app:showAsAction="never" />
+</menu>

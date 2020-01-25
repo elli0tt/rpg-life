@@ -24,8 +24,16 @@ public class QuestsRepositoryImpl implements QuestRepository {
         return dao.getQuestById(id);
     }
 
-    public LiveData<List<Quest>> getAllQuestsList() {
+    public LiveData<List<Quest>> getAllQuests() {
         return dao.getAllQuests();
+    }
+
+    public LiveData<List<Quest>> getActiveQuests(){
+        return dao.getActiveQuests();
+    }
+
+    public LiveData<List<Quest>> getCompletedQuests(){
+        return dao.getCompletedQuests();
     }
 
     public void insert(Quest quest) {

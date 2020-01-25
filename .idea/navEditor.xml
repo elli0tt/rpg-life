@@ -65,6 +65,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="countdown_timer_screen">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="faq_screen">
                     <value>
                       <LayoutPositions>
@@ -134,6 +146,18 @@
                           <Point>
                             <option name="x" value="-177" />
                             <option name="y" value="-353" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="stopwatch_screen">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
                           </Point>
                         </option>
                       </LayoutPositions>
