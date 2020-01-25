@@ -26,8 +26,6 @@ public class CountDownFragment extends Fragment {
 
     private CountDownViewModel viewModel;
 
-    private static final int COUNT_DOWN_INTERVAL = 1000;
-
     private static final String KEY_START_PAUSE_BUTTON_VISIBILITY = "start_pause_button_visibility";
     private static final String KEY_RESET_BUTTON_VISIBILITY = "reset_button_visibility";
     private static final String KEY_START_PAUSE_BUTTON_TEXT = "start_pause_button_text";
@@ -79,16 +77,14 @@ public class CountDownFragment extends Fragment {
         outState.putCharSequence(KEY_START_PAUSE_BUTTON_TEXT, startPauseButton.getText());
     }
 
-
-
     @Override
-    public void onPause() {
-        super.onPause();
-        if (viewModel.isTimerRunning()) {
+    public void onStop() {
+        super.onStop();
+        if (viewModel.isTimerRunning()){
             timer.cancel();
         }
+        viewModel.saveData();
     }
-
 
     private void subscribeToViewModel() {
         viewModel.getTimeLeftMillis().observe(getViewLifecycleOwner(),
@@ -119,7 +115,7 @@ public class CountDownFragment extends Fragment {
     private void startTimer() {
         viewModel.startTimer(System.currentTimeMillis());
         timer = new CountDownTimer(viewModel.getTimeLeftMillis().getValue(),
-                COUNT_DOWN_INTERVAL) {
+                CountDownViewModel.COUNT_DOWN_INTERVAL) {
             @Override
             public void onTick(long millisUntilFinished) {
                 viewModel.updateTimeLeftInMillis(millisUntilFinished);
@@ -133,7 +129,6 @@ public class CountDownFragment extends Fragment {
                 resetButton.setVisibility(View.VISIBLE);
             }
         }.start();
-
 
         startPauseButton.setText(R.string.countdown_timer_pause);
         resetButton.setVisibility(View.INVISIBLE);
