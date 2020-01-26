@@ -8,14 +8,17 @@ import androidx.room.RoomDatabase;
 
 import com.elli0tt.rpg_life.data.dao.CharacteristicsDao;
 import com.elli0tt.rpg_life.data.dao.QuestsDao;
-import com.elli0tt.rpg_life.domain.modal.Characteristic;
-import com.elli0tt.rpg_life.domain.modal.Quest;
+import com.elli0tt.rpg_life.data.dao.SkillsDao;
+import com.elli0tt.rpg_life.domain.model.Characteristic;
+import com.elli0tt.rpg_life.domain.model.Quest;
+import com.elli0tt.rpg_life.domain.model.Skill;
 
-@Database(entities = {Characteristic.class, Quest.class}, version = 1)
+@Database(entities = {Characteristic.class, Quest.class, Skill.class}, version = 2)
 public abstract class AppRoomDatabase extends RoomDatabase {
-    public abstract CharacteristicsDao getCharacteristicsDao();
 
+    public abstract CharacteristicsDao getCharacteristicsDao();
     public abstract QuestsDao getQuestDao();
+    public abstract SkillsDao getSkillsDao();
 
     private static volatile AppRoomDatabase INSTANCE;
 
@@ -25,6 +28,7 @@ public abstract class AppRoomDatabase extends RoomDatabase {
                 if (INSTANCE == null){
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             AppRoomDatabase.class, "app_database")
+                            .fallbackToDestructiveMigration()
                             .build();
                 }
             }

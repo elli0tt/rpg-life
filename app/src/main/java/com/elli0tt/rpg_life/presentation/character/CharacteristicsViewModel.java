@@ -7,7 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.elli0tt.rpg_life.data.repository.CharacteristicsRepositoryImpl;
-import com.elli0tt.rpg_life.domain.modal.Characteristic;
+import com.elli0tt.rpg_life.domain.model.Characteristic;
 
 import java.util.ArrayList;
 import java.util.List;

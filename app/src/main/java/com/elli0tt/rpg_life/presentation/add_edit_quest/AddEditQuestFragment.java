@@ -24,7 +24,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.databinding.FragmentAddEditQuestBinding;
-import com.elli0tt.rpg_life.domain.modal.Quest;
+import com.elli0tt.rpg_life.domain.model.Quest;
 import com.google.android.material.textfield.TextInputLayout;
 
 import butterknife.BindView;

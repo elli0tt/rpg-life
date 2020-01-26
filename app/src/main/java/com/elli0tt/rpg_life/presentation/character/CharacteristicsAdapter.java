@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.elli0tt.rpg_life.R;
-import com.elli0tt.rpg_life.domain.modal.Characteristic;
+import com.elli0tt.rpg_life.domain.model.Characteristic;
 
 import java.util.List;
 import java.util.Locale;

@@ -1,17 +1,14 @@
 package com.elli0tt.rpg_life.presentation.quests;
 
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
-import androidx.arch.core.util.Function;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
 
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl;
-import com.elli0tt.rpg_life.domain.modal.Quest;
+import com.elli0tt.rpg_life.domain.model.Quest;
 
 import java.util.ArrayList;
 import java.util.List;

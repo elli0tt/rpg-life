@@ -8,7 +8,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.elli0tt.rpg_life.domain.modal.Quest;
+import com.elli0tt.rpg_life.domain.model.Quest;
 
 import java.util.List;
 

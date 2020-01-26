@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.elli0tt.rpg_life.R;
-import com.elli0tt.rpg_life.domain.modal.Quest;
+import com.elli0tt.rpg_life.domain.model.Quest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         void onClick(boolean isImportant, int position);
     }
 
-    public interface OnSelectionFinishedListener{
+    public interface OnSelectionFinishedListener {
         void onSelectionFinished();
     }
 
@@ -54,7 +54,8 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         super(DIFF_CALLBACK);
     }
 
-    private static final DiffUtil.ItemCallback<Quest> DIFF_CALLBACK = new DiffUtil.ItemCallback<Quest>() {
+    private static final DiffUtil.ItemCallback<Quest> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<Quest>() {
         @Override
         public boolean areItemsTheSame(@NonNull Quest oldItem, @NonNull Quest newItem) {
             return oldItem.getId() == newItem.getId();
@@ -83,7 +84,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         this.onItemLongClickListener = onItemLongClickListener;
     }
 
-    void setOnSelectionFinishedListener(OnSelectionFinishedListener onSelectionFinishedListener){
+    void setOnSelectionFinishedListener(OnSelectionFinishedListener onSelectionFinishedListener) {
         this.onSelectionFinishedListener = onSelectionFinishedListener;
     }
 
@@ -119,7 +120,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
     private OnItemClickListener selectionOnItemClickListener = position -> {
         selectedPositions.set(position, !selectedPositions.get(position));
 
-        if (isNothingSelected()){
+        if (isNothingSelected()) {
             finishSelection();
         } else {
             notifyItemChanged(position);
@@ -127,12 +128,12 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
     };
 
 
-    void startSelection(int selectedPosition){
+    void startSelection(int selectedPosition) {
         saveLastOnItemClickListener = onItemClickListener;
         onItemClickListener = selectionOnItemClickListener;
 
         selectedPositions = new ArrayList<>(getItemCount());
-        for (int i = 0; i < getItemCount(); ++i){
+        for (int i = 0; i < getItemCount(); ++i) {
             selectedPositions.add(false);
         }
         selectedPositions.set(selectedPosition, true);
@@ -140,8 +141,8 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         notifyDataSetChanged();
     }
 
-    void finishSelection(){
-        if (onSelectionFinishedListener != null){
+    void finishSelection() {
+        if (onSelectionFinishedListener != null) {
             onSelectionFinishedListener.onSelectionFinished();
         }
         onItemClickListener = saveLastOnItemClickListener;
@@ -150,30 +151,30 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         notifyDataSetChanged();
     }
 
-    private boolean isSelected(int position){
+    private boolean isSelected(int position) {
         return selectedPositions != null ? selectedPositions.get(position) : false;
     }
 
-    private boolean isNothingSelected(){
-        for (boolean element : selectedPositions){
-            if (element){
+    private boolean isNothingSelected() {
+        for (boolean element : selectedPositions) {
+            if (element) {
                 return false;
             }
         }
         return true;
     }
 
-    void selectAll(){
-        for (int i = 0; i < selectedPositions.size(); ++i){
+    void selectAll() {
+        for (int i = 0; i < selectedPositions.size(); ++i) {
             selectedPositions.set(i, true);
         }
         notifyDataSetChanged();
     }
 
-    List<Quest> getSelectedQuests(){
+    List<Quest> getSelectedQuests() {
         List<Quest> selectedQuests = new ArrayList<>();
-        for (int i = 0; i < selectedPositions.size(); ++i){
-            if (selectedPositions.get(i)){
+        for (int i = 0; i < selectedPositions.size(); ++i) {
+            if (selectedPositions.get(i)) {
                 selectedQuests.add(getItem(i));
             }
         }
@@ -182,18 +183,29 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
 
 
     static class QuestsViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.quest_is_completed) CheckBox isCompletedCheckBox;
-        @BindView(R.id.quest_name) TextView nameTextView;
-        @BindView(R.id.quest_difficulty_value) TextView difficultyTextView;
-        @BindView(R.id.quest_is_important_check_box) CheckBox isImportantCheckBox;
+        @BindView(R.id.quest_is_completed)
+        CheckBox isCompletedCheckBox;
+        @BindView(R.id.quest_name)
+        TextView nameTextView;
+        @BindView(R.id.quest_difficulty_value)
+        TextView difficultyTextView;
+        @BindView(R.id.quest_is_important_check_box)
+        CheckBox isImportantCheckBox;
 
-        @BindString(R.string.difficulty_very_easy_text) String difficultyVeryEasyText;
-        @BindString(R.string.difficulty_easy_text) String difficultyEasyText;
-        @BindString(R.string.difficulty_normal_text) String difficultyNormalText;
-        @BindString(R.string.difficulty_hard_text) String difficultyHardText;
-        @BindString(R.string.difficulty_very_hard_text) String difficultyVeryHardText;
-        @BindString(R.string.difficulty_impossible_text) String difficultyImpossibleText;
-        @BindString(R.string.difficulty_error_text) String difficultyErrorText;
+        @BindString(R.string.difficulty_very_easy_text)
+        String difficultyVeryEasyText;
+        @BindString(R.string.difficulty_easy_text)
+        String difficultyEasyText;
+        @BindString(R.string.difficulty_normal_text)
+        String difficultyNormalText;
+        @BindString(R.string.difficulty_hard_text)
+        String difficultyHardText;
+        @BindString(R.string.difficulty_very_hard_text)
+        String difficultyVeryHardText;
+        @BindString(R.string.difficulty_impossible_text)
+        String difficultyImpossibleText;
+        @BindString(R.string.difficulty_error_text)
+        String difficultyErrorText;
 
         private OnIsCompleteCheckBoxClickListener onIsCompleteCheckBoxClickListener;
         private OnIsImportantCheckBoxClickListener onIsImportantCheckBoxClickListener;
@@ -222,7 +234,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
             itemView.setActivated(isSelected);
         }
 
-        void setOnItemClickListener(OnItemClickListener onItemClickListener){
+        void setOnItemClickListener(OnItemClickListener onItemClickListener) {
             itemView.setOnClickListener(createOnItemClickListener(onItemClickListener));
         }
 

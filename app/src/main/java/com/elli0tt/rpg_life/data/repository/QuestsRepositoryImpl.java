@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import com.elli0tt.rpg_life.data.dao.QuestsDao;
 import com.elli0tt.rpg_life.data.database.room_database.AppRoomDatabase;
-import com.elli0tt.rpg_life.domain.modal.Quest;
+import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.repository.QuestRepository;
 
 import java.util.List;

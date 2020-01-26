@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl;
-import com.elli0tt.rpg_life.domain.modal.Quest;
+import com.elli0tt.rpg_life.domain.model.Quest;
 
 public class AddEditQuestViewModel extends AndroidViewModel {
 

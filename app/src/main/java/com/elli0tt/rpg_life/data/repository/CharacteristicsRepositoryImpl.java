@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import com.elli0tt.rpg_life.data.dao.CharacteristicsDao;
 import com.elli0tt.rpg_life.data.database.room_database.AppRoomDatabase;
-import com.elli0tt.rpg_life.domain.modal.Characteristic;
+import com.elli0tt.rpg_life.domain.model.Characteristic;
 import com.elli0tt.rpg_life.domain.repository.CharacteristicsRepository;
 
 import java.util.List;

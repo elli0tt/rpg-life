@@ -4,9 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Update;
 
-import com.elli0tt.rpg_life.domain.modal.Characteristic;
+import com.elli0tt.rpg_life.domain.model.Characteristic;
 
 import java.util.List;
 

@@ -38,6 +38,4 @@ public class CountDownSharedPrefUtils {
                 .putBoolean(KEY_IS_TIMER_RUNNING, isTimerRunning)
                 .apply();
     }
-
-
 }
