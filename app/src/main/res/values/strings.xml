@@ -10,7 +10,7 @@
     <string name="nav_faq">FAQ</string>
     <string name="nav_about_me">About me</string>
     <string name="characteristic_name_input_hint">Name</string>
-    <string name="quests_toolbar_menu_delete_all_title">Delete all</string>
+    <string name="delete_all">Delete all</string>
     <string name="add_quest_name_hint">Name</string>
     <string name="add_quest_toolbar_menu_confirm">Confirm</string>
     <string name="quest_difficulty_label_text">Difficalty:</string>
@@ -25,8 +25,8 @@
 
     <string name="add_quest_difficulty_text">Difficulty level:</string>
     <string name="add_quest_description_hint">Description</string>
-    <string name="quest_toolbar_menu_delete_text">Delete</string>
-    <string name="quest_toolbar_menu_populate_with_samples_text">Populate with samples</string>
+    <string name="delete">Delete</string>
+    <string name="populate_with_samples">Populate with samples</string>
     <string name="quest_toolbar_menu_select_all_text">Select all</string>
 
     <string-array name="difficulty_levels_texts">

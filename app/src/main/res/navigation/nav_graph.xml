@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/countdown_timer_screen">
+    app:startDestination="@id/skills_screen">
 
     <fragment
         android:id="@+id/character_screen"
@@ -23,7 +23,15 @@
         android:id="@+id/skills_screen"
         android:name="com.elli0tt.rpg_life.presentation.skills.SkillsFragment"
         android:label="Skills"
-        tools:layout="@layout/fragment_skills" />
+        tools:layout="@layout/fragment_skills" >
+        <action
+            android:id="@+id/action_skills_screen_to_countdown_timer_screen"
+            app:destination="@id/countdown_timer_screen"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
 
     <fragment
         android:id="@+id/quests_screen"

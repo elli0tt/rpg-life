@@ -11,5 +11,5 @@
         android:id="@+id/quest_selection_toolbar_menu_delete"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_delete"
-        android:title="@string/quest_toolbar_menu_delete_text" />
+        android:title="@string/delete" />
 </menu>

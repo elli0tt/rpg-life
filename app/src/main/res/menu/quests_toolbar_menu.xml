@@ -11,12 +11,12 @@
     <!--Only for developer-->
     <item
         android:id="@+id/quests_toolbar_menu_delete_all"
-        android:title="@string/quests_toolbar_menu_delete_all_title"
+        android:title="@string/delete_all"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/quests_toolbar_menu_populate_with_samples"
-        android:title="@string/quest_toolbar_menu_populate_with_samples_text"
+        android:title="@string/populate_with_samples"
         app:showAsAction="never" />
 
 </menu>
