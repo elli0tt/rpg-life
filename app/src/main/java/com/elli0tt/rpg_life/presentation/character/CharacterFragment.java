@@ -19,11 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.presentation.custom_view.DividerItemDecoration;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Objects;
 
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class CharacterFragment extends Fragment {
 
@@ -31,37 +30,44 @@ public class CharacterFragment extends Fragment {
     private CharacteristicsAdapter adapter;
     private CharacteristicsViewModel viewModel;
 
+    private RecyclerView recyclerView;
+    private FloatingActionButton fab;
+
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_character, container, false);
-        ButterKnife.bind(this, view);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_character, container, false);
+    }
 
-        setupRecyclerView(view.findViewById(R.id.characteristics_list));
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        recyclerView = view.findViewById(R.id.characteristics_recycler_view);
+        fab = view.findViewById(R.id.character_fab);
+
+        setupRecyclerView();
         navController = NavHostFragment.findNavController(this);
 
         setupCharacteristicsViewModel();
         setHasOptionsMenu(true);
-        return view;
-    }
 
-    @OnClick(R.id.character_fab)
-    void onFabClick() {
-        navigateToAddCharacteristicFragment();
+        fab.setOnClickListener(v -> navigateToAddCharacteristicFragment());
     }
 
     public void navigateToAddCharacteristicFragment() {
         navController.navigate(R.id.action_character_screen_to_add_characteristic_fragment);
     }
 
-    private void setupRecyclerView(RecyclerView recyclerView) {
+    private void setupRecyclerView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
         adapter = new CharacteristicsAdapter();
         recyclerView.setAdapter(adapter);
 
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(Objects.requireNonNull(getActivity()));
+        DividerItemDecoration itemDecoration =
+                new DividerItemDecoration(Objects.requireNonNull(getActivity()));
         recyclerView.addItemDecoration(itemDecoration);
     }
 

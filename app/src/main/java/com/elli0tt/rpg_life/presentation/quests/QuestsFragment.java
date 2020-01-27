@@ -27,9 +27,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Objects;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 
 public class QuestsFragment extends Fragment {
 
@@ -39,8 +37,8 @@ public class QuestsFragment extends Fragment {
     private NavController navController;
     //private LiveData<List<Quest>> allQuestsList;
 
-    @BindView(R.id.quests_fab)
-    FloatingActionButton fab;
+    private FloatingActionButton fab;
+    private RecyclerView recyclerView;
 
     private ActionMode actionMode;
 
@@ -49,20 +47,23 @@ public class QuestsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_quests, container, false);
-        ButterKnife.bind(this, view);
+        return inflater.inflate(R.layout.fragment_quests, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         navController = NavHostFragment.findNavController(this);
+
+        fab = view.findViewById(R.id.quests_fab);
+        recyclerView = view.findViewById(R.id.quests_list);
 
         setupQuestsViewModel();
         setHasOptionsMenu(true);
         setupQuestsRecyclerView(view.findViewById(R.id.quests_list));
 
-        return view;
-    }
-
-    @OnClick(R.id.quests_fab)
-    void onFabClick() {
-        navigateToAddQuestScreen();
+        fab.setOnClickListener(v -> navigateToAddQuestScreen());
     }
 
     private QuestsAdapter.OnItemClickListener onItemClickListener = position -> {

@@ -17,11 +17,6 @@ import com.elli0tt.rpg_life.domain.model.Quest;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindString;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHolder> {
 
     public interface OnItemClickListener {
@@ -56,17 +51,17 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
 
     private static final DiffUtil.ItemCallback<Quest> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<Quest>() {
-        @Override
-        public boolean areItemsTheSame(@NonNull Quest oldItem, @NonNull Quest newItem) {
-            return oldItem.getId() == newItem.getId();
-        }
+                @Override
+                public boolean areItemsTheSame(@NonNull Quest oldItem, @NonNull Quest newItem) {
+                    return oldItem.getId() == newItem.getId();
+                }
 
-        @Override
-        public boolean areContentsTheSame(@NonNull Quest oldItem, @NonNull Quest newItem) {
-            return oldItem.getName().equals(newItem.getName()) &&
-                    oldItem.getDifficulty() == newItem.getDifficulty();
-        }
-    };
+                @Override
+                public boolean areContentsTheSame(@NonNull Quest oldItem, @NonNull Quest newItem) {
+                    return oldItem.getName().equals(newItem.getName()) &&
+                            oldItem.getDifficulty() == newItem.getDifficulty();
+                }
+            };
 
     void setOnIsCompleteCheckBoxClickListener(OnIsCompleteCheckBoxClickListener listener) {
         onIsCompleteCheckBoxClickListener = listener;
@@ -183,32 +178,18 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
 
 
     static class QuestsViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.quest_is_completed)
-        CheckBox isCompletedCheckBox;
-        @BindView(R.id.quest_name)
-        TextView nameTextView;
-        @BindView(R.id.quest_difficulty_value)
-        TextView difficultyTextView;
-        @BindView(R.id.quest_is_important_check_box)
-        CheckBox isImportantCheckBox;
+        private CheckBox isCompletedCheckBox;
+        private TextView nameTextView;
+        private TextView difficultyTextView;
+        private CheckBox isImportantCheckBox;
 
-        @BindString(R.string.difficulty_very_easy_text)
-        String difficultyVeryEasyText;
-        @BindString(R.string.difficulty_easy_text)
-        String difficultyEasyText;
-        @BindString(R.string.difficulty_normal_text)
-        String difficultyNormalText;
-        @BindString(R.string.difficulty_hard_text)
-        String difficultyHardText;
-        @BindString(R.string.difficulty_very_hard_text)
-        String difficultyVeryHardText;
-        @BindString(R.string.difficulty_impossible_text)
-        String difficultyImpossibleText;
-        @BindString(R.string.difficulty_error_text)
-        String difficultyErrorText;
-
-        private OnIsCompleteCheckBoxClickListener onIsCompleteCheckBoxClickListener;
-        private OnIsImportantCheckBoxClickListener onIsImportantCheckBoxClickListener;
+        private String difficultyVeryEasyText;
+        private String difficultyEasyText;
+        private String difficultyNormalText;
+        private String difficultyHardText;
+        private String difficultyVeryHardText;
+        private String difficultyImpossibleText;
+        private String difficultyErrorText;
 
         QuestsViewHolder(
                 @NonNull View itemView,
@@ -217,13 +198,32 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
                 final OnItemClickListener onItemClickListener,
                 final OnItemLongClickListener onItemLongClickListener) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
-            this.onIsCompleteCheckBoxClickListener = onIsCompleteCheckBoxClickListener;
-            this.onIsImportantCheckBoxClickListener = onIsImportantCheckBoxClickListener;
+
+            isCompletedCheckBox = itemView.findViewById(R.id.quest_is_completed);
+            nameTextView = itemView.findViewById(R.id.quest_name);
+            difficultyTextView = itemView.findViewById(R.id.quest_difficulty_value);
+            isImportantCheckBox = itemView.findViewById(R.id.quest_is_important_check_box);
+
+            difficultyVeryEasyText =
+                    itemView.getContext().getText(R.string.difficulty_very_easy_text).toString();
+            difficultyEasyText =
+                    itemView.getContext().getText(R.string.difficulty_easy_text).toString();
+            difficultyNormalText =
+                    itemView.getContext().getText(R.string.difficulty_normal_text).toString();
+            difficultyHardText =
+                    itemView.getContext().getText(R.string.difficulty_hard_text).toString();
+            difficultyVeryHardText =
+                    itemView.getContext().getText(R.string.difficulty_very_hard_text).toString();
+            difficultyImpossibleText =
+                    itemView.getContext().getText(R.string.difficulty_impossible_text).toString();
+            difficultyErrorText =
+                    itemView.getContext().getText(R.string.difficulty_error_text).toString();
 
             itemView.setOnClickListener(createOnItemClickListener(onItemClickListener));
             itemView.setOnLongClickListener(
                     createOnItemLongClickListener(onItemLongClickListener));
+            isCompletedCheckBox.setOnClickListener(createOnIsCompletedClickListener(onIsCompleteCheckBoxClickListener));
+            isImportantCheckBox.setOnClickListener(createOnIsImportantClickListener(onIsImportantCheckBoxClickListener));
         }
 
         void bind(Quest quest, boolean isSelected) {
@@ -257,20 +257,24 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
             }
         }
 
-        @OnClick(R.id.quest_is_completed)
-        void onIsCompletedClick(CheckBox checkBox) {
-            int position = getAdapterPosition();
-            if (onIsCompleteCheckBoxClickListener != null && position != RecyclerView.NO_POSITION) {
-                onIsCompleteCheckBoxClickListener.onClick(checkBox.isChecked(), position);
-            }
+        private View.OnClickListener createOnIsCompletedClickListener(
+                final OnIsCompleteCheckBoxClickListener listener) {
+            return v -> {
+                int position = getAdapterPosition();
+                if (listener != null && position != RecyclerView.NO_POSITION) {
+                    listener.onClick(((CheckBox) v).isChecked(), position);
+                }
+            };
         }
 
-        @OnClick(R.id.quest_is_important_check_box)
-        void onIsImportantClick(CheckBox checkBox) {
-            int position = getAdapterPosition();
-            if (onIsImportantCheckBoxClickListener != null && position != RecyclerView.NO_POSITION) {
-                onIsImportantCheckBoxClickListener.onClick(checkBox.isChecked(), position);
-            }
+        private View.OnClickListener createOnIsImportantClickListener(
+                final OnIsImportantCheckBoxClickListener listener) {
+            return v -> {
+                int position = getAdapterPosition();
+                if (listener != null && position != RecyclerView.NO_POSITION) {
+                    listener.onClick(((CheckBox) v).isChecked(), position);
+                }
+            };
         }
 
         private View.OnClickListener createOnItemClickListener(

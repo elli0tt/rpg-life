@@ -27,15 +27,12 @@ import com.elli0tt.rpg_life.databinding.FragmentAddEditQuestBinding;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.google.android.material.textfield.TextInputLayout;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnFocusChange;
 
 public class AddEditQuestFragment extends Fragment {
-    @BindView(R.id.add_edit_quest_name_edit_text) EditText nameEditText;
-    @BindView(R.id.add_edit_quest_description_edit_text) EditText descriptionEditText;
-    @BindView(R.id.add_edit_quest_difficulty_spinner) Spinner difficultySpinner;
-    @BindView(R.id.add_edit_quest_name_text_input) TextInputLayout nameTextInput;
+    private EditText nameEditText;
+    private EditText descriptionEditText;
+    private Spinner difficultySpinner;
+    private TextInputLayout nameTextInput;
 
     private NavController navController;
 
@@ -51,10 +48,21 @@ public class AddEditQuestFragment extends Fragment {
         viewModel = ViewModelProviders.of(this).get(AddEditQuestViewModel.class);
         FragmentAddEditQuestBinding binding =
                 FragmentAddEditQuestBinding.inflate(inflater, container, false);
-        ButterKnife.bind(this, binding.getRoot());
 
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        nameEditText = view.findViewById(R.id.add_edit_quest_name_edit_text);
+        descriptionEditText = view.findViewById(R.id.add_edit_quest_description_edit_text);
+        difficultySpinner = view.findViewById(R.id.add_edit_quest_difficulty_spinner);
+        nameTextInput = view.findViewById(R.id.add_edit_quest_name_text_input);
 
         navController = NavHostFragment.findNavController(this);
 
@@ -64,7 +72,9 @@ public class AddEditQuestFragment extends Fragment {
         viewModel.getNameErrorMessage().observe(this, s -> nameTextInput.setError(s));
 
         viewModel.start(AddEditQuestFragmentArgs.fromBundle(getArguments()).getQuestId());
-        return binding.getRoot();
+
+        nameEditText.setOnFocusChangeListener(onEditTextsFocusChangeListener);
+        descriptionEditText.setOnFocusChangeListener(onEditTextsFocusChangeListener);
     }
 
     private void setupDifficultySpinner() {
@@ -97,14 +107,13 @@ public class AddEditQuestFragment extends Fragment {
         }
     }
 
-    @OnFocusChange({R.id.add_edit_quest_name_edit_text, R.id.add_edit_quest_description_edit_text})
-    void onEditTextsFocusChange(View v, boolean hasFocus) {
+    private View.OnFocusChangeListener onEditTextsFocusChangeListener = (v, hasFocus) -> {
         Log.d(ON_FOCUS_CHANGE_TAG, "on focus change called");
         if (!hasFocus) {
             Log.d(ON_FOCUS_CHANGE_TAG, " on try close keyboard");
             hideKeyboard(v);
         }
-    }
+    };
 
     private void hideKeyboard(View view) {
         Activity activity = getActivity();
