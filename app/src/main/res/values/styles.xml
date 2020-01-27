@@ -14,4 +14,11 @@
 
     </style>
 
+    <style name="NumberPickerTheme" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@android:color/transparent</item>
+        <item name="android:textSize">60sp</item>
+        <item name="android:descendantFocusability">blocksDescendants</item>
+
+    </style>
+
 </resources>

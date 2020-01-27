@@ -1,4 +1,4 @@
-package com.elli0tt.rpg_life.presentation.add_characteristic;
+package com.elli0tt.rpg_life.presentation.add_edit_characteristic;
 
 import android.app.Application;
 

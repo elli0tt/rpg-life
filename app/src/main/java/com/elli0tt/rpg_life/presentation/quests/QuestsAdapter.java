@@ -87,7 +87,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
     @Override
     public QuestsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.quest_list_item, parent, false);
+                .inflate(R.layout.quest_recycler_item, parent, false);
         return new QuestsViewHolder(
                 view,
                 onIsCompleteCheckBoxClickListener,

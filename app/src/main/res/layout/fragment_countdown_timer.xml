@@ -1,29 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/countdown_timer_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"
-        tools:text="00:00:00" />
+    <data>
+        <variable
+            name="viewModel"
+            type="com.elli0tt.rpg_life.presentation.countdown_timer.CountDownViewModel" />
+    </data>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/countdown_timer_start_pause_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/countdown_timer_start" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/countdown_timer_reset_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/countdown_timer_reset"
-        android:visibility="invisible"/>
+        <LinearLayout
+            android:id="@+id/countdown_timer_number_pickers_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="64dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="invisible">
 
-</LinearLayout>
+            <NumberPicker
+                android:id="@+id/countdown_timer_hours_number_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/countdown_timer_number_picker_height"
+                android:layout_marginEnd="@dimen/countdown_timer_number_picker_margin_end"
+                android:theme="@style/NumberPickerTheme"
+                android:value="@={viewModel.hours}" />
+
+            <NumberPicker
+                android:id="@+id/countdown_timer_minutes_number_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/countdown_timer_number_picker_height"
+                android:layout_marginEnd="@dimen/countdown_timer_number_picker_margin_end"
+                android:theme="@style/NumberPickerTheme"
+                android:value="@={viewModel.minutes}" />
+
+            <NumberPicker
+                android:id="@+id/countdown_timer_seconds_number_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/countdown_timer_number_picker_height"
+                android:theme="@style/NumberPickerTheme"
+                android:value="@={viewModel.seconds}" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/countdown_timer_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="50sp"
+            android:visibility="invisible"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:visibility="visible"
+            tools:text="00:00:00" />
+
+        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+            android:id="@+id/countdown_timer_progress_bar"
+            style="@style/Widget.MaterialProgressBar.ProgressBar"
+            android:minWidth="300dp"
+            android:minHeight="300dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/countdown_timer_start_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/countdown_timer_fabs_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/countdown_timer_number_pickers_layout"
+            app:srcCompat="@drawable/ic_play_arrow_white_24dp" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/countdown_timer_pause_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/countdown_timer_fabs_margin"
+            android:visibility="invisible"
+            app:layout_constraintStart_toEndOf="@id/countdown_timer_start_fab"
+            app:layout_constraintTop_toBottomOf="@id/countdown_timer_number_pickers_layout"
+            app:srcCompat="@drawable/ic_pause_white_24dp"
+            tools:visibility="visible" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/countdown_timer_stop_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/countdown_timer_fabs_margin"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toStartOf="@id/countdown_timer_start_fab"
+            app:layout_constraintTop_toBottomOf="@id/countdown_timer_number_pickers_layout"
+            app:srcCompat="@drawable/ic_stop_white_24dp"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

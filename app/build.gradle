@@ -55,5 +55,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.archLifecycleVersion"
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$rootProject.archLifecycleVersion"
 
-
+    //Circular progress bar
+    implementation 'me.zhanghai.android.materialprogressbar:library:1.6.1'
 }

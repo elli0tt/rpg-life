@@ -43,7 +43,8 @@ public class AddEditQuestFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
 
         viewModel = ViewModelProviders.of(this).get(AddEditQuestViewModel.class);
         FragmentAddEditQuestBinding binding =
@@ -81,7 +82,8 @@ public class AddEditQuestFragment extends Fragment {
         Activity activity = getActivity();
         if (activity != null) {
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                    activity, R.array.difficulty_levels_texts, android.R.layout.simple_spinner_item);
+                    activity, R.array.difficulty_levels_texts,
+                    android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             difficultySpinner.setAdapter(adapter);
             difficultySpinner.setSelection(Quest.NORMAL);
@@ -118,7 +120,8 @@ public class AddEditQuestFragment extends Fragment {
     private void hideKeyboard(View view) {
         Activity activity = getActivity();
         if (activity != null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager inputMethodManager =
+                    (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }

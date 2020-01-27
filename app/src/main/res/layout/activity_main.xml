@@ -19,21 +19,19 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
             android:elevation="@dimen/toolbar_elevation"
-            app:title="Character"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="Character" />
 
         <fragment
-            android:layout_width="match_parent"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_height="match_parent"
             android:id="@+id/nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/nav_graph"/>
+            app:navGraph="@navigation/nav_graph" />
 
     </LinearLayout>
-
-
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
@@ -41,8 +39,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:menu="@menu/nav_menu"
-        app:headerLayout="@layout/nav_header_main">
+        app:headerLayout="@layout/nav_header_main"
+        app:menu="@menu/nav_menu">
 
     </com.google.android.material.navigation.NavigationView>
 

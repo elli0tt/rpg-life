@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.elli0tt.rpg_life.presentation.add_edit_quest.AddEditQuestViewModel" />
@@ -28,8 +29,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/add_quest_name_hint"
-                app:layout_constraintTop_toTopOf="parent"
-                app:errorEnabled="true">
+                app:errorEnabled="true"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/add_edit_quest_name_edit_text"
@@ -45,14 +46,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/add_quest_items_margin_top"
                 android:hint="@string/add_quest_description_hint"
-                app:layout_constraintTop_toBottomOf="@id/add_edit_quest_name_text_input"
-                app:errorEnabled="true">
+                app:errorEnabled="true"
+                app:layout_constraintTop_toBottomOf="@id/add_edit_quest_name_text_input">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/add_edit_quest_description_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@={viewModel.description}"/>
+                    android:text="@={viewModel.description}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -70,9 +71,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/add_quest_items_margin_top"
-                app:setSelectedItem="@={viewModel.difficulty}"
                 app:layout_constraintStart_toEndOf="@id/add_edit_quest_difficulty_label"
-                app:layout_constraintTop_toBottomOf="@id/add_edit_quest_description_text_input" />
+                app:layout_constraintTop_toBottomOf="@id/add_edit_quest_description_text_input"
+                app:setSelectedItem="@={viewModel.difficulty}" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

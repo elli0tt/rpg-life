@@ -9,4 +9,7 @@
     <dimen name="characteristics_list_items_margin">4dp</dimen>
     <dimen name="characteristics_list_menu_dots_size">40dp</dimen>
     <dimen name="add_quest_items_margin_top">16dp</dimen>
+    <dimen name="countdown_timer_number_picker_height">300dp</dimen>
+    <dimen name="countdown_timer_number_picker_margin_end">32dp</dimen>
+    <dimen name="countdown_timer_fabs_margin">32dp</dimen>
 </resources>

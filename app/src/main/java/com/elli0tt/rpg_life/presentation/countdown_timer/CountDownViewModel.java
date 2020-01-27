@@ -13,39 +13,77 @@ import com.elli0tt.rpg_life.domain.utils.TimerUtils;
 import java.util.Locale;
 
 public class CountDownViewModel extends AndroidViewModel {
-    private boolean isTimerRunning;
+
+    public enum TimerState{
+        RUNNING, PAUSED, STOPPED
+    }
+
+    private MutableLiveData<TimerState> timerState = new MutableLiveData<>();
     private MutableLiveData<Long> timeLeftMillis = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isTimerNew = new MutableLiveData<>(true);
     private long endTime;
 
-    private CountDownRepository countDownRepository;
+    //NumberPickers current values
+    private int hours;
+    private int minutes;
+    private int seconds;
+
+    private CountDownRepository repository;
+
+    public int getHours() {
+        return hours;
+    }
+
+    public int getMinutes() {
+        return minutes;
+    }
+
+    public int getSeconds() {
+        return seconds;
+    }
+
+    public void setHours(int hours) {
+        this.hours = hours;
+    }
+
+    public void setMinutes(int minutes) {
+        this.minutes = minutes;
+    }
+
+    public void setSeconds(int seconds) {
+        this.seconds = seconds;
+    }
 
     private static final long START_TIME_LEFT_IN_MILLIS = 60000L;
-    public static final int COUNT_DOWN_INTERVAL = 1000;
 
     private static final String ERROR_TIME = "-1:-1:-1";
 
     public CountDownViewModel(@NonNull Application application) {
         super(application);
-        countDownRepository = new CountDownRepository(application);
+        repository = new CountDownRepository(application);
 
-        timeLeftMillis.setValue(countDownRepository.getTimeLeftMillis());
-        endTime = countDownRepository.getEndTime();
-        isTimerRunning = countDownRepository.isTimerRunning();
+        timeLeftMillis.setValue(repository.getTimeLeftMillis());
+        endTime = repository.getEndTime();
+        timerState.setValue(repository.getTimerState());
     }
 
-    public boolean isTimerRunning(){
-        return isTimerRunning;
+    LiveData<TimerState> getTimerState(){
+        return timerState;
     }
 
-    public LiveData<Long> getTimeLeftMillis(){
+    LiveData<Long> getTimeLeftMillis(){
         return timeLeftMillis;
     }
 
-    public void updateTimeLeftInMillis(long value){
+    LiveData<Boolean> isTimerNew(){
+        return isTimerNew;
+    }
+
+    void updateTimeLeftInMillis(long value){
         timeLeftMillis.setValue(value);
     }
 
-    public String getTimeLeft(){
+    String getTimeLeft(){
         if (timeLeftMillis.getValue() != null){
             return String.format(Locale.getDefault(),"%02d:%02d:%02d",
                     TimerUtils.getHours(timeLeftMillis.getValue()),
@@ -56,8 +94,12 @@ public class CountDownViewModel extends AndroidViewModel {
         }
     }
 
-    public void startTimer(long currentTimeMillis){
-        isTimerRunning = true;
+    void startTimer(long currentTimeMillis){
+        timerState.setValue(TimerState.RUNNING);
+        if (isTimerNew.getValue()){
+            timeLeftMillis.setValue(TimerUtils.getTimeMillis(hours, minutes, seconds));
+            isTimerNew.setValue(false);
+        }
         if (endTime != 0){
             timeLeftMillis.setValue(endTime - currentTimeMillis);
         }
@@ -67,17 +109,18 @@ public class CountDownViewModel extends AndroidViewModel {
         endTime = currentTimeMillis + timeLeftMillis.getValue();
 }
 
-    public void pauseTimer(){
-        isTimerRunning = false;
+    void pauseTimer(){
+        timerState.setValue(TimerState.PAUSED);
         endTime = 0;
     }
 
-    public void resetTimer(){
-        timeLeftMillis.setValue(START_TIME_LEFT_IN_MILLIS);
+    void stopTimer(){
+        timerState.setValue(TimerState.STOPPED);
+        isTimerNew.setValue(true);
         endTime = 0;
     }
 
-    public void saveData(){
-        countDownRepository.setTimerData(timeLeftMillis.getValue(), endTime, isTimerRunning);
+    void saveData(){
+        repository.setTimerData(timeLeftMillis.getValue(), endTime, timerState.getValue());
     }
 }

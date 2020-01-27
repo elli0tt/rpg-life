@@ -9,8 +9,7 @@
         android:id="@+id/stopwatch_chronometer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        />
+        android:textSize="30sp" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/stopwatch_button_start_pause"
@@ -29,6 +28,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/stopwatch_reset" />
-
 
 </LinearLayout>

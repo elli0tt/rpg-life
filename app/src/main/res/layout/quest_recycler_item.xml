@@ -4,18 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="4dp"
     android:background="@drawable/quests_list_item_background"
-    >
+    android:padding="4dp">
     <!--android:background="?android:attr/selectableItemBackground">-->
     <CheckBox
         android:id="@+id/quest_is_completed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/quest_name"
@@ -53,13 +52,11 @@
     <!--style="?android:attr/starStyle"-->
     <CheckBox
         android:id="@+id/quest_is_important_check_box"
-        android:button="@drawable/is_important_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="4dp"
+        android:button="@drawable/is_important_checkbox"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

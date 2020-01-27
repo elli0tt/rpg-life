@@ -1,4 +1,4 @@
-package com.elli0tt.rpg_life.presentation.add_characteristic;
+package com.elli0tt.rpg_life.presentation.add_edit_characteristic;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,7 +17,8 @@ public class AddEditCharacteristicFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_add_edit_characteristic, container, false);
     }
 }

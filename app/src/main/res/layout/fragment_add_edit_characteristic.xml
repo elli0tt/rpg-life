@@ -15,12 +15,9 @@
             android:id="@+id/add_edt_characteristic_name_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="1"/>
+            android:maxLines="1" />
 
     </com.google.android.material.textfield.TextInputLayout>
-
-
-
 
 
 </LinearLayout>

@@ -4,8 +4,8 @@
 
     <item
         android:id="@+id/quests_toolbar_menu_filter"
-        android:title="@string/quests_toolbar_menu_filter_title"
         android:icon="@drawable/ic_filter_list_white_24dp"
+        android:title="@string/quests_toolbar_menu_filter_title"
         app:showAsAction="ifRoom" />
 
     <!--Only for developer-->

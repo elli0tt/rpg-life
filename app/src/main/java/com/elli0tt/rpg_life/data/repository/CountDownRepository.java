@@ -5,9 +5,10 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import com.elli0tt.rpg_life.data.shared_prefs.CountDownSharedPrefUtils;
+import com.elli0tt.rpg_life.presentation.countdown_timer.CountDownViewModel;
 
 public class CountDownRepository {
-    CountDownSharedPrefUtils countDownSharedPrefUtils;
+    private CountDownSharedPrefUtils countDownSharedPrefUtils;
 
     public CountDownRepository(@NonNull Context context){
         countDownSharedPrefUtils = new CountDownSharedPrefUtils(context);
@@ -21,11 +22,11 @@ public class CountDownRepository {
         return countDownSharedPrefUtils.getEndTime();
     }
 
-    public boolean isTimerRunning(){
-        return countDownSharedPrefUtils.isTimerRunning();
+    public CountDownViewModel.TimerState getTimerState(){
+        return countDownSharedPrefUtils.getTimerState();
     }
 
-    public void setTimerData(long timeLeftMillis, long endTime, boolean isTimerRunning){
-        countDownSharedPrefUtils.setTimerData(timeLeftMillis, endTime, isTimerRunning);
+    public void setTimerData(long timeLeftMillis, long endTime, CountDownViewModel.TimerState timerState){
+        countDownSharedPrefUtils.setTimerData(timeLeftMillis, endTime, timerState);
     }
 }

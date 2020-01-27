@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/characteristic_item_menu_edit_item"
-        app:showAsAction="never"
-        android:title="Edit"/>
+        android:title="Edit"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/characteristic_item_menu_delete_item"
-        app:showAsAction="never"
-        android:title="Delete"/>
+        android:title="Delete"
+        app:showAsAction="never" />
 </menu>

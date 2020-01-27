@@ -5,9 +5,9 @@
     <item
         android:id="@+id/skills_toolbar_menu_delete_all"
         android:title="@string/delete_all"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
     <item
         android:id="@+id/skills_toolbar_menu_populate_with_samples"
         android:title="@string/populate_with_samples"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 </menu>
