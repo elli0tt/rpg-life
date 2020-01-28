@@ -39,6 +39,9 @@ public class CountDownFragment extends Fragment {
 
     private CountDownViewModel viewModel;
 
+    //Used to enable startTimerFab just 1 time - after it was disabled
+    private boolean isStartFabEnabled = true;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -107,25 +110,41 @@ public class CountDownFragment extends Fragment {
     }
 
     private void subscribeToViewModel() {
-        viewModel.getTimeLeftMillis().observe(getViewLifecycleOwner(),
-                aLong -> timerTextView.setText(viewModel.getTimeLeft()));
+        viewModel.getTimeLeftMillis().observe(getViewLifecycleOwner(), aLong -> {
+            timerTextView.setText(viewModel.getTimeLeft());
+            progressBar.setProgress(viewModel.getProgress());
+        });
         viewModel.getTimerState().observe(getViewLifecycleOwner(), timerState -> updateButtons());
         viewModel.isTimerNew().observe(getViewLifecycleOwner(), aBoolean -> {
             if (!aBoolean) {
                 numberPickersLayout.setVisibility(View.INVISIBLE);
                 timerTextView.setVisibility(View.VISIBLE);
+                progressBar.setMax(viewModel.getTimeLeftMillis().getValue().intValue());
             } else {
                 numberPickersLayout.setVisibility(View.VISIBLE);
                 timerTextView.setVisibility(View.INVISIBLE);
+                progressBar.setProgress(0);
             }
         });
-        viewModel.getHours().observe(getViewLifecycleOwner(),
-                integer -> enableStartFab(viewModel.isNeedToEnableStartFab()));
-        viewModel.getMinutes().observe(getViewLifecycleOwner(),
-                integer -> enableStartFab(viewModel.isNeedToEnableStartFab()));
-        viewModel.getSeconds().observe(getViewLifecycleOwner(),
-                integer -> enableStartFab(viewModel.isNeedToEnableStartFab()));
 
+        viewModel.getHours().observe(getViewLifecycleOwner(), integer -> {
+            if (isStartFabEnabled ^ viewModel.isNeedToEnableStartFab()) {
+                enableStartFab(viewModel.isNeedToEnableStartFab());
+            }
+
+        });
+        viewModel.getMinutes().observe(getViewLifecycleOwner(), integer -> {
+            if (isStartFabEnabled ^ viewModel.isNeedToEnableStartFab()) {
+                enableStartFab(viewModel.isNeedToEnableStartFab());
+            }
+
+        });
+        viewModel.getSeconds().observe(getViewLifecycleOwner(), integer -> {
+            if (isStartFabEnabled ^ viewModel.isNeedToEnableStartFab()) {
+                enableStartFab(viewModel.isNeedToEnableStartFab());
+            }
+
+        });
     }
 
     private View.OnClickListener startFabOnClickListener = v -> startTimer();
@@ -142,6 +161,7 @@ public class CountDownFragment extends Fragment {
             @Override
             public void onFinish() {
                 viewModel.pauseTimer();
+                progressBar.setProgress(0);
             }
         }.start();
     }
@@ -185,14 +205,21 @@ public class CountDownFragment extends Fragment {
         }
     }
 
+    //There is a bug in FloatingActionButton implementation, not fixed yet by Google:
+    //If fab.hide() and fab.show() methods were called, you can't change fab icon - it won't be displayed
+    //There is a workaround - you need to call fab.hide(), change icon and then fab.show()
     private void enableStartFab(boolean enabled) {
-        startFab.setEnabled(enabled);
+        startFab.hide();
         if (enabled) {
             startFab.setImageDrawable(ContextCompat.getDrawable(getContext(),
                     R.drawable.ic_play_arrow_white_24dp));
+            isStartFabEnabled = true;
         } else {
             startFab.setImageDrawable(ContextCompat.getDrawable(getContext(),
                     R.drawable.ic_play_arrow_gray_24dp));
+            isStartFabEnabled = false;
         }
+        startFab.show();
+        startFab.setEnabled(enabled);
     }
 }

@@ -22,6 +22,7 @@ public class CountDownViewModel extends AndroidViewModel {
     private MutableLiveData<Long> timeLeftMillis = new MutableLiveData<>();
     private MutableLiveData<Boolean> isTimerNew = new MutableLiveData<>(true);
     private long endTime;
+    private long timerLengthMillis;
 
     //NumberPickers current values
     private MutableLiveData<Integer> hours = new MutableLiveData<>(0);
@@ -41,20 +42,6 @@ public class CountDownViewModel extends AndroidViewModel {
     public MutableLiveData<Integer> getSeconds() {
         return seconds;
     }
-
-    public void setHours(int hours) {
-        this.hours.setValue(hours);
-    }
-
-    public void setMinutes(int minutes) {
-        this.minutes.setValue(minutes);
-    }
-
-    public void setSeconds(int seconds) {
-        this.seconds.setValue(seconds);
-    }
-
-    private static final long START_TIME_LEFT_IN_MILLIS = 60000L;
 
     private static final String ERROR_TIME = "-1:-1:-1";
 
@@ -97,7 +84,8 @@ public class CountDownViewModel extends AndroidViewModel {
     void startTimer(long currentTimeMillis){
         timerState.setValue(TimerState.RUNNING);
         if (isTimerNew.getValue()){
-            timeLeftMillis.setValue(TimerUtils.getTimeMillis(hours.getValue(), minutes.getValue(), seconds.getValue()));
+            timerLengthMillis = TimerUtils.getTimeMillis(hours.getValue(), minutes.getValue(), seconds.getValue());
+            timeLeftMillis.setValue(timerLengthMillis);
             isTimerNew.setValue(false);
         }
         if (endTime != 0){
@@ -126,5 +114,9 @@ public class CountDownViewModel extends AndroidViewModel {
 
     boolean isNeedToEnableStartFab(){
         return !(hours.getValue() == 0 && minutes.getValue() == 0 && seconds.getValue() == 0);
+    }
+
+    int getProgress(){
+        return (int)(timerLengthMillis - timeLeftMillis.getValue());
     }
 }
