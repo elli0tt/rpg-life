@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#4D0E3A</color>
     <color name="colorAccent">#689F38</color>
     <color name="colorIsImportantCheckBox">#FFC400</color>
+    <color name="colorAccentDark">#003d00</color>
 </resources>

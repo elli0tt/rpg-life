@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -42,7 +43,8 @@ public class CountDownFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        FragmentCountdownTimerBinding binding = FragmentCountdownTimerBinding.inflate(inflater, container, false);
+        FragmentCountdownTimerBinding binding = FragmentCountdownTimerBinding.inflate(inflater,
+                container, false);
         viewModel = ViewModelProviders.of(this).get(CountDownViewModel.class);
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
@@ -75,6 +77,7 @@ public class CountDownFragment extends Fragment {
         hoursNumberPicker.setFormatter(numberPickersFormatter);
         minutesNumberPicker.setFormatter(numberPickersFormatter);
         secondsNumberPicker.setFormatter(numberPickersFormatter);
+
     }
 
     @Override
@@ -116,11 +119,18 @@ public class CountDownFragment extends Fragment {
                 timerTextView.setVisibility(View.INVISIBLE);
             }
         });
+        viewModel.getHours().observe(getViewLifecycleOwner(),
+                integer -> enableStartFab(viewModel.isNeedToEnableStartFab()));
+        viewModel.getMinutes().observe(getViewLifecycleOwner(),
+                integer -> enableStartFab(viewModel.isNeedToEnableStartFab()));
+        viewModel.getSeconds().observe(getViewLifecycleOwner(),
+                integer -> enableStartFab(viewModel.isNeedToEnableStartFab()));
+
     }
 
     private View.OnClickListener startFabOnClickListener = v -> startTimer();
 
-    private void startTimer(){
+    private void startTimer() {
         viewModel.startTimer(System.currentTimeMillis());
         timer = new CountDownTimer(viewModel.getTimeLeftMillis().getValue(),
                 Constants.COUNT_DOWN_INTERVAL) {
@@ -155,8 +165,8 @@ public class CountDownFragment extends Fragment {
     private NumberPicker.Formatter numberPickersFormatter =
             value -> String.format(Locale.getDefault(), "%02d", value);
 
-    private void updateButtons(){
-        switch (viewModel.getTimerState().getValue()){
+    private void updateButtons() {
+        switch (viewModel.getTimerState().getValue()) {
             case RUNNING:
                 startFab.hide();
                 pauseFab.show();
@@ -172,6 +182,17 @@ public class CountDownFragment extends Fragment {
                 pauseFab.hide();
                 stopFab.hide();
                 break;
+        }
+    }
+
+    private void enableStartFab(boolean enabled) {
+        startFab.setEnabled(enabled);
+        if (enabled) {
+            startFab.setImageDrawable(ContextCompat.getDrawable(getContext(),
+                    R.drawable.ic_play_arrow_white_24dp));
+        } else {
+            startFab.setImageDrawable(ContextCompat.getDrawable(getContext(),
+                    R.drawable.ic_play_arrow_gray_24dp));
         }
     }
 }

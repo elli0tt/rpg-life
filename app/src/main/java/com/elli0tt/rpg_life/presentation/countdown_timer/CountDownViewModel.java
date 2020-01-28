@@ -24,34 +24,34 @@ public class CountDownViewModel extends AndroidViewModel {
     private long endTime;
 
     //NumberPickers current values
-    private int hours;
-    private int minutes;
-    private int seconds;
+    private MutableLiveData<Integer> hours = new MutableLiveData<>(0);
+    private MutableLiveData<Integer> minutes = new MutableLiveData<>(0);
+    private MutableLiveData<Integer> seconds = new MutableLiveData<>(0);
 
     private CountDownRepository repository;
 
-    public int getHours() {
+    public MutableLiveData<Integer> getHours() {
         return hours;
     }
 
-    public int getMinutes() {
+    public MutableLiveData<Integer> getMinutes() {
         return minutes;
     }
 
-    public int getSeconds() {
+    public MutableLiveData<Integer> getSeconds() {
         return seconds;
     }
 
     public void setHours(int hours) {
-        this.hours = hours;
+        this.hours.setValue(hours);
     }
 
     public void setMinutes(int minutes) {
-        this.minutes = minutes;
+        this.minutes.setValue(minutes);
     }
 
     public void setSeconds(int seconds) {
-        this.seconds = seconds;
+        this.seconds.setValue(seconds);
     }
 
     private static final long START_TIME_LEFT_IN_MILLIS = 60000L;
@@ -97,7 +97,7 @@ public class CountDownViewModel extends AndroidViewModel {
     void startTimer(long currentTimeMillis){
         timerState.setValue(TimerState.RUNNING);
         if (isTimerNew.getValue()){
-            timeLeftMillis.setValue(TimerUtils.getTimeMillis(hours, minutes, seconds));
+            timeLeftMillis.setValue(TimerUtils.getTimeMillis(hours.getValue(), minutes.getValue(), seconds.getValue()));
             isTimerNew.setValue(false);
         }
         if (endTime != 0){
@@ -122,5 +122,9 @@ public class CountDownViewModel extends AndroidViewModel {
 
     void saveData(){
         repository.setTimerData(timeLeftMillis.getValue(), endTime, timerState.getValue());
+    }
+
+    boolean isNeedToEnableStartFab(){
+        return !(hours.getValue() == 0 && minutes.getValue() == 0 && seconds.getValue() == 0);
     }
 }
