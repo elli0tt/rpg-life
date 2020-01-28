@@ -117,6 +117,6 @@ public class CountDownViewModel extends AndroidViewModel {
     }
 
     int getProgress(){
-        return (int)(timerLengthMillis - timeLeftMillis.getValue());
+        return timeLeftMillis.getValue().intValue();
     }
 }
