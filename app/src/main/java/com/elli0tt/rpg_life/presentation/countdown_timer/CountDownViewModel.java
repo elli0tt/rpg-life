@@ -8,9 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.elli0tt.rpg_life.data.repository.CountDownRepository;
-import com.elli0tt.rpg_life.domain.utils.TimerUtils;
-
-import java.util.Locale;
+import com.elli0tt.rpg_life.domain.use_case.TimerUseCase;
 
 public class CountDownViewModel extends AndroidViewModel {
 
@@ -19,10 +17,10 @@ public class CountDownViewModel extends AndroidViewModel {
     }
 
     private MutableLiveData<TimerState> timerState = new MutableLiveData<>();
-    private MutableLiveData<Long> timeLeftMillis = new MutableLiveData<>();
+    private MutableLiveData<Long> timeLeftSeconds = new MutableLiveData<>();
     private MutableLiveData<Boolean> isTimerNew = new MutableLiveData<>(true);
     private long endTime;
-    private long timerLengthMillis;
+    private long timerLengthSeconds;
 
     //NumberPickers current values
     private MutableLiveData<Integer> hours = new MutableLiveData<>(0);
@@ -49,7 +47,7 @@ public class CountDownViewModel extends AndroidViewModel {
         super(application);
         repository = new CountDownRepository(application);
 
-        timeLeftMillis.setValue(repository.getTimeLeftMillis());
+        timeLeftSeconds.setValue(repository.getTimeLeftSeconds());
         endTime = repository.getEndTime();
         timerState.setValue(repository.getTimerState());
     }
@@ -58,24 +56,25 @@ public class CountDownViewModel extends AndroidViewModel {
         return timerState;
     }
 
-    LiveData<Long> getTimeLeftMillis(){
-        return timeLeftMillis;
+    LiveData<Long> getTimeLeftSeconds(){
+        return timeLeftSeconds;
     }
 
     LiveData<Boolean> isTimerNew(){
         return isTimerNew;
     }
 
-    void updateTimeLeftInMillis(long value){
-        timeLeftMillis.setValue(value);
+    long getTimeLeftMillis(){
+        return TimerUseCase.getTimeMillis(timeLeftSeconds.getValue());
+    }
+
+    void updateTimeLeftSeconds(){
+        timeLeftSeconds.setValue(timeLeftSeconds.getValue() - 1);
     }
 
     String getTimeLeft(){
-        if (timeLeftMillis.getValue() != null){
-            return String.format(Locale.getDefault(),"%02d:%02d:%02d",
-                    TimerUtils.getHours(timeLeftMillis.getValue()),
-                    TimerUtils.getMinutes(timeLeftMillis.getValue()),
-                    TimerUtils.getSeconds(timeLeftMillis.getValue()));
+        if (timeLeftSeconds.getValue() != null){
+            return TimerUseCase.getTimeFormatted(timeLeftSeconds.getValue());
         } else {
             return ERROR_TIME;
         }
@@ -84,17 +83,17 @@ public class CountDownViewModel extends AndroidViewModel {
     void startTimer(long currentTimeMillis){
         timerState.setValue(TimerState.RUNNING);
         if (isTimerNew.getValue()){
-            timerLengthMillis = TimerUtils.getTimeMillis(hours.getValue(), minutes.getValue(), seconds.getValue());
-            timeLeftMillis.setValue(timerLengthMillis);
+            timerLengthSeconds = TimerUseCase.getTimeSeconds(hours.getValue(), minutes.getValue(), seconds.getValue());
+            timeLeftSeconds.setValue(timerLengthSeconds);
             isTimerNew.setValue(false);
         }
         if (endTime != 0){
-            timeLeftMillis.setValue(endTime - currentTimeMillis);
+            timeLeftSeconds.setValue(TimerUseCase.getTimeSeconds(endTime - currentTimeMillis));
         }
-        if (timeLeftMillis.getValue() < 0){
-            timeLeftMillis.setValue(0L);
+        if (timeLeftSeconds.getValue() < 0){
+            timeLeftSeconds.setValue(0L);
         }
-        endTime = currentTimeMillis + timeLeftMillis.getValue();
+        endTime = currentTimeMillis + TimerUseCase.getTimeMillis(timeLeftSeconds.getValue());
 }
 
     void pauseTimer(){
@@ -109,7 +108,7 @@ public class CountDownViewModel extends AndroidViewModel {
     }
 
     void saveData(){
-        repository.setTimerData(timeLeftMillis.getValue(), endTime, timerState.getValue());
+        repository.setTimerData(timeLeftSeconds.getValue(), endTime, timerState.getValue());
     }
 
     boolean isNeedToEnableStartFab(){
@@ -117,6 +116,6 @@ public class CountDownViewModel extends AndroidViewModel {
     }
 
     int getProgress(){
-        return timeLeftMillis.getValue().intValue();
+        return timeLeftSeconds.getValue().intValue();
     }
 }

@@ -14,8 +14,8 @@ public class CountDownRepository {
         countDownSharedPrefUtils = new CountDownSharedPrefUtils(context);
     }
 
-    public long getTimeLeftMillis(){
-        return countDownSharedPrefUtils.getTimeLeftMillis();
+    public long getTimeLeftSeconds(){
+        return countDownSharedPrefUtils.getTimeLeftSeconds();
     }
 
     public long getEndTime(){
@@ -26,7 +26,7 @@ public class CountDownRepository {
         return countDownSharedPrefUtils.getTimerState();
     }
 
-    public void setTimerData(long timeLeftMillis, long endTime, CountDownViewModel.TimerState timerState){
-        countDownSharedPrefUtils.setTimerData(timeLeftMillis, endTime, timerState);
+    public void setTimerData(long timeLeftSeconds, long endTime, CountDownViewModel.TimerState timerState){
+        countDownSharedPrefUtils.setTimerData(timeLeftSeconds, endTime, timerState);
     }
 }

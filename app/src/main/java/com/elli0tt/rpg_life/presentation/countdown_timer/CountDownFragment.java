@@ -2,6 +2,7 @@ package com.elli0tt.rpg_life.presentation.countdown_timer;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.elli0tt.rpg_life.R;
@@ -41,6 +41,9 @@ public class CountDownFragment extends Fragment {
 
     //Used to enable startTimerFab just 1 time - after it was disabled
     private boolean isStartFabEnabled = true;
+
+    private static final String TIME_LEFT_TAG = "time left";
+    private static final String PROGRESS_BAR_PROGRESS_TAG = "progress bar progress";
 
     @Nullable
     @Override
@@ -80,7 +83,6 @@ public class CountDownFragment extends Fragment {
         hoursNumberPicker.setFormatter(numberPickersFormatter);
         minutesNumberPicker.setFormatter(numberPickersFormatter);
         secondsNumberPicker.setFormatter(numberPickersFormatter);
-
     }
 
     @Override
@@ -110,16 +112,19 @@ public class CountDownFragment extends Fragment {
     }
 
     private void subscribeToViewModel() {
-        viewModel.getTimeLeftMillis().observe(getViewLifecycleOwner(), aLong -> {
+        viewModel.getTimeLeftSeconds().observe(getViewLifecycleOwner(), aLong -> {
             timerTextView.setText(viewModel.getTimeLeft());
             progressBar.setProgress(viewModel.getProgress());
+            Log.d(TIME_LEFT_TAG,
+                    viewModel.getTimeLeft() + " " + Integer.toString(viewModel.getProgress()));
+            Log.d(PROGRESS_BAR_PROGRESS_TAG, Integer.toString(viewModel.getProgress()));
         });
         viewModel.getTimerState().observe(getViewLifecycleOwner(), timerState -> updateButtons());
         viewModel.isTimerNew().observe(getViewLifecycleOwner(), aBoolean -> {
             if (!aBoolean) {
                 numberPickersLayout.setVisibility(View.INVISIBLE);
                 timerTextView.setVisibility(View.VISIBLE);
-                progressBar.setMax(viewModel.getTimeLeftMillis().getValue().intValue());
+                progressBar.setMax(viewModel.getTimeLeftSeconds().getValue().intValue());
             } else {
                 numberPickersLayout.setVisibility(View.VISIBLE);
                 timerTextView.setVisibility(View.INVISIBLE);
@@ -151,11 +156,10 @@ public class CountDownFragment extends Fragment {
 
     private void startTimer() {
         viewModel.startTimer(System.currentTimeMillis());
-        timer = new CountDownTimer(viewModel.getTimeLeftMillis().getValue(),
-                Constants.COUNT_DOWN_INTERVAL) {
+        timer = new CountDownTimer(viewModel.getTimeLeftMillis(), Constants.COUNT_DOWN_INTERVAL) {
             @Override
             public void onTick(long millisUntilFinished) {
-                viewModel.updateTimeLeftInMillis(millisUntilFinished);
+                viewModel.updateTimeLeftSeconds();
             }
 
             @Override
@@ -206,7 +210,8 @@ public class CountDownFragment extends Fragment {
     }
 
     //There is a bug in FloatingActionButton implementation, not fixed yet by Google:
-    //If fab.hide() and fab.show() methods were called, you can't change fab icon - it won't be displayed
+    //If fab.hide() and fab.show() methods were called, you can't change fab icon - it won't be
+    // displayed
     //There is a workaround - you need to call fab.hide(), change icon and then fab.show()
     private void enableStartFab(boolean enabled) {
         startFab.hide();

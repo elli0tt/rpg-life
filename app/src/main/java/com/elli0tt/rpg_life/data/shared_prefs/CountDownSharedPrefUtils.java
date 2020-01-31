@@ -12,7 +12,7 @@ public class CountDownSharedPrefUtils {
     private SharedPreferences sharedPreferences;
 
     private static final String SHARED_PREFERENCES_NAME = "countdown shared preferences";
-    private static final String KEY_TIME_LEFT_MILLIS = "time left millis";
+    private static final String KEY_TIME_LEFT_SECONDS = "time left seconds";
     private static final String KEY_END_TIME = "end time";
     private static final String KEY_TIMER_STATE = "is timer running";
 
@@ -20,8 +20,8 @@ public class CountDownSharedPrefUtils {
         sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
     }
 
-    public long getTimeLeftMillis(){
-        return sharedPreferences.getLong(KEY_TIME_LEFT_MILLIS, 60000L);
+    public long getTimeLeftSeconds(){
+        return sharedPreferences.getLong(KEY_TIME_LEFT_SECONDS, 60000L);
     }
 
     public long getEndTime(){
@@ -33,9 +33,9 @@ public class CountDownSharedPrefUtils {
         return CountDownViewModel.TimerState.values()[ordinal];
     }
 
-    public void setTimerData(long timeLeftMillis, long endTime, CountDownViewModel.TimerState timerState){
+    public void setTimerData(long timeLeftSeconds, long endTime, CountDownViewModel.TimerState timerState){
         sharedPreferences.edit()
-                .putLong(KEY_TIME_LEFT_MILLIS, timeLeftMillis)
+                .putLong(KEY_TIME_LEFT_SECONDS, timeLeftSeconds)
                 .putLong(KEY_END_TIME, endTime)
                 .putInt(KEY_TIMER_STATE, timerState.ordinal())
                 .apply();
