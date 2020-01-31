@@ -164,7 +164,7 @@ public class CountDownFragment extends Fragment {
 
             @Override
             public void onFinish() {
-                viewModel.pauseTimer();
+                viewModel.stopTimer();
                 progressBar.setProgress(0);
             }
         }.start();

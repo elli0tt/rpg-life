@@ -103,6 +103,7 @@ public class CountDownViewModel extends AndroidViewModel {
 
     void stopTimer(){
         timerState.setValue(TimerState.STOPPED);
+        timeLeftSeconds.setValue(0L);
         isTimerNew.setValue(true);
         endTime = 0;
     }
