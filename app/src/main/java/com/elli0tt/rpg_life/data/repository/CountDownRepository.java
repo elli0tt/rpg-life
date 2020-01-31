@@ -10,23 +10,34 @@ import com.elli0tt.rpg_life.presentation.countdown_timer.CountDownViewModel;
 public class CountDownRepository {
     private CountDownSharedPrefUtils countDownSharedPrefUtils;
 
-    public CountDownRepository(@NonNull Context context){
+    public CountDownRepository(@NonNull Context context) {
         countDownSharedPrefUtils = new CountDownSharedPrefUtils(context);
     }
 
-    public long getTimeLeftSeconds(){
+    public long getTimeLeftSeconds() {
         return countDownSharedPrefUtils.getTimeLeftSeconds();
     }
 
-    public long getEndTime(){
+    public long getEndTime() {
         return countDownSharedPrefUtils.getEndTime();
     }
 
-    public CountDownViewModel.TimerState getTimerState(){
+    public CountDownViewModel.TimerState getTimerState() {
         return countDownSharedPrefUtils.getTimerState();
     }
 
-    public void setTimerData(long timeLeftSeconds, long endTime, CountDownViewModel.TimerState timerState){
-        countDownSharedPrefUtils.setTimerData(timeLeftSeconds, endTime, timerState);
+    public long getTimerLengthSeconds() {
+        return countDownSharedPrefUtils.getTimerLengthSeconds();
+    }
+
+    public boolean getIsTimerNew(){
+        return countDownSharedPrefUtils.getIsTimerNew();
+    }
+
+    public void setTimerData(long timeLeftSeconds, long endTime,
+                             CountDownViewModel.TimerState timerState, long timerLengthSeconds,
+                             boolean isTimerNew) {
+        countDownSharedPrefUtils.setTimerData(timeLeftSeconds, endTime, timerState,
+                timerLengthSeconds, isTimerNew);
     }
 }

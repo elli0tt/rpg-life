@@ -12,7 +12,7 @@ import com.elli0tt.rpg_life.domain.use_case.TimerUseCase;
 
 public class CountDownViewModel extends AndroidViewModel {
 
-    public enum TimerState{
+    public enum TimerState {
         RUNNING, PAUSED, STOPPED
     }
 
@@ -50,73 +50,81 @@ public class CountDownViewModel extends AndroidViewModel {
         timeLeftSeconds.setValue(repository.getTimeLeftSeconds());
         endTime = repository.getEndTime();
         timerState.setValue(repository.getTimerState());
+        timerLengthSeconds = repository.getTimerLengthSeconds();
+        isTimerNew.setValue(repository.getIsTimerNew());
     }
 
-    LiveData<TimerState> getTimerState(){
+    LiveData<TimerState> getTimerState() {
         return timerState;
     }
 
-    LiveData<Long> getTimeLeftSeconds(){
+    LiveData<Long> getTimeLeftSeconds() {
         return timeLeftSeconds;
     }
 
-    LiveData<Boolean> isTimerNew(){
+    LiveData<Boolean> isTimerNew() {
         return isTimerNew;
     }
 
-    long getTimeLeftMillis(){
+    long getTimeLeftMillis() {
         return TimerUseCase.getTimeMillis(timeLeftSeconds.getValue());
     }
 
-    void updateTimeLeftSeconds(){
+    void updateTimeLeftSeconds() {
         timeLeftSeconds.setValue(timeLeftSeconds.getValue() - 1);
     }
 
-    String getTimeLeft(){
-        if (timeLeftSeconds.getValue() != null){
+    String getTimeLeft() {
+        if (timeLeftSeconds.getValue() != null) {
             return TimerUseCase.getTimeFormatted(timeLeftSeconds.getValue());
         } else {
             return ERROR_TIME;
         }
     }
 
-    void startTimer(long currentTimeMillis){
+    void startTimer(long currentTimeMillis) {
         timerState.setValue(TimerState.RUNNING);
-        if (isTimerNew.getValue()){
-            timerLengthSeconds = TimerUseCase.getTimeSeconds(hours.getValue(), minutes.getValue(), seconds.getValue());
+        if (isTimerNew.getValue()) {
+            timerLengthSeconds = TimerUseCase.getTimeSeconds(hours.getValue(), minutes.getValue()
+                    , seconds.getValue());
             timeLeftSeconds.setValue(timerLengthSeconds);
             isTimerNew.setValue(false);
         }
-        if (endTime != 0){
+        if (endTime != 0) {
             timeLeftSeconds.setValue(TimerUseCase.getTimeSeconds(endTime - currentTimeMillis));
         }
-        if (timeLeftSeconds.getValue() < 0){
+        if (timeLeftSeconds.getValue() < 0) {
             timeLeftSeconds.setValue(0L);
         }
         endTime = currentTimeMillis + TimerUseCase.getTimeMillis(timeLeftSeconds.getValue());
-}
+    }
 
-    void pauseTimer(){
+    void pauseTimer() {
         timerState.setValue(TimerState.PAUSED);
         endTime = 0;
     }
 
-    void stopTimer(){
+    void stopTimer() {
         timerState.setValue(TimerState.STOPPED);
         timeLeftSeconds.setValue(0L);
         isTimerNew.setValue(true);
         endTime = 0;
     }
 
-    void saveData(){
-        repository.setTimerData(timeLeftSeconds.getValue(), endTime, timerState.getValue());
+    void saveData() {
+        repository.setTimerData(timeLeftSeconds.getValue(), endTime, timerState.getValue(),
+                timerLengthSeconds, isTimerNew.getValue());
     }
 
-    boolean isNeedToEnableStartFab(){
+    boolean isNeedToEnableStartFab() {
         return !(hours.getValue() == 0 && minutes.getValue() == 0 && seconds.getValue() == 0);
     }
 
-    int getProgress(){
+    int getProgress() {
         return timeLeftSeconds.getValue().intValue();
+    }
+
+    int getMaxProgress() {
+        return (int) timerLengthSeconds;
     }
 }
