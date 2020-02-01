@@ -57,11 +57,11 @@ public class QuestsFragment extends Fragment {
         navController = NavHostFragment.findNavController(this);
 
         fab = view.findViewById(R.id.quests_fab);
-        recyclerView = view.findViewById(R.id.quests_list);
+        recyclerView = view.findViewById(R.id.quests_recycler_view);
 
         setupQuestsViewModel();
         setHasOptionsMenu(true);
-        setupQuestsRecyclerView(view.findViewById(R.id.quests_list));
+        setupQuestsRecyclerView();
 
         fab.setOnClickListener(v -> navigateToAddQuestScreen());
     }
@@ -72,7 +72,7 @@ public class QuestsFragment extends Fragment {
         }
     };
 
-    private void setupQuestsRecyclerView(@NonNull RecyclerView recyclerView) {
+    private void setupQuestsRecyclerView() {
         recyclerView.setAdapter(questsAdapter);
         questsAdapter.setOnItemClickListener(onItemClickListener);
         questsAdapter.setOnItemLongClickListener(position -> {
@@ -123,7 +123,7 @@ public class QuestsFragment extends Fragment {
 
     private void setupQuestsViewModel() {
         viewModel = ViewModelProviders.of(this).get(QuestsViewModel.class);
-        viewModel.getQuests().observe(this, questList -> questsAdapter.submitList(questList));
+        viewModel.getQuests().observe(getViewLifecycleOwner(), questList -> questsAdapter.submitList(questList));
     }
 
     @Override

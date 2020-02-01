@@ -46,11 +46,11 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         return difficulty;
     }
 
-    public LiveData<String> getNameErrorMessage(){
+    LiveData<String> getNameErrorMessage(){
         return nameErrorMessage;
     }
 
-    public void start(@Nullable Integer id) {
+    void start(@Nullable Integer id) {
         if (id == null) {
             //No need to populate, the quest is new
             isNewQuest = true;
@@ -88,7 +88,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     }
 
 
-    public boolean saveQuest() {
+    boolean saveQuest() {
         if (!isNameValid()){
             nameErrorMessage.setValue("Field can't be empty");
             return false;
