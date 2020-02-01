@@ -90,7 +90,7 @@ public class CountDownFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //progressBar.setMax(viewModel.getMaxProgress());
+        progressBar.setMax(viewModel.getMaxProgress());
         //Log.d(MAX_PROGRESS_TAG, Integer.toString(viewModel.getMaxProgress()));
         if (viewModel.getTimerState().getValue() == CountDownViewModel.TimerState.RUNNING) {
             startTimer();
@@ -154,6 +154,7 @@ public class CountDownFragment extends Fragment {
             public void onFinish() {
                 viewModel.stopTimer();
                 progressBar.setProgress(0);
+
             }
         }.start();
     }
@@ -199,7 +200,7 @@ public class CountDownFragment extends Fragment {
         }
     }
 
-    //There is a bug in FloatingActionButton implementation, not fixed yet by Google:
+    //There is a bug in FloatingActionButton implementation, which has not been fixed yet by Google:
     //If fab.hide() and fab.show() methods were called, you can't change fab icon - it won't be
     // displayed
     //There is a workaround - you need to call fab.hide(), change icon and then fab.show()
