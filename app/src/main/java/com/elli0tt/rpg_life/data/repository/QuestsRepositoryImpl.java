@@ -33,12 +33,16 @@ public class QuestsRepositoryImpl implements QuestRepository {
         return dao.getAllQuests();
     }
 
-    public LiveData<List<Quest>> getActiveQuests(){
+    public LiveData<List<Quest>> getActiveQuests() {
         return dao.getActiveQuests();
     }
 
-    public LiveData<List<Quest>> getCompletedQuests(){
+    public LiveData<List<Quest>> getCompletedQuests() {
         return dao.getCompletedQuests();
+    }
+
+    public LiveData<List<Quest>> getImportantQuests() {
+        return dao.getImportantQuests();
     }
 
     public void insert(Quest quest) {
@@ -132,19 +136,19 @@ public class QuestsRepositoryImpl implements QuestRepository {
         }
     }
 
-    public QuestsFilterState getQuestsFilterState(){
+    public QuestsFilterState getQuestsFilterState() {
         return questsSharedPrefUtils.getQuestsFilterState();
     }
 
-    public void setQuestsFilterState(QuestsFilterState filterState){
+    public void setQuestsFilterState(QuestsFilterState filterState) {
         questsSharedPrefUtils.setQuestsFilterState(filterState);
     }
 
-    public QuestsSortingState getQuestSortingState(){
+    public QuestsSortingState getQuestSortingState() {
         return questsSharedPrefUtils.getQuestsSortingState();
     }
 
-    public void setQuestsSoringState(QuestsSortingState sortingState){
+    public void setQuestsSoringState(QuestsSortingState sortingState) {
         questsSharedPrefUtils.setQuestsSortingState(sortingState);
     }
 

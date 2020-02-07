@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/quests_filtering_popup_menu_all"
-        android:title="@string/filtering_popup_menu_all_title"
+        android:id="@+id/quests_toolbar_menu_filtering_all"
+        android:title="@string/quests_filtering_all"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/quests_filtering_popup_menu_active"
-        android:title="@string/filtering_popup_menu_active_title"
+        android:id="@+id/quests_toolbar_menu_filtering_active"
+        android:title="@string/quests_filtering_active"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/quests_filtering_popup_menu_completed"
-        android:title="@string/quests_filtering_popup_menu_completed_title"
+        android:id="@+id/quests_toolbar_menu_filtering_completed"
+        android:title="@string/quests_filtering_completed"
         app:showAsAction="never" />
 </menu>

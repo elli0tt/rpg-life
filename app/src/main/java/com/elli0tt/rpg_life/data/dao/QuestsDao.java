@@ -33,6 +33,9 @@ public interface QuestsDao {
     @Query("SELECT * FROM quest_table WHERE isCompleted = 1 ORDER BY name")
     LiveData<List<Quest>> getCompletedQuests();
 
+    @Query("SELECT * FROM quest_table WHERE isImportant = 1 AND isCompleted = 0 ORDER BY name")
+    LiveData<List<Quest>> getImportantQuests();
+
     @Update
     void update(Quest quest);
 

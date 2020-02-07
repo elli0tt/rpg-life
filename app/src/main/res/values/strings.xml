@@ -42,9 +42,9 @@
     <string name="quest_description_default_value"></string>
     <string name="character_toolbar_menu_item_populate_with_samples">Populate with samples</string>
     <string name="quests_toolbar_menu_filter_title">Filter</string>
-    <string name="filtering_popup_menu_all_title">All</string>
-    <string name="filtering_popup_menu_active_title">Active</string>
-    <string name="quests_filtering_popup_menu_completed_title">Completed</string>
+    <string name="quests_filtering_all">All</string>
+    <string name="quests_filtering_active">Active</string>
+    <string name="quests_filtering_completed">Completed</string>
     <string name="stopwatch_start">Start</string>
     <string name="stopwatch_pause">Pause</string>
     <string name="stopwatch_reset">Reset</string>
@@ -55,6 +55,7 @@
     <string name="quests_toolbar_sort_by_name">Name</string>
     <string name="quests_toolbar_sort_by_date_added">Date added</string>
     <string name="quests_toolbar_sort_by_date_due">Date due</string>
+    <string name="quests_filtering_important">Important</string>
 
 
 </resources>

@@ -1,7 +1,6 @@
 package com.elli0tt.rpg_life.presentation.quests;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,14 +28,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.Objects;
 
 
-
 public class QuestsFragment extends Fragment {
 
     private QuestsViewModel viewModel;
 
     private QuestsAdapter questsAdapter = new QuestsAdapter();
     private NavController navController;
-    //private LiveData<List<Quest>> allQuestsList;
 
     private FloatingActionButton fab;
     private RecyclerView recyclerView;
@@ -138,9 +135,6 @@ public class QuestsFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.quests_toolbar_menu_filter:
-                showFilteringPopUpMenu(getActivity().findViewById(R.id.quests_toolbar_menu_filter));
-                break;
             case R.id.quests_toolbar_menu_delete_all:
                 viewModel.deleteAll();
                 break;
@@ -156,35 +150,20 @@ public class QuestsFragment extends Fragment {
             case R.id.quests_toolbar_menu_sort_by_date_added:
                 viewModel.setSorting(QuestsSortingState.DATE_ADDED);
                 break;
-
+            case R.id.quests_toolbar_menu_filtering_all:
+                viewModel.setFiltering(QuestsFilterState.ALL);
+                break;
+            case R.id.quests_toolbar_menu_filtering_active:
+                viewModel.setFiltering(QuestsFilterState.ACTIVE);
+                break;
+            case R.id.quests_toolbar_menu_filtering_completed:
+                viewModel.setFiltering(QuestsFilterState.COMPLETED);
+                break;
+            case R.id.quests_toolbar_menu_filtering_important:
+                viewModel.setFiltering(QuestsFilterState.IMPORTANT);
         }
         return true;
     }
-
-    private void showFilteringPopUpMenu(View view) {
-        PopupMenu popupMenu = new PopupMenu(getContext(), view);
-        popupMenu.inflate(R.menu.quests_filtering_pop_up_menu);
-        popupMenu.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.quests_filtering_popup_menu_all:
-                    viewModel.setFiltering(QuestsFilterState.ALL);
-                    return true;
-                case R.id.quests_filtering_popup_menu_active:
-                    viewModel.setFiltering(QuestsFilterState.ACTIVE);
-                    return true;
-                case R.id.quests_filtering_popup_menu_completed:
-                    viewModel.setFiltering(QuestsFilterState.COMPLETED);
-                    return true;
-                default:
-                    return false;
-
-            }
-
-        });
-
-        popupMenu.show();
-    }
-
 
     private void navigateToAddQuestScreen() {
         QuestsFragmentDirections.ActionQuestsScreenToAddQuestScreen action =

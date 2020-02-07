@@ -48,6 +48,8 @@ public class QuestsViewModel extends AndroidViewModel {
                         return repository.getActiveQuests();
                     case COMPLETED:
                         return repository.getCompletedQuests();
+                    case IMPORTANT:
+                        return repository.getImportantQuests();
                     default:
                         return null;
 
@@ -61,13 +63,11 @@ public class QuestsViewModel extends AndroidViewModel {
                 if (quests.getValue() != null) {
                     switch (currentSortingState.getValue()) {
                         case NAME:
-                            List<Quest> sortedQuests = QuestsSortByNameUseCase.sort((List<Quest>)questsToShow.getValue());
-
-                            questsToShow.postValue(sortedQuests);
+                            questsToShow.setValue(QuestsSortByNameUseCase.sort((List<Quest>) questsToShow.getValue()));
                         case DATE_DUE:
                             break;
                         case DATE_ADDED:
-                            questsToShow.postValue(QuestsSortByDateAddedUseCase.sort((List<Quest>)questsToShow.getValue()));
+                            questsToShow.setValue(QuestsSortByDateAddedUseCase.sort((List<Quest>) questsToShow.getValue()));
                     }
                 }
             }
@@ -126,8 +126,13 @@ public class QuestsViewModel extends AndroidViewModel {
         repository.setQuestsFilterState(filterState);
     }
 
-    void setSorting(QuestsSortingState sortingState){
+    void setSorting(QuestsSortingState sortingState) {
         currentSortingState.setValue(sortingState);
         repository.setQuestsSoringState(sortingState);
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
     }
 }
