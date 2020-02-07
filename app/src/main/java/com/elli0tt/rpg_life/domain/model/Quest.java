@@ -5,12 +5,17 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
+
+import com.elli0tt.rpg_life.domain.model.room_type_converters.CalendarConverter;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 @Entity(tableName = "quest_table")
 public class Quest {
@@ -27,7 +32,8 @@ public class Quest {
 //        private int procrastinationIncrease;
 //        private int procrastinationDecrease;
 //
-//        Difficulty(int xpIncrease, int xpDecrease, int procrastinationIncrease, int procrastinationDecrease) {
+//        Difficulty(int xpIncrease, int xpDecrease, int procrastinationIncrease, int
+//        procrastinationDecrease) {
 //            this.xpIncrease = xpIncrease;
 //            this.xpDecrease = xpDecrease;
 //            this.procrastinationIncrease = procrastinationIncrease;
@@ -65,23 +71,30 @@ public class Quest {
     public static final int VERY_HARD = 4;
     public static final int IMPOSSIBLE = 5;
 
-    @PrimaryKey(autoGenerate = true) private int id;
+    @PrimaryKey(autoGenerate = true)
+    private int id;
 
-    @NonNull private String name = "";
-    @NonNull private String description = "";
-    @Difficulty private int difficulty = NORMAL;
-    @Ignore private List<Quest> subquests = new ArrayList<>();
-    @Ignore private List<Reward> rewards = new ArrayList<>();
+    @NonNull
+    private String name = "";
+    @NonNull
+    private String description = "";
+    @Difficulty
+    private int difficulty = NORMAL;
+    @Ignore
+    private List<Quest> subquests = new ArrayList<>();
+    @Ignore
+    private List<Reward> rewards = new ArrayList<>();
     private boolean isImportant = false;
     private boolean isCompleted = false;
 
-    // TODO set default values for start and finish dates
-    @Ignore private Calendar startDate;
-    @Ignore private Calendar finishDate;
+    @Ignore
+    private Calendar startDate;
+    @TypeConverters({CalendarConverter.class})
+    private Calendar dateDue = Calendar.getInstance();
 
     @Ignore
     public Quest(@NonNull String name,
-                 String description,
+                 @NonNull String description,
                  @Difficulty int difficulty,
                  List<Quest> subquests,
                  List<Reward> rewards,
@@ -104,20 +117,26 @@ public class Quest {
     }
 
     @Ignore
-    public Quest(@NonNull String name, @NonNull String description, @Difficulty int difficulty) {
+    public Quest(@NonNull String name, @NonNull String description, @Difficulty int difficulty,
+                 Calendar dateDue) {
         this.name = name;
         this.description = description;
         this.difficulty = difficulty;
+        this.dateDue = dateDue;
     }
 
     @Ignore
-    public Quest(int id, @NonNull String name, @NonNull String description, @Difficulty int difficulty) {
+    public Quest(int id, @NonNull String name, @NonNull String description,
+                 @Difficulty int difficulty, Calendar dateDue, boolean isCompleted,
+                 boolean isImportant) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.difficulty = difficulty;
+        this.dateDue = dateDue;
+        this.isCompleted = isCompleted;
+        this.isImportant = isImportant;
     }
-
 
 
     private static final int COMPLETED_PERCENTAGE = 100;
@@ -161,6 +180,10 @@ public class Quest {
         return isImportant;
     }
 
+    public Calendar getDateDue() {
+        return dateDue;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -193,6 +216,10 @@ public class Quest {
         isImportant = important;
     }
 
+    public void setDateDue(Calendar dateDue) {
+        this.dateDue = dateDue;
+    }
+
     public int getIncreaseXp() {
         switch (difficulty) {
             case VERY_EASY:
@@ -212,7 +239,7 @@ public class Quest {
         }
     }
 
-    public static boolean isNameValid(String name){
+    public static boolean isNameValid(String name) {
         return !name.trim().isEmpty();
     }
 
@@ -220,5 +247,14 @@ public class Quest {
     @Override
     public String toString() {
         return "name: " + name;
+    }
+
+    public String getDateDueFormatted() {
+        return String.format(Locale.getDefault(), "%02d.%02d.%04d %02d:%02d",
+                dateDue.get(Calendar.DAY_OF_MONTH),
+                dateDue.get(Calendar.MONTH),
+                dateDue.get(Calendar.YEAR),
+                dateDue.get(Calendar.HOUR_OF_DAY),
+                dateDue.get(Calendar.MINUTE));
     }
 }

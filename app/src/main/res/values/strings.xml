@@ -56,6 +56,8 @@
     <string name="quests_toolbar_sort_by_date_added">Date added</string>
     <string name="quests_toolbar_sort_by_date_due">Date due</string>
     <string name="quests_filtering_important">Important</string>
+    <string name="add_edit_quest_add_date_due">Add date due</string>
+    <string name="add_edit_quest_repeat">Repeat</string>
 
 
 </resources>

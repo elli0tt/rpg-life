@@ -1,6 +1,8 @@
 package com.elli0tt.rpg_life.presentation.add_edit_quest;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,8 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,6 +38,8 @@ public class AddEditQuestFragment extends Fragment {
     private EditText descriptionEditText;
     private Spinner difficultySpinner;
     private TextInputLayout nameTextInput;
+    private Button addDateDueButton;
+    private Button repeatButton;
 
     private NavController navController;
 
@@ -64,18 +71,23 @@ public class AddEditQuestFragment extends Fragment {
         descriptionEditText = view.findViewById(R.id.add_edit_quest_description_edit_text);
         difficultySpinner = view.findViewById(R.id.add_edit_quest_difficulty_spinner);
         nameTextInput = view.findViewById(R.id.add_edit_quest_name_text_input);
+        addDateDueButton = view.findViewById(R.id.add_edit_quest_add_date_due_button);
+        repeatButton = view.findViewById(R.id.add_edit_quest_repeat_button);
 
         navController = NavHostFragment.findNavController(this);
 
         setupDifficultySpinner();
         setHasOptionsMenu(true);
 
-        viewModel.getNameErrorMessage().observe(this, s -> nameTextInput.setError(s));
+        viewModel.getNameErrorMessage().observe(getViewLifecycleOwner(),
+                s -> nameTextInput.setError(s));
 
         viewModel.start(AddEditQuestFragmentArgs.fromBundle(getArguments()).getQuestId());
 
         nameEditText.setOnFocusChangeListener(onEditTextsFocusChangeListener);
         descriptionEditText.setOnFocusChangeListener(onEditTextsFocusChangeListener);
+        addDateDueButton.setOnClickListener(onAddDateDueButtonClickListener);
+
     }
 
     private void setupDifficultySpinner() {
@@ -116,6 +128,25 @@ public class AddEditQuestFragment extends Fragment {
             hideKeyboard(v);
         }
     };
+
+    private View.OnClickListener onAddDateDueButtonClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
+                    (view, hourOfDay, minute) -> viewModel.setDateDue(hourOfDay, minute),
+                    viewModel.getCurrentHour(), viewModel.getCurrentMinute(), true);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
+                    (view, year, month, dayOfMonth) -> {
+                        viewModel.setDateDue(year, month, dayOfMonth);
+                        timePickerDialog.show();
+                    }, viewModel.getCurrentYear(), viewModel.getCurrentMonth(),
+                    viewModel.getCurrentDay());
+            datePickerDialog.show();
+
+        }
+    };
+
 
     private void hideKeyboard(View view) {
         Activity activity = getActivity();

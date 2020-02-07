@@ -59,4 +59,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/quest_date_due_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:text="Due: 12.12.2000"
+        app:layout_constraintTop_toBottomOf="@id/quest_difficulty_label"
+        app:layout_constraintStart_toEndOf="@id/quest_is_completed"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

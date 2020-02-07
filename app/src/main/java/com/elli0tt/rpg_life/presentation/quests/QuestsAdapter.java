@@ -190,6 +190,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         private TextView nameTextView;
         private TextView difficultyTextView;
         private CheckBox isImportantCheckBox;
+        private TextView dateDueTextView;
 
         private String difficultyVeryEasyText;
         private String difficultyEasyText;
@@ -211,6 +212,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
             nameTextView = itemView.findViewById(R.id.quest_name);
             difficultyTextView = itemView.findViewById(R.id.quest_difficulty_value);
             isImportantCheckBox = itemView.findViewById(R.id.quest_is_important_check_box);
+            dateDueTextView = itemView.findViewById(R.id.quest_date_due_text_view);
 
             difficultyVeryEasyText =
                     itemView.getContext().getText(R.string.difficulty_very_easy_text).toString();
@@ -239,6 +241,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
             nameTextView.setText(quest.getName());
             difficultyTextView.setText(getDifficultyStringValue(quest.getDifficulty()));
             isImportantCheckBox.setChecked(quest.isImportant());
+            dateDueTextView.setText("Due: " + quest.getDateDueFormatted());
             itemView.setActivated(isSelected);
         }
 

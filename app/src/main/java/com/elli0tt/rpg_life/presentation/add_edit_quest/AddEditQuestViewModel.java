@@ -10,6 +10,10 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl;
 import com.elli0tt.rpg_life.domain.model.Quest;
+import com.elli0tt.rpg_life.domain.use_case.DatePickerDialogUseCase;
+import com.elli0tt.rpg_life.domain.use_case.TimePickerDialogUseCase;
+
+import java.util.Calendar;
 
 public class AddEditQuestViewModel extends AndroidViewModel {
 
@@ -20,6 +24,10 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private MutableLiveData<Integer> difficulty = new MutableLiveData<>();
 
     private MutableLiveData<String> nameErrorMessage = new MutableLiveData<>();
+
+    private Calendar dateDue = Calendar.getInstance();
+
+    private Quest currentQuest;
 
     /**
      * Id of quest to open in edit mode
@@ -70,7 +78,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         new Thread(){
             @Override
             public void run() {
-                Quest currentQuest = repository.getQuestById(id);
+                currentQuest = repository.getQuestById(id);
                 onDataLoaded(currentQuest);
             }
         }.start();
@@ -105,20 +113,52 @@ public class AddEditQuestViewModel extends AndroidViewModel {
             repository.insert(new Quest(
                     name.getValue(),
                     description.getValue(),
-                    difficulty.getValue()));
+                    difficulty.getValue(),
+                    dateDue));
         } else{
             repository.update(new Quest(
                     id,
                     name.getValue(),
                     description.getValue(),
-                    difficulty.getValue()));
+                    difficulty.getValue(),
+                    dateDue,
+                    currentQuest.isCompleted(),
+                    currentQuest.isImportant()
+                    ));
         }
-
         return true;
-
     }
 
+    int getCurrentYear(){
+        return DatePickerDialogUseCase.getCurrentYear();
+    }
 
+    int getCurrentMonth(){
+        return DatePickerDialogUseCase.getCurrentMonth();
+    }
+
+    int getCurrentDay(){
+        return DatePickerDialogUseCase.getCurrentDay();
+    }
+
+    int getCurrentHour(){
+        return TimePickerDialogUseCase.getCurrentHour();
+    }
+
+    int getCurrentMinute(){
+        return TimePickerDialogUseCase.getCurrentMinute();
+    }
+
+    public void setDateDue(int year, int month, int dayOfMonth){
+        dateDue.set(Calendar.YEAR, year);
+        dateDue.set(Calendar.MONTH, month);
+        dateDue.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+    }
+
+    public void setDateDue(int hourOfDay, int minutes){
+        dateDue.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        dateDue.set(Calendar.MINUTE, minutes);
+    }
 
 
 }

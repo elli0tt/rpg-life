@@ -74,6 +74,31 @@
                 app:layout_constraintStart_toEndOf="@id/add_edit_quest_difficulty_label"
                 app:layout_constraintTop_toBottomOf="@id/add_edit_quest_description_text_input"
                 app:setSelectedItem="@={viewModel.difficulty}" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_edit_quest_add_date_due_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/add_quest_items_margin_top"
+                android:text="@string/add_edit_quest_add_date_due"
+                app:layout_constraintTop_toBottomOf="@id/add_edit_quest_difficulty_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:icon="@drawable/ic_today_black_24dp"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_edit_quest_repeat_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/add_quest_items_margin_top"
+                android:text="@string/add_edit_quest_repeat"
+                app:layout_constraintTop_toBottomOf="@id/add_edit_quest_add_date_due_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:icon="@drawable/ic_repeat_black_24dp"
+                />
+
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
