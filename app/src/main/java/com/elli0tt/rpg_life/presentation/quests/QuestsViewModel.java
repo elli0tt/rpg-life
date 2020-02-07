@@ -29,12 +29,13 @@ public class QuestsViewModel extends AndroidViewModel {
 
     private MediatorLiveData questsToShow = new MediatorLiveData<>();
 
-    private MutableLiveData<QuestsSortingState> currentSortingState = new MutableLiveData<>(QuestsSortingState.DATE_ADDED);
+    private MutableLiveData<QuestsSortingState> currentSortingState = new MutableLiveData<>();
 
     public QuestsViewModel(@NonNull Application application) {
         super(application);
         repository = new QuestsRepositoryImpl(application);
         currentFilterState.setValue(repository.getQuestsFilterState());
+        currentSortingState.setValue(repository.getQuestSortingState());
 
         quests = Transformations.switchMap(currentFilterState, new Function<QuestsFilterState,
                 LiveData<List<Quest>>>() {
@@ -127,5 +128,6 @@ public class QuestsViewModel extends AndroidViewModel {
 
     void setSorting(QuestsSortingState sortingState){
         currentSortingState.setValue(sortingState);
+        repository.setQuestsSoringState(sortingState);
     }
 }
