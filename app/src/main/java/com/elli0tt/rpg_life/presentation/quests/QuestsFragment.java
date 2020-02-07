@@ -122,15 +122,10 @@ public class QuestsFragment extends Fragment {
         });
     }
 
-    //TODO: ask about adapter DiffUtills Callback
     private void setupQuestsViewModel() {
         viewModel = ViewModelProviders.of(this).get(QuestsViewModel.class);
         viewModel.getQuests().observe(getViewLifecycleOwner(), questList -> {
             questsAdapter.submitList(questList);
-            questsAdapter.notifyDataSetChanged();
-            for (Quest quest : questList){
-                Log.d("Quests", quest.toString());
-            }
         });
     }
 

@@ -7,6 +7,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -84,6 +85,11 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
 
     void setOnSelectionFinishedListener(OnSelectionFinishedListener onSelectionFinishedListener) {
         this.onSelectionFinishedListener = onSelectionFinishedListener;
+    }
+
+    @Override
+    public void submitList(@Nullable List<Quest> list) {
+        super.submitList(list != null ? new ArrayList<>(list) : null);
     }
 
     @NonNull
