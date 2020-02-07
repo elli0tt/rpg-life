@@ -8,6 +8,27 @@
         android:title="@string/quests_toolbar_menu_filter_title"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/quests_toolbar_menu_sort_by"
+        android:title="@string/quests_toolbar_menu_sort_by"
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/quests_toolbar_menu_sort_by_name"
+                android:title="@string/quests_toolbar_sort_by_name"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/quests_toolbar_menu_sort_by_date_added"
+                android:title="@string/quests_toolbar_sort_by_date_added"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/quests_toolbar_menu_sort_by_date_due"
+                android:title="@string/quests_toolbar_sort_by_date_due"
+                app:showAsAction="never" />
+        </menu>
+
+    </item>
+
     <!--Only for developer-->
     <item
         android:id="@+id/quests_toolbar_menu_delete_all"

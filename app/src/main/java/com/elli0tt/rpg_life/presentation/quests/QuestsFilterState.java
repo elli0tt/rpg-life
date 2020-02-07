@@ -1,5 +1,5 @@
 package com.elli0tt.rpg_life.presentation.quests;
 
-public enum QuestsFilterType {
+public enum QuestsFilterState {
     ALL, ACTIVE, COMPLETED
 }

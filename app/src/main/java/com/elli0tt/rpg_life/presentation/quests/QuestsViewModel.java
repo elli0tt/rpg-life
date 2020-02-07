@@ -1,17 +1,21 @@
 package com.elli0tt.rpg_life.presentation.quests;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.arch.core.util.Function;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.Transformations;
 
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl;
 import com.elli0tt.rpg_life.domain.model.Quest;
-import com.elli0tt.rpg_life.domain.use_case.QuestsUseCase;
+import com.elli0tt.rpg_life.domain.use_case.QuestsSortByDateAddedUseCase;
+import com.elli0tt.rpg_life.domain.use_case.QuestsSortByNameUseCase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,17 +25,22 @@ public class QuestsViewModel extends AndroidViewModel {
 
     private LiveData<List<Quest>> quests;
 
-    private MutableLiveData<QuestsFilterType> currentFilter =
-            new MutableLiveData<>(QuestsFilterType.ALL);
+    private MutableLiveData<QuestsFilterState> currentFilterState = new MutableLiveData<>();
+
+    private MediatorLiveData questsToShow = new MediatorLiveData<>();
+
+    private MutableLiveData<QuestsSortingState> currentSortingState = new MutableLiveData<>(QuestsSortingState.DATE_ADDED);
 
     public QuestsViewModel(@NonNull Application application) {
         super(application);
         repository = new QuestsRepositoryImpl(application);
-        quests = Transformations.switchMap(currentFilter, new Function<QuestsFilterType,
+        currentFilterState.setValue(repository.getQuestsFilterState());
+
+        quests = Transformations.switchMap(currentFilterState, new Function<QuestsFilterState,
                 LiveData<List<Quest>>>() {
             @Override
-            public LiveData<List<Quest>> apply(QuestsFilterType filterType) {
-                switch (currentFilter.getValue()) {
+            public LiveData<List<Quest>> apply(QuestsFilterState filterType) {
+                switch (currentFilterState.getValue()) {
                     case ALL:
                         return repository.getAllQuests();
                     case ACTIVE:
@@ -44,10 +53,43 @@ public class QuestsViewModel extends AndroidViewModel {
                 }
             }
         });
+
+        questsToShow.addSource(currentSortingState, new Observer<QuestsSortingState>() {
+            @Override
+            public void onChanged(QuestsSortingState questsSortingState) {
+                if (quests.getValue() != null) {
+                    switch (currentSortingState.getValue()) {
+                        case NAME:
+                            List<Quest> sortedQuests = QuestsSortByNameUseCase.sort((List<Quest>)questsToShow.getValue());
+
+                            questsToShow.postValue(sortedQuests);
+                        case DATE_DUE:
+                            break;
+                        case DATE_ADDED:
+                            questsToShow.postValue(QuestsSortByDateAddedUseCase.sort((List<Quest>)questsToShow.getValue()));
+                    }
+                }
+            }
+        });
+        questsToShow.addSource(quests, new Observer<List<Quest>>() {
+            @Override
+            public void onChanged(List<Quest> quests) {
+                if (quests != null) {
+                    switch (currentSortingState.getValue()) {
+                        case NAME:
+                            questsToShow.setValue(QuestsSortByNameUseCase.sort(quests));
+                        case DATE_DUE:
+                            break;
+                        case DATE_ADDED:
+                            questsToShow.setValue(QuestsSortByDateAddedUseCase.sort(quests));
+                    }
+                }
+            }
+        });
     }
 
     LiveData<List<Quest>> getQuests() {
-        return quests;
+        return questsToShow;
     }
 
     public void insert(List<Quest> questList) {
@@ -78,7 +120,12 @@ public class QuestsViewModel extends AndroidViewModel {
         repository.delete(questList);
     }
 
-    void setFiltering(QuestsFilterType filterType) {
-        currentFilter.postValue(filterType);
+    void setFiltering(QuestsFilterState filterState) {
+        currentFilterState.setValue(filterState);
+        repository.setQuestsFilterState(filterState);
+    }
+
+    void setSorting(QuestsSortingState sortingState){
+        currentSortingState.setValue(sortingState);
     }
 }

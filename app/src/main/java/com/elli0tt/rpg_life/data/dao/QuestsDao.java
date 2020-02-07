@@ -24,13 +24,13 @@ public interface QuestsDao {
     @Query("SELECT * FROM quest_table WHERE id = :questId")
     Quest getQuestById(int questId);
 
-    @Query("SELECT * FROM quest_table ORDER BY id ")
+    @Query("SELECT * FROM quest_table ORDER BY name")
     LiveData<List<Quest>> getAllQuests();
 
-    @Query("SELECT * FROM quest_table WHERE isCompleted = 0")
+    @Query("SELECT * FROM quest_table WHERE isCompleted = 0 ORDER BY name")
     LiveData<List<Quest>> getActiveQuests();
 
-    @Query("SELECT * FROM quest_table WHERE isCompleted = 1")
+    @Query("SELECT * FROM quest_table WHERE isCompleted = 1 ORDER BY name")
     LiveData<List<Quest>> getCompletedQuests();
 
     @Update

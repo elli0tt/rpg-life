@@ -59,7 +59,10 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
                 @Override
                 public boolean areContentsTheSame(@NonNull Quest oldItem, @NonNull Quest newItem) {
                     return oldItem.getName().equals(newItem.getName()) &&
-                            oldItem.getDifficulty() == newItem.getDifficulty();
+                            oldItem.getDifficulty() == newItem.getDifficulty() &&
+                            oldItem.getDescription().equals(newItem.getDescription()) &&
+                            oldItem.isCompleted() == newItem.isCompleted() &&
+                            oldItem.isImportant() == newItem.isImportant();
                 }
             };
 
@@ -98,7 +101,6 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
 
     @Override
     public void onBindViewHolder(@NonNull QuestsViewHolder holder, int position) {
-        // TODO: setOnItemClickListener should be called only when selection starts and finishes
         holder.setOnItemClickListener(onItemClickListener);
         holder.bind(getItem(position), isSelected(position));
     }

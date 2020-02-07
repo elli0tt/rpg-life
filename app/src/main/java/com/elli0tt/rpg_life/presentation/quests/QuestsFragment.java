@@ -1,6 +1,7 @@
 package com.elli0tt.rpg_life.presentation.quests;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -121,9 +122,16 @@ public class QuestsFragment extends Fragment {
         });
     }
 
+    //TODO: ask about adapter DiffUtills Callback
     private void setupQuestsViewModel() {
         viewModel = ViewModelProviders.of(this).get(QuestsViewModel.class);
-        viewModel.getQuests().observe(getViewLifecycleOwner(), questList -> questsAdapter.submitList(questList));
+        viewModel.getQuests().observe(getViewLifecycleOwner(), questList -> {
+            questsAdapter.submitList(questList);
+            questsAdapter.notifyDataSetChanged();
+            for (Quest quest : questList){
+                Log.d("Quests", quest.toString());
+            }
+        });
     }
 
     @Override
@@ -144,6 +152,15 @@ public class QuestsFragment extends Fragment {
             case R.id.quests_toolbar_menu_populate_with_samples:
                 viewModel.populateWithSamples();
                 break;
+            case R.id.quests_toolbar_menu_sort_by_name:
+                viewModel.setSorting(QuestsSortingState.NAME);
+                break;
+            case R.id.quests_toolbar_menu_sort_by_date_due:
+                viewModel.setSorting(QuestsSortingState.DATE_DUE);
+                break;
+            case R.id.quests_toolbar_menu_sort_by_date_added:
+                viewModel.setSorting(QuestsSortingState.DATE_ADDED);
+                break;
 
         }
         return true;
@@ -155,13 +172,13 @@ public class QuestsFragment extends Fragment {
         popupMenu.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.quests_filtering_popup_menu_all:
-                    viewModel.setFiltering(QuestsFilterType.ALL);
+                    viewModel.setFiltering(QuestsFilterState.ALL);
                     return true;
                 case R.id.quests_filtering_popup_menu_active:
-                    viewModel.setFiltering(QuestsFilterType.ACTIVE);
+                    viewModel.setFiltering(QuestsFilterState.ACTIVE);
                     return true;
                 case R.id.quests_filtering_popup_menu_completed:
-                    viewModel.setFiltering(QuestsFilterType.COMPLETED);
+                    viewModel.setFiltering(QuestsFilterState.COMPLETED);
                     return true;
                 default:
                     return false;

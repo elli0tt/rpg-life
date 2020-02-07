@@ -51,6 +51,10 @@
     <string name="countdown_timer_start">Start</string>
     <string name="countdown_timer_pause">Pause</string>
     <string name="countdown_timer_reset">Reset</string>
+    <string name="quests_toolbar_menu_sort_by">Sort by</string>
+    <string name="quests_toolbar_sort_by_name">Name</string>
+    <string name="quests_toolbar_sort_by_date_added">Date added</string>
+    <string name="quests_toolbar_sort_by_date_due">Date due</string>
 
 
 </resources>

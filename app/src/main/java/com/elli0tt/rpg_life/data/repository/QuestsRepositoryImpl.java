@@ -7,17 +7,21 @@ import androidx.lifecycle.LiveData;
 
 import com.elli0tt.rpg_life.data.dao.QuestsDao;
 import com.elli0tt.rpg_life.data.database.room_database.AppRoomDatabase;
+import com.elli0tt.rpg_life.data.shared_prefs.QuestsSharedPrefUtils;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.repository.QuestRepository;
+import com.elli0tt.rpg_life.presentation.quests.QuestsFilterState;
 
 import java.util.List;
 
 public class QuestsRepositoryImpl implements QuestRepository {
     private QuestsDao dao;
+    private QuestsSharedPrefUtils questsSharedPrefUtils;
 
     public QuestsRepositoryImpl(Application application) {
         AppRoomDatabase database = AppRoomDatabase.getDatabase(application);
         dao = database.getQuestDao();
+        questsSharedPrefUtils = new QuestsSharedPrefUtils(application);
     }
 
     public Quest getQuestById(int id) {
@@ -125,6 +129,14 @@ public class QuestsRepositoryImpl implements QuestRepository {
             dao.deleteAll();
             return null;
         }
+    }
+
+    public QuestsFilterState getQuestsFilterState(){
+        return questsSharedPrefUtils.getQuestFilterState();
+    }
+
+    public void setQuestsFilterState(QuestsFilterState filterState){
+        questsSharedPrefUtils.setQuestsFilterState(filterState);
     }
 
 }

@@ -215,4 +215,10 @@ public class Quest {
     public static boolean isNameValid(String name){
         return !name.trim().isEmpty();
     }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "name: " + name;
+    }
 }
