@@ -192,14 +192,6 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         private CheckBox isImportantCheckBox;
         private TextView dateDueTextView;
 
-        private String difficultyVeryEasyText;
-        private String difficultyEasyText;
-        private String difficultyNormalText;
-        private String difficultyHardText;
-        private String difficultyVeryHardText;
-        private String difficultyImpossibleText;
-        private String difficultyErrorText;
-
         QuestsViewHolder(
                 @NonNull View itemView,
                 final OnIsCompleteCheckBoxClickListener onIsCompleteCheckBoxClickListener,
@@ -213,21 +205,6 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
             difficultyTextView = itemView.findViewById(R.id.quest_difficulty_value);
             isImportantCheckBox = itemView.findViewById(R.id.quest_is_important_check_box);
             dateDueTextView = itemView.findViewById(R.id.quest_date_due_text_view);
-
-            difficultyVeryEasyText =
-                    itemView.getContext().getText(R.string.difficulty_very_easy_text).toString();
-            difficultyEasyText =
-                    itemView.getContext().getText(R.string.difficulty_easy_text).toString();
-            difficultyNormalText =
-                    itemView.getContext().getText(R.string.difficulty_normal_text).toString();
-            difficultyHardText =
-                    itemView.getContext().getText(R.string.difficulty_hard_text).toString();
-            difficultyVeryHardText =
-                    itemView.getContext().getText(R.string.difficulty_very_hard_text).toString();
-            difficultyImpossibleText =
-                    itemView.getContext().getText(R.string.difficulty_impossible_text).toString();
-            difficultyErrorText =
-                    itemView.getContext().getText(R.string.difficulty_error_text).toString();
 
             itemView.setOnClickListener(createOnItemClickListener(onItemClickListener));
             itemView.setOnLongClickListener(
@@ -252,19 +229,19 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         private String getDifficultyStringValue(@Quest.Difficulty int difficultyLevel) {
             switch (difficultyLevel) {
                 case Quest.VERY_EASY:
-                    return difficultyVeryEasyText;
+                    return itemView.getContext().getText(R.string.difficulty_very_easy_text).toString();
                 case Quest.EASY:
-                    return difficultyEasyText;
+                    return itemView.getContext().getText(R.string.difficulty_easy_text).toString();
                 case Quest.NORMAL:
-                    return difficultyNormalText;
+                    return itemView.getContext().getText(R.string.difficulty_normal_text).toString();
                 case Quest.HARD:
-                    return difficultyHardText;
+                    return itemView.getContext().getText(R.string.difficulty_hard_text).toString();
                 case Quest.VERY_HARD:
-                    return difficultyVeryHardText;
+                    return itemView.getContext().getText(R.string.difficulty_very_hard_text).toString();
                 case Quest.IMPOSSIBLE:
-                    return difficultyImpossibleText;
+                    return itemView.getContext().getText(R.string.difficulty_impossible_text).toString();
                 default:
-                    return difficultyErrorText;
+                    return itemView.getContext().getText(R.string.difficulty_error_text).toString();
             }
         }
 
