@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.use_case.DatePickerDialogUseCase;
+import com.elli0tt.rpg_life.domain.use_case.GetQuestDateDueStateUseCase;
 import com.elli0tt.rpg_life.domain.use_case.TimePickerDialogUseCase;
 
 import java.util.Calendar;
@@ -29,6 +30,8 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
     private Quest currentQuest;
 
+    private GetQuestDateDueStateUseCase getQuestDateDueStateUseCase;
+
     /**
      * Id of quest to open in edit mode
      */
@@ -36,6 +39,8 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
     private boolean isNewQuest = false;
     private boolean isDataLoaded = false;
+
+    private Quest.DateDueState dateDueState = Quest.DateDueState.NOT_SET;
 
     public AddEditQuestViewModel(@NonNull Application application) {
         super(application);
@@ -54,7 +59,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         return difficulty;
     }
 
-    LiveData<String> getNameErrorMessage(){
+    LiveData<String> getNameErrorMessage() {
         return nameErrorMessage;
     }
 
@@ -75,7 +80,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     }
 
     private void loadCurrentQuest() {
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 currentQuest = repository.getQuestById(id);
@@ -88,22 +93,23 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         name.postValue(quest.getName());
         description.postValue(quest.getDescription());
         difficulty.postValue(quest.getDifficulty());
+        dateDueState = quest.getDateDueState();
         isDataLoaded = true;
     }
 
-    private boolean isNameValid(){
+    private boolean isNameValid() {
         return name.getValue() != null && !name.getValue().isEmpty();
     }
 
 
     boolean saveQuest() {
-        if (!isNameValid()){
+        if (!isNameValid()) {
             nameErrorMessage.setValue("Field can't be empty");
             return false;
         }
 
         //description field might be not filled by user, so it's necessary to set it manually to ""
-        if (description.getValue() == null){
+        if (description.getValue() == null) {
             description.setValue("");
         }
 
@@ -114,8 +120,9 @@ public class AddEditQuestViewModel extends AndroidViewModel {
                     name.getValue(),
                     description.getValue(),
                     difficulty.getValue(),
-                    dateDue));
-        } else{
+                    dateDue,
+                    dateDueState));
+        } else {
             repository.update(new Quest(
                     id,
                     name.getValue(),
@@ -123,41 +130,44 @@ public class AddEditQuestViewModel extends AndroidViewModel {
                     difficulty.getValue(),
                     dateDue,
                     currentQuest.isCompleted(),
-                    currentQuest.isImportant()
-                    ));
+                    currentQuest.isImportant(),
+                    dateDueState
+            ));
         }
         return true;
     }
 
-    int getCurrentYear(){
+    int getCurrentYear() {
         return DatePickerDialogUseCase.getCurrentYear();
     }
 
-    int getCurrentMonth(){
+    int getCurrentMonth() {
         return DatePickerDialogUseCase.getCurrentMonth();
     }
 
-    int getCurrentDay(){
+    int getCurrentDay() {
         return DatePickerDialogUseCase.getCurrentDay();
     }
 
-    int getCurrentHour(){
+    int getCurrentHour() {
         return TimePickerDialogUseCase.getCurrentHour();
     }
 
-    int getCurrentMinute(){
+    int getCurrentMinute() {
         return TimePickerDialogUseCase.getCurrentMinute();
     }
 
-    public void setDateDue(int year, int month, int dayOfMonth){
+    void setDateDue(int year, int month, int dayOfMonth) {
         dateDue.set(Calendar.YEAR, year);
         dateDue.set(Calendar.MONTH, month);
         dateDue.set(Calendar.DAY_OF_MONTH, dayOfMonth);
     }
 
-    public void setDateDue(int hourOfDay, int minutes){
+    void setDateDue(int hourOfDay, int minutes) {
         dateDue.set(Calendar.HOUR_OF_DAY, hourOfDay);
         dateDue.set(Calendar.MINUTE, minutes);
+        getQuestDateDueStateUseCase = new GetQuestDateDueStateUseCase();
+        dateDueState = getQuestDateDueStateUseCase.invoke(dateDue);
     }
 
 

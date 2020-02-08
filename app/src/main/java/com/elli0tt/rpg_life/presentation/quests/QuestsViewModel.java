@@ -130,9 +130,4 @@ public class QuestsViewModel extends AndroidViewModel {
         currentSortingState.setValue(sortingState);
         repository.setQuestsSoringState(sortingState);
     }
-
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-    }
 }

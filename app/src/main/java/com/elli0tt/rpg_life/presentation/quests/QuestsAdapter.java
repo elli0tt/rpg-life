@@ -1,5 +1,6 @@
 package com.elli0tt.rpg_life.presentation.quests;
 
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +64,9 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
                             oldItem.getDifficulty() == newItem.getDifficulty() &&
                             oldItem.getDescription().equals(newItem.getDescription()) &&
                             oldItem.isCompleted() == newItem.isCompleted() &&
-                            oldItem.isImportant() == newItem.isImportant();
+                            oldItem.isImportant() == newItem.isImportant() &&
+                            oldItem.getDateDue().equals(newItem.getDateDue()) &&
+                            oldItem.getDateDueState().equals(newItem.getDateDueState());
                 }
             };
 
@@ -192,6 +195,8 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         private CheckBox isImportantCheckBox;
         private TextView dateDueTextView;
 
+        private ColorStateList defaultTextViewColor;
+
         QuestsViewHolder(
                 @NonNull View itemView,
                 final OnIsCompleteCheckBoxClickListener onIsCompleteCheckBoxClickListener,
@@ -218,7 +223,38 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
             nameTextView.setText(quest.getName());
             difficultyTextView.setText(getDifficultyStringValue(quest.getDifficulty()));
             isImportantCheckBox.setChecked(quest.isImportant());
-            dateDueTextView.setText("Due: " + quest.getDateDueFormatted());
+            switch (quest.getDateDueState()) {
+                case NOT_SET:
+                    dateDueTextView.setText(itemView.getContext()
+                            .getString(R.string.quest_recycler_due_date_infinity));
+                    if (defaultTextViewColor != null) {
+                        dateDueTextView.setTextColor(defaultTextViewColor);
+                    }
+                    break;
+
+                case GREEN:
+                    dateDueTextView.setText(itemView.getContext().getString(R.string.quest_recycler_due_date)
+                            + " " + quest.getDateDueFormatted());
+                    defaultTextViewColor = dateDueTextView.getTextColors();
+                    dateDueTextView.setTextColor(
+                            itemView.getContext().getResources().getColor(R.color.colorQuestDateStateGreen));
+                    break;
+                case YELLOW:
+                    dateDueTextView.setText(itemView.getContext().getString(R.string.quest_recycler_due_date)
+                            + " " + quest.getDateDueFormatted());
+                    defaultTextViewColor = dateDueTextView.getTextColors();
+                    dateDueTextView.setTextColor(
+                            itemView.getContext().getResources().getColor(R.color.colorQuestDateStateYellow));
+                    break;
+
+                case RED:
+                    dateDueTextView.setText(itemView.getContext().getString(R.string.quest_recycler_due_date)
+                            + " " + quest.getDateDueFormatted());
+                    defaultTextViewColor = dateDueTextView.getTextColors();
+                    dateDueTextView.setTextColor(
+                            itemView.getContext().getResources().getColor(R.color.colorQuestDateStateRed));
+                    break;
+            }
             itemView.setActivated(isSelected);
         }
 

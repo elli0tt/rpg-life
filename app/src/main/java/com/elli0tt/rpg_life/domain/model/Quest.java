@@ -9,6 +9,7 @@ import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
 import com.elli0tt.rpg_life.domain.model.room_type_converters.CalendarConverter;
+import com.elli0tt.rpg_life.domain.model.room_type_converters.DateDueStateConverter;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -92,6 +93,19 @@ public class Quest {
     @TypeConverters({CalendarConverter.class})
     private Calendar dateDue = Calendar.getInstance();
 
+    /**
+     * NOT_SET - dateDue wasn't set yet
+     * RED - current date is after dateDue (deadline is expired)
+     * YELLOW - it's less than a 24 hours before the dateDue
+     * GREEN - more than 24 hours before the dateDue
+     */
+    public enum DateDueState{
+        NOT_SET, RED, YELLOW, GREEN
+    }
+
+    @TypeConverters({DateDueStateConverter.class})
+    private DateDueState dateDueState = DateDueState.NOT_SET;
+
     @Ignore
     public Quest(@NonNull String name,
                  @NonNull String description,
@@ -118,17 +132,18 @@ public class Quest {
 
     @Ignore
     public Quest(@NonNull String name, @NonNull String description, @Difficulty int difficulty,
-                 Calendar dateDue) {
+                 Calendar dateDue, DateDueState dateDueState) {
         this.name = name;
         this.description = description;
         this.difficulty = difficulty;
         this.dateDue = dateDue;
+        this.dateDueState = dateDueState;
     }
 
     @Ignore
     public Quest(int id, @NonNull String name, @NonNull String description,
                  @Difficulty int difficulty, Calendar dateDue, boolean isCompleted,
-                 boolean isImportant) {
+                 boolean isImportant, DateDueState dateDueState) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -136,6 +151,7 @@ public class Quest {
         this.dateDue = dateDue;
         this.isCompleted = isCompleted;
         this.isImportant = isImportant;
+        this.dateDueState = dateDueState;
     }
 
 
@@ -184,6 +200,10 @@ public class Quest {
         return dateDue;
     }
 
+    public DateDueState getDateDueState(){
+        return dateDueState;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -218,6 +238,10 @@ public class Quest {
 
     public void setDateDue(Calendar dateDue) {
         this.dateDue = dateDue;
+    }
+
+    public void setDateDueState(DateDueState dateDueState){
+        this.dateDueState = dateDueState;
     }
 
     public int getIncreaseXp() {

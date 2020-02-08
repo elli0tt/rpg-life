@@ -58,6 +58,8 @@
     <string name="quests_filtering_important">Important</string>
     <string name="add_edit_quest_add_date_due">Add date due</string>
     <string name="add_edit_quest_repeat">Repeat</string>
+    <string name="quest_recycler_due_date">Due:</string>
+    <string name="quest_recycler_due_date_infinity">Due: ∞</string>
 
 
 </resources>
