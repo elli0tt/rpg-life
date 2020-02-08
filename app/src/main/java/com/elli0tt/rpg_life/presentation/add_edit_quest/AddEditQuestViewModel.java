@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.use_case.DatePickerDialogUseCase;
@@ -40,7 +41,8 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private boolean isNewQuest = false;
     private boolean isDataLoaded = false;
 
-    private Quest.DateDueState dateDueState = Quest.DateDueState.NOT_SET;
+    private MutableLiveData<Quest.DateDueState> dateDueState =
+            new MutableLiveData<>(Quest.DateDueState.NOT_SET);
 
     public AddEditQuestViewModel(@NonNull Application application) {
         super(application);
@@ -61,6 +63,10 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
     LiveData<String> getNameErrorMessage() {
         return nameErrorMessage;
+    }
+
+    LiveData<Quest.DateDueState> getDateDueState(){
+        return dateDueState;
     }
 
     void start(@Nullable Integer id) {
@@ -93,7 +99,8 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         name.postValue(quest.getName());
         description.postValue(quest.getDescription());
         difficulty.postValue(quest.getDifficulty());
-        dateDueState = quest.getDateDueState();
+        dateDueState.postValue(quest.getDateDueState());
+        dateDue = quest.getDateDue();
         isDataLoaded = true;
     }
 
@@ -121,7 +128,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
                     description.getValue(),
                     difficulty.getValue(),
                     dateDue,
-                    dateDueState));
+                    dateDueState.getValue()));
         } else {
             repository.update(new Quest(
                     id,
@@ -131,7 +138,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
                     dateDue,
                     currentQuest.isCompleted(),
                     currentQuest.isImportant(),
-                    dateDueState
+                    dateDueState.getValue()
             ));
         }
         return true;
@@ -157,6 +164,10 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         return TimePickerDialogUseCase.getCurrentMinute();
     }
 
+    String getDueDateFormatted(){
+        return Quest.getDateDueFormatted(dateDue);
+    }
+
     void setDateDue(int year, int month, int dayOfMonth) {
         dateDue.set(Calendar.YEAR, year);
         dateDue.set(Calendar.MONTH, month);
@@ -167,8 +178,11 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         dateDue.set(Calendar.HOUR_OF_DAY, hourOfDay);
         dateDue.set(Calendar.MINUTE, minutes);
         getQuestDateDueStateUseCase = new GetQuestDateDueStateUseCase();
-        dateDueState = getQuestDateDueStateUseCase.invoke(dateDue);
+        dateDueState.setValue(getQuestDateDueStateUseCase.invoke(dateDue));
     }
 
+    void removeDateDue(){
+        dateDueState.setValue(Quest.DateDueState.NOT_SET);
+    }
 
 }

@@ -273,10 +273,10 @@ public class Quest {
         return "name: " + name;
     }
 
-    public String getDateDueFormatted() {
+    public static String getDateDueFormatted(Calendar dateDue) {
         return String.format(Locale.getDefault(), "%02d.%02d.%04d %02d:%02d",
                 dateDue.get(Calendar.DAY_OF_MONTH),
-                dateDue.get(Calendar.MONTH),
+                dateDue.get(Calendar.MONTH) + 1,
                 dateDue.get(Calendar.YEAR),
                 dateDue.get(Calendar.HOUR_OF_DAY),
                 dateDue.get(Calendar.MINUTE));

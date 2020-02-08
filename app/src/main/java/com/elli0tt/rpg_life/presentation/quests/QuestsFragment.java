@@ -7,7 +7,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -57,7 +56,7 @@ public class QuestsFragment extends Fragment {
         fab = view.findViewById(R.id.quests_fab);
         recyclerView = view.findViewById(R.id.quests_recycler_view);
 
-        setupQuestsViewModel();
+        subscribeToViewModel();
         setHasOptionsMenu(true);
         setupQuestsRecyclerView();
 
@@ -119,7 +118,7 @@ public class QuestsFragment extends Fragment {
         });
     }
 
-    private void setupQuestsViewModel() {
+    private void subscribeToViewModel() {
         viewModel = ViewModelProviders.of(this).get(QuestsViewModel.class);
         viewModel.getQuests().observe(getViewLifecycleOwner(), questList -> {
             questsAdapter.submitList(questList);

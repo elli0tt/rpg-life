@@ -234,14 +234,14 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
 
                 case GREEN:
                     dateDueTextView.setText(itemView.getContext().getString(R.string.quest_recycler_due_date)
-                            + " " + quest.getDateDueFormatted());
+                            + " " + Quest.getDateDueFormatted(quest.getDateDue()));
                     defaultTextViewColor = dateDueTextView.getTextColors();
                     dateDueTextView.setTextColor(
                             itemView.getContext().getResources().getColor(R.color.colorQuestDateStateGreen));
                     break;
                 case YELLOW:
                     dateDueTextView.setText(itemView.getContext().getString(R.string.quest_recycler_due_date)
-                            + " " + quest.getDateDueFormatted());
+                            + " " + Quest.getDateDueFormatted(quest.getDateDue()));
                     defaultTextViewColor = dateDueTextView.getTextColors();
                     dateDueTextView.setTextColor(
                             itemView.getContext().getResources().getColor(R.color.colorQuestDateStateYellow));
@@ -249,7 +249,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
 
                 case RED:
                     dateDueTextView.setText(itemView.getContext().getString(R.string.quest_recycler_due_date)
-                            + " " + quest.getDateDueFormatted());
+                            + " " + Quest.getDateDueFormatted(quest.getDateDue()));
                     defaultTextViewColor = dateDueTextView.getTextColors();
                     dateDueTextView.setTextColor(
                             itemView.getContext().getResources().getColor(R.color.colorQuestDateStateRed));

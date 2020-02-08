@@ -15,14 +15,13 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -39,6 +38,7 @@ public class AddEditQuestFragment extends Fragment {
     private Spinner difficultySpinner;
     private TextInputLayout nameTextInput;
     private Button addDateDueButton;
+    private Button removeDateDueButton;
     private Button repeatButton;
 
     private NavController navController;
@@ -72,6 +72,7 @@ public class AddEditQuestFragment extends Fragment {
         difficultySpinner = view.findViewById(R.id.add_edit_quest_difficulty_spinner);
         nameTextInput = view.findViewById(R.id.add_edit_quest_name_text_input);
         addDateDueButton = view.findViewById(R.id.add_edit_quest_add_date_due_button);
+        removeDateDueButton = view.findViewById(R.id.add_edit_quest_remove_date_due_button);
         repeatButton = view.findViewById(R.id.add_edit_quest_repeat_button);
 
         navController = NavHostFragment.findNavController(this);
@@ -79,15 +80,29 @@ public class AddEditQuestFragment extends Fragment {
         setupDifficultySpinner();
         setHasOptionsMenu(true);
 
-        viewModel.getNameErrorMessage().observe(getViewLifecycleOwner(),
-                s -> nameTextInput.setError(s));
+        subscribeToViewModel();
 
         viewModel.start(AddEditQuestFragmentArgs.fromBundle(getArguments()).getQuestId());
 
         nameEditText.setOnFocusChangeListener(onEditTextsFocusChangeListener);
         descriptionEditText.setOnFocusChangeListener(onEditTextsFocusChangeListener);
         addDateDueButton.setOnClickListener(onAddDateDueButtonClickListener);
+        removeDateDueButton.setOnClickListener(onRemoveDateDueButtonClickListener);
+    }
 
+    private void subscribeToViewModel(){
+        viewModel.getNameErrorMessage().observe(getViewLifecycleOwner(),
+                s -> nameTextInput.setError(s));
+        viewModel.getDateDueState().observe(getViewLifecycleOwner(), new Observer<Quest.DateDueState>() {
+            @Override
+            public void onChanged(Quest.DateDueState dateDueState) {
+                if (dateDueState.equals(Quest.DateDueState.NOT_SET)){
+                    addDateDueButton.setText(R.string.add_edit_quest_add_date_due);
+                } else{
+                    addDateDueButton.setText(viewModel.getDueDateFormatted());
+                }
+            }
+        });
     }
 
     private void setupDifficultySpinner() {
@@ -147,6 +162,12 @@ public class AddEditQuestFragment extends Fragment {
         }
     };
 
+    private View.OnClickListener onRemoveDateDueButtonClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            viewModel.removeDateDue();
+        }
+    };
 
     private void hideKeyboard(View view) {
         Activity activity = getActivity();
