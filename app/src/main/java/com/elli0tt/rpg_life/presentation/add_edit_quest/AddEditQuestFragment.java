@@ -101,8 +101,10 @@ public class AddEditQuestFragment extends Fragment {
             public void onChanged(Quest.DateDueState dateDueState) {
                 if (dateDueState.equals(Quest.DateDueState.NOT_SET)) {
                     addDateDueButton.setText(R.string.add_edit_quest_add_date_due);
+                    removeDateDueButton.setVisibility(View.INVISIBLE);
                 } else {
                     addDateDueButton.setText(viewModel.getDueDateFormatted());
+                    removeDateDueButton.setVisibility(View.VISIBLE);
                 }
             }
         });
