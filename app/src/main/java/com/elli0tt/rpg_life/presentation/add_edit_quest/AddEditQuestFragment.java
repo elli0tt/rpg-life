@@ -10,9 +10,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -90,15 +92,16 @@ public class AddEditQuestFragment extends Fragment {
         removeDateDueButton.setOnClickListener(onRemoveDateDueButtonClickListener);
     }
 
-    private void subscribeToViewModel(){
+    private void subscribeToViewModel() {
         viewModel.getNameErrorMessage().observe(getViewLifecycleOwner(),
                 s -> nameTextInput.setError(s));
-        viewModel.getDateDueState().observe(getViewLifecycleOwner(), new Observer<Quest.DateDueState>() {
+        viewModel.getDateDueState().observe(getViewLifecycleOwner(),
+                new Observer<Quest.DateDueState>() {
             @Override
             public void onChanged(Quest.DateDueState dateDueState) {
-                if (dateDueState.equals(Quest.DateDueState.NOT_SET)){
+                if (dateDueState.equals(Quest.DateDueState.NOT_SET)) {
                     addDateDueButton.setText(R.string.add_edit_quest_add_date_due);
-                } else{
+                } else {
                     addDateDueButton.setText(viewModel.getDueDateFormatted());
                 }
             }
@@ -114,6 +117,14 @@ public class AddEditQuestFragment extends Fragment {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             difficultySpinner.setAdapter(adapter);
             difficultySpinner.setSelection(Quest.NORMAL);
+            difficultySpinner.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    AddEditQuestFragment.this.hideKeyboard(v);
+                    v.performClick();
+                    return false;
+                }
+            });
         }
     }
 
@@ -147,6 +158,7 @@ public class AddEditQuestFragment extends Fragment {
     private View.OnClickListener onAddDateDueButtonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            hideKeyboard(v);
             TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
                     (view, hourOfDay, minute) -> viewModel.setDateDue(hourOfDay, minute),
                     viewModel.getCurrentHour(), viewModel.getCurrentMinute(), true);
@@ -165,6 +177,7 @@ public class AddEditQuestFragment extends Fragment {
     private View.OnClickListener onRemoveDateDueButtonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            hideKeyboard(v);
             viewModel.removeDateDue();
         }
     };
