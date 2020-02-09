@@ -14,16 +14,14 @@ import java.util.List;
 
 public class CharacteristicsRepositoryImpl implements CharacteristicsRepository {
     private CharacteristicsDao characteristicsDao;
-    private LiveData<List<Characteristic>> allCharacteristics;
 
-    public CharacteristicsRepositoryImpl(Application application){
+    public CharacteristicsRepositoryImpl(Application application) {
         AppRoomDatabase database = AppRoomDatabase.getDatabase(application);
         characteristicsDao = database.getCharacteristicsDao();
-        allCharacteristics = characteristicsDao.getAllCharacteristics();
     }
 
     public LiveData<List<Characteristic>> getAllCharacteristics() {
-        return allCharacteristics;
+        return characteristicsDao.getAllCharacteristics();
     }
 
     @Override
@@ -34,7 +32,7 @@ public class CharacteristicsRepositoryImpl implements CharacteristicsRepository 
     private static class InsertOneAsyncTask extends AsyncTask<Characteristic, Void, Void> {
         private CharacteristicsDao characteristicsDao;
 
-        InsertOneAsyncTask(CharacteristicsDao characteristicsDao){
+        InsertOneAsyncTask(CharacteristicsDao characteristicsDao) {
             this.characteristicsDao = characteristicsDao;
         }
 
@@ -46,14 +44,14 @@ public class CharacteristicsRepositoryImpl implements CharacteristicsRepository 
     }
 
     @Override
-    public void insert(List<Characteristic> characteristicList){
+    public void insert(List<Characteristic> characteristicList) {
         new InsertListAsyncTask(characteristicsDao).execute(characteristicList);
     }
 
-    private static class InsertListAsyncTask extends AsyncTask<List<Characteristic>, Void, Void>{
+    private static class InsertListAsyncTask extends AsyncTask<List<Characteristic>, Void, Void> {
         private CharacteristicsDao characteristicsDao;
 
-        InsertListAsyncTask(CharacteristicsDao characteristicsDao){
+        InsertListAsyncTask(CharacteristicsDao characteristicsDao) {
             this.characteristicsDao = characteristicsDao;
         }
 

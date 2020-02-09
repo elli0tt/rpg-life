@@ -5,12 +5,13 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import com.elli0tt.rpg_life.data.shared_prefs.CountDownSharedPrefUtils;
-import com.elli0tt.rpg_life.presentation.countdown_timer.CountDownViewModel;
+import com.elli0tt.rpg_life.domain.repository.CountDownTimerRepository;
+import com.elli0tt.rpg_life.presentation.countdown_timer.TimerState;
 
-public class CountDownRepository {
+public class CountDownTimerRepositoryImpl implements CountDownTimerRepository {
     private CountDownSharedPrefUtils countDownSharedPrefUtils;
 
-    public CountDownRepository(@NonNull Context context) {
+    public CountDownTimerRepositoryImpl(@NonNull Context context) {
         countDownSharedPrefUtils = new CountDownSharedPrefUtils(context);
     }
 
@@ -22,7 +23,7 @@ public class CountDownRepository {
         return countDownSharedPrefUtils.getEndTime();
     }
 
-    public CountDownViewModel.TimerState getTimerState() {
+    public TimerState getTimerState() {
         return countDownSharedPrefUtils.getTimerState();
     }
 
@@ -30,12 +31,12 @@ public class CountDownRepository {
         return countDownSharedPrefUtils.getTimerLengthSeconds();
     }
 
-    public boolean getIsTimerNew(){
+    public boolean getIsTimerNew() {
         return countDownSharedPrefUtils.getIsTimerNew();
     }
 
     public void setTimerData(long timeLeftSeconds, long endTime,
-                             CountDownViewModel.TimerState timerState, long timerLengthSeconds,
+                             TimerState timerState, long timerLengthSeconds,
                              boolean isTimerNew) {
         countDownSharedPrefUtils.setTimerData(timeLeftSeconds, endTime, timerState,
                 timerLengthSeconds, isTimerNew);

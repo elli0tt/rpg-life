@@ -12,12 +12,10 @@
                 android:id="@+id/quests_toolbar_menu_filtering_all"
                 android:title="@string/quests_filtering_all"
                 app:showAsAction="never" />
-
             <item
                 android:id="@+id/quests_toolbar_menu_filtering_active"
                 android:title="@string/quests_filtering_active"
                 app:showAsAction="never" />
-
             <item
                 android:id="@+id/quests_toolbar_menu_filtering_completed"
                 android:title="@string/quests_filtering_completed"
@@ -25,6 +23,14 @@
             <item
                 android:id="@+id/quests_toolbar_menu_filtering_important"
                 android:title="@string/quests_filtering_important"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/quests_toolbar_menu_filter_today"
+                android:title="@string/quest_date_due_today"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/quests_toolbar_menu_filter_tomorrow"
+                android:title="@string/quest_date_due_tomorrow"
                 app:showAsAction="never" />
         </menu>
 

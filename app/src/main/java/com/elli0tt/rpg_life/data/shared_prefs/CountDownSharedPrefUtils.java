@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 
-import com.elli0tt.rpg_life.presentation.countdown_timer.CountDownViewModel;
+import com.elli0tt.rpg_life.presentation.countdown_timer.TimerState;
 
 public class CountDownSharedPrefUtils {
 
@@ -31,23 +31,21 @@ public class CountDownSharedPrefUtils {
         return sharedPreferences.getLong(KEY_END_TIME, 0);
     }
 
-    public CountDownViewModel.TimerState getTimerState() {
-        int ordinal = sharedPreferences.getInt(KEY_TIMER_STATE,
-                CountDownViewModel.TimerState.STOPPED.ordinal());
-        return CountDownViewModel.TimerState.values()[ordinal];
+    public TimerState getTimerState() {
+        int ordinal = sharedPreferences.getInt(KEY_TIMER_STATE, TimerState.STOPPED.ordinal());
+        return TimerState.values()[ordinal];
     }
 
     public long getTimerLengthSeconds() {
         return sharedPreferences.getLong(KEY_TIMER_LENGTH_SECONDS, 0);
     }
 
-    public boolean getIsTimerNew(){
+    public boolean getIsTimerNew() {
         return sharedPreferences.getBoolean(KEY_IS_TIMER_NEW, true);
     }
 
-    public void setTimerData(long timeLeftSeconds, long endTime,
-                             CountDownViewModel.TimerState timerState, long timerLengthSeconds,
-                             boolean isTimerNew) {
+    public void setTimerData(long timeLeftSeconds, long endTime, TimerState timerState,
+                             long timerLengthSeconds, boolean isTimerNew) {
         sharedPreferences.edit()
                 .putLong(KEY_TIME_LEFT_SECONDS, timeLeftSeconds)
                 .putLong(KEY_END_TIME, endTime)

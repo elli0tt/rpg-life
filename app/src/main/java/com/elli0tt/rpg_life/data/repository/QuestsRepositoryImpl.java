@@ -9,13 +9,13 @@ import com.elli0tt.rpg_life.data.dao.QuestsDao;
 import com.elli0tt.rpg_life.data.database.room_database.AppRoomDatabase;
 import com.elli0tt.rpg_life.data.shared_prefs.QuestsSharedPrefUtils;
 import com.elli0tt.rpg_life.domain.model.Quest;
-import com.elli0tt.rpg_life.domain.repository.QuestRepository;
+import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
 import com.elli0tt.rpg_life.presentation.quests.QuestsFilterState;
 import com.elli0tt.rpg_life.presentation.quests.QuestsSortingState;
 
 import java.util.List;
 
-public class QuestsRepositoryImpl implements QuestRepository {
+public class QuestsRepositoryImpl implements QuestsRepository {
     private QuestsDao dao;
     private QuestsSharedPrefUtils questsSharedPrefUtils;
 

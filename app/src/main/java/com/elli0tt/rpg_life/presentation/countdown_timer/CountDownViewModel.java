@@ -7,14 +7,10 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.elli0tt.rpg_life.data.repository.CountDownRepository;
+import com.elli0tt.rpg_life.data.repository.CountDownTimerRepositoryImpl;
 import com.elli0tt.rpg_life.domain.use_case.TimerUseCase;
 
 public class CountDownViewModel extends AndroidViewModel {
-
-    public enum TimerState {
-        RUNNING, PAUSED, STOPPED
-    }
 
     private MutableLiveData<TimerState> timerState = new MutableLiveData<>();
     private MutableLiveData<Long> timeLeftSeconds = new MutableLiveData<>();
@@ -27,7 +23,7 @@ public class CountDownViewModel extends AndroidViewModel {
     private MutableLiveData<Integer> minutes = new MutableLiveData<>(0);
     private MutableLiveData<Integer> seconds = new MutableLiveData<>(0);
 
-    private CountDownRepository repository;
+    private CountDownTimerRepositoryImpl repository;
 
     public MutableLiveData<Integer> getHours() {
         return hours;
@@ -45,7 +41,7 @@ public class CountDownViewModel extends AndroidViewModel {
 
     public CountDownViewModel(@NonNull Application application) {
         super(application);
-        repository = new CountDownRepository(application);
+        repository = new CountDownTimerRepositoryImpl(application);
 
         timeLeftSeconds.setValue(repository.getTimeLeftSeconds());
         endTime = repository.getEndTime();
