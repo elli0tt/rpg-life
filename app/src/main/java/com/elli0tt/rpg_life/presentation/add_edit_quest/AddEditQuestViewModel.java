@@ -11,9 +11,14 @@ import androidx.lifecycle.MutableLiveData;
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl;
 import com.elli0tt.rpg_life.domain.model.Quest;
-import com.elli0tt.rpg_life.domain.use_case.DatePickerDialogUseCase;
-import com.elli0tt.rpg_life.domain.use_case.GetQuestDateDueStateUseCase;
-import com.elli0tt.rpg_life.domain.use_case.TimePickerDialogUseCase;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.DatePickerDialogUseCase;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetNextWeekCalendarUseCase;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetQuestDateDueStateUseCase;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTodayCalendarUseCase;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTodayCalendar;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTomorrowCalendar;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.TimePickerDialogUseCase;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTomorrowCalendarUseCase;
 
 import java.util.Calendar;
 
@@ -22,7 +27,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private QuestsRepositoryImpl repository;
 
     private MutableLiveData<String> name = new MutableLiveData<>();
-    private MutableLiveData<String> description = new MutableLiveData<>();
+    private MutableLiveData<String> description = new MutableLiveData<>("");
     private MutableLiveData<Integer> difficulty = new MutableLiveData<>();
 
     private MutableLiveData<String> nameErrorMessage = new MutableLiveData<>();
@@ -31,7 +36,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
     private Quest currentQuest;
 
-    private GetQuestDateDueStateUseCase getQuestDateDueStateUseCase;
+    private GetQuestDateDueStateUseCase getQuestDateDueStateUseCase = new GetQuestDateDueStateUseCase();
 
     /**
      * Id of quest to open in edit mode
@@ -44,9 +49,15 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private MutableLiveData<Quest.DateDueState> dateDueState =
             new MutableLiveData<>(Quest.DateDueState.NOT_SET);
 
+    private final String TODAY;
+    private final String TOMORROW;
+
     public AddEditQuestViewModel(@NonNull Application application) {
         super(application);
         repository = new QuestsRepositoryImpl(application);
+
+        TODAY = application.getString(R.string.quest_date_due_today);
+        TOMORROW = application.getString(R.string.quest_date_due_tomorrow);
     }
 
     public MutableLiveData<String> getName() {
@@ -115,11 +126,6 @@ public class AddEditQuestViewModel extends AndroidViewModel {
             return false;
         }
 
-        //description field might be not filled by user, so it's necessary to set it manually to ""
-        if (description.getValue() == null) {
-            description.setValue("");
-        }
-
         nameErrorMessage.setValue(null);
 
         if (isNewQuest) {
@@ -165,6 +171,12 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     }
 
     String getDueDateFormatted(){
+        if (new IsCalendarEqualsTodayCalendar().invoke(dateDue)){
+            return TODAY;
+        }
+        if (new IsCalendarEqualsTomorrowCalendar().invoke(dateDue)){
+            return TOMORROW;
+        }
         return Quest.getDateDueFormatted(dateDue);
     }
 
@@ -177,12 +189,26 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     void setDateDue(int hourOfDay, int minutes) {
         dateDue.set(Calendar.HOUR_OF_DAY, hourOfDay);
         dateDue.set(Calendar.MINUTE, minutes);
-        getQuestDateDueStateUseCase = new GetQuestDateDueStateUseCase();
         dateDueState.setValue(getQuestDateDueStateUseCase.invoke(dateDue));
     }
 
     void removeDateDue(){
         dateDueState.setValue(Quest.DateDueState.NOT_SET);
+    }
+
+    void setDateDueToday(){
+        dateDue = new GetTodayCalendarUseCase().invoke();
+        dateDueState.setValue(getQuestDateDueStateUseCase.invoke(dateDue));
+    }
+
+    void setDateDueTomorrow(){
+        dateDue = new GetTomorrowCalendarUseCase().invoke();
+        dateDueState.setValue(getQuestDateDueStateUseCase.invoke(dateDue));
+    }
+
+    void setDateDueNextWeek(){
+        dateDue = new GetNextWeekCalendarUseCase().invoke();
+        dateDueState.setValue(getQuestDateDueStateUseCase.invoke(dateDue));
     }
 
 }

@@ -61,6 +61,10 @@
     <string name="quest_recycler_due_date">Due:</string>
     <string name="quest_recycler_due_date_infinity">Due: ∞</string>
     <string name="quest_toolbar_sort_by_difficulty">Difficulty</string>
+    <string name="quest_date_due_today">Today</string>
+    <string name="quest_date_due_tomorrow">Tomorrow</string>
+    <string name="quest_date_due_next_week">Next week</string>
+    <string name="quest_date_due_pick_a_date">Pick a date</string>
 
 
 </resources>

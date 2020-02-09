@@ -14,7 +14,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +21,7 @@ import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -97,17 +97,17 @@ public class AddEditQuestFragment extends Fragment {
                 s -> nameTextInput.setError(s));
         viewModel.getDateDueState().observe(getViewLifecycleOwner(),
                 new Observer<Quest.DateDueState>() {
-            @Override
-            public void onChanged(Quest.DateDueState dateDueState) {
-                if (dateDueState.equals(Quest.DateDueState.NOT_SET)) {
-                    addDateDueButton.setText(R.string.add_edit_quest_add_date_due);
-                    removeDateDueButton.setVisibility(View.INVISIBLE);
-                } else {
-                    addDateDueButton.setText(viewModel.getDueDateFormatted());
-                    removeDateDueButton.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+                    @Override
+                    public void onChanged(Quest.DateDueState dateDueState) {
+                        if (dateDueState.equals(Quest.DateDueState.NOT_SET)) {
+                            addDateDueButton.setText(R.string.add_edit_quest_add_date_due);
+                            removeDateDueButton.setVisibility(View.INVISIBLE);
+                        } else {
+                            addDateDueButton.setText(viewModel.getDueDateFormatted());
+                            removeDateDueButton.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
     }
 
     private void setupDifficultySpinner() {
@@ -161,18 +161,7 @@ public class AddEditQuestFragment extends Fragment {
         @Override
         public void onClick(View v) {
             hideKeyboard(v);
-            TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
-                    (view, hourOfDay, minute) -> viewModel.setDateDue(hourOfDay, minute),
-                    viewModel.getCurrentHour(), viewModel.getCurrentMinute(), true);
-
-            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
-                    (view, year, month, dayOfMonth) -> {
-                        viewModel.setDateDue(year, month, dayOfMonth);
-                        timePickerDialog.show();
-                    }, viewModel.getCurrentYear(), viewModel.getCurrentMonth(),
-                    viewModel.getCurrentDay());
-            datePickerDialog.show();
-
+            showAddDateDuePopupMenu(v);
         }
     };
 
@@ -191,5 +180,50 @@ public class AddEditQuestFragment extends Fragment {
                     (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    private void showAddDateDuePopupMenu(View view) {
+        PopupMenu popupMenu = new PopupMenu(getContext(), view);
+        popupMenu.getMenuInflater().inflate(R.menu.add_edit_quest_add_date_due_popup_menu,
+                popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.add_edit_quest_add_date_due_popup_today:
+                        viewModel.setDateDueToday();
+                        return true;
+                    case R.id.add_edit_quest_add_date_due_popup_tomorrow:
+                        viewModel.setDateDueTomorrow();
+                        return true;
+                    case R.id.add_edit_quest_add_date_due_popup_next_week:
+                        viewModel.setDateDueNextWeek();
+                        return true;
+                    case R.id.add_edit_quest_add_date_due_popup_pick_date:
+                        pickDate();
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
+        popupMenu.show();
+
+    }
+
+    private void pickDate() {
+        TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
+                (view, hourOfDay, minute) -> viewModel.setDateDue(hourOfDay,
+                        minute),
+                viewModel.getCurrentHour(), viewModel.getCurrentMinute(), true);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
+                (view, year, month, dayOfMonth) -> {
+                    viewModel.setDateDue(year, month, dayOfMonth);
+                    timePickerDialog.show();
+                }, viewModel.getCurrentYear(), viewModel.getCurrentMonth(),
+                viewModel.getCurrentDay());
+        datePickerDialog.show();
     }
 }

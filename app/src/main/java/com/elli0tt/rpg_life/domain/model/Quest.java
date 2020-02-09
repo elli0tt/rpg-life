@@ -96,11 +96,10 @@ public class Quest {
     /**
      * NOT_SET - dateDue wasn't set yet
      * RED - current date is after dateDue (deadline is expired)
-     * YELLOW - it's less than a 24 hours before the dateDue
-     * GREEN - more than 24 hours before the dateDue
+     * GREEN - current date is before dateDue (deadline isn't expired)
      */
     public enum DateDueState{
-        NOT_SET, RED, YELLOW, GREEN
+        NOT_SET, RED, GREEN
     }
 
     @TypeConverters({DateDueStateConverter.class})

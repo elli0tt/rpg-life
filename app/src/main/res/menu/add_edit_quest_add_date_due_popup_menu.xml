@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/add_edit_quest_add_date_due_popup_today"
+        android:title="@string/quest_date_due_today"
+        android:icon="@drawable/ic_today_black_24dp"
+        app:showAsAction="always|withText" />
+    <item
+        android:id="@+id/add_edit_quest_add_date_due_popup_tomorrow"
+        android:title="@string/quest_date_due_tomorrow"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/add_edit_quest_add_date_due_popup_next_week"
+        android:title="@string/quest_date_due_next_week"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/add_edit_quest_add_date_due_popup_pick_date"
+        android:title="@string/quest_date_due_pick_a_date"
+        app:showAsAction="never"/>
+</menu>

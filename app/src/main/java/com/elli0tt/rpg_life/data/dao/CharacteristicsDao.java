@@ -14,6 +14,7 @@ public interface CharacteristicsDao {
 
     @Insert
     void insert(Characteristic characteristic);
+
     @Insert
     void insert(List<Characteristic> characteristicList);
 

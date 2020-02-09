@@ -1,4 +1,4 @@
-package com.elli0tt.rpg_life.domain.use_case;
+package com.elli0tt.rpg_life.domain.use_case.add_edit_quest;
 
 import com.elli0tt.rpg_life.domain.model.Quest;
 
@@ -9,10 +9,6 @@ public class GetQuestDateDueStateUseCase {
         Calendar currentDate = Calendar.getInstance();
         if (currentDate.after(dateDue)){
             return Quest.DateDueState.RED;
-        }
-        final int MILLIS_IN_24_HOURS = 24 * 3600 * 1000;
-        if (dateDue.getTimeInMillis() - currentDate.getTimeInMillis() < MILLIS_IN_24_HOURS){
-            return Quest.DateDueState.YELLOW;
         }
         return Quest.DateDueState.GREEN;
     }
