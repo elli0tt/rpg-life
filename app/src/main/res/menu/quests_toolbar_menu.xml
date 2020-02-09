@@ -47,6 +47,10 @@
                 android:id="@+id/quests_toolbar_menu_sort_by_date_due"
                 android:title="@string/quests_toolbar_sort_by_date_due"
                 app:showAsAction="never" />
+            <item
+                android:id="@+id/quests_toolbar_menu_sort_by_difficulty"
+                android:title="@string/quest_toolbar_sort_by_difficulty"
+                app:showAsAction="never" />
         </menu>
 
     </item>

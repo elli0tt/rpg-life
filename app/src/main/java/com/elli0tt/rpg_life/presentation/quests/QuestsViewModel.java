@@ -1,7 +1,6 @@
 package com.elli0tt.rpg_life.presentation.quests;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.arch.core.util.Function;
@@ -14,8 +13,10 @@ import androidx.lifecycle.Transformations;
 
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl;
 import com.elli0tt.rpg_life.domain.model.Quest;
-import com.elli0tt.rpg_life.domain.use_case.QuestsSortByDateAddedUseCase;
-import com.elli0tt.rpg_life.domain.use_case.QuestsSortByNameUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.QuestsSortByDateAddedUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.QuestsSortByDateDueUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.QuestsSortByDiffucultyUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.QuestsSortByNameUseCase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,14 @@ public class QuestsViewModel extends AndroidViewModel {
     private MediatorLiveData questsToShow = new MediatorLiveData<>();
 
     private MutableLiveData<QuestsSortingState> currentSortingState = new MutableLiveData<>();
+
+    private QuestsSortByNameUseCase questsSortByNameUseCase = new QuestsSortByNameUseCase();
+    private QuestsSortByDateAddedUseCase questsSortByDateAddedUseCase =
+            new QuestsSortByDateAddedUseCase();
+    private QuestsSortByDateDueUseCase questsSortByDateDueUseCase =
+            new QuestsSortByDateDueUseCase();
+    private QuestsSortByDiffucultyUseCase questsSortByDiffucultyUseCase =
+            new QuestsSortByDiffucultyUseCase();
 
     public QuestsViewModel(@NonNull Application application) {
         super(application);
@@ -63,11 +72,17 @@ public class QuestsViewModel extends AndroidViewModel {
                 if (quests.getValue() != null) {
                     switch (currentSortingState.getValue()) {
                         case NAME:
-                            questsToShow.setValue(QuestsSortByNameUseCase.sort((List<Quest>) questsToShow.getValue()));
+                            questsToShow.setValue(questsSortByNameUseCase.invoke((List<Quest>) questsToShow.getValue()));
+                            break;
                         case DATE_DUE:
+                            questsToShow.setValue(questsSortByDateDueUseCase.invoke((List<Quest>) questsToShow.getValue()));
                             break;
                         case DATE_ADDED:
-                            questsToShow.setValue(QuestsSortByDateAddedUseCase.sort((List<Quest>) questsToShow.getValue()));
+                            questsToShow.setValue(questsSortByDateAddedUseCase.invoke((List<Quest>) questsToShow.getValue()));
+                            break;
+                        case DIFFICULTY:
+                            questsToShow.setValue(questsSortByDiffucultyUseCase.invoke((List<Quest>) questsToShow.getValue()));
+                            break;
                     }
                 }
             }
@@ -78,11 +93,17 @@ public class QuestsViewModel extends AndroidViewModel {
                 if (quests != null) {
                     switch (currentSortingState.getValue()) {
                         case NAME:
-                            questsToShow.setValue(QuestsSortByNameUseCase.sort(quests));
+                            questsToShow.setValue(questsSortByNameUseCase.invoke(quests));
+                            break;
                         case DATE_DUE:
+                            questsToShow.setValue(questsSortByDateDueUseCase.invoke(quests));
                             break;
                         case DATE_ADDED:
-                            questsToShow.setValue(QuestsSortByDateAddedUseCase.sort(quests));
+                            questsToShow.setValue(questsSortByDateAddedUseCase.invoke(quests));
+                            break;
+                        case DIFFICULTY:
+                            questsToShow.setValue(questsSortByDiffucultyUseCase.invoke(quests));
+                            break;
                     }
                 }
             }

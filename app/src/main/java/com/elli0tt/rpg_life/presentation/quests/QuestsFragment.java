@@ -149,6 +149,9 @@ public class QuestsFragment extends Fragment {
             case R.id.quests_toolbar_menu_sort_by_date_added:
                 viewModel.setSorting(QuestsSortingState.DATE_ADDED);
                 break;
+            case R.id.quests_toolbar_menu_sort_by_difficulty:
+                viewModel.setSorting(QuestsSortingState.DIFFICULTY);
+                break;
             case R.id.quests_toolbar_menu_filtering_all:
                 viewModel.setFiltering(QuestsFilterState.ALL);
                 break;

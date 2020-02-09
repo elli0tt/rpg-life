@@ -60,6 +60,7 @@
     <string name="add_edit_quest_repeat">Repeat</string>
     <string name="quest_recycler_due_date">Due:</string>
     <string name="quest_recycler_due_date_infinity">Due: ∞</string>
+    <string name="quest_toolbar_sort_by_difficulty">Difficulty</string>
 
 
 </resources>
