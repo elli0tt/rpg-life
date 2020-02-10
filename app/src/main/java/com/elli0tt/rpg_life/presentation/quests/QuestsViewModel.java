@@ -44,6 +44,8 @@ public class QuestsViewModel extends AndroidViewModel {
 
     private MutableLiveData<QuestsSortingState> currentSortingState = new MutableLiveData<>();
 
+    private MutableLiveData<Boolean> isSelectionStarted = new MutableLiveData<>(false);
+
     private SortByNameUseCase sortByNameUseCase;
     private SortByDateAddedUseCase sortByDateAddedUseCase;
     private SortByDateDueUseCase sortByDateDueUseCase;
@@ -159,6 +161,10 @@ public class QuestsViewModel extends AndroidViewModel {
         return questsToShow;
     }
 
+    LiveData<Boolean> isSelectionStarted(){
+        return isSelectionStarted;
+    }
+
     public void insert(List<Quest> questList) {
         insertQuestsListUseCase.invoke(questList);
     }
@@ -187,5 +193,13 @@ public class QuestsViewModel extends AndroidViewModel {
     void setSorting(QuestsSortingState sortingState) {
         currentSortingState.setValue(sortingState);
         setQuestsSortingStateUseCase.invoke(sortingState);
+    }
+
+    void startSelection(){
+        isSelectionStarted.setValue(true);
+    }
+
+    void finishSelection(){
+        isSelectionStarted.setValue(false);
     }
 }

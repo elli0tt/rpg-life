@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -78,6 +79,7 @@ public class QuestsFragment extends Fragment {
                 actionMode = activity.startSupportActionMode(
                         new ActionModeController(viewModel, questsAdapter));
             }
+            viewModel.startSelection();
             questsAdapter.startSelection(position);
         });
         questsAdapter.setOnSelectionFinishedListener(() -> {
@@ -109,7 +111,7 @@ public class QuestsFragment extends Fragment {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                if (dy < 0 && !fab.isShown()) {
+                if (dy < 0 && !fab.isShown() && !viewModel.isSelectionStarted().getValue()) {
                     fab.show();
                 } else if (dy > 0 && fab.isShown()) {
                     fab.hide();
@@ -122,6 +124,17 @@ public class QuestsFragment extends Fragment {
         viewModel = ViewModelProviders.of(this).get(QuestsViewModel.class);
         viewModel.getQuests().observe(getViewLifecycleOwner(), questList -> {
             questsAdapter.submitList(questList);
+        });
+        viewModel.isSelectionStarted().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isSelectionStarted) {
+                if (isSelectionStarted) {
+                    fab.hide();
+                } else {
+                    fab.show();
+                    questsAdapter.finishSelection();
+                }
+            }
         });
     }
 

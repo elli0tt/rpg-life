@@ -50,12 +50,12 @@ public class ActionModeController implements ActionMode.Callback {
 
     private void deleteSelected() {
         viewModel.delete(adapter.getSelectedQuests());
-        adapter.finishSelection();
+        viewModel.finishSelection();
     }
 
     @Override
     public void onDestroyActionMode(ActionMode mode) {
-        adapter.finishSelection();
+        viewModel.finishSelection();
     }
 
 }
