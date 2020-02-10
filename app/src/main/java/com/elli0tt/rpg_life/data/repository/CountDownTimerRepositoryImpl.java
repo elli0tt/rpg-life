@@ -15,30 +15,53 @@ public class CountDownTimerRepositoryImpl implements CountDownTimerRepository {
         countDownSharedPrefUtils = new CountDownSharedPrefUtils(context);
     }
 
+    @Override
     public long getTimeLeftSeconds() {
         return countDownSharedPrefUtils.getTimeLeftSeconds();
     }
 
+    @Override
     public long getEndTime() {
         return countDownSharedPrefUtils.getEndTime();
     }
 
+    @Override
     public TimerState getTimerState() {
         return countDownSharedPrefUtils.getTimerState();
     }
 
+    @Override
     public long getTimerLengthSeconds() {
         return countDownSharedPrefUtils.getTimerLengthSeconds();
     }
 
+    @Override
     public boolean getIsTimerNew() {
         return countDownSharedPrefUtils.getIsTimerNew();
     }
 
-    public void setTimerData(long timeLeftSeconds, long endTime,
-                             TimerState timerState, long timerLengthSeconds,
-                             boolean isTimerNew) {
-        countDownSharedPrefUtils.setTimerData(timeLeftSeconds, endTime, timerState,
-                timerLengthSeconds, isTimerNew);
+    @Override
+    public void setTimeLeftSeconds(long timeLeftSeconds) {
+        countDownSharedPrefUtils.setTimeLeftSeconds(timeLeftSeconds);
+    }
+
+    @Override
+    public void setEndTime(long endTime) {
+        countDownSharedPrefUtils.setEndTime(endTime);
+    }
+
+    @Override
+    public void setTimerState(TimerState timerState) {
+        countDownSharedPrefUtils.setTimerState(timerState);
+    }
+
+    @Override
+    public void setTimerLengthSeconds(long timerLengthSeconds) {
+        countDownSharedPrefUtils.setTimerLengthSeconds(timerLengthSeconds);
+    }
+
+    @Override
+    public void setIsTimerNew(boolean isTimerNew) {
+        countDownSharedPrefUtils.setIsTimerNew(isTimerNew);
     }
 }

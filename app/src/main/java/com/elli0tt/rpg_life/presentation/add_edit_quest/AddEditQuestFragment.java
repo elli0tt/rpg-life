@@ -131,7 +131,7 @@ public class AddEditQuestFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.add_quest_toolbar_menu, menu);
     }
 
@@ -216,14 +216,14 @@ public class AddEditQuestFragment extends Fragment {
         TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
                 (view, hourOfDay, minute) -> viewModel.setDateDue(hourOfDay,
                         minute),
-                viewModel.getCurrentHour(), viewModel.getCurrentMinute(), true);
+                viewModel.getCurrentHourOfDay(), viewModel.getCurrentMinute(), true);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
                 (view, year, month, dayOfMonth) -> {
                     viewModel.setDateDue(year, month, dayOfMonth);
                     timePickerDialog.show();
                 }, viewModel.getCurrentYear(), viewModel.getCurrentMonth(),
-                viewModel.getCurrentDay());
+                viewModel.getCurrentDayOfMonth());
         datePickerDialog.show();
     }
 }

@@ -20,6 +20,7 @@ public class SkillsRepositoryImpl implements SkillsRepository {
         skillsDao = database.getSkillsDao();
     }
 
+    @Override
     public void insert(Skill skill) {
         new InsertAsyncTask(skillsDao).execute(skill);
     }
@@ -38,6 +39,7 @@ public class SkillsRepositoryImpl implements SkillsRepository {
         }
     }
 
+    @Override
     public void insert(List<Skill> skillList) {
         new InsertListAsyncTask(skillsDao).execute(skillList);
     }
@@ -57,10 +59,12 @@ public class SkillsRepositoryImpl implements SkillsRepository {
         }
     }
 
+    @Override
     public LiveData<List<Skill>> getAllSkills() {
         return skillsDao.getAllSkills();
     }
 
+    @Override
     public void deleteAll() {
         new DeleteAllAsyncTask(skillsDao).execute();
     }

@@ -13,17 +13,29 @@ import androidx.lifecycle.Transformations;
 
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl;
 import com.elli0tt.rpg_life.domain.model.Quest;
-import com.elli0tt.rpg_life.domain.use_case.quests.QuestsSortByDateAddedUseCase;
-import com.elli0tt.rpg_life.domain.use_case.quests.QuestsSortByDateDueUseCase;
-import com.elli0tt.rpg_life.domain.use_case.quests.QuestsSortByDiffucultyUseCase;
-import com.elli0tt.rpg_life.domain.use_case.quests.QuestsSortByNameUseCase;
+import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
+import com.elli0tt.rpg_life.domain.use_case.quests.load_data.GetActiveQuestsUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.load_data.GetAllQuestsUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.load_data.GetCompletedQuestsUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.load_data.GetFilterStateUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.load_data.GetImportantQuestsUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.load_data.GetSortingStateUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.sort.SortByDateAddedUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.sort.SortByDateDueUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.sort.SortByDiffucultyUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.sort.SortByNameUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.update_data.DeleteAllQuestsUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.update_data.DeleteQuestsListUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.update_data.InsertQuestsListUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.update_data.PopulateWithSamplesUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.update_data.SetQuestsFilterStateUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.update_data.SetQuestsSortingState;
+import com.elli0tt.rpg_life.domain.use_case.quests.update_data.UpdateQuestUseCase;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class QuestsViewModel extends AndroidViewModel {
-    private QuestsRepositoryImpl repository;
-
     private LiveData<List<Quest>> quests;
 
     private MutableLiveData<QuestsFilterState> currentFilterState = new MutableLiveData<>();
@@ -32,19 +44,52 @@ public class QuestsViewModel extends AndroidViewModel {
 
     private MutableLiveData<QuestsSortingState> currentSortingState = new MutableLiveData<>();
 
-    private QuestsSortByNameUseCase questsSortByNameUseCase = new QuestsSortByNameUseCase();
-    private QuestsSortByDateAddedUseCase questsSortByDateAddedUseCase =
-            new QuestsSortByDateAddedUseCase();
-    private QuestsSortByDateDueUseCase questsSortByDateDueUseCase =
-            new QuestsSortByDateDueUseCase();
-    private QuestsSortByDiffucultyUseCase questsSortByDiffucultyUseCase =
-            new QuestsSortByDiffucultyUseCase();
+    private SortByNameUseCase sortByNameUseCase;
+    private SortByDateAddedUseCase sortByDateAddedUseCase;
+    private SortByDateDueUseCase sortByDateDueUseCase;
+    private SortByDiffucultyUseCase sortByDiffucultyUseCase;
+
+    private GetFilterStateUseCase getFilterStateUseCase;
+    private GetSortingStateUseCase getSortingStateUseCase;
+    private GetAllQuestsUseCase getAllQuestsUseCase;
+    private GetActiveQuestsUseCase getActiveQuestsUseCase;
+    private GetCompletedQuestsUseCase getCompletedQuestsUseCase;
+    private GetImportantQuestsUseCase getImportantQuestsUseCase;
+
+    private InsertQuestsListUseCase insertQuestsListUseCase;
+    private UpdateQuestUseCase updateQuestUseCase;
+    private DeleteQuestsListUseCase deleteQuestsListUseCase;
+    private DeleteAllQuestsUseCase deleteAllQuestsUseCase;
+    private SetQuestsFilterStateUseCase setQuestsFilterStateUseCase;
+    private SetQuestsSortingState setQuestsSortingStateUseCase;
+    private PopulateWithSamplesUseCase populateWithSamplesUseCase;
 
     public QuestsViewModel(@NonNull Application application) {
         super(application);
-        repository = new QuestsRepositoryImpl(application);
-        currentFilterState.setValue(repository.getQuestsFilterState());
-        currentSortingState.setValue(repository.getQuestSortingState());
+        sortByNameUseCase = new SortByNameUseCase();
+        sortByDateAddedUseCase = new SortByDateAddedUseCase();
+        sortByDateDueUseCase = new SortByDateDueUseCase();
+        sortByDiffucultyUseCase = new SortByDiffucultyUseCase();
+
+        QuestsRepository questsRepository = new QuestsRepositoryImpl(application);
+
+        getFilterStateUseCase = new GetFilterStateUseCase(questsRepository);
+        getSortingStateUseCase = new GetSortingStateUseCase(questsRepository);
+        getAllQuestsUseCase = new GetAllQuestsUseCase(questsRepository);
+        getActiveQuestsUseCase = new GetActiveQuestsUseCase(questsRepository);
+        getCompletedQuestsUseCase = new GetCompletedQuestsUseCase(questsRepository);
+        getImportantQuestsUseCase = new GetImportantQuestsUseCase(questsRepository);
+
+        insertQuestsListUseCase = new InsertQuestsListUseCase(questsRepository);
+        updateQuestUseCase = new UpdateQuestUseCase(questsRepository);
+        deleteQuestsListUseCase = new DeleteQuestsListUseCase(questsRepository);
+        deleteAllQuestsUseCase = new DeleteAllQuestsUseCase(questsRepository);
+        setQuestsFilterStateUseCase = new SetQuestsFilterStateUseCase(questsRepository);
+        setQuestsSortingStateUseCase = new SetQuestsSortingState(questsRepository);
+        populateWithSamplesUseCase = new PopulateWithSamplesUseCase(questsRepository);
+
+        currentFilterState.setValue(getFilterStateUseCase.invoke());
+        currentSortingState.setValue(getSortingStateUseCase.invoke());
 
         quests = Transformations.switchMap(currentFilterState, new Function<QuestsFilterState,
                 LiveData<List<Quest>>>() {
@@ -52,13 +97,13 @@ public class QuestsViewModel extends AndroidViewModel {
             public LiveData<List<Quest>> apply(QuestsFilterState filterType) {
                 switch (currentFilterState.getValue()) {
                     case ALL:
-                        return repository.getAllQuests();
+                        return getAllQuestsUseCase.invoke();
                     case ACTIVE:
-                        return repository.getActiveQuests();
+                        return getActiveQuestsUseCase.invoke();
                     case COMPLETED:
-                        return repository.getCompletedQuests();
+                        return getCompletedQuestsUseCase.invoke();
                     case IMPORTANT:
-                        return repository.getImportantQuests();
+                        return getImportantQuestsUseCase.invoke();
                     default:
                         return null;
 
@@ -72,16 +117,16 @@ public class QuestsViewModel extends AndroidViewModel {
                 if (quests.getValue() != null) {
                     switch (currentSortingState.getValue()) {
                         case NAME:
-                            questsToShow.setValue(questsSortByNameUseCase.invoke((List<Quest>) questsToShow.getValue()));
+                            questsToShow.setValue(sortByNameUseCase.invoke((List<Quest>) questsToShow.getValue()));
                             break;
                         case DATE_DUE:
-                            questsToShow.setValue(questsSortByDateDueUseCase.invoke((List<Quest>) questsToShow.getValue()));
+                            questsToShow.setValue(sortByDateDueUseCase.invoke((List<Quest>) questsToShow.getValue()));
                             break;
                         case DATE_ADDED:
-                            questsToShow.setValue(questsSortByDateAddedUseCase.invoke((List<Quest>) questsToShow.getValue()));
+                            questsToShow.setValue(sortByDateAddedUseCase.invoke((List<Quest>) questsToShow.getValue()));
                             break;
                         case DIFFICULTY:
-                            questsToShow.setValue(questsSortByDiffucultyUseCase.invoke((List<Quest>) questsToShow.getValue()));
+                            questsToShow.setValue(sortByDiffucultyUseCase.invoke((List<Quest>) questsToShow.getValue()));
                             break;
                     }
                 }
@@ -93,16 +138,16 @@ public class QuestsViewModel extends AndroidViewModel {
                 if (quests != null) {
                     switch (currentSortingState.getValue()) {
                         case NAME:
-                            questsToShow.setValue(questsSortByNameUseCase.invoke(quests));
+                            questsToShow.setValue(sortByNameUseCase.invoke(quests));
                             break;
                         case DATE_DUE:
-                            questsToShow.setValue(questsSortByDateDueUseCase.invoke(quests));
+                            questsToShow.setValue(sortByDateDueUseCase.invoke(quests));
                             break;
                         case DATE_ADDED:
-                            questsToShow.setValue(questsSortByDateAddedUseCase.invoke(quests));
+                            questsToShow.setValue(sortByDateAddedUseCase.invoke(quests));
                             break;
                         case DIFFICULTY:
-                            questsToShow.setValue(questsSortByDiffucultyUseCase.invoke(quests));
+                            questsToShow.setValue(sortByDiffucultyUseCase.invoke(quests));
                             break;
                     }
                 }
@@ -115,40 +160,32 @@ public class QuestsViewModel extends AndroidViewModel {
     }
 
     public void insert(List<Quest> questList) {
-        repository.insert(questList);
+        insertQuestsListUseCase.invoke(questList);
     }
 
     void deleteAll() {
-        repository.deleteAll();
+        deleteAllQuestsUseCase.invoke();
     }
 
     void update(Quest quest) {
-        repository.update(quest);
-    }
-
-    private List<Quest> generateSampleQuestsList() {
-        List<Quest> result = new ArrayList<>();
-        for (int i = 0; i < 10; ++i) {
-            result.add(new Quest("Quest " + i));
-        }
-        return result;
+        updateQuestUseCase.invoke(quest);
     }
 
     void populateWithSamples() {
-        repository.insert(generateSampleQuestsList());
+        populateWithSamplesUseCase.invoke();
     }
 
     public void delete(List<Quest> questList) {
-        repository.delete(questList);
+        deleteQuestsListUseCase.invoke(questList);
     }
 
     void setFiltering(QuestsFilterState filterState) {
         currentFilterState.setValue(filterState);
-        repository.setQuestsFilterState(filterState);
+        setQuestsFilterStateUseCase.invoke(filterState);
     }
 
     void setSorting(QuestsSortingState sortingState) {
         currentSortingState.setValue(sortingState);
-        repository.setQuestsSoringState(sortingState);
+        setQuestsSortingStateUseCase.invoke(sortingState);
     }
 }

@@ -25,26 +25,32 @@ public class QuestsRepositoryImpl implements QuestsRepository {
         questsSharedPrefUtils = new QuestsSharedPrefUtils(application);
     }
 
+    @Override
     public Quest getQuestById(int id) {
         return dao.getQuestById(id);
     }
 
+    @Override
     public LiveData<List<Quest>> getAllQuests() {
         return dao.getAllQuests();
     }
 
+    @Override
     public LiveData<List<Quest>> getActiveQuests() {
         return dao.getActiveQuests();
     }
 
+    @Override
     public LiveData<List<Quest>> getCompletedQuests() {
         return dao.getCompletedQuests();
     }
 
+    @Override
     public LiveData<List<Quest>> getImportantQuests() {
         return dao.getImportantQuests();
     }
 
+    @Override
     public void insert(Quest quest) {
         new InsertOneAsyncTask(dao).execute(quest);
     }
@@ -63,6 +69,7 @@ public class QuestsRepositoryImpl implements QuestsRepository {
         }
     }
 
+    @Override
     public void insert(List<Quest> questList) {
         new InsertListAsyncTask(dao).execute(questList);
     }
@@ -82,6 +89,7 @@ public class QuestsRepositoryImpl implements QuestsRepository {
         }
     }
 
+    @Override
     public void update(Quest quest) {
         new UpdateAsyncTask(dao).execute(quest);
     }
@@ -100,6 +108,7 @@ public class QuestsRepositoryImpl implements QuestsRepository {
         }
     }
 
+    @Override
     public void delete(List<Quest> questList) {
         new DeleteAsyncTask(dao).execute(questList);
     }
@@ -118,6 +127,7 @@ public class QuestsRepositoryImpl implements QuestsRepository {
         }
     }
 
+    @Override
     public void deleteAll() {
         new DeleteAllAsyncTask(dao).execute();
     }
@@ -136,20 +146,23 @@ public class QuestsRepositoryImpl implements QuestsRepository {
         }
     }
 
+    @Override
     public QuestsFilterState getQuestsFilterState() {
         return questsSharedPrefUtils.getQuestsFilterState();
     }
 
+    @Override
     public void setQuestsFilterState(QuestsFilterState filterState) {
         questsSharedPrefUtils.setQuestsFilterState(filterState);
     }
 
+    @Override
     public QuestsSortingState getQuestSortingState() {
         return questsSharedPrefUtils.getQuestsSortingState();
     }
 
+    @Override
     public void setQuestsSoringState(QuestsSortingState sortingState) {
         questsSharedPrefUtils.setQuestsSortingState(sortingState);
     }
-
 }

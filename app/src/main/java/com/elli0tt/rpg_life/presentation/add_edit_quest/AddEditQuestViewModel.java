@@ -11,21 +11,25 @@ import androidx.lifecycle.MutableLiveData;
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl;
 import com.elli0tt.rpg_life.domain.model.Quest;
-import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.DatePickerDialogUseCase;
+import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetCurrentDayOfMonthUseCase;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetCurrentHourOfDayUseCase;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetCurrentMinuteUseCase;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetCurrentMonthUseCase;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetCurrentYearUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetNextWeekCalendarUseCase;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetQuestByIdUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetQuestDateDueStateUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTodayCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTodayCalendar;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTomorrowCalendar;
-import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.TimePickerDialogUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTomorrowCalendarUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.update_data.InsertQuestUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.update_data.UpdateQuestUseCase;
 
 import java.util.Calendar;
 
 public class AddEditQuestViewModel extends AndroidViewModel {
-
-    private QuestsRepositoryImpl repository;
-
     private MutableLiveData<String> name = new MutableLiveData<>();
     private MutableLiveData<String> description = new MutableLiveData<>("");
     private MutableLiveData<Integer> difficulty = new MutableLiveData<>();
@@ -35,8 +39,6 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private Calendar dateDue = Calendar.getInstance();
 
     private Quest currentQuest;
-
-    private GetQuestDateDueStateUseCase getQuestDateDueStateUseCase = new GetQuestDateDueStateUseCase();
 
     /**
      * Id of quest to open in edit mode
@@ -52,9 +54,32 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private final String TODAY;
     private final String TOMORROW;
 
+    private GetQuestDateDueStateUseCase getQuestDateDueStateUseCase;
+    private GetCurrentYearUseCase getCurrentYearUseCase;
+    private GetCurrentMonthUseCase getCurrentMonthUseCase;
+    private GetCurrentDayOfMonthUseCase getCurrentDayOfMonthUseCase;
+    private GetCurrentHourOfDayUseCase getCurrentHourOfDayUseCase;
+    private GetCurrentMinuteUseCase getCurrentMinuteUseCase;
+
+    private InsertQuestUseCase insertQuestUseCase;
+    private UpdateQuestUseCase updateQuestUseCase;
+    private GetQuestByIdUseCase getQuestByIdUseCase;
+
     public AddEditQuestViewModel(@NonNull Application application) {
         super(application);
-        repository = new QuestsRepositoryImpl(application);
+
+        getQuestDateDueStateUseCase = new GetQuestDateDueStateUseCase();
+        getCurrentYearUseCase = new GetCurrentYearUseCase();
+        getCurrentMonthUseCase = new GetCurrentMonthUseCase();
+        getCurrentDayOfMonthUseCase = new GetCurrentDayOfMonthUseCase();
+        getCurrentHourOfDayUseCase = new GetCurrentHourOfDayUseCase();
+        getCurrentMinuteUseCase = new GetCurrentMinuteUseCase();
+
+        QuestsRepository repository = new QuestsRepositoryImpl(application);
+
+        insertQuestUseCase = new InsertQuestUseCase(repository);
+        updateQuestUseCase = new UpdateQuestUseCase(repository);
+        getQuestByIdUseCase = new GetQuestByIdUseCase(repository);
 
         TODAY = application.getString(R.string.quest_date_due_today);
         TOMORROW = application.getString(R.string.quest_date_due_tomorrow);
@@ -100,7 +125,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         new Thread() {
             @Override
             public void run() {
-                currentQuest = repository.getQuestById(id);
+                currentQuest = getQuestByIdUseCase.invoke(id);
                 onDataLoaded(currentQuest);
             }
         }.start();
@@ -129,14 +154,14 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         nameErrorMessage.setValue(null);
 
         if (isNewQuest) {
-            repository.insert(new Quest(
+            insertQuestUseCase.invoke(new Quest(
                     name.getValue(),
                     description.getValue(),
                     difficulty.getValue(),
                     dateDue,
                     dateDueState.getValue()));
         } else {
-            repository.update(new Quest(
+            updateQuestUseCase.invoke(new Quest(
                     id,
                     name.getValue(),
                     description.getValue(),
@@ -151,23 +176,23 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     }
 
     int getCurrentYear() {
-        return DatePickerDialogUseCase.getCurrentYear();
+        return getCurrentYearUseCase.invoke();
     }
 
     int getCurrentMonth() {
-        return DatePickerDialogUseCase.getCurrentMonth();
+        return getCurrentMonthUseCase.invoke();
     }
 
-    int getCurrentDay() {
-        return DatePickerDialogUseCase.getCurrentDay();
+    int getCurrentDayOfMonth() {
+        return getCurrentDayOfMonthUseCase.invoke();
     }
 
-    int getCurrentHour() {
-        return TimePickerDialogUseCase.getCurrentHour();
+    int getCurrentHourOfDay() {
+        return getCurrentHourOfDayUseCase.invoke();
     }
 
     int getCurrentMinute() {
-        return TimePickerDialogUseCase.getCurrentMinute();
+        return getCurrentMinuteUseCase.invoke();
     }
 
     String getDueDateFormatted(){

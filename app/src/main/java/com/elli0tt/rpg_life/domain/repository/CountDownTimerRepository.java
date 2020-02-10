@@ -13,8 +13,13 @@ public interface CountDownTimerRepository {
 
     boolean getIsTimerNew();
 
-    void setTimerData(long timeLeftSeconds, long endTime,
-                      TimerState timerState, long timerLengthSeconds,
-                      boolean isTimerNew);
+    void setTimeLeftSeconds(long timeLeftSeconds);
 
+    void setEndTime(long endTime);
+
+    void setTimerState(TimerState timerState);
+
+    void setTimerLengthSeconds(long timerLengthSeconds);
+
+    void setIsTimerNew(boolean isTimerNew);
 }

@@ -20,6 +20,7 @@ public class CharacteristicsRepositoryImpl implements CharacteristicsRepository 
         characteristicsDao = database.getCharacteristicsDao();
     }
 
+    @Override
     public LiveData<List<Characteristic>> getAllCharacteristics() {
         return characteristicsDao.getAllCharacteristics();
     }

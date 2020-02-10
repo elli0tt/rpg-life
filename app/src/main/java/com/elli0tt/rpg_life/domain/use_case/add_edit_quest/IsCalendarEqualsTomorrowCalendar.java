@@ -3,7 +3,7 @@ package com.elli0tt.rpg_life.domain.use_case.add_edit_quest;
 import java.util.Calendar;
 
 public class IsCalendarEqualsTomorrowCalendar {
-    public boolean invoke(Calendar calendar){
+    public boolean invoke(Calendar calendar) {
         Calendar tomorrowCalendar = new GetTomorrowCalendarUseCase().invoke();
         return tomorrowCalendar.get(Calendar.YEAR) == calendar.get(Calendar.YEAR) &&
                 tomorrowCalendar.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) &&

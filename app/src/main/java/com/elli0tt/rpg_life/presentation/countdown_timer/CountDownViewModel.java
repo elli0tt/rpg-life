@@ -8,7 +8,21 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.elli0tt.rpg_life.data.repository.CountDownTimerRepositoryImpl;
-import com.elli0tt.rpg_life.domain.use_case.TimerUseCase;
+import com.elli0tt.rpg_life.domain.repository.CountDownTimerRepository;
+import com.elli0tt.rpg_life.domain.use_case.countdown_timer.ConvertMillisToSecondsUseCase;
+import com.elli0tt.rpg_life.domain.use_case.countdown_timer.ConvertSecondsToMillisUseCase;
+import com.elli0tt.rpg_life.domain.use_case.countdown_timer.ConvertToSecondsUseCase;
+import com.elli0tt.rpg_life.domain.use_case.countdown_timer.GetTimeFormattedUseCase;
+import com.elli0tt.rpg_life.domain.use_case.countdown_timer.load_data.GetEndTimeUseCase;
+import com.elli0tt.rpg_life.domain.use_case.countdown_timer.load_data.GetIsTimerNewUseCase;
+import com.elli0tt.rpg_life.domain.use_case.countdown_timer.load_data.GetTimeLeftSecondsUseCase;
+import com.elli0tt.rpg_life.domain.use_case.countdown_timer.load_data.GetTimerLengthSecondsUseCase;
+import com.elli0tt.rpg_life.domain.use_case.countdown_timer.load_data.GetTimerStateUseCase;
+import com.elli0tt.rpg_life.domain.use_case.countdown_timer.update_data.SetEndTimeUseCase;
+import com.elli0tt.rpg_life.domain.use_case.countdown_timer.update_data.SetIsTimerNewUseCase;
+import com.elli0tt.rpg_life.domain.use_case.countdown_timer.update_data.SetTimeLeftSecondsUseCase;
+import com.elli0tt.rpg_life.domain.use_case.countdown_timer.update_data.SetTimerLengthSecondsUseCase;
+import com.elli0tt.rpg_life.domain.use_case.countdown_timer.update_data.SetTimerStateUseCase;
 
 public class CountDownViewModel extends AndroidViewModel {
 
@@ -23,7 +37,53 @@ public class CountDownViewModel extends AndroidViewModel {
     private MutableLiveData<Integer> minutes = new MutableLiveData<>(0);
     private MutableLiveData<Integer> seconds = new MutableLiveData<>(0);
 
-    private CountDownTimerRepositoryImpl repository;
+    private static final String ERROR_TIME = "-1:-1:-1";
+
+    private ConvertMillisToSecondsUseCase convertMillisToSecondsUseCase;
+    private ConvertSecondsToMillisUseCase convertSecondsToMillisUseCase;
+    private ConvertToSecondsUseCase convertToSecondsUseCase;
+    private GetTimeFormattedUseCase getTimeFormattedUseCase;
+
+    private GetTimeLeftSecondsUseCase getTimeLeftSecondsUseCase;
+    private GetEndTimeUseCase getEndTimeUseCase;
+    private GetTimerStateUseCase getTimerStateUseCase;
+    private GetTimerLengthSecondsUseCase getTimerLengthSecondsUseCase;
+    private GetIsTimerNewUseCase getIsTimerNewUseCase;
+
+    private SetEndTimeUseCase setEndTimeUseCase;
+    private SetIsTimerNewUseCase setIsTimerNewUseCase;
+    private SetTimeLeftSecondsUseCase setTimeLeftSecondsUseCase;
+    private SetTimerLengthSecondsUseCase setTimerLengthSecondsUseCase;
+    private SetTimerStateUseCase setTimerStateUseCase;
+
+    public CountDownViewModel(@NonNull Application application) {
+        super(application);
+
+        convertMillisToSecondsUseCase = new ConvertMillisToSecondsUseCase();
+        convertSecondsToMillisUseCase = new ConvertSecondsToMillisUseCase();
+        convertToSecondsUseCase = new ConvertToSecondsUseCase();
+        getTimeFormattedUseCase = new GetTimeFormattedUseCase();
+
+        CountDownTimerRepository countDownTimerRepository = new CountDownTimerRepositoryImpl(application);
+
+        getTimeLeftSecondsUseCase = new GetTimeLeftSecondsUseCase(countDownTimerRepository);
+        getEndTimeUseCase = new GetEndTimeUseCase(countDownTimerRepository);
+        getTimerStateUseCase = new GetTimerStateUseCase(countDownTimerRepository);
+        getTimerLengthSecondsUseCase = new GetTimerLengthSecondsUseCase(countDownTimerRepository);
+        getIsTimerNewUseCase = new GetIsTimerNewUseCase(countDownTimerRepository);
+
+        setEndTimeUseCase = new SetEndTimeUseCase(countDownTimerRepository);
+        setIsTimerNewUseCase = new SetIsTimerNewUseCase(countDownTimerRepository);
+        setTimeLeftSecondsUseCase = new SetTimeLeftSecondsUseCase(countDownTimerRepository);
+        setTimerLengthSecondsUseCase = new SetTimerLengthSecondsUseCase(countDownTimerRepository);
+        setTimerStateUseCase = new SetTimerStateUseCase(countDownTimerRepository);
+
+        timeLeftSeconds.setValue(getTimeLeftSecondsUseCase.invoke());
+        endTime = getEndTimeUseCase.invoke();
+        timerState.setValue(getTimerStateUseCase.invoke());
+        timerLengthSeconds = getTimerLengthSecondsUseCase.invoke();
+        isTimerNew.setValue(getIsTimerNewUseCase.invoke());
+    }
 
     public MutableLiveData<Integer> getHours() {
         return hours;
@@ -35,19 +95,6 @@ public class CountDownViewModel extends AndroidViewModel {
 
     public MutableLiveData<Integer> getSeconds() {
         return seconds;
-    }
-
-    private static final String ERROR_TIME = "-1:-1:-1";
-
-    public CountDownViewModel(@NonNull Application application) {
-        super(application);
-        repository = new CountDownTimerRepositoryImpl(application);
-
-        timeLeftSeconds.setValue(repository.getTimeLeftSeconds());
-        endTime = repository.getEndTime();
-        timerState.setValue(repository.getTimerState());
-        timerLengthSeconds = repository.getTimerLengthSeconds();
-        isTimerNew.setValue(repository.getIsTimerNew());
     }
 
     LiveData<TimerState> getTimerState() {
@@ -63,7 +110,7 @@ public class CountDownViewModel extends AndroidViewModel {
     }
 
     long getTimeLeftMillis() {
-        return TimerUseCase.getTimeMillis(timeLeftSeconds.getValue());
+        return convertSecondsToMillisUseCase.invoke(timeLeftSeconds.getValue());
     }
 
     void updateTimeLeftSeconds() {
@@ -71,28 +118,24 @@ public class CountDownViewModel extends AndroidViewModel {
     }
 
     String getTimeLeft() {
-        if (timeLeftSeconds.getValue() != null) {
-            return TimerUseCase.getTimeFormatted(timeLeftSeconds.getValue());
-        } else {
-            return ERROR_TIME;
-        }
+        return getTimeFormattedUseCase.invoke(timeLeftSeconds.getValue());
     }
 
     void startTimer(long currentTimeMillis) {
         timerState.setValue(TimerState.RUNNING);
         if (isTimerNew.getValue()) {
-            timerLengthSeconds = TimerUseCase.getTimeSeconds(hours.getValue(), minutes.getValue()
+            timerLengthSeconds = convertToSecondsUseCase.invoke(hours.getValue(), minutes.getValue()
                     , seconds.getValue());
             timeLeftSeconds.setValue(timerLengthSeconds);
             isTimerNew.setValue(false);
         }
         if (endTime != 0) {
-            timeLeftSeconds.setValue(TimerUseCase.getTimeSeconds(endTime - currentTimeMillis));
+            timeLeftSeconds.setValue(convertMillisToSecondsUseCase.invoke(endTime - currentTimeMillis));
         }
         if (timeLeftSeconds.getValue() < 0) {
             timeLeftSeconds.setValue(0L);
         }
-        endTime = currentTimeMillis + TimerUseCase.getTimeMillis(timeLeftSeconds.getValue());
+        endTime = currentTimeMillis + convertSecondsToMillisUseCase.invoke(timeLeftSeconds.getValue());
     }
 
     void pauseTimer() {
@@ -108,8 +151,11 @@ public class CountDownViewModel extends AndroidViewModel {
     }
 
     void saveData() {
-        repository.setTimerData(timeLeftSeconds.getValue(), endTime, timerState.getValue(),
-                timerLengthSeconds, isTimerNew.getValue());
+        setEndTimeUseCase.invoke(endTime);
+        setIsTimerNewUseCase.invoke(isTimerNew.getValue());
+        setTimeLeftSecondsUseCase.invoke(timeLeftSeconds.getValue());
+        setTimerLengthSecondsUseCase.invoke(timerLengthSeconds);
+        setTimerStateUseCase.invoke(timerState.getValue());
     }
 
     boolean isNeedToEnableStartFab() {

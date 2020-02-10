@@ -92,7 +92,7 @@ public class CountDownFragment extends Fragment {
         super.onResume();
         progressBar.setMax(viewModel.getMaxProgress());
         //Log.d(MAX_PROGRESS_TAG, Integer.toString(viewModel.getMaxProgress()));
-        if (viewModel.getTimerState().getValue() == CountDownViewModel.TimerState.RUNNING) {
+        if (viewModel.getTimerState().getValue() == TimerState.RUNNING) {
             startTimer();
         }
     }
@@ -100,7 +100,7 @@ public class CountDownFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (viewModel.getTimerState().getValue() == CountDownViewModel.TimerState.RUNNING) {
+        if (viewModel.getTimerState().getValue() == TimerState.RUNNING) {
             timer.cancel();
         }
         viewModel.saveData();
@@ -170,7 +170,7 @@ public class CountDownFragment extends Fragment {
     private View.OnClickListener stopFabOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (viewModel.getTimerState().getValue() == CountDownViewModel.TimerState.RUNNING) {
+            if (viewModel.getTimerState().getValue() == TimerState.RUNNING) {
                 timer.cancel();
             }
             viewModel.stopTimer();

@@ -44,14 +44,23 @@ public class CountDownSharedPrefUtils {
         return sharedPreferences.getBoolean(KEY_IS_TIMER_NEW, true);
     }
 
-    public void setTimerData(long timeLeftSeconds, long endTime, TimerState timerState,
-                             long timerLengthSeconds, boolean isTimerNew) {
-        sharedPreferences.edit()
-                .putLong(KEY_TIME_LEFT_SECONDS, timeLeftSeconds)
-                .putLong(KEY_END_TIME, endTime)
-                .putInt(KEY_TIMER_STATE, timerState.ordinal())
-                .putLong(KEY_TIMER_LENGTH_SECONDS, timerLengthSeconds)
-                .putBoolean(KEY_IS_TIMER_NEW, isTimerNew)
-                .apply();
+    public void setTimeLeftSeconds(long timeLeftSeconds) {
+        sharedPreferences.edit().putLong(KEY_TIME_LEFT_SECONDS, timeLeftSeconds).apply();
+    }
+
+    public void setEndTime(long endTime) {
+        sharedPreferences.edit().putLong(KEY_END_TIME, endTime).apply();
+    }
+
+    public void setTimerState(TimerState timerState) {
+        sharedPreferences.edit().putInt(KEY_TIMER_STATE, timerState.ordinal()).apply();
+    }
+
+    public void setTimerLengthSeconds(long timerLengthSeconds){
+        sharedPreferences.edit().putLong(KEY_TIMER_LENGTH_SECONDS, timerLengthSeconds).apply();
+    }
+
+    public void setIsTimerNew(boolean isTimerNew){
+        sharedPreferences.edit().putBoolean(KEY_IS_TIMER_NEW, isTimerNew).apply();
     }
 }
