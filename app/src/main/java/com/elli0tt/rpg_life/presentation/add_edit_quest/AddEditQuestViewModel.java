@@ -18,7 +18,7 @@ import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetCurrentMinuteUseCa
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetCurrentMonthUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetCurrentYearUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetNextWeekCalendarUseCase;
-import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetQuestByIdUseCase;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.GetQuestByIdUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetQuestDateDueStateUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTodayCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTodayCalendar;

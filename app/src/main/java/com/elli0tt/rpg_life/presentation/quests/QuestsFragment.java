@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.elli0tt.rpg_life.R;
-import com.elli0tt.rpg_life.domain.model.Quest;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Objects;
@@ -88,20 +87,10 @@ public class QuestsFragment extends Fragment {
                 actionMode = null;
             }
         });
-        questsAdapter.setOnIsCompleteCheckBoxClickListener((isCompleted, position) -> {
-            if (viewModel.getQuests().getValue() != null) {
-                Quest currentQuest = viewModel.getQuests().getValue().get(position);
-                currentQuest.setCompleted(isCompleted);
-                viewModel.update(currentQuest);
-            }
-        });
-        questsAdapter.setOnIsImportantCheckBoxClickListener((isImportant, position) -> {
-            if (viewModel.getQuests().getValue() != null) {
-                Quest currentQuest = viewModel.getQuests().getValue().get(position);
-                currentQuest.setImportant(isImportant);
-                viewModel.update(currentQuest);
-            }
-        });
+        questsAdapter.setOnIsCompleteCheckBoxClickListener((isCompleted, position) ->
+                viewModel.setQuestCompleted(position, isCompleted));
+        questsAdapter.setOnIsImportantCheckBoxClickListener((isImportant, position) ->
+                viewModel.setQuestImportant(position, isImportant));
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL
                 , false));
