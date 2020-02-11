@@ -109,6 +109,26 @@ public class QuestsRepositoryImpl implements QuestsRepository {
     }
 
     @Override
+    public void update(List<Quest> questsList) {
+        new UpdateListAsyncTask(dao).execute(questsList);
+    }
+
+    private static class UpdateListAsyncTask extends AsyncTask<List<Quest>, Void, Void> {
+        private QuestsDao dao;
+
+        UpdateListAsyncTask(QuestsDao dao) {
+            this.dao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(List<Quest>... lists) {
+            dao.update(lists[0]);
+            return null;
+        }
+    }
+
+
+    @Override
     public void delete(List<Quest> questList) {
         new DeleteAsyncTask(dao).execute(questList);
     }

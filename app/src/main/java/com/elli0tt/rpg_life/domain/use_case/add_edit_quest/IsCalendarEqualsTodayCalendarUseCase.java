@@ -2,7 +2,7 @@ package com.elli0tt.rpg_life.domain.use_case.add_edit_quest;
 
 import java.util.Calendar;
 
-public class IsCalendarEqualsTodayCalendar {
+public class IsCalendarEqualsTodayCalendarUseCase {
     public boolean invoke(Calendar calendar) {
         Calendar todayCalendar = new GetTodayCalendarUseCase().invoke();
         return todayCalendar.get(Calendar.YEAR) == calendar.get(Calendar.YEAR) &&

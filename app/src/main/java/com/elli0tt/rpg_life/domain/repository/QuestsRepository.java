@@ -25,6 +25,8 @@ public interface QuestsRepository {
 
     void update(Quest quest);
 
+    void update(List<Quest> questsList);
+
     void delete(List<Quest> questList);
 
     void deleteAll();

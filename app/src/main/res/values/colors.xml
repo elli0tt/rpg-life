@@ -5,7 +5,7 @@
     <color name="colorAccent">#689F38</color>
     <color name="colorIsImportantCheckBox">#FFC400</color>
     <color name="colorAccentDark">#558b2f</color>
-    <color name="colorQuestDateStateGreen">#64dd17</color>
+    <color name="colorQuestDateStateBeforeDateDue">#64dd17</color>
     <color name="colorQuestDateStateYellow">#ffd600</color>
-    <color name="colorQuestDateStateRed">#d50000</color>
+    <color name="colorQuestDateStateAfterDateDue">#d50000</color>
 </resources>

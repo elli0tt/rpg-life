@@ -39,6 +39,9 @@ public interface QuestsDao {
     @Update
     void update(Quest quest);
 
+    @Update
+    void update(List<Quest> questsList);
+
     @Delete
     void delete(List<Quest> questList);
 

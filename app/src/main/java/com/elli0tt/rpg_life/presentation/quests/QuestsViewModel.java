@@ -14,6 +14,7 @@ import androidx.lifecycle.Transformations;
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetQuestDateDueStateUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.load_data.GetActiveQuestsUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.load_data.GetAllQuestsUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.load_data.GetCompletedQuestsUseCase;
@@ -32,6 +33,7 @@ import com.elli0tt.rpg_life.domain.use_case.quests.update_data.SetQuestCompleted
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.SetQuestImportantUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.SetQuestsFilterStateUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.SetQuestsSortingState;
+import com.elli0tt.rpg_life.domain.use_case.quests.update_data.UpdateQuestsDateDueStateUseCase;
 
 import java.util.List;
 
@@ -66,6 +68,9 @@ public class QuestsViewModel extends AndroidViewModel {
     private PopulateWithSamplesUseCase populateWithSamplesUseCase;
     private SetQuestCompletedUseCase setQuestCompletedUseCase;
     private SetQuestImportantUseCase setQuestImportantUseCase;
+    private UpdateQuestsDateDueStateUseCase updateQuestsDateDueStateUseCase;
+
+    private GetQuestDateDueStateUseCase getQuestDateDueStateUseCase;
 
     public QuestsViewModel(@NonNull Application application) {
         super(application);
@@ -91,6 +96,9 @@ public class QuestsViewModel extends AndroidViewModel {
         populateWithSamplesUseCase = new PopulateWithSamplesUseCase(questsRepository);
         setQuestCompletedUseCase = new SetQuestCompletedUseCase(questsRepository);
         setQuestImportantUseCase = new SetQuestImportantUseCase(questsRepository);
+        updateQuestsDateDueStateUseCase = new UpdateQuestsDateDueStateUseCase(questsRepository);
+
+        getQuestDateDueStateUseCase = new GetQuestDateDueStateUseCase();
 
         currentFilterState.setValue(getFilterStateUseCase.invoke());
         currentSortingState.setValue(getSortingStateUseCase.invoke());
@@ -207,5 +215,11 @@ public class QuestsViewModel extends AndroidViewModel {
 
     void setQuestImportant(int position, boolean isImportant) {
         setQuestImportantUseCase.invoke(getQuests().getValue().get(position), isImportant);
+    }
+
+    void updateQuestsDateDueState() {
+        if (getQuests().getValue() != null) {
+            updateQuestsDateDueStateUseCase.invoke(getQuests().getValue());
+        }
     }
 }

@@ -10,6 +10,8 @@ import androidx.room.TypeConverters;
 
 import com.elli0tt.rpg_life.domain.model.room_type_converters.CalendarConverter;
 import com.elli0tt.rpg_life.domain.model.room_type_converters.DateDueStateConverter;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTodayCalendarUseCase;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTomorrowCalendarUseCase;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -95,14 +97,18 @@ public class Quest {
 
     /**
      * NOT_SET - dateDue wasn't set yet
-     * RED - current date is after dateDue (deadline is expired)
-     * GREEN - current date is before dateDue (deadline isn't expired)
+     * AFTER_DATE_DUE - current date is after dateDue (deadline is expired)
+     * BEFORE_DATE_DUE - current date is before dateDue (deadline isn't expired)
      */
+
     public enum DateDueState{
-        NOT_SET, RED, GREEN
+        NOT_SET, AFTER_DATE_DUE, BEFORE_DATE_DUE, TODAY, TOMORROW
     }
 
-    @TypeConverters({DateDueStateConverter.class})
+    boolean isDateDueSet = false;
+
+    //@TypeConverters({DateDueStateConverter.class})
+    @Ignore
     private DateDueState dateDueState = DateDueState.NOT_SET;
 
     @Ignore
@@ -142,7 +148,9 @@ public class Quest {
     @Ignore
     public Quest(int id, @NonNull String name, @NonNull String description,
                  @Difficulty int difficulty, Calendar dateDue, boolean isCompleted,
-                 boolean isImportant, DateDueState dateDueState) {
+                 boolean isImportant
+                 //DateDueState dateDueState
+                 ) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -150,7 +158,7 @@ public class Quest {
         this.dateDue = dateDue;
         this.isCompleted = isCompleted;
         this.isImportant = isImportant;
-        this.dateDueState = dateDueState;
+        //this.dateDueState = dateDueState;
     }
 
 
@@ -200,7 +208,32 @@ public class Quest {
     }
 
     public DateDueState getDateDueState(){
-        return dateDueState;
+        if (!isDateDueSet){
+            return DateDueState.NOT_SET;
+        }
+        Calendar currentDate = Calendar.getInstance();
+        if (areCalendarEquals(new GetTodayCalendarUseCase().invoke(), getDateDue())){
+            return Quest.DateDueState.TODAY;
+        }
+        if  (areCalendarEquals(new GetTomorrowCalendarUseCase().invoke(), getDateDue())){
+            return Quest.DateDueState.TOMORROW;
+        }
+        if (currentDate.after(dateDue)) {
+            return Quest.DateDueState.AFTER_DATE_DUE;
+        }
+        return Quest.DateDueState.BEFORE_DATE_DUE;
+    }
+
+    private boolean areCalendarEquals(Calendar calendar1, Calendar calendar2){
+        return calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR) &&
+                calendar1.get(Calendar.MONTH) == calendar2.get(Calendar.MONTH) &&
+                calendar1.get(Calendar.DAY_OF_MONTH) == calendar2.get(Calendar.DAY_OF_MONTH) &&
+                calendar1.get(Calendar.HOUR_OF_DAY) == calendar2.get(Calendar.HOUR_OF_DAY) &&
+                calendar1.get(Calendar.MINUTE) == calendar2.get(Calendar.MINUTE);
+    }
+
+    public boolean isDateDueSet(){
+        return isDateDueSet;
     }
 
     public void setId(int id) {
@@ -239,8 +272,12 @@ public class Quest {
         this.dateDue = dateDue;
     }
 
-    public void setDateDueState(DateDueState dateDueState){
-        this.dateDueState = dateDueState;
+//    public void setDateDueState(DateDueState dateDueState){
+//        this.dateDueState = dateDueState;
+//    }
+
+    public void setIsDateDueSet(boolean isDateDueSet){
+        this.isDateDueSet = isDateDueSet;
     }
 
     public int getIncreaseXp() {

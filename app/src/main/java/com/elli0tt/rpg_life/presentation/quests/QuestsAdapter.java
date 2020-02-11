@@ -15,10 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.domain.model.Quest;
-import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTodayCalendarUseCase;
-import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTomorrowCalendarUseCase;
-import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTodayCalendar;
-import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTomorrowCalendar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -201,6 +197,9 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
 
         private ColorStateList defaultTextViewColor;
 
+        private int greenColorId;
+        private int redColorId;
+
         QuestsViewHolder(
                 @NonNull View itemView,
                 final OnIsCompleteCheckBoxClickListener onIsCompleteCheckBoxClickListener,
@@ -216,6 +215,10 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
             dateDueTextView = itemView.findViewById(R.id.quest_date_due_text_view);
 
             defaultTextViewColor = dateDueTextView.getTextColors();
+            greenColorId =
+                    itemView.getContext().getResources().getColor(R.color.colorQuestDateStateBeforeDateDue);
+            redColorId =
+                    itemView.getContext().getResources().getColor(R.color.colorQuestDateStateAfterDateDue);
 
             itemView.setOnClickListener(createOnItemClickListener(onItemClickListener));
             itemView.setOnLongClickListener(
@@ -224,7 +227,6 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
             isImportantCheckBox.setOnClickListener(createOnIsImportantClickListener(onIsImportantCheckBoxClickListener));
         }
 
-        //TODO: GET RID OF USE CASES
         void bind(Quest quest, boolean isSelected) {
             isCompletedCheckBox.setChecked(quest.isCompleted());
             nameTextView.setText(quest.getName());
@@ -236,26 +238,23 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
                             .getString(R.string.quest_recycler_due_date_infinity));
                     dateDueTextView.setTextColor(defaultTextViewColor);
                     break;
-
-                case GREEN:
-                    String dateDue;
-                    if (new IsCalendarEqualsTodayCalendar().invoke(quest.getDateDue())){
-                        dateDue = itemView.getContext().getString(R.string.quest_date_due_today);
-                    } else if (new IsCalendarEqualsTomorrowCalendar().invoke(quest.getDateDue())){
-                        dateDue = itemView.getContext().getString(R.string.quest_date_due_tomorrow);
-                    } else {
-                        dateDue = Quest.getDateDueFormatted(quest.getDateDue());
-                    }
-                    dateDueTextView.setText(itemView.getContext().getString(R.string.quest_recycler_due_date)
-                            + " " + dateDue);
-                    dateDueTextView.setTextColor(
-                            itemView.getContext().getResources().getColor(R.color.colorQuestDateStateGreen));
-                    break;
-                case RED:
+                case BEFORE_DATE_DUE:
                     dateDueTextView.setText(itemView.getContext().getString(R.string.quest_recycler_due_date)
                             + " " + Quest.getDateDueFormatted(quest.getDateDue()));
-                    dateDueTextView.setTextColor(
-                            itemView.getContext().getResources().getColor(R.color.colorQuestDateStateRed));
+                    dateDueTextView.setTextColor(greenColorId);
+                    break;
+                case AFTER_DATE_DUE:
+                    dateDueTextView.setText(itemView.getContext().getString(R.string.quest_recycler_due_date)
+                            + " " + Quest.getDateDueFormatted(quest.getDateDue()));
+                    dateDueTextView.setTextColor(redColorId);
+                    break;
+                case TODAY:
+                    dateDueTextView.setText(R.string.quest_date_due_today);
+                    dateDueTextView.setTextColor(greenColorId);
+                    break;
+                case TOMORROW:
+                    dateDueTextView.setText(R.string.quest_date_due_tomorrow);
+                    dateDueTextView.setTextColor(greenColorId);
                     break;
             }
             itemView.setActivated(isSelected);

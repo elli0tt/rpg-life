@@ -63,6 +63,12 @@ public class QuestsFragment extends Fragment {
         fab.setOnClickListener(v -> navigateToAddQuestScreen());
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        questsAdapter.notifyDataSetChanged();
+    }
+
     private QuestsAdapter.OnItemClickListener onItemClickListener = position -> {
         if (viewModel.getQuests().getValue() != null) {
             navigateToEditQuestScreen(viewModel.getQuests().getValue().get(position).getId());
@@ -121,7 +127,6 @@ public class QuestsFragment extends Fragment {
                     fab.hide();
                 } else {
                     fab.show();
-                    questsAdapter.finishSelection();
                 }
             }
         });
