@@ -34,7 +34,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private MutableLiveData<String> description = new MutableLiveData<>("");
     private MutableLiveData<Integer> difficulty = new MutableLiveData<>();
 
-    private MutableLiveData<String> nameErrorMessage = new MutableLiveData<>();
+    private MutableLiveData<Integer> nameErrorMessageId = new MutableLiveData<>();
 
     private Calendar dateDue = Calendar.getInstance();
 
@@ -96,8 +96,8 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         return difficulty;
     }
 
-    LiveData<String> getNameErrorMessage() {
-        return nameErrorMessage;
+    LiveData<Integer> getNameErrorMessageId() {
+        return nameErrorMessageId;
     }
 
     LiveData<Boolean> isDateDueSet() {
@@ -146,11 +146,11 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
     boolean saveQuest() {
         if (!isNameValid()) {
-            nameErrorMessage.setValue("Field can't be empty");
+            nameErrorMessageId.setValue(R.string.add_edit_quest_name_error_message);
             return false;
         }
 
-        nameErrorMessage.setValue(null);
+        nameErrorMessageId.setValue(null);
 
         Quest quest = new Quest();
         quest.setName(name.getValue());

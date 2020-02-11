@@ -93,8 +93,13 @@ public class AddEditQuestFragment extends Fragment {
     }
 
     private void subscribeToViewModel() {
-        viewModel.getNameErrorMessage().observe(getViewLifecycleOwner(),
-                s -> nameTextInput.setError(s));
+        viewModel.getNameErrorMessageId().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+                    @Override
+                    public void onChanged(Integer errorMessageId) {
+                        nameTextInput.setError(getString(errorMessageId));
+                    }
+                }
+        );
         viewModel.isDateDueSet().observe(getViewLifecycleOwner(),
                 new Observer<Boolean>() {
                     @Override
