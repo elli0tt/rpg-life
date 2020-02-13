@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -194,6 +195,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         private TextView difficultyTextView;
         private CheckBox isImportantCheckBox;
         private TextView dateDueTextView;
+        private AppCompatImageView repeatImageView;
 
         private ColorStateList defaultTextViewColor;
 
@@ -213,6 +215,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
             difficultyTextView = itemView.findViewById(R.id.quest_difficulty_value);
             isImportantCheckBox = itemView.findViewById(R.id.quest_is_important_check_box);
             dateDueTextView = itemView.findViewById(R.id.quest_date_due_text_view);
+            repeatImageView = itemView.findViewById(R.id.quest_repeat_image_view);
 
             defaultTextViewColor = dateDueTextView.getTextColors();
             greenColorId =
@@ -256,6 +259,12 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
                     dateDueTextView.setText(R.string.quest_date_due_tomorrow);
                     dateDueTextView.setTextColor(greenColorId);
                     break;
+            }
+            repeatImageView.setImageTintList(defaultTextViewColor);
+            if (quest.getRepeatState().equals(Quest.RepeatState.NOT_SET)){
+                repeatImageView.setVisibility(View.INVISIBLE);
+            } else{
+                repeatImageView.setVisibility(View.VISIBLE);
             }
             itemView.setActivated(isSelected);
         }

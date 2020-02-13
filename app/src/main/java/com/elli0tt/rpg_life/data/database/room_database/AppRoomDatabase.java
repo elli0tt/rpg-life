@@ -13,7 +13,7 @@ import com.elli0tt.rpg_life.domain.model.Characteristic;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.model.Skill;
 
-@Database(entities = {Characteristic.class, Quest.class, Skill.class}, version = 2)
+@Database(entities = {Characteristic.class, Quest.class, Skill.class}, version = 3)
 public abstract class AppRoomDatabase extends RoomDatabase {
 
     public abstract CharacteristicsDao getCharacteristicsDao();

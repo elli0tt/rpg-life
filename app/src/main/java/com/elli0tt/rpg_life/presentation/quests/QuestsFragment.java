@@ -94,7 +94,7 @@ public class QuestsFragment extends Fragment {
             }
         });
         questsAdapter.setOnIsCompleteCheckBoxClickListener((isCompleted, position) ->
-                viewModel.setQuestCompleted(position, isCompleted));
+                viewModel.completeQuest(position, isCompleted));
         questsAdapter.setOnIsImportantCheckBoxClickListener((isImportant, position) ->
                 viewModel.setQuestImportant(position, isImportant));
 

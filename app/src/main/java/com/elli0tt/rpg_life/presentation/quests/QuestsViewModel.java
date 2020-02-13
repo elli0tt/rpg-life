@@ -209,7 +209,7 @@ public class QuestsViewModel extends AndroidViewModel {
         isSelectionStarted.setValue(false);
     }
 
-    void setQuestCompleted(int position, boolean isCompleted) {
+    void completeQuest(int position, boolean isCompleted) {
         setQuestCompletedUseCase.invoke(getQuests().getValue().get(position), isCompleted);
     }
 

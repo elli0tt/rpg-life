@@ -66,6 +66,11 @@
     <string name="quest_date_due_next_week">Next week</string>
     <string name="quest_date_due_pick_a_date">Pick a date</string>
     <string name="add_edit_quest_name_error_message">Field can\'t be empty</string>
-
-
+    <string name="add_edit_quest_repeat_popup_daily">Daily</string>
+    <string name="add_edit_quest_repeat_popup_weekdays">Weekdays</string>
+    <string name="add_edit_quest_repeat_popup_weekends">Weekends</string>
+    <string name="add_edit_quest_repeat_popup_weekly">Weekly</string>
+    <string name="add_edit_quest_repeat_popup_monthly">Monthly</string>
+    <string name="add_edit_quest_repeat_popup_yearly">Yearly</string>
+    <string name="add_edit_quest_repeat_popup_custom">Custom</string>
 </resources>

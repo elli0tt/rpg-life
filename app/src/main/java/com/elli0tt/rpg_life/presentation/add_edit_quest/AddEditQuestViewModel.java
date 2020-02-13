@@ -19,6 +19,7 @@ import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetCurrentMonthUseCas
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetCurrentYearUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetNextWeekCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetQuestDateDueStateUseCase;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetRepeatTextResIdUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTodayCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTomorrowCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTodayCalendarUseCase;
@@ -30,11 +31,20 @@ import com.elli0tt.rpg_life.domain.use_case.quests.update_data.UpdateQuestUseCas
 import java.util.Calendar;
 
 public class AddEditQuestViewModel extends AndroidViewModel {
+    //TODO - CHECK IF LIVEDATA IS NECESSARY
     private MutableLiveData<String> name = new MutableLiveData<>();
     private MutableLiveData<String> description = new MutableLiveData<>("");
     private MutableLiveData<Integer> difficulty = new MutableLiveData<>();
 
     private MutableLiveData<Integer> nameErrorMessageId = new MutableLiveData<>();
+
+    private MutableLiveData<Boolean> isDateDueSet = new MutableLiveData<>(false);
+
+    private MutableLiveData<Integer> repeatTextResId =
+            new MutableLiveData<>(R.string.add_edit_quest_repeat);
+
+    private MutableLiveData<Quest.RepeatState> repeatState =
+            new MutableLiveData<>(Quest.RepeatState.NOT_SET);
 
     private Calendar dateDue = Calendar.getInstance();
 
@@ -48,8 +58,6 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private boolean isNewQuest = false;
     private boolean isDataLoaded = false;
 
-    private MutableLiveData<Boolean> isDateDueSet = new MutableLiveData<>(false);
-
     private final String TODAY;
     private final String TOMORROW;
 
@@ -59,6 +67,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private GetCurrentDayOfMonthUseCase getCurrentDayOfMonthUseCase;
     private GetCurrentHourOfDayUseCase getCurrentHourOfDayUseCase;
     private GetCurrentMinuteUseCase getCurrentMinuteUseCase;
+    private GetRepeatTextResIdUseCase getRepeatTextResIdUseCase;
 
     private InsertQuestUseCase insertQuestUseCase;
     private UpdateQuestUseCase updateQuestUseCase;
@@ -73,6 +82,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         getCurrentDayOfMonthUseCase = new GetCurrentDayOfMonthUseCase();
         getCurrentHourOfDayUseCase = new GetCurrentHourOfDayUseCase();
         getCurrentMinuteUseCase = new GetCurrentMinuteUseCase();
+        getRepeatTextResIdUseCase = new GetRepeatTextResIdUseCase();
 
         QuestsRepository repository = new QuestsRepositoryImpl(application);
 
@@ -102,6 +112,14 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
     LiveData<Boolean> isDateDueSet() {
         return isDateDueSet;
+    }
+
+    LiveData<Quest.RepeatState> getRepeatState() {
+        return repeatState;
+    }
+
+    LiveData<Integer> getRepeatTextResId() {
+        return repeatTextResId;
     }
 
     void start(@Nullable Integer id) {
@@ -136,6 +154,8 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         difficulty.postValue(quest.getDifficulty());
         isDateDueSet.postValue(quest.isDateDueSet());
         dateDue = quest.getDateDue();
+        repeatState.postValue(quest.getRepeatState());
+        repeatTextResId.postValue(getRepeatTextResIdUseCase.invoke(quest.getRepeatState()));
         isDataLoaded = true;
     }
 
@@ -158,6 +178,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         quest.setDifficulty(difficulty.getValue());
         quest.setDateDue(dateDue);
         quest.setIsDateDueSet(isDateDueSet.getValue());
+        quest.setRepeatState(repeatState.getValue());
 
         if (isNewQuest) {
             insertQuestUseCase.invoke(quest);
@@ -229,6 +250,11 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     void setDateDueNextWeek() {
         dateDue = new GetNextWeekCalendarUseCase().invoke();
         isDateDueSet.setValue(true);
+    }
+
+    void setRepeatState(Quest.RepeatState repeatState) {
+        this.repeatState.setValue(repeatState);
+        repeatTextResId.setValue(getRepeatTextResIdUseCase.invoke(repeatState));
     }
 
 }

@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -42,6 +41,7 @@ public class AddEditQuestFragment extends Fragment {
     private Button addDateDueButton;
     private Button removeDateDueButton;
     private Button repeatButton;
+    private Button removeRepeatButton;
 
     private NavController navController;
 
@@ -76,6 +76,7 @@ public class AddEditQuestFragment extends Fragment {
         addDateDueButton = view.findViewById(R.id.add_edit_quest_add_date_due_button);
         removeDateDueButton = view.findViewById(R.id.add_edit_quest_remove_date_due_button);
         repeatButton = view.findViewById(R.id.add_edit_quest_repeat_button);
+        removeRepeatButton = view.findViewById(R.id.add_edit_quest_remove_repeat_button);
 
         navController = NavHostFragment.findNavController(this);
 
@@ -90,29 +91,44 @@ public class AddEditQuestFragment extends Fragment {
         descriptionEditText.setOnFocusChangeListener(onEditTextsFocusChangeListener);
         addDateDueButton.setOnClickListener(onAddDateDueButtonClickListener);
         removeDateDueButton.setOnClickListener(onRemoveDateDueButtonClickListener);
+        repeatButton.setOnClickListener(onRepeatButtonClickListener);
+        removeRepeatButton.setOnClickListener(onRemoveRepeatButtonClickListener);
     }
 
     private void subscribeToViewModel() {
-        viewModel.getNameErrorMessageId().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-                    @Override
-                    public void onChanged(Integer errorMessageId) {
+        viewModel.getNameErrorMessageId().observe(getViewLifecycleOwner(),
+                errorMessageId -> {
+                    if (errorMessageId != null){
                         nameTextInput.setError(getString(errorMessageId));
                     }
                 }
         );
         viewModel.isDateDueSet().observe(getViewLifecycleOwner(),
-                new Observer<Boolean>() {
-                    @Override
-                    public void onChanged(Boolean isDateDueSet) {
-                        if (!isDateDueSet) {
-                            addDateDueButton.setText(R.string.add_edit_quest_add_date_due);
-                            removeDateDueButton.setVisibility(View.INVISIBLE);
-                        } else {
-                            addDateDueButton.setText(viewModel.getDueDateFormatted());
-                            removeDateDueButton.setVisibility(View.VISIBLE);
-                        }
+                isDateDueSet -> {
+                    if (!isDateDueSet) {
+                        addDateDueButton.setText(R.string.add_edit_quest_add_date_due);
+                        removeDateDueButton.setVisibility(View.INVISIBLE);
+                    } else {
+                        addDateDueButton.setText(viewModel.getDueDateFormatted());
+                        removeDateDueButton.setVisibility(View.VISIBLE);
                     }
                 });
+        viewModel.getRepeatTextResId().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer textResId) {
+                repeatButton.setText(textResId);
+            }
+        });
+        viewModel.getRepeatState().observe(getViewLifecycleOwner(), new Observer<Quest.RepeatState>() {
+            @Override
+            public void onChanged(Quest.RepeatState repeatState) {
+                if (repeatState.equals(Quest.RepeatState.NOT_SET)){
+                    removeRepeatButton.setVisibility(View.INVISIBLE);
+                } else {
+                    removeRepeatButton.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     private void setupDifficultySpinner() {
@@ -124,13 +140,10 @@ public class AddEditQuestFragment extends Fragment {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             difficultySpinner.setAdapter(adapter);
             difficultySpinner.setSelection(Quest.NORMAL);
-            difficultySpinner.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    AddEditQuestFragment.this.hideKeyboard(v);
-                    v.performClick();
-                    return false;
-                }
+            difficultySpinner.setOnTouchListener((v, event) -> {
+                AddEditQuestFragment.this.hideKeyboard(v);
+                v.performClick();
+                return false;
             });
         }
     }
@@ -162,12 +175,9 @@ public class AddEditQuestFragment extends Fragment {
         }
     };
 
-    private View.OnClickListener onAddDateDueButtonClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            hideKeyboard(v);
-            showAddDateDuePopupMenu(v);
-        }
+    private View.OnClickListener onAddDateDueButtonClickListener = v -> {
+        hideKeyboard(v);
+        showAddDateDuePopupMenu(v);
     };
 
     private View.OnClickListener onRemoveDateDueButtonClickListener = new View.OnClickListener() {
@@ -175,6 +185,22 @@ public class AddEditQuestFragment extends Fragment {
         public void onClick(View v) {
             hideKeyboard(v);
             viewModel.removeDateDue();
+        }
+    };
+
+    private View.OnClickListener onRepeatButtonClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            hideKeyboard(v);
+            showRepeatPopup(v);
+        }
+    };
+
+    private View.OnClickListener onRemoveRepeatButtonClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            hideKeyboard(v);
+            viewModel.setRepeatState(Quest.RepeatState.NOT_SET);
         }
     };
 
@@ -191,25 +217,22 @@ public class AddEditQuestFragment extends Fragment {
         PopupMenu popupMenu = new PopupMenu(getContext(), view);
         popupMenu.getMenuInflater().inflate(R.menu.add_edit_quest_add_date_due_popup_menu,
                 popupMenu.getMenu());
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.add_edit_quest_add_date_due_popup_today:
-                        viewModel.setDateDueToday();
-                        return true;
-                    case R.id.add_edit_quest_add_date_due_popup_tomorrow:
-                        viewModel.setDateDueTomorrow();
-                        return true;
-                    case R.id.add_edit_quest_add_date_due_popup_next_week:
-                        viewModel.setDateDueNextWeek();
-                        return true;
-                    case R.id.add_edit_quest_add_date_due_popup_pick_date:
-                        pickDate();
-                        return true;
-                    default:
-                        return false;
-                }
+        popupMenu.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.add_edit_quest_add_date_due_popup_today:
+                    viewModel.setDateDueToday();
+                    return true;
+                case R.id.add_edit_quest_add_date_due_popup_tomorrow:
+                    viewModel.setDateDueTomorrow();
+                    return true;
+                case R.id.add_edit_quest_add_date_due_popup_next_week:
+                    viewModel.setDateDueNextWeek();
+                    return true;
+                case R.id.add_edit_quest_add_date_due_popup_pick_date:
+                    pickDate();
+                    return true;
+                default:
+                    return false;
             }
         });
 
@@ -230,5 +253,38 @@ public class AddEditQuestFragment extends Fragment {
                 }, viewModel.getCurrentYear(), viewModel.getCurrentMonth(),
                 viewModel.getCurrentDayOfMonth());
         datePickerDialog.show();
+    }
+
+    private void showRepeatPopup(View view) {
+        PopupMenu popupMenu = new PopupMenu(getContext(), view);
+        popupMenu.getMenuInflater().inflate(R.menu.add_edit_quest_repeate_popup_menu,
+                popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.add_edit_quest_repeat_popup_daily:
+                    viewModel.setRepeatState(Quest.RepeatState.DAILY);
+                    return true;
+                case R.id.add_edit_quest_repeat_popup_weekdays:
+                    viewModel.setRepeatState(Quest.RepeatState.WEEKDAYS);
+                    return true;
+                case R.id.add_edit_quest_repeat_popup_weekends:
+                    viewModel.setRepeatState(Quest.RepeatState.WEEKENDS);
+                    return true;
+                case R.id.add_edit_quest_repeat_popup_weekly:
+                    viewModel.setRepeatState(Quest.RepeatState.WEEKLY);
+                    return true;
+                case R.id.add_edit_quest_repeat_popup_monthly:
+                    viewModel.setRepeatState(Quest.RepeatState.MONTHLY);
+                    return true;
+                case R.id.add_edit_quest_repeat_popup_yearly:
+                    viewModel.setRepeatState(Quest.RepeatState.YEARLY);
+                    return true;
+                case R.id.add_edit_quest_repeat_popup_custom:
+
+                    return true;
+            }
+            return false;
+        });
+        popupMenu.show();
     }
 }

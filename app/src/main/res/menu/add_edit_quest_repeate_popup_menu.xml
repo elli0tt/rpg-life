@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/add_edit_quest_repeat_popup_daily"
+        android:title="@string/add_edit_quest_repeat_popup_daily"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/add_edit_quest_repeat_popup_weekdays"
+        android:title="@string/add_edit_quest_repeat_popup_weekdays"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/add_edit_quest_repeat_popup_weekends"
+        android:title="@string/add_edit_quest_repeat_popup_weekends"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/add_edit_quest_repeat_popup_weekly"
+        android:title="@string/add_edit_quest_repeat_popup_weekly"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/add_edit_quest_repeat_popup_monthly"
+        android:title="@string/add_edit_quest_repeat_popup_monthly"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/add_edit_quest_repeat_popup_yearly"
+        android:title="@string/add_edit_quest_repeat_popup_yearly"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/add_edit_quest_repeat_popup_custom"
+        android:title="@string/add_edit_quest_repeat_popup_custom"
+        app:showAsAction="never" />
+</menu>

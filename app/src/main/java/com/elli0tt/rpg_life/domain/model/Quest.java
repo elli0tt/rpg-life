@@ -10,6 +10,7 @@ import androidx.room.TypeConverters;
 
 import com.elli0tt.rpg_life.domain.model.room_type_converters.CalendarConverter;
 import com.elli0tt.rpg_life.domain.model.room_type_converters.DateDueStateConverter;
+import com.elli0tt.rpg_life.domain.model.room_type_converters.RepeatStateConverter;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTodayCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTomorrowCalendarUseCase;
 
@@ -105,11 +106,18 @@ public class Quest {
         NOT_SET, AFTER_DATE_DUE, BEFORE_DATE_DUE, TODAY, TOMORROW
     }
 
-    boolean isDateDueSet = false;
+    private boolean isDateDueSet = false;
 
     //@TypeConverters({DateDueStateConverter.class})
     @Ignore
     private DateDueState dateDueState = DateDueState.NOT_SET;
+
+    public enum RepeatState{
+        DAILY, WEEKDAYS, WEEKENDS, WEEKLY, MONTHLY, YEARLY, CUSTOM, NOT_SET
+    }
+
+    @TypeConverters({RepeatStateConverter.class})
+    private RepeatState repeatState = RepeatState.NOT_SET;
 
     @Ignore
     public Quest(@NonNull String name,
@@ -236,6 +244,10 @@ public class Quest {
         return isDateDueSet;
     }
 
+    public RepeatState getRepeatState(){
+        return repeatState;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -278,6 +290,10 @@ public class Quest {
 
     public void setIsDateDueSet(boolean isDateDueSet){
         this.isDateDueSet = isDateDueSet;
+    }
+
+    public void setRepeatState(RepeatState repeatState){
+        this.repeatState = repeatState;
     }
 
     public int getIncreaseXp() {
