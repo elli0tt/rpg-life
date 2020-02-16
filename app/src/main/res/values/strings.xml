@@ -73,4 +73,6 @@
     <string name="add_edit_quest_repeat_popup_monthly">Monthly</string>
     <string name="add_edit_quest_repeat_popup_yearly">Yearly</string>
     <string name="add_edit_quest_repeat_popup_custom">Custom</string>
+    <string name="add_edit_quest_subquests">Subquests:</string>
+    <string name="add_edit_quest_add_subquest">Add subquest</string>
 </resources>

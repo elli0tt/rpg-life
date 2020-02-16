@@ -56,6 +56,24 @@
                     android:text="@={viewModel.description}" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/add_edit_quest_subquests_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_edit_quest_subquests"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_edit_quest_description_text_input" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_edit_quest_add_subquest_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_edit_quest_add_subquest"
+                app:layout_constraintTop_toBottomOf="@id/add_edit_quest_description_text_input"
+                app:layout_constraintStart_toEndOf="@id/add_edit_quest_subquests_text_view"
+                />
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/add_edit_quest_difficulty_label"
                 android:layout_width="wrap_content"
@@ -64,7 +82,7 @@
                 android:text="@string/add_quest_difficulty_text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_edit_quest_description_text_input" />
+                app:layout_constraintTop_toBottomOf="@id/add_edit_quest_subquests_text_view" />
 
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/add_edit_quest_difficulty_spinner"
@@ -72,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/add_quest_items_margin_top"
                 app:layout_constraintStart_toEndOf="@id/add_edit_quest_difficulty_label"
-                app:layout_constraintTop_toBottomOf="@id/add_edit_quest_description_text_input"
+                app:layout_constraintTop_toBottomOf="@id/add_edit_quest_subquests_text_view"
                 app:setSelectedItem="@={viewModel.difficulty}" />
 
             <com.google.android.material.button.MaterialButton
