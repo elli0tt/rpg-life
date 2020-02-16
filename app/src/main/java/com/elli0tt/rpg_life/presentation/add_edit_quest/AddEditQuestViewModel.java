@@ -235,6 +235,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
     void removeDateDue() {
         isDateDueSet.setValue(false);
+        removeRepeat();
     }
 
     void setDateDueToday() {
@@ -255,6 +256,15 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     void setRepeatState(Quest.RepeatState repeatState) {
         this.repeatState.setValue(repeatState);
         repeatTextResId.setValue(getRepeatTextResIdUseCase.invoke(repeatState));
+        if (isDateDueSet.getValue() != null
+                && isDateDueSet.getValue().equals(false)
+                && !repeatState.equals(Quest.RepeatState.NOT_SET)) {
+            setDateDueToday();
+        }
+    }
+
+    void removeRepeat(){
+        setRepeatState(Quest.RepeatState.NOT_SET);
     }
 
 }

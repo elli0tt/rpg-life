@@ -25,11 +25,11 @@ import com.elli0tt.rpg_life.domain.use_case.quests.sort.SortByDateAddedUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.sort.SortByDateDueUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.sort.SortByDiffucultyUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.sort.SortByNameUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.update_data.CompleteQuestUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.DeleteAllQuestsUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.DeleteQuestsListUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.InsertQuestsListUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.PopulateWithSamplesUseCase;
-import com.elli0tt.rpg_life.domain.use_case.quests.update_data.SetQuestCompletedUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.SetQuestImportantUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.SetQuestsFilterStateUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.SetQuestsSortingState;
@@ -66,7 +66,7 @@ public class QuestsViewModel extends AndroidViewModel {
     private SetQuestsFilterStateUseCase setQuestsFilterStateUseCase;
     private SetQuestsSortingState setQuestsSortingStateUseCase;
     private PopulateWithSamplesUseCase populateWithSamplesUseCase;
-    private SetQuestCompletedUseCase setQuestCompletedUseCase;
+    private CompleteQuestUseCase completeQuestUseCase;
     private SetQuestImportantUseCase setQuestImportantUseCase;
     private UpdateQuestsDateDueStateUseCase updateQuestsDateDueStateUseCase;
 
@@ -94,7 +94,7 @@ public class QuestsViewModel extends AndroidViewModel {
         setQuestsFilterStateUseCase = new SetQuestsFilterStateUseCase(questsRepository);
         setQuestsSortingStateUseCase = new SetQuestsSortingState(questsRepository);
         populateWithSamplesUseCase = new PopulateWithSamplesUseCase(questsRepository);
-        setQuestCompletedUseCase = new SetQuestCompletedUseCase(questsRepository);
+        completeQuestUseCase = new CompleteQuestUseCase(questsRepository);
         setQuestImportantUseCase = new SetQuestImportantUseCase(questsRepository);
         updateQuestsDateDueStateUseCase = new UpdateQuestsDateDueStateUseCase(questsRepository);
 
@@ -210,11 +210,16 @@ public class QuestsViewModel extends AndroidViewModel {
     }
 
     void completeQuest(int position, boolean isCompleted) {
-        setQuestCompletedUseCase.invoke(getQuests().getValue().get(position), isCompleted);
+        if (getQuests().getValue() != null) {
+            Quest quest = getQuests().getValue().get(position);
+            completeQuestUseCase.invoke(quest, isCompleted);
+        }
     }
 
     void setQuestImportant(int position, boolean isImportant) {
-        setQuestImportantUseCase.invoke(getQuests().getValue().get(position), isImportant);
+        if (getQuests().getValue() != null) {
+            setQuestImportantUseCase.invoke(getQuests().getValue().get(position), isImportant);
+        }
     }
 
     void updateQuestsDateDueState() {

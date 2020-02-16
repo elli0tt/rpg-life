@@ -98,7 +98,7 @@ public class AddEditQuestFragment extends Fragment {
     private void subscribeToViewModel() {
         viewModel.getNameErrorMessageId().observe(getViewLifecycleOwner(),
                 errorMessageId -> {
-                    if (errorMessageId != null){
+                    if (errorMessageId != null) {
                         nameTextInput.setError(getString(errorMessageId));
                     }
                 }
@@ -119,10 +119,11 @@ public class AddEditQuestFragment extends Fragment {
                 repeatButton.setText(textResId);
             }
         });
-        viewModel.getRepeatState().observe(getViewLifecycleOwner(), new Observer<Quest.RepeatState>() {
+        viewModel.getRepeatState().observe(getViewLifecycleOwner(),
+                new Observer<Quest.RepeatState>() {
             @Override
             public void onChanged(Quest.RepeatState repeatState) {
-                if (repeatState.equals(Quest.RepeatState.NOT_SET)){
+                if (repeatState.equals(Quest.RepeatState.NOT_SET)) {
                     removeRepeatButton.setVisibility(View.INVISIBLE);
                 } else {
                     removeRepeatButton.setVisibility(View.VISIBLE);
@@ -200,7 +201,7 @@ public class AddEditQuestFragment extends Fragment {
         @Override
         public void onClick(View v) {
             hideKeyboard(v);
-            viewModel.setRepeatState(Quest.RepeatState.NOT_SET);
+            viewModel.removeRepeat();
         }
     };
 
