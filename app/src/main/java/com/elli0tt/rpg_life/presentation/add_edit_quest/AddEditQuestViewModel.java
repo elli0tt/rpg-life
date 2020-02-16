@@ -34,7 +34,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     //TODO - CHECK IF LIVEDATA IS NECESSARY
     private MutableLiveData<String> name = new MutableLiveData<>();
     private MutableLiveData<String> description = new MutableLiveData<>("");
-    private MutableLiveData<Integer> difficulty = new MutableLiveData<>();
+    private MutableLiveData<Integer> difficulty = new MutableLiveData<>(Quest.NORMAL);
 
     private MutableLiveData<Integer> nameErrorMessageId = new MutableLiveData<>();
 
@@ -263,8 +263,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         }
     }
 
-    void removeRepeat(){
+    void removeRepeat() {
         setRepeatState(Quest.RepeatState.NOT_SET);
     }
-
 }
