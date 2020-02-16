@@ -126,7 +126,7 @@ public class QuestsViewModel extends AndroidViewModel {
         questsToShow.addSource(currentSortingState, new Observer<QuestsSortingState>() {
             @Override
             public void onChanged(QuestsSortingState questsSortingState) {
-                if (quests.getValue() != null) {
+                if (quests.getValue() != null && currentSortingState.getValue() != null) {
                     switch (currentSortingState.getValue()) {
                         case NAME:
                             questsToShow.setValue(sortByNameUseCase.invoke((List<Quest>) questsToShow.getValue()));
@@ -147,7 +147,7 @@ public class QuestsViewModel extends AndroidViewModel {
         questsToShow.addSource(quests, new Observer<List<Quest>>() {
             @Override
             public void onChanged(List<Quest> quests) {
-                if (quests != null) {
+                if (quests != null && currentSortingState.getValue() != null) {
                     switch (currentSortingState.getValue()) {
                         case NAME:
                             questsToShow.setValue(sortByNameUseCase.invoke(quests));
