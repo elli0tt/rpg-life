@@ -3,22 +3,22 @@ package com.elli0tt.rpg_life.domain.use_case.quests.update_data;
 import com.elli0tt.rpg_life.domain.constants.Constants;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
-import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.InsertQuestUseCase;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.InsertQuestsUseCase;
 
 import java.util.Calendar;
 
 public class CompleteQuestUseCase {
-    private UpdateQuestUseCase updateQuestUseCase;
-    private InsertQuestUseCase insertQuestUseCase;
+    private UpdateQuestsUseCase updateQuestsUseCase;
+    private InsertQuestsUseCase insertQuestsUseCase;
 
     public CompleteQuestUseCase(QuestsRepository repository) {
-        updateQuestUseCase = new UpdateQuestUseCase(repository);
-        insertQuestUseCase = new InsertQuestUseCase(repository);
+        updateQuestsUseCase = new UpdateQuestsUseCase(repository);
+        insertQuestsUseCase = new InsertQuestsUseCase(repository);
     }
 
     public void invoke(Quest quest, boolean isCompleted) {
         quest.setCompleted(isCompleted);
-        updateQuestUseCase.invoke(quest);
+        updateQuestsUseCase.invoke(quest);
         if (!quest.getRepeatState().equals(Quest.RepeatState.NOT_SET)) {
             Quest newQuest = new Quest();
             newQuest.setName(quest.getName());
@@ -29,7 +29,7 @@ public class CompleteQuestUseCase {
             newQuest.setIsDateDueSet(quest.isDateDueSet());
             newQuest.setDateDue(calculateNewDateDue(quest.getDateDue(), quest.getRepeatState()));
             newQuest.setImportant(quest.isImportant());
-            insertQuestUseCase.invoke(newQuest);
+            insertQuestsUseCase.invoke(newQuest);
         }
     }
 

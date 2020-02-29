@@ -27,10 +27,10 @@ import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTomor
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.GetQuestByIdUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.GetQuestsByIdUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.GetSubQuestsUseCase;
-import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.InsertQuestUseCase;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.InsertQuestsUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.CompleteQuestUseCase;
-import com.elli0tt.rpg_life.domain.use_case.quests.update_data.DeleteQuestsListUseCase;
-import com.elli0tt.rpg_life.domain.use_case.quests.update_data.UpdateQuestUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.update_data.DeleteQuestsUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.update_data.UpdateQuestsUseCase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -81,13 +81,13 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private GetCurrentMinuteUseCase getCurrentMinuteUseCase;
     private GetRepeatTextResIdUseCase getRepeatTextResIdUseCase;
 
-    private InsertQuestUseCase insertQuestUseCase;
-    private UpdateQuestUseCase updateQuestUseCase;
+    private InsertQuestsUseCase insertQuestsUseCase;
+    private UpdateQuestsUseCase updateQuestsUseCase;
     private GetQuestByIdUseCase getQuestByIdUseCase;
     private GetQuestsByIdUseCase getQuestsByIdUseCase;
     private GetSubQuestsUseCase getSubQuestsUseCase;
     private CompleteQuestUseCase completeQuestUseCase;
-    private DeleteQuestsListUseCase deleteQuestsListUseCase;
+    private DeleteQuestsUseCase deleteQuestsUseCase;
 
     public AddEditQuestViewModel(@NonNull Application application) {
         super(application);
@@ -102,13 +102,13 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
         QuestsRepository repository = new QuestsRepositoryImpl(application);
 
-        insertQuestUseCase = new InsertQuestUseCase(repository);
-        updateQuestUseCase = new UpdateQuestUseCase(repository);
+        insertQuestsUseCase = new InsertQuestsUseCase(repository);
+        updateQuestsUseCase = new UpdateQuestsUseCase(repository);
         getQuestByIdUseCase = new GetQuestByIdUseCase(repository);
         getQuestsByIdUseCase = new GetQuestsByIdUseCase(repository);
         getSubQuestsUseCase = new GetSubQuestsUseCase(repository);
         completeQuestUseCase = new CompleteQuestUseCase(repository);
-        deleteQuestsListUseCase = new DeleteQuestsListUseCase(repository);
+        deleteQuestsUseCase = new DeleteQuestsUseCase(repository);
 
         TODAY = application.getString(R.string.quest_date_due_today);
         TOMORROW = application.getString(R.string.quest_date_due_tomorrow);
@@ -227,12 +227,12 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
 
         if (isNewQuest) {
-            insertQuestUseCase.invoke(quest);
+            insertQuestsUseCase.invoke(quest);
         } else {
             quest.setId(id);
             quest.setCompleted(currentQuest.isCompleted());
             quest.setImportant(currentQuest.isImportant());
-            updateQuestUseCase.invoke(quest);
+            updateQuestsUseCase.invoke(quest);
         }
         return true;
     }
@@ -323,7 +323,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         if (subQuests.getValue() != null) {
             List<Quest> listToDelete = new ArrayList<>();
             listToDelete.add(subQuests.getValue().get(position));
-            deleteQuestsListUseCase.invoke(listToDelete);
+            deleteQuestsUseCase.invoke(listToDelete.toArray(new Quest[0]));
         }
     }
 }

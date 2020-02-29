@@ -21,8 +21,8 @@ public class SkillsRepositoryImpl implements SkillsRepository {
     }
 
     @Override
-    public void insert(Skill skill) {
-        new InsertAsyncTask(skillsDao).execute(skill);
+    public void insert(Skill... skills) {
+        new InsertAsyncTask(skillsDao).execute(skills);
     }
 
     private static class InsertAsyncTask extends AsyncTask<Skill, Void, Void> {
@@ -35,26 +35,6 @@ public class SkillsRepositoryImpl implements SkillsRepository {
         @Override
         protected Void doInBackground(Skill... skills) {
             dao.insert(skills[0]);
-            return null;
-        }
-    }
-
-    @Override
-    public void insert(List<Skill> skillList) {
-        new InsertListAsyncTask(skillsDao).execute(skillList);
-    }
-
-    private static class InsertListAsyncTask extends AsyncTask<List<Skill>, Void, Void> {
-        private SkillsDao dao;
-
-        InsertListAsyncTask(SkillsDao dao) {
-            this.dao = dao;
-        }
-
-        @SafeVarargs
-        @Override
-        protected final Void doInBackground(List<Skill>... lists) {
-            dao.insert(lists[0]);
             return null;
         }
     }

@@ -9,11 +9,11 @@ import java.util.List;
 
 public class UpdateQuestsDateDueStateUseCase {
     private GetQuestDateDueStateUseCase getQuestDateDueStateUseCase;
-    private UpdateQuestsListUseCase updateQuestsListUseCase;
+    private UpdateQuestsUseCase updateQuestsUseCase;
 
     public UpdateQuestsDateDueStateUseCase(QuestsRepository repository) {
         getQuestDateDueStateUseCase = new GetQuestDateDueStateUseCase();
-        updateQuestsListUseCase = new UpdateQuestsListUseCase(repository);
+        updateQuestsUseCase = new UpdateQuestsUseCase(repository);
     }
 
     public void invoke(List<Quest> quests) {
@@ -23,6 +23,6 @@ public class UpdateQuestsDateDueStateUseCase {
                 questsToUpdate.add(quest);
             }
         }
-        updateQuestsListUseCase.invoke(questsToUpdate);
+        updateQuestsUseCase.invoke(questsToUpdate.toArray(new Quest[0]));
     }
 }

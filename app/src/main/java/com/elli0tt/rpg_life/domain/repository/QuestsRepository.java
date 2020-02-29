@@ -23,15 +23,11 @@ public interface QuestsRepository {
 
     LiveData<List<Quest>> getSubQuests(int parentQuestId);
 
-    void insert(Quest quest);
+    void insert(Quest... quests);
 
-    void insert(List<Quest> questList);
+    void update(Quest... quests);
 
-    void update(Quest quest);
-
-    void update(List<Quest> questsList);
-
-    void delete(List<Quest> questList);
+    void delete(Quest... quests);
 
     void deleteAll();
 

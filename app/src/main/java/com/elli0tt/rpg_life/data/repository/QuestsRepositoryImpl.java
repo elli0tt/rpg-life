@@ -61,8 +61,8 @@ public class QuestsRepositoryImpl implements QuestsRepository {
     }
 
     @Override
-    public void insert(Quest quest) {
-        new InsertOneAsyncTask(dao).execute(quest);
+    public void insert(Quest... quests) {
+        new InsertOneAsyncTask(dao).execute(quests);
     }
 
     private static class InsertOneAsyncTask extends AsyncTask<Quest, Void, Void> {
@@ -74,34 +74,14 @@ public class QuestsRepositoryImpl implements QuestsRepository {
 
         @Override
         protected Void doInBackground(Quest... quests) {
-            dao.insert(quests[0]);
+            dao.insert(quests);
             return null;
         }
     }
 
     @Override
-    public void insert(List<Quest> questList) {
-        new InsertListAsyncTask(dao).execute(questList);
-    }
-
-    private static class InsertListAsyncTask extends AsyncTask<List<Quest>, Void, Void> {
-        private QuestsDao dao;
-
-        InsertListAsyncTask(QuestsDao dao) {
-            this.dao = dao;
-        }
-
-        @SafeVarargs
-        @Override
-        protected final Void doInBackground(List<Quest>... lists) {
-            dao.insert(lists[0]);
-            return null;
-        }
-    }
-
-    @Override
-    public void update(Quest quest) {
-        new UpdateAsyncTask(dao).execute(quest);
+    public void update(Quest... quests) {
+        new UpdateAsyncTask(dao).execute(quests);
     }
 
     private static class UpdateAsyncTask extends AsyncTask<Quest, Void, Void> {
@@ -113,37 +93,17 @@ public class QuestsRepositoryImpl implements QuestsRepository {
 
         @Override
         protected Void doInBackground(Quest... quests) {
-            dao.update(quests[0]);
+            dao.update(quests);
             return null;
         }
     }
 
     @Override
-    public void update(List<Quest> questsList) {
-        new UpdateListAsyncTask(dao).execute(questsList);
+    public void delete(Quest... quests) {
+        new DeleteAsyncTask(dao).execute(quests);
     }
 
-    private static class UpdateListAsyncTask extends AsyncTask<List<Quest>, Void, Void> {
-        private QuestsDao dao;
-
-        UpdateListAsyncTask(QuestsDao dao) {
-            this.dao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(List<Quest>... lists) {
-            dao.update(lists[0]);
-            return null;
-        }
-    }
-
-
-    @Override
-    public void delete(List<Quest> questList) {
-        new DeleteAsyncTask(dao).execute(questList);
-    }
-
-    private static class DeleteAsyncTask extends AsyncTask<List<Quest>, Void, Void> {
+    private static class DeleteAsyncTask extends AsyncTask<Quest, Void, Void> {
         private QuestsDao dao;
 
         DeleteAsyncTask(QuestsDao dao) {
@@ -151,8 +111,8 @@ public class QuestsRepositoryImpl implements QuestsRepository {
         }
 
         @Override
-        protected Void doInBackground(List<Quest>... lists) {
-            dao.delete(lists[0]);
+        protected Void doInBackground(Quest... quests) {
+            dao.delete(quests);
             return null;
         }
     }

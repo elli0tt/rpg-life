@@ -4,14 +4,14 @@ import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
 
 public class SetQuestImportantUseCase {
-    private UpdateQuestUseCase updateQuestUseCase;
+    private UpdateQuestsUseCase updateQuestsUseCase;
 
     public SetQuestImportantUseCase(QuestsRepository repository){
-        updateQuestUseCase = new UpdateQuestUseCase(repository);
+        updateQuestsUseCase = new UpdateQuestsUseCase(repository);
     }
 
     public void invoke(Quest quest, boolean isImportant){
         quest.setImportant(isImportant);
-        updateQuestUseCase.invoke(quest);
+        updateQuestsUseCase.invoke(quest);
     }
 }

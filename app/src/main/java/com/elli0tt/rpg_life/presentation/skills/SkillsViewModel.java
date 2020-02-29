@@ -28,7 +28,7 @@ public class SkillsViewModel extends AndroidViewModel {
     }
 
     void populateWithSamples(){
-        repository.insert(generateSampleSkillsList());
+        repository.insert(generateSampleSkillsList().toArray(new Skill[0]));
     }
 
     private List<Skill> generateSampleSkillsList(){
