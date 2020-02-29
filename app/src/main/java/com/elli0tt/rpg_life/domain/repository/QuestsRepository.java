@@ -11,6 +11,8 @@ import java.util.List;
 public interface QuestsRepository {
     Quest getQuestById(int id);
 
+    List<Quest> getQuestsByIds(List<Integer> ids);
+
     LiveData<List<Quest>> getAllQuests();
 
     LiveData<List<Quest>> getActiveQuests();
@@ -18,6 +20,8 @@ public interface QuestsRepository {
     LiveData<List<Quest>> getCompletedQuests();
 
     LiveData<List<Quest>> getImportantQuests();
+
+    LiveData<List<Quest>> getSubQuests(int parentQuestId);
 
     void insert(Quest quest);
 

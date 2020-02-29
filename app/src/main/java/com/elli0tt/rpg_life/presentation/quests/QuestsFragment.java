@@ -1,5 +1,6 @@
 package com.elli0tt.rpg_life.presentation.quests;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,6 +18,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,6 +40,8 @@ public class QuestsFragment extends Fragment {
     private RecyclerView recyclerView;
 
     private ActionMode actionMode;
+
+    private boolean isToShowDevelopersOptions;
 
     @Nullable
     @Override
@@ -67,6 +71,11 @@ public class QuestsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         questsAdapter.notifyDataSetChanged();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        isToShowDevelopersOptions = sharedPreferences.getBoolean("developers_options", false);
+        if (getActivity() != null){
+            getActivity().invalidateOptionsMenu();
+        }
     }
 
     private QuestsAdapter.OnItemClickListener onItemClickListener = position -> {
@@ -100,8 +109,9 @@ public class QuestsFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL
                 , false));
-        recyclerView.addItemDecoration(new DividerItemDecoration(
-                Objects.requireNonNull(getContext()), RecyclerView.VERTICAL));
+//        recyclerView.addItemDecoration(new DividerItemDecoration(
+//                Objects.requireNonNull(getContext()), RecyclerView.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -135,7 +145,10 @@ public class QuestsFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.quests_toolbar_menu, menu);
-
+        MenuItem populateWithSamplesItem = menu.findItem(R.id.quests_toolbar_menu_populate_with_samples);
+        MenuItem deleteAllItem = menu.findItem(R.id.quests_toolbar_menu_delete_all);
+        populateWithSamplesItem.setVisible(isToShowDevelopersOptions);
+        deleteAllItem.setVisible(isToShowDevelopersOptions);
     }
 
     @Override
@@ -143,6 +156,7 @@ public class QuestsFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.quests_toolbar_menu_delete_all:
                 viewModel.deleteAll();
+                fab.show();
                 break;
             case R.id.quests_toolbar_menu_populate_with_samples:
                 viewModel.populateWithSamples();

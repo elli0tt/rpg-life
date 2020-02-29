@@ -109,6 +109,22 @@
             android:defaultValue="@null"
             app:argType="java.lang.Integer"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_add_edit_quest_screen_self"
+            app:destination="@id/add_edit_quest_screen"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/add_edit_quest_screen" />
+        <argument
+            android:name="isSubQuest"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <argument
+            android:name="parentQuestId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 
     <fragment

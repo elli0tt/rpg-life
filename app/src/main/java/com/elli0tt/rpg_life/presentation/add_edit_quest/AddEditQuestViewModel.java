@@ -25,10 +25,13 @@ import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTomorrowCalendarUs
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTodayCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTomorrowCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.GetQuestByIdUseCase;
-import com.elli0tt.rpg_life.domain.use_case.quests.update_data.InsertQuestUseCase;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.GetQuestsByIdUseCase;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.GetSubQuestsUseCase;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.InsertQuestUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.UpdateQuestUseCase;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class AddEditQuestViewModel extends AndroidViewModel {
     //TODO - CHECK IF LIVEDATA IS NECESSARY
@@ -49,6 +52,12 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private Calendar dateDue = Calendar.getInstance();
 
     private Quest currentQuest;
+    private Quest parentQuest;
+
+    private LiveData<List<Quest>> subQuests;
+
+    private boolean isSubQuest;
+    private int parentQuestId;
 
     /**
      * Id of quest to open in edit mode
@@ -72,6 +81,8 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private InsertQuestUseCase insertQuestUseCase;
     private UpdateQuestUseCase updateQuestUseCase;
     private GetQuestByIdUseCase getQuestByIdUseCase;
+    private GetQuestsByIdUseCase getQuestsByIdUseCase;
+    private GetSubQuestsUseCase getSubQuestsUseCase;
 
     public AddEditQuestViewModel(@NonNull Application application) {
         super(application);
@@ -89,6 +100,8 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         insertQuestUseCase = new InsertQuestUseCase(repository);
         updateQuestUseCase = new UpdateQuestUseCase(repository);
         getQuestByIdUseCase = new GetQuestByIdUseCase(repository);
+        getQuestsByIdUseCase = new GetQuestsByIdUseCase(repository);
+        getSubQuestsUseCase = new GetSubQuestsUseCase(repository);
 
         TODAY = application.getString(R.string.quest_date_due_today);
         TOMORROW = application.getString(R.string.quest_date_due_tomorrow);
@@ -122,17 +135,31 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         return repeatTextResId;
     }
 
-    void start(@Nullable Integer id) {
+    LiveData<List<Quest>> getSubQuests(){
+        return subQuests;
+    }
+
+    int getQuestId(){
+        return currentQuest.getId();
+    }
+
+    void start(@Nullable Integer id, boolean isSubQuest, int parentQuestId) {
+        this.isSubQuest = isSubQuest;
+        this.parentQuestId = parentQuestId;
+
         if (id == null) {
             //No need to populate, the quest is new
+            currentQuest = new Quest();
             isNewQuest = true;
+            subQuests = new MutableLiveData<>();
             return;
         }
 
         this.id = id;
+        subQuests = getSubQuestsUseCase.invoke(id);
 
         if (isDataLoaded) {
-            //No need to populate, data have already been loaded
+            //No need to populate, the quest is already loaded
             return;
         }
         loadCurrentQuest();
@@ -144,6 +171,15 @@ public class AddEditQuestViewModel extends AndroidViewModel {
             public void run() {
                 currentQuest = getQuestByIdUseCase.invoke(id);
                 onDataLoaded(currentQuest);
+            }
+        }.start();
+    }
+
+    private void loadParentQuest(){
+        new Thread() {
+            @Override
+            public void run() {
+                parentQuest = getQuestByIdUseCase.invoke(parentQuestId);
             }
         }.start();
     }
@@ -179,6 +215,9 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         quest.setDateDue(dateDue);
         quest.setIsDateDueSet(isDateDueSet.getValue());
         quest.setRepeatState(repeatState.getValue());
+        quest.setIsSubQuest(isSubQuest);
+        quest.setParentQuestId(parentQuestId);
+
 
         if (isNewQuest) {
             insertQuestUseCase.invoke(quest);

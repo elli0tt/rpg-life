@@ -26,22 +26,30 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.databinding.FragmentAddEditQuestBinding;
 import com.elli0tt.rpg_life.domain.model.Quest;
+import com.elli0tt.rpg_life.presentation.custom_view.ButtonWithRemoveIcon;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.List;
 
 public class AddEditQuestFragment extends Fragment {
     private EditText nameEditText;
     private EditText descriptionEditText;
     private Spinner difficultySpinner;
     private TextInputLayout nameTextInput;
-    private Button addDateDueButton;
-    private Button removeDateDueButton;
-    private Button repeatButton;
-    private Button removeRepeatButton;
+    private ButtonWithRemoveIcon addDateDueView;
+    private ButtonWithRemoveIcon repeatView;
+    private RecyclerView subQuestsRecycler;
+    private Button addSubQuestButton;
+
+
+    private SubQuestsAdapter subQuestsAdapter;
 
     private NavController navController;
 
@@ -73,26 +81,32 @@ public class AddEditQuestFragment extends Fragment {
         descriptionEditText = view.findViewById(R.id.add_edit_quest_description_edit_text);
         difficultySpinner = view.findViewById(R.id.add_edit_quest_difficulty_spinner);
         nameTextInput = view.findViewById(R.id.add_edit_quest_name_text_input);
-        addDateDueButton = view.findViewById(R.id.add_edit_quest_add_date_due_button);
-        removeDateDueButton = view.findViewById(R.id.add_edit_quest_remove_date_due_button);
-        repeatButton = view.findViewById(R.id.add_edit_quest_repeat_button);
-        removeRepeatButton = view.findViewById(R.id.add_edit_quest_remove_repeat_button);
+        addDateDueView = view.findViewById(R.id.add_edit_quest_add_date_due_view);
+        repeatView = view.findViewById(R.id.add_edit_quest_repeat_view);
+        subQuestsRecycler = view.findViewById(R.id.add_edit_quest_subquests_recycler);
+        addSubQuestButton = view.findViewById(R.id.add_edit_quest_add_subquest_button);
 
         navController = NavHostFragment.findNavController(this);
 
         setupDifficultySpinner();
+        setupSubQuestsRecycler();
         setHasOptionsMenu(true);
+
+        if (getArguments() != null) {
+            viewModel.start(AddEditQuestFragmentArgs.fromBundle(getArguments()).getQuestId(),
+                    AddEditQuestFragmentArgs.fromBundle(getArguments()).getIsSubQuest(),
+                    AddEditQuestFragmentArgs.fromBundle(getArguments()).getParentQuestId());
+        }
 
         subscribeToViewModel();
 
-        viewModel.start(AddEditQuestFragmentArgs.fromBundle(getArguments()).getQuestId());
-
         nameEditText.setOnFocusChangeListener(onEditTextsFocusChangeListener);
         descriptionEditText.setOnFocusChangeListener(onEditTextsFocusChangeListener);
-        addDateDueButton.setOnClickListener(onAddDateDueButtonClickListener);
-        removeDateDueButton.setOnClickListener(onRemoveDateDueButtonClickListener);
-        repeatButton.setOnClickListener(onRepeatButtonClickListener);
-        removeRepeatButton.setOnClickListener(onRemoveRepeatButtonClickListener);
+        addDateDueView.setOnClickListener(onAddDateDueViewClickListener);
+        addDateDueView.setOnRemoveClickListener(onRemoveDateDueViewClickListener);
+        repeatView.setOnClickListener(onRepeatViewClickListener);
+        repeatView.setOnRemoveClickListener(onRemoveRepeatViewClickListener);
+        addSubQuestButton.setOnClickListener(onAddSubQuestButtonClickListener);
     }
 
     private void subscribeToViewModel() {
@@ -106,28 +120,34 @@ public class AddEditQuestFragment extends Fragment {
         viewModel.isDateDueSet().observe(getViewLifecycleOwner(),
                 isDateDueSet -> {
                     if (!isDateDueSet) {
-                        addDateDueButton.setText(R.string.add_edit_quest_add_date_due);
-                        removeDateDueButton.setVisibility(View.INVISIBLE);
+                        addDateDueView.setText(R.string.add_edit_quest_add_date_due);
+                        addDateDueView.setRemoveIconVisisbility(View.INVISIBLE);
                     } else {
-                        addDateDueButton.setText(viewModel.getDueDateFormatted());
-                        removeDateDueButton.setVisibility(View.VISIBLE);
+                        addDateDueView.setText(viewModel.getDueDateFormatted());
+                        addDateDueView.setRemoveIconVisisbility(View.VISIBLE);
                     }
                 });
         viewModel.getRepeatTextResId().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer textResId) {
-                repeatButton.setText(textResId);
+                repeatView.setText(textResId);
             }
         });
         viewModel.getRepeatState().observe(getViewLifecycleOwner(),
                 new Observer<Quest.RepeatState>() {
+                    @Override
+                    public void onChanged(Quest.RepeatState repeatState) {
+                        if (repeatState.equals(Quest.RepeatState.NOT_SET)) {
+                            repeatView.setRemoveIconVisisbility(View.INVISIBLE);
+                        } else {
+                            repeatView.setRemoveIconVisisbility(View.VISIBLE);
+                        }
+                    }
+                });
+        viewModel.getSubQuests().observe(getViewLifecycleOwner(), new Observer<List<Quest>>() {
             @Override
-            public void onChanged(Quest.RepeatState repeatState) {
-                if (repeatState.equals(Quest.RepeatState.NOT_SET)) {
-                    removeRepeatButton.setVisibility(View.INVISIBLE);
-                } else {
-                    removeRepeatButton.setVisibility(View.VISIBLE);
-                }
+            public void onChanged(List<Quest> subQuests) {
+                subQuestsAdapter.submitList(subQuests);
             }
         });
     }
@@ -147,6 +167,21 @@ public class AddEditQuestFragment extends Fragment {
                 return false;
             });
         }
+    }
+
+    private void setupSubQuestsRecycler() {
+        subQuestsAdapter = new SubQuestsAdapter();
+        subQuestsRecycler.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL));
+        subQuestsRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
+                RecyclerView.VERTICAL, false));
+        subQuestsRecycler.setAdapter(subQuestsAdapter);
+
+//        List<Quest> list = new ArrayList<>(10);
+//        for (int i = 0; i < 20; ++i){
+//            list.add(new Quest("Subquest " + i));
+//        }
+//        subQuestsAdapter.submitList(list);
     }
 
     @Override
@@ -176,12 +211,12 @@ public class AddEditQuestFragment extends Fragment {
         }
     };
 
-    private View.OnClickListener onAddDateDueButtonClickListener = v -> {
+    private View.OnClickListener onAddDateDueViewClickListener = v -> {
         hideKeyboard(v);
         showAddDateDuePopupMenu(v);
     };
 
-    private View.OnClickListener onRemoveDateDueButtonClickListener = new View.OnClickListener() {
+    private View.OnClickListener onRemoveDateDueViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             hideKeyboard(v);
@@ -189,7 +224,7 @@ public class AddEditQuestFragment extends Fragment {
         }
     };
 
-    private View.OnClickListener onRepeatButtonClickListener = new View.OnClickListener() {
+    private View.OnClickListener onRepeatViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             hideKeyboard(v);
@@ -197,11 +232,18 @@ public class AddEditQuestFragment extends Fragment {
         }
     };
 
-    private View.OnClickListener onRemoveRepeatButtonClickListener = new View.OnClickListener() {
+    private View.OnClickListener onRemoveRepeatViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             hideKeyboard(v);
             viewModel.removeRepeat();
+        }
+    };
+
+    private View.OnClickListener onAddSubQuestButtonClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            navigateToAddSubQuestScreen();
         }
     };
 
@@ -287,5 +329,13 @@ public class AddEditQuestFragment extends Fragment {
             return false;
         });
         popupMenu.show();
+    }
+
+    private void navigateToAddSubQuestScreen() {
+        AddEditQuestFragmentDirections.ActionAddEditQuestScreenSelf action =
+                AddEditQuestFragmentDirections.actionAddEditQuestScreenSelf();
+        action.setParentQuestId(viewModel.getQuestId());
+        action.setIsSubQuest(true);
+        navController.navigate(action);
     }
 }

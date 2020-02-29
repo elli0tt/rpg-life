@@ -5,12 +5,11 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
 import com.elli0tt.rpg_life.domain.model.room_type_converters.CalendarConverter;
-import com.elli0tt.rpg_life.domain.model.room_type_converters.DateDueStateConverter;
 import com.elli0tt.rpg_life.domain.model.room_type_converters.RepeatStateConverter;
+import com.elli0tt.rpg_life.domain.model.room_type_converters.SubQuestsListConverter;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTodayCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTomorrowCalendarUseCase;
 
@@ -84,8 +83,11 @@ public class Quest {
     private String description = "";
     @Difficulty
     private int difficulty = NORMAL;
-    @Ignore
-    private List<Quest> subquests = new ArrayList<>();
+
+    private int parentQuestId;
+
+    private boolean isSubQuest = false;
+
     @Ignore
     private List<Reward> rewards = new ArrayList<>();
     private boolean isImportant = false;
@@ -123,13 +125,11 @@ public class Quest {
     public Quest(@NonNull String name,
                  @NonNull String description,
                  @Difficulty int difficulty,
-                 List<Quest> subquests,
                  List<Reward> rewards,
                  boolean isImportant) {
         this.name = name;
         this.description = description;
         this.difficulty = difficulty;
-        this.subquests = subquests;
         this.rewards = rewards;
         this.isImportant = isImportant;
     }
@@ -177,9 +177,7 @@ public class Quest {
     }
 
     public void complete() {
-        for (Quest quest : subquests) {
-            quest.complete();
-        }
+
     }
 
     public int getId() {
@@ -199,8 +197,12 @@ public class Quest {
         return difficulty;
     }
 
-    public List<Quest> getSubquests() {
-        return subquests;
+    public int getParentQuestId(){
+        return parentQuestId;
+    }
+
+    public boolean isSubQuest(){
+        return isSubQuest;
     }
 
     public List<Reward> getRewards() {
@@ -268,8 +270,12 @@ public class Quest {
         this.difficulty = difficulty;
     }
 
-    public void setSubquests(List<Quest> subquests) {
-        this.subquests = subquests;
+    public void setParentQuestId(int parentQuestId){
+        this.parentQuestId = parentQuestId;
+    }
+
+    public void setIsSubQuest(boolean isSubQuest){
+        this.isSubQuest = isSubQuest;
     }
 
     public void setRewards(List<Reward> rewards) {
