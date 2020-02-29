@@ -31,6 +31,11 @@ public class QuestsRepositoryImpl implements QuestsRepository {
     }
 
     @Override
+    public List<Quest> getQuestsByIds(List<Integer> ids) {
+        return dao.getQuestsById(ids);
+    }
+
+    @Override
     public LiveData<List<Quest>> getAllQuests() {
         return dao.getAllQuests();
     }

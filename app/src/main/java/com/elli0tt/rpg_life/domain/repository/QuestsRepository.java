@@ -11,6 +11,8 @@ import java.util.List;
 public interface QuestsRepository {
     Quest getQuestById(int id);
 
+    List<Quest> getQuestsByIds(List<Integer> ids);
+
     LiveData<List<Quest>> getAllQuests();
 
     LiveData<List<Quest>> getActiveQuests();

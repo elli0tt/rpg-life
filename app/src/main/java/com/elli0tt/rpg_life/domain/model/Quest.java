@@ -5,12 +5,11 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
 import com.elli0tt.rpg_life.domain.model.room_type_converters.CalendarConverter;
-import com.elli0tt.rpg_life.domain.model.room_type_converters.DateDueStateConverter;
 import com.elli0tt.rpg_life.domain.model.room_type_converters.RepeatStateConverter;
+import com.elli0tt.rpg_life.domain.model.room_type_converters.SubQuestsListConverter;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTodayCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTomorrowCalendarUseCase;
 
@@ -84,8 +83,12 @@ public class Quest {
     private String description = "";
     @Difficulty
     private int difficulty = NORMAL;
-    @Ignore
-    private List<Quest> subquests = new ArrayList<>();
+
+    @TypeConverters({SubQuestsListConverter.class})
+    private List<Integer> subQuestsIds = new ArrayList<>();
+
+    private boolean isSubQuest = false;
+
     @Ignore
     private List<Reward> rewards = new ArrayList<>();
     private boolean isImportant = false;
@@ -123,13 +126,13 @@ public class Quest {
     public Quest(@NonNull String name,
                  @NonNull String description,
                  @Difficulty int difficulty,
-                 List<Quest> subquests,
+                 List<Integer> subQuestsIds,
                  List<Reward> rewards,
                  boolean isImportant) {
         this.name = name;
         this.description = description;
         this.difficulty = difficulty;
-        this.subquests = subquests;
+        this.subQuestsIds = subQuestsIds;
         this.rewards = rewards;
         this.isImportant = isImportant;
     }
@@ -177,9 +180,7 @@ public class Quest {
     }
 
     public void complete() {
-        for (Quest quest : subquests) {
-            quest.complete();
-        }
+
     }
 
     public int getId() {
@@ -199,8 +200,12 @@ public class Quest {
         return difficulty;
     }
 
-    public List<Quest> getSubquests() {
-        return subquests;
+    public List<Integer> getSubQuestsIds() {
+        return subQuestsIds;
+    }
+
+    public boolean isSubQuest(){
+        return isSubQuest;
     }
 
     public List<Reward> getRewards() {
@@ -268,8 +273,12 @@ public class Quest {
         this.difficulty = difficulty;
     }
 
-    public void setSubquests(List<Quest> subquests) {
-        this.subquests = subquests;
+    public void setSubQuestsIds(List<Integer> subQuestsIds) {
+        this.subQuestsIds = subQuestsIds;
+    }
+
+    public void setIsSubQuest(boolean isSubQuest){
+        this.isSubQuest = isSubQuest;
     }
 
     public void setRewards(List<Reward> rewards) {
@@ -332,5 +341,9 @@ public class Quest {
                 dateDue.get(Calendar.YEAR),
                 dateDue.get(Calendar.HOUR_OF_DAY),
                 dateDue.get(Calendar.MINUTE));
+    }
+
+    public void addSubQuest(int id){
+        subQuestsIds.add(id);
     }
 }

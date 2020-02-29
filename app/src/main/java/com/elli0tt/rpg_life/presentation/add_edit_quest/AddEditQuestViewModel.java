@@ -25,10 +25,12 @@ import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTomorrowCalendarUs
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTodayCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTomorrowCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.GetQuestByIdUseCase;
-import com.elli0tt.rpg_life.domain.use_case.quests.update_data.InsertQuestUseCase;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.GetQuestsByIdUseCase;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.InsertQuestUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.UpdateQuestUseCase;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class AddEditQuestViewModel extends AndroidViewModel {
     //TODO - CHECK IF LIVEDATA IS NECESSARY
@@ -49,6 +51,13 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private Calendar dateDue = Calendar.getInstance();
 
     private Quest currentQuest;
+    private Quest parentQuest;
+
+    private MutableLiveData<List<Quest>> subQuests = new MutableLiveData<>();
+    private MutableLiveData<List<Integer>> subQuestsIds = new MutableLiveData<>();
+
+    private boolean isSubQuest;
+    private int parentQuestId;
 
     /**
      * Id of quest to open in edit mode
@@ -72,6 +81,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private InsertQuestUseCase insertQuestUseCase;
     private UpdateQuestUseCase updateQuestUseCase;
     private GetQuestByIdUseCase getQuestByIdUseCase;
+    private GetQuestsByIdUseCase getQuestsByIdUseCase;
 
     public AddEditQuestViewModel(@NonNull Application application) {
         super(application);
@@ -89,6 +99,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         insertQuestUseCase = new InsertQuestUseCase(repository);
         updateQuestUseCase = new UpdateQuestUseCase(repository);
         getQuestByIdUseCase = new GetQuestByIdUseCase(repository);
+        getQuestsByIdUseCase = new GetQuestsByIdUseCase(repository);
 
         TODAY = application.getString(R.string.quest_date_due_today);
         TOMORROW = application.getString(R.string.quest_date_due_tomorrow);
@@ -122,9 +133,21 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         return repeatTextResId;
     }
 
-    void start(@Nullable Integer id) {
+    LiveData<List<Quest>> getSubQuests(){
+        return subQuests;
+    }
+
+    int getQuestId(){
+        return currentQuest.getId();
+    }
+
+    void start(@Nullable Integer id, boolean isSubQuest, int parentQuestId) {
+        this.isSubQuest = isSubQuest;
+        this.parentQuestId = parentQuestId;
+        loadParentQuest();
         if (id == null) {
             //No need to populate, the quest is new
+            currentQuest = new Quest();
             isNewQuest = true;
             return;
         }
@@ -133,6 +156,13 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
         if (isDataLoaded) {
             //No need to populate, data have already been loaded
+            new Thread() {
+                @Override
+                public void run() {
+                    loadCurrentQuest();
+                }
+            }.start();
+
             return;
         }
         loadCurrentQuest();
@@ -142,8 +172,18 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         new Thread() {
             @Override
             public void run() {
+                currentQuest = null;
                 currentQuest = getQuestByIdUseCase.invoke(id);
                 onDataLoaded(currentQuest);
+            }
+        }.start();
+    }
+
+    private void loadParentQuest(){
+        new Thread() {
+            @Override
+            public void run() {
+                parentQuest = getQuestByIdUseCase.invoke(parentQuestId);
             }
         }.start();
     }
@@ -156,6 +196,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         dateDue = quest.getDateDue();
         repeatState.postValue(quest.getRepeatState());
         repeatTextResId.postValue(getRepeatTextResIdUseCase.invoke(quest.getRepeatState()));
+        subQuests.postValue(getQuestsByIdUseCase.invoke(currentQuest.getSubQuestsIds()));
         isDataLoaded = true;
     }
 
@@ -179,6 +220,13 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         quest.setDateDue(dateDue);
         quest.setIsDateDueSet(isDateDueSet.getValue());
         quest.setRepeatState(repeatState.getValue());
+        quest.setIsSubQuest(isSubQuest);
+        quest.setSubQuestsIds(subQuestsIds.getValue());
+
+        if (isSubQuest) {
+            parentQuest.addSubQuest(quest.getId());
+            updateQuestUseCase.invoke(parentQuest);
+        }
 
         if (isNewQuest) {
             insertQuestUseCase.invoke(quest);

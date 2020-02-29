@@ -1,4 +1,5 @@
-package com.elli0tt.rpg_life.presentation.quests;
+package com.elli0tt.rpg_life.presentation.add_edit_quest;
+
 
 import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
@@ -20,7 +21,7 @@ import com.elli0tt.rpg_life.domain.model.Quest;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHolder> {
+public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQuestsViewHolder> {
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -38,17 +39,12 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         void onClick(boolean isImportant, int position);
     }
 
-    public interface OnSelectionFinishedListener {
-        void onSelectionFinished();
-    }
-
     private OnIsCompleteCheckBoxClickListener onIsCompleteCheckBoxClickListener;
     private OnIsImportantCheckBoxClickListener onIsImportantCheckBoxClickListener;
     private OnItemClickListener onItemClickListener;
     private OnItemLongClickListener onItemLongClickListener;
-    private OnSelectionFinishedListener onSelectionFinishedListener;
 
-    QuestsAdapter() {
+    SubQuestsAdapter() {
         super(DIFF_CALLBACK);
     }
 
@@ -67,8 +63,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
                             oldItem.isCompleted() == newItem.isCompleted() &&
                             oldItem.isImportant() == newItem.isImportant() &&
                             oldItem.getDateDue().equals(newItem.getDateDue()) &&
-                            oldItem.getDateDueState().equals(newItem.getDateDueState()) &&
-                            oldItem.getRepeatState().equals(newItem.getRepeatState());
+                            oldItem.getDateDueState().equals(newItem.getDateDueState());
                 }
             };
 
@@ -88,10 +83,6 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         this.onItemLongClickListener = onItemLongClickListener;
     }
 
-    void setOnSelectionFinishedListener(OnSelectionFinishedListener onSelectionFinishedListener) {
-        this.onSelectionFinishedListener = onSelectionFinishedListener;
-    }
-
     @Override
     public void submitList(@Nullable List<Quest> list) {
         super.submitList(list != null ? new ArrayList<>(list) : null);
@@ -99,10 +90,10 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
 
     @NonNull
     @Override
-    public QuestsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SubQuestsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.quest_recycler_item, parent, false);
-        return new QuestsViewHolder(
+                .inflate(R.layout.subquest_recycler_item, parent, false);
+        return new SubQuestsViewHolder(
                 view,
                 onIsCompleteCheckBoxClickListener,
                 onIsImportantCheckBoxClickListener,
@@ -111,9 +102,9 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull QuestsViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SubQuestsViewHolder holder, int position) {
         holder.setOnItemClickListener(onItemClickListener);
-        holder.bind(getItem(position), isSelected(position));
+        holder.bind(getItem(position));
     }
 
     @Override
@@ -121,79 +112,10 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         return position;
     }
 
-    private List<Boolean> selectedPositions;
 
-    private OnItemClickListener saveLastOnItemClickListener;
-
-    private OnItemClickListener selectionOnItemClickListener = position -> {
-        selectedPositions.set(position, !selectedPositions.get(position));
-
-        if (isNothingSelected()) {
-            finishSelection();
-        } else {
-            notifyItemChanged(position);
-        }
-    };
-
-
-    void startSelection(int selectedPosition) {
-        saveLastOnItemClickListener = onItemClickListener;
-        onItemClickListener = selectionOnItemClickListener;
-
-        selectedPositions = new ArrayList<>(getItemCount());
-        for (int i = 0; i < getItemCount(); ++i) {
-            selectedPositions.add(false);
-        }
-        selectedPositions.set(selectedPosition, true);
-
-        notifyDataSetChanged();
-    }
-
-    void finishSelection() {
-        if (onSelectionFinishedListener != null) {
-            onSelectionFinishedListener.onSelectionFinished();
-        }
-        onItemClickListener = saveLastOnItemClickListener;
-        selectedPositions = null;
-
-        notifyDataSetChanged();
-    }
-
-    private boolean isSelected(int position) {
-        return selectedPositions != null ? selectedPositions.get(position) : false;
-    }
-
-    private boolean isNothingSelected() {
-        for (boolean element : selectedPositions) {
-            if (element) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    void selectAll() {
-        for (int i = 0; i < selectedPositions.size(); ++i) {
-            selectedPositions.set(i, true);
-        }
-        notifyDataSetChanged();
-    }
-
-    List<Quest> getSelectedQuests() {
-        List<Quest> selectedQuests = new ArrayList<>();
-        for (int i = 0; i < selectedPositions.size(); ++i) {
-            if (selectedPositions.get(i)) {
-                selectedQuests.add(getItem(i));
-            }
-        }
-        return selectedQuests;
-    }
-
-
-    static class QuestsViewHolder extends RecyclerView.ViewHolder {
+    static class SubQuestsViewHolder extends RecyclerView.ViewHolder {
         private CheckBox isCompletedCheckBox;
         private TextView nameTextView;
-        private TextView difficultyTextView;
         private CheckBox isImportantCheckBox;
         private TextView dateDueTextView;
         private AppCompatImageView repeatImageView;
@@ -203,7 +125,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         private int greenColorId;
         private int redColorId;
 
-        QuestsViewHolder(
+        SubQuestsViewHolder(
                 @NonNull View itemView,
                 final OnIsCompleteCheckBoxClickListener onIsCompleteCheckBoxClickListener,
                 final OnIsImportantCheckBoxClickListener onIsImportantCheckBoxClickListener,
@@ -211,12 +133,11 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
                 final OnItemLongClickListener onItemLongClickListener) {
             super(itemView);
 
-            isCompletedCheckBox = itemView.findViewById(R.id.quest_is_completed);
-            nameTextView = itemView.findViewById(R.id.quest_name);
-            difficultyTextView = itemView.findViewById(R.id.quest_difficulty_value);
-            isImportantCheckBox = itemView.findViewById(R.id.quest_is_important_check_box);
-            dateDueTextView = itemView.findViewById(R.id.quest_date_due_text_view);
-            repeatImageView = itemView.findViewById(R.id.quest_repeat_image_view);
+            isCompletedCheckBox = itemView.findViewById(R.id.subquest_is_completed);
+            nameTextView = itemView.findViewById(R.id.subquest_name);
+            isImportantCheckBox = itemView.findViewById(R.id.subquest_is_important_check_box);
+            dateDueTextView = itemView.findViewById(R.id.subquest_date_due_text_view);
+            repeatImageView = itemView.findViewById(R.id.subquest_repeat_image_view);
 
             defaultTextViewColor = dateDueTextView.getTextColors();
             greenColorId =
@@ -231,10 +152,9 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
             isImportantCheckBox.setOnClickListener(createOnIsImportantClickListener(onIsImportantCheckBoxClickListener));
         }
 
-        void bind(Quest quest, boolean isSelected) {
+        void bind(Quest quest) {
             isCompletedCheckBox.setChecked(quest.isCompleted());
             nameTextView.setText(quest.getName());
-            difficultyTextView.setText(getDifficultyStringValue(quest.getDifficulty()));
             isImportantCheckBox.setChecked(quest.isImportant());
             switch (quest.getDateDueState()) {
                 case NOT_SET:
@@ -262,12 +182,11 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
                     break;
             }
             repeatImageView.setImageTintList(defaultTextViewColor);
-            if (quest.getRepeatState().equals(Quest.RepeatState.NOT_SET)){
+            if (quest.getRepeatState().equals(Quest.RepeatState.NOT_SET)) {
                 repeatImageView.setVisibility(View.INVISIBLE);
-            } else{
+            } else {
                 repeatImageView.setVisibility(View.VISIBLE);
             }
-            itemView.setActivated(isSelected);
         }
 
         void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -314,7 +233,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         }
 
         private View.OnClickListener createOnItemClickListener(
-                final QuestsAdapter.OnItemClickListener listener) {
+                final OnItemClickListener listener) {
             return v -> {
                 int position = getAdapterPosition();
                 if (listener != null && position != RecyclerView.NO_POSITION) {
@@ -325,7 +244,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         }
 
         private View.OnLongClickListener createOnItemLongClickListener(
-                final QuestsAdapter.OnItemLongClickListener listener) {
+                final OnItemLongClickListener listener) {
             return v -> {
                 int position = getAdapterPosition();
                 if (listener != null && position != RecyclerView.NO_POSITION) {
@@ -336,3 +255,4 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         }
     }
 }
+
