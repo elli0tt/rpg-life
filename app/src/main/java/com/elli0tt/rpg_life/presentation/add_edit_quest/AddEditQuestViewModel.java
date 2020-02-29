@@ -28,6 +28,7 @@ import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.GetQuestByI
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.GetQuestsByIdUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.GetSubQuestsUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.InsertQuestUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.update_data.CompleteQuestUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.UpdateQuestUseCase;
 
 import java.util.Calendar;
@@ -83,6 +84,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private GetQuestByIdUseCase getQuestByIdUseCase;
     private GetQuestsByIdUseCase getQuestsByIdUseCase;
     private GetSubQuestsUseCase getSubQuestsUseCase;
+    private CompleteQuestUseCase completeQuestUseCase;
 
     public AddEditQuestViewModel(@NonNull Application application) {
         super(application);
@@ -102,6 +104,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         getQuestByIdUseCase = new GetQuestByIdUseCase(repository);
         getQuestsByIdUseCase = new GetQuestsByIdUseCase(repository);
         getSubQuestsUseCase = new GetSubQuestsUseCase(repository);
+        completeQuestUseCase = new CompleteQuestUseCase(repository);
 
         TODAY = application.getString(R.string.quest_date_due_today);
         TOMORROW = application.getString(R.string.quest_date_due_tomorrow);
@@ -304,5 +307,11 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
     void removeRepeat() {
         setRepeatState(Quest.RepeatState.NOT_SET);
+    }
+
+    void completeSubQuest(int position, boolean isCompleted){
+        if (subQuests.getValue() != null) {
+            completeQuestUseCase.invoke(subQuests.getValue().get(position), isCompleted);
+        }
     }
 }

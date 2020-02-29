@@ -171,6 +171,9 @@ public class AddEditQuestFragment extends Fragment {
 
     private void setupSubQuestsRecycler() {
         subQuestsAdapter = new SubQuestsAdapter();
+        subQuestsAdapter.setOnIsCompleteCheckBoxClickListener((isCompleted, position) -> {
+            viewModel.completeSubQuest(position, isCompleted);
+        });
         subQuestsRecycler.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));
         subQuestsRecycler.setLayoutManager(new LinearLayoutManager(getContext(),

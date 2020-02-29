@@ -9,7 +9,6 @@ import androidx.room.TypeConverters;
 
 import com.elli0tt.rpg_life.domain.model.room_type_converters.CalendarConverter;
 import com.elli0tt.rpg_life.domain.model.room_type_converters.RepeatStateConverter;
-import com.elli0tt.rpg_life.domain.model.room_type_converters.SubQuestsListConverter;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTodayCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTomorrowCalendarUseCase;
 
