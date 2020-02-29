@@ -92,13 +92,13 @@ public class AddEditQuestFragment extends Fragment {
         setupSubQuestsRecycler();
         setHasOptionsMenu(true);
 
-        subscribeToViewModel();
+        if (getArguments() != null) {
+            viewModel.start(AddEditQuestFragmentArgs.fromBundle(getArguments()).getQuestId(),
+                    AddEditQuestFragmentArgs.fromBundle(getArguments()).getIsSubQuest(),
+                    AddEditQuestFragmentArgs.fromBundle(getArguments()).getParentQuestId());
+        }
 
-//        if (getArguments() != null) {
-//            viewModel.start(AddEditQuestFragmentArgs.fromBundle(getArguments()).getQuestId(),
-//                    AddEditQuestFragmentArgs.fromBundle(getArguments()).getIsSubQuest(),
-//                    AddEditQuestFragmentArgs.fromBundle(getArguments()).getParentQuestId());
-//        }
+        subscribeToViewModel();
 
         nameEditText.setOnFocusChangeListener(onEditTextsFocusChangeListener);
         descriptionEditText.setOnFocusChangeListener(onEditTextsFocusChangeListener);
@@ -150,16 +150,6 @@ public class AddEditQuestFragment extends Fragment {
                 subQuestsAdapter.submitList(subQuests);
             }
         });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (getArguments() != null) {
-            viewModel.start(AddEditQuestFragmentArgs.fromBundle(getArguments()).getQuestId(),
-                    AddEditQuestFragmentArgs.fromBundle(getArguments()).getIsSubQuest(),
-                    AddEditQuestFragmentArgs.fromBundle(getArguments()).getParentQuestId());
-        }
     }
 
     private void setupDifficultySpinner() {

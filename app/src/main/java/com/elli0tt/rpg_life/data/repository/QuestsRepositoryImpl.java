@@ -56,6 +56,11 @@ public class QuestsRepositoryImpl implements QuestsRepository {
     }
 
     @Override
+    public LiveData<List<Quest>> getSubQuests(int parentQuestId){
+        return dao.getSubQuests(parentQuestId);
+    }
+
+    @Override
     public void insert(Quest quest) {
         new InsertOneAsyncTask(dao).execute(quest);
     }

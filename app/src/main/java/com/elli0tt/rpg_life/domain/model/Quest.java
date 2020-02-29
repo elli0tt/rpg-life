@@ -84,8 +84,7 @@ public class Quest {
     @Difficulty
     private int difficulty = NORMAL;
 
-    @TypeConverters({SubQuestsListConverter.class})
-    private List<Integer> subQuestsIds = new ArrayList<>();
+    private int parentQuestId;
 
     private boolean isSubQuest = false;
 
@@ -126,13 +125,11 @@ public class Quest {
     public Quest(@NonNull String name,
                  @NonNull String description,
                  @Difficulty int difficulty,
-                 List<Integer> subQuestsIds,
                  List<Reward> rewards,
                  boolean isImportant) {
         this.name = name;
         this.description = description;
         this.difficulty = difficulty;
-        this.subQuestsIds = subQuestsIds;
         this.rewards = rewards;
         this.isImportant = isImportant;
     }
@@ -200,8 +197,8 @@ public class Quest {
         return difficulty;
     }
 
-    public List<Integer> getSubQuestsIds() {
-        return subQuestsIds;
+    public int getParentQuestId(){
+        return parentQuestId;
     }
 
     public boolean isSubQuest(){
@@ -273,8 +270,8 @@ public class Quest {
         this.difficulty = difficulty;
     }
 
-    public void setSubQuestsIds(List<Integer> subQuestsIds) {
-        this.subQuestsIds = subQuestsIds;
+    public void setParentQuestId(int parentQuestId){
+        this.parentQuestId = parentQuestId;
     }
 
     public void setIsSubQuest(boolean isSubQuest){
@@ -341,9 +338,5 @@ public class Quest {
                 dateDue.get(Calendar.YEAR),
                 dateDue.get(Calendar.HOUR_OF_DAY),
                 dateDue.get(Calendar.MINUTE));
-    }
-
-    public void addSubQuest(int id){
-        subQuestsIds.add(id);
     }
 }
