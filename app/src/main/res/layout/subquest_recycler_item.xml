@@ -30,7 +30,6 @@
         tools:text="Read book" />
 
 
-
     <!--Star style for checkBox. It's a bit inconvenient way because I haven't found out how to change -->
     <!--the color of this particular checkbox. I save this line for if I would like to use it later.-->
     <!--style="?android:attr/starStyle"-->
@@ -40,8 +39,9 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
         android:button="@drawable/is_important_checkbox"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/subquest_remove_button"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -49,18 +49,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        tools:text="Due: 12.12.2000"
+        app:layout_constraintStart_toEndOf="@id/subquest_is_completed"
         app:layout_constraintTop_toBottomOf="@id/subquest_name"
-        app:layout_constraintStart_toEndOf="@id/subquest_is_completed"/>
+        tools:text="Due: 12.12.2000" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/subquest_repeat_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        app:srcCompat="@drawable/ic_repeat_black_18dp"
-        app:layout_constraintTop_toBottomOf="@id/subquest_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/subquest_date_due_text_view"
-        />
+        app:layout_constraintTop_toBottomOf="@id/subquest_name"
+        app:srcCompat="@drawable/ic_repeat_black_18dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/subquest_remove_button"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/white"
+        app:icon="@drawable/ic_clear_black_24dp"
+        app:iconGravity="textStart"
+        app:iconTint="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

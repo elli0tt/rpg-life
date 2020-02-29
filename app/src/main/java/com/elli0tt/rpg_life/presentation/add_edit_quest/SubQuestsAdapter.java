@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -39,10 +40,15 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
         void onClick(boolean isImportant, int position);
     }
 
+    public interface OnRemoveButtonClickListener {
+        void onClick(int position);
+    }
+
     private OnIsCompleteCheckBoxClickListener onIsCompleteCheckBoxClickListener;
     private OnIsImportantCheckBoxClickListener onIsImportantCheckBoxClickListener;
     private OnItemClickListener onItemClickListener;
     private OnItemLongClickListener onItemLongClickListener;
+    private OnRemoveButtonClickListener onRemoveButtonClickListener;
 
     SubQuestsAdapter() {
         super(DIFF_CALLBACK);
@@ -83,6 +89,10 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
         this.onItemLongClickListener = onItemLongClickListener;
     }
 
+    void setOnRemoveButtonClickListener(OnRemoveButtonClickListener onRemoveButtonClickListener) {
+        this.onRemoveButtonClickListener = onRemoveButtonClickListener;
+    }
+
     @Override
     public void submitList(@Nullable List<Quest> list) {
         super.submitList(list != null ? new ArrayList<>(list) : null);
@@ -98,7 +108,8 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
                 onIsCompleteCheckBoxClickListener,
                 onIsImportantCheckBoxClickListener,
                 onItemClickListener,
-                onItemLongClickListener);
+                onItemLongClickListener,
+                onRemoveButtonClickListener);
     }
 
     @Override
@@ -119,6 +130,7 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
         private CheckBox isImportantCheckBox;
         private TextView dateDueTextView;
         private AppCompatImageView repeatImageView;
+        private Button removeButton;
 
         private ColorStateList defaultTextViewColor;
 
@@ -130,7 +142,8 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
                 final OnIsCompleteCheckBoxClickListener onIsCompleteCheckBoxClickListener,
                 final OnIsImportantCheckBoxClickListener onIsImportantCheckBoxClickListener,
                 final OnItemClickListener onItemClickListener,
-                final OnItemLongClickListener onItemLongClickListener) {
+                final OnItemLongClickListener onItemLongClickListener,
+                final OnRemoveButtonClickListener onRemoveButtonClickListener) {
             super(itemView);
 
             isCompletedCheckBox = itemView.findViewById(R.id.subquest_is_completed);
@@ -138,6 +151,7 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
             isImportantCheckBox = itemView.findViewById(R.id.subquest_is_important_check_box);
             dateDueTextView = itemView.findViewById(R.id.subquest_date_due_text_view);
             repeatImageView = itemView.findViewById(R.id.subquest_repeat_image_view);
+            removeButton = itemView.findViewById(R.id.subquest_remove_button);
 
             defaultTextViewColor = dateDueTextView.getTextColors();
             greenColorId =
@@ -150,6 +164,7 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
                     createOnItemLongClickListener(onItemLongClickListener));
             isCompletedCheckBox.setOnClickListener(createOnIsCompletedClickListener(onIsCompleteCheckBoxClickListener));
             isImportantCheckBox.setOnClickListener(createOnIsImportantClickListener(onIsImportantCheckBoxClickListener));
+            removeButton.setOnClickListener(createOnRemoveButtonClickListener(onRemoveButtonClickListener));
         }
 
         void bind(Quest quest) {
@@ -251,6 +266,16 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
                     listener.onLongClick(position);
                 }
                 return true;
+            };
+        }
+
+        private View.OnClickListener createOnRemoveButtonClickListener(
+                final OnRemoveButtonClickListener listener) {
+            return v -> {
+                int position = getAdapterPosition();
+                if (listener != null && position != RecyclerView.NO_POSITION) {
+                    listener.onClick(position);
+                }
             };
         }
     }

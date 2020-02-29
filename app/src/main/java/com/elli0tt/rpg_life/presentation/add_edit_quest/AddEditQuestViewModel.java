@@ -29,8 +29,10 @@ import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.GetQuestsBy
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.GetSubQuestsUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.InsertQuestUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.CompleteQuestUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.update_data.DeleteQuestsListUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.UpdateQuestUseCase;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -85,6 +87,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private GetQuestsByIdUseCase getQuestsByIdUseCase;
     private GetSubQuestsUseCase getSubQuestsUseCase;
     private CompleteQuestUseCase completeQuestUseCase;
+    private DeleteQuestsListUseCase deleteQuestsListUseCase;
 
     public AddEditQuestViewModel(@NonNull Application application) {
         super(application);
@@ -105,6 +108,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         getQuestsByIdUseCase = new GetQuestsByIdUseCase(repository);
         getSubQuestsUseCase = new GetSubQuestsUseCase(repository);
         completeQuestUseCase = new CompleteQuestUseCase(repository);
+        deleteQuestsListUseCase = new DeleteQuestsListUseCase(repository);
 
         TODAY = application.getString(R.string.quest_date_due_today);
         TOMORROW = application.getString(R.string.quest_date_due_tomorrow);
@@ -312,6 +316,14 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     void completeSubQuest(int position, boolean isCompleted){
         if (subQuests.getValue() != null) {
             completeQuestUseCase.invoke(subQuests.getValue().get(position), isCompleted);
+        }
+    }
+
+    void removeSubQuest(int position){
+        if (subQuests.getValue() != null) {
+            List<Quest> listToDelete = new ArrayList<>();
+            listToDelete.add(subQuests.getValue().get(position));
+            deleteQuestsListUseCase.invoke(listToDelete);
         }
     }
 }
