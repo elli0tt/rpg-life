@@ -76,4 +76,5 @@
     <string name="add_edit_quest_subquests">Subquests:</string>
     <string name="add_edit_quest_add_subquest">Add subquest</string>
     <string name="show_developers_options">Show developers options</string>
+    <string name="show_completed">Show completed</string>
 </resources>

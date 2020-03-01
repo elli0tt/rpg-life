@@ -96,6 +96,11 @@ public class AddEditQuestFragment extends Fragment {
             viewModel.start(AddEditQuestFragmentArgs.fromBundle(getArguments()).getQuestId(),
                     AddEditQuestFragmentArgs.fromBundle(getArguments()).getIsSubQuest(),
                     AddEditQuestFragmentArgs.fromBundle(getArguments()).getParentQuestId());
+            //TODO: DELETE WHEN TREE SUBQUESTS ARE IMPLEMENTED
+            if (AddEditQuestFragmentArgs.fromBundle(getArguments()).getIsSubQuest()){
+                addSubQuestButton.setVisibility(View.INVISIBLE);
+                view.findViewById(R.id.add_edit_quest_subquests_text_view).setVisibility(View.INVISIBLE);
+            }
         }
 
         subscribeToViewModel();

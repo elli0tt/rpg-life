@@ -23,23 +23,23 @@ public class SkillsViewModel extends AndroidViewModel {
         allSkills = repository.getAllSkills();
     }
 
-    public LiveData<List<Skill>> getAllSkills(){
+    LiveData<List<Skill>> getAllSkills() {
         return allSkills;
     }
 
-    void populateWithSamples(){
+    void populateWithSamples() {
         repository.insert(generateSampleSkillsList().toArray(new Skill[0]));
     }
 
-    private List<Skill> generateSampleSkillsList(){
+    private List<Skill> generateSampleSkillsList() {
         List<Skill> resultList = new ArrayList<>(10);
-        for (int i = 0; i < 10; ++i){
+        for (int i = 0; i < 10; ++i) {
             resultList.add(new Skill("Skill " + i));
         }
         return resultList;
     }
 
-    void deleteAll(){
+    void deleteAll() {
         repository.deleteAll();
     }
 
