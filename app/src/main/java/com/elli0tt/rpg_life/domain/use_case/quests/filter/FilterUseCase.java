@@ -1,28 +1,39 @@
 package com.elli0tt.rpg_life.domain.use_case.quests.filter;
 
 import com.elli0tt.rpg_life.domain.model.Quest;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTodayCalendarUseCase;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTomorrowCalendarUseCase;
 import com.elli0tt.rpg_life.presentation.quests.QuestsFilterState;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FilterUseCase {
-    public List<Quest> invoke(List<Quest> questsToFilter, QuestsFilterState filterState,
+    private IsCalendarEqualsTodayCalendarUseCase isCalendarEqualsTodayCalendarUseCase =
+            new IsCalendarEqualsTodayCalendarUseCase();
+    private IsCalendarEqualsTomorrowCalendarUseCase isCalendarEqualsTomorrowCalendarUseCase =
+            new IsCalendarEqualsTomorrowCalendarUseCase();
+
+    public List<Quest> invoke(List<Quest> quests, QuestsFilterState filterState,
                               boolean isShowCompleted) {
         switch (filterState) {
             case ALL:
-                return filterByAll(questsToFilter, isShowCompleted);
+                return filterByAll(quests, isShowCompleted);
             case IMPORTANT:
-                return filterByImportant(questsToFilter, isShowCompleted);
+                return filterByImportant(quests, isShowCompleted);
+            case TODAY:
+                return filterByToday(quests, isShowCompleted);
+            case TOMORROW:
+                return filterByTomorrow(quests, isShowCompleted);
         }
-        return questsToFilter;
+        return quests;
     }
 
-    private List<Quest> filterByAll(List<Quest> questsToFilter, boolean isShowCompleted) {
+    private List<Quest> filterByAll(List<Quest> quests, boolean isShowCompleted) {
         if (isShowCompleted) {
-            return getAllWithCompleted(questsToFilter);
+            return getAllWithCompleted(quests);
         }
-        return getAllWithoutCompleted(questsToFilter);
+        return getAllWithoutCompleted(quests);
     }
 
     private List<Quest> getAllWithCompleted(List<Quest> quests) {
@@ -39,11 +50,11 @@ public class FilterUseCase {
         return resultList;
     }
 
-    private List<Quest> filterByImportant(List<Quest> questsToFilter, boolean isShowCompleted) {
+    private List<Quest> filterByImportant(List<Quest> quests, boolean isShowCompleted) {
         if (isShowCompleted) {
-            return getImportantWithCompleted(questsToFilter);
+            return getImportantWithCompleted(quests);
         }
-        return getImportantWithoutCompleted(questsToFilter);
+        return getImportantWithoutCompleted(quests);
     }
 
     private List<Quest> getImportantWithCompleted(List<Quest> quests) {
@@ -60,6 +71,63 @@ public class FilterUseCase {
         List<Quest> resultList = new ArrayList<>();
         for (Quest quest : quests) {
             if (quest.isImportant() && !quest.isCompleted()) {
+                resultList.add(quest);
+            }
+        }
+        return resultList;
+    }
+
+    private List<Quest> filterByToday(List<Quest> quests, boolean isShowCompleted) {
+        if (isShowCompleted) {
+            return getTodayWithCompleted(quests);
+        }
+
+        return getTodayWithoutCompleted(quests);
+    }
+
+    private List<Quest> getTodayWithCompleted(List<Quest> quests) {
+        List<Quest> resultList = new ArrayList<>();
+        for (Quest quest : quests) {
+            if (isCalendarEqualsTodayCalendarUseCase.invoke(quest.getDateDue())) {
+                resultList.add(quest);
+            }
+        }
+        return resultList;
+    }
+
+    private List<Quest> getTodayWithoutCompleted(List<Quest> quests) {
+        List<Quest> resultList = new ArrayList<>();
+        for (Quest quest : quests) {
+            if (isCalendarEqualsTodayCalendarUseCase.invoke(quest.getDateDue())
+                    && !quest.isCompleted()) {
+                resultList.add(quest);
+            }
+        }
+        return resultList;
+    }
+
+    private List<Quest> filterByTomorrow(List<Quest> quests, boolean isShowCompleted) {
+        if (isShowCompleted) {
+            return getTomorrowWithCompleted(quests);
+        }
+        return getTomorrowWithoutCompleted(quests);
+    }
+
+    private List<Quest> getTomorrowWithCompleted(List<Quest> quests) {
+        List<Quest> resultList = new ArrayList<>();
+        for (Quest quest : quests) {
+            if (isCalendarEqualsTomorrowCalendarUseCase.invoke(quest.getDateDue())) {
+                resultList.add(quest);
+            }
+        }
+        return resultList;
+    }
+
+    private List<Quest> getTomorrowWithoutCompleted(List<Quest> quests) {
+        List<Quest> resultList = new ArrayList<>();
+        for (Quest quest : quests) {
+            if (isCalendarEqualsTomorrowCalendarUseCase.invoke(quest.getDateDue())
+                    && !quest.isCompleted()) {
                 resultList.add(quest);
             }
         }

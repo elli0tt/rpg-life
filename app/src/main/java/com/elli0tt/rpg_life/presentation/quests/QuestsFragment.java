@@ -194,6 +194,13 @@ public class QuestsFragment extends Fragment {
                 break;
             case R.id.quests_toolbar_menu_filtering_important:
                 viewModel.setFiltering(QuestsFilterState.IMPORTANT);
+                break;
+            case R.id.quests_toolbar_menu_filter_today:
+                viewModel.setFiltering(QuestsFilterState.TODAY);
+                break;
+            case R.id.quests_toolbar_menu_filter_tomorrow:
+                viewModel.setFiltering(QuestsFilterState.TOMORROW);
+                break;
             case R.id.quests_toolbar_menu_show_completed:
                 viewModel.changeShowCompleted();
         }
