@@ -15,12 +15,6 @@ public interface QuestsRepository {
 
     LiveData<List<Quest>> getAllQuests();
 
-    LiveData<List<Quest>> getActiveQuests();
-
-    LiveData<List<Quest>> getCompletedQuests();
-
-    LiveData<List<Quest>> getImportantQuests();
-
     LiveData<List<Quest>> getSubQuests(int parentQuestId);
 
     void insert(Quest... quests);
@@ -38,5 +32,9 @@ public interface QuestsRepository {
     QuestsSortingState getQuestSortingState();
 
     void setQuestsSoringState(QuestsSortingState sortingState);
+
+    boolean isShowCompleted();
+
+    void setShowCompleted(boolean isShowCompleted);
 
 }

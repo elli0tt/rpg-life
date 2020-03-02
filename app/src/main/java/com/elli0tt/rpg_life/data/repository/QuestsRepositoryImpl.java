@@ -41,22 +41,7 @@ public class QuestsRepositoryImpl implements QuestsRepository {
     }
 
     @Override
-    public LiveData<List<Quest>> getActiveQuests() {
-        return dao.getActiveQuests();
-    }
-
-    @Override
-    public LiveData<List<Quest>> getCompletedQuests() {
-        return dao.getCompletedQuests();
-    }
-
-    @Override
-    public LiveData<List<Quest>> getImportantQuests() {
-        return dao.getImportantQuests();
-    }
-
-    @Override
-    public LiveData<List<Quest>> getSubQuests(int parentQuestId){
+    public LiveData<List<Quest>> getSubQuests(int parentQuestId) {
         return dao.getSubQuests(parentQuestId);
     }
 
@@ -155,4 +140,16 @@ public class QuestsRepositoryImpl implements QuestsRepository {
     public void setQuestsSoringState(QuestsSortingState sortingState) {
         questsSharedPrefUtils.setQuestsSortingState(sortingState);
     }
+
+    @Override
+    public boolean isShowCompleted() {
+        return questsSharedPrefUtils.isShowCompeleted();
+    }
+
+    @Override
+    public void setShowCompleted(boolean isShowCompleted) {
+        questsSharedPrefUtils.setShowCompleted(isShowCompleted);
+    }
+
+
 }

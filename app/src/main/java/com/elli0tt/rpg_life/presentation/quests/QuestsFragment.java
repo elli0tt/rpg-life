@@ -26,8 +26,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.elli0tt.rpg_life.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.Objects;
-
 
 public class QuestsFragment extends Fragment {
 
@@ -42,6 +40,8 @@ public class QuestsFragment extends Fragment {
     private ActionMode actionMode;
 
     private boolean isToShowDevelopersOptions;
+
+    private MenuItem showCompletedMenuItem;
 
     @Nullable
     @Override
@@ -71,9 +71,10 @@ public class QuestsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         questsAdapter.notifyDataSetChanged();
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(getContext());
         isToShowDevelopersOptions = sharedPreferences.getBoolean("developers_options", false);
-        if (getActivity() != null){
+        if (getActivity() != null) {
             getActivity().invalidateOptionsMenu();
         }
     }
@@ -111,7 +112,8 @@ public class QuestsFragment extends Fragment {
                 , false));
 //        recyclerView.addItemDecoration(new DividerItemDecoration(
 //                Objects.requireNonNull(getContext()), RecyclerView.VERTICAL));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL));
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -140,15 +142,29 @@ public class QuestsFragment extends Fragment {
                 }
             }
         });
+        viewModel.getShowCompletedTextResId().observe(getViewLifecycleOwner(),
+                new Observer<Integer>() {
+                    @Override
+                    public void onChanged(Integer textResId) {
+                        if (showCompletedMenuItem != null) {
+                            showCompletedMenuItem.setTitle(textResId);
+                        }
+                    }
+                });
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.quests_toolbar_menu, menu);
-        MenuItem populateWithSamplesItem = menu.findItem(R.id.quests_toolbar_menu_populate_with_samples);
+
+        MenuItem populateWithSamplesItem =
+                menu.findItem(R.id.quests_toolbar_menu_populate_with_samples);
         MenuItem deleteAllItem = menu.findItem(R.id.quests_toolbar_menu_delete_all);
+        showCompletedMenuItem = menu.findItem(R.id.quests_toolbar_menu_show_completed);
+
         populateWithSamplesItem.setVisible(isToShowDevelopersOptions);
         deleteAllItem.setVisible(isToShowDevelopersOptions);
+        showCompletedMenuItem.setTitle(viewModel.getShowCompletedTextResId().getValue());
     }
 
     @Override
@@ -176,14 +192,10 @@ public class QuestsFragment extends Fragment {
             case R.id.quests_toolbar_menu_filtering_all:
                 viewModel.setFiltering(QuestsFilterState.ALL);
                 break;
-            case R.id.quests_toolbar_menu_filtering_active:
-                viewModel.setFiltering(QuestsFilterState.ACTIVE);
-                break;
-            case R.id.quests_toolbar_menu_filtering_completed:
-                viewModel.setFiltering(QuestsFilterState.COMPLETED);
-                break;
             case R.id.quests_toolbar_menu_filtering_important:
                 viewModel.setFiltering(QuestsFilterState.IMPORTANT);
+            case R.id.quests_toolbar_menu_show_completed:
+                viewModel.changeShowCompleted();
         }
         return true;
     }

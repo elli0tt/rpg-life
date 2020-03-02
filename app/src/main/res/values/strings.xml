@@ -13,7 +13,7 @@
     <string name="delete_all">Delete all</string>
     <string name="add_quest_name_hint">Name</string>
     <string name="add_quest_toolbar_menu_confirm">Confirm</string>
-    <string name="quest_difficulty_label_text">Difficalty:</string>
+    <string name="quest_difficulty_label_text">Difficulty:</string>
 
     <string name="difficulty_very_easy_text">Very easy</string>
     <string name="difficulty_easy_text">Easy</string>
@@ -38,8 +38,6 @@
         <item>Impossible</item>
     </string-array>
 
-    <string name="quest_name_default_value"></string>
-    <string name="quest_description_default_value"></string>
     <string name="character_toolbar_menu_item_populate_with_samples">Populate with samples</string>
     <string name="quests_toolbar_menu_filter_title">Filter</string>
     <string name="quests_filtering_all">All</string>
@@ -77,4 +75,5 @@
     <string name="add_edit_quest_add_subquest">Add subquest</string>
     <string name="show_developers_options">Show developers options</string>
     <string name="show_completed">Show completed</string>
+    <string name="hide_completed">Hide completed</string>
 </resources>
