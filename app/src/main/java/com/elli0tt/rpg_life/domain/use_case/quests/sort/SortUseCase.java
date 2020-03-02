@@ -22,20 +22,32 @@ public class SortUseCase {
     }
 
     private List<Quest> sortByDateAdded(List<Quest> quests) {
-        Collections.sort(quests, (quest1, quest2) -> Integer.compare(quest1.getId(),
-                quest2.getId()));
+        Collections.sort(quests, (quest1, quest2) -> {
+            if (quest1.getId() == quest2.getId()) {
+                return quest1.getName().compareTo(quest2.getName());
+            }
+            return Integer.compare(quest1.getId(), quest2.getId());
+        });
         return quests;
     }
 
     private List<Quest> sortByDateDue(List<Quest> quests) {
-        Collections.sort(quests,
-                (quest1, quest2) -> quest1.getDateDue().compareTo(quest2.getDateDue()));
+        Collections.sort(quests, (quest1, quest2) -> {
+            if (quest1.getDateDue().equals(quest2.getDateDue())) {
+                return quest1.getName().compareTo(quest2.getName());
+            }
+            return quest1.getDateDue().compareTo(quest2.getDateDue());
+        });
         return quests;
     }
 
     private List<Quest> sortByDifficulty(List<Quest> quests) {
-        Collections.sort(quests, (quest1, quest2) -> Integer.compare(quest1.getDifficulty(),
-                quest2.getDifficulty()));
+        Collections.sort(quests, (quest1, quest2) -> {
+            if (quest1.getDifficulty() == quest2.getDifficulty()) {
+                return quest1.getName().compareTo(quest2.getName());
+            }
+            return Integer.compare(quest1.getDifficulty(), quest2.getDifficulty());
+        });
         return quests;
     }
 
