@@ -93,7 +93,7 @@
                 app:layout_constraintTop_toBottomOf="@id/add_edit_quest_add_date_due_view"
                 app:text="@string/add_edit_quest_repeat" />
 
-            <com.google.android.material.textview.MaterialTextView
+            <TextView
                 android:id="@+id/add_edit_quest_subquests_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -114,14 +114,44 @@
                 android:id="@+id/add_edit_quest_add_subquest_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/add_edit_quest_add_subquest"
                 android:layout_marginTop="@dimen/add_quest_items_margin_top"
                 android:backgroundTint="@android:color/white"
+                android:text="@string/add_edit_quest_add_subquest"
                 android:textColor="@android:color/black"
-                app:icon="@drawable/ic_plus_24dp"
+                app:icon="@drawable/ic_plus_black_24dp"
+                app:iconTint="@android:color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_edit_quest_skills_recycler" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_edit_quest_add_skills_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/add_quest_items_margin_top"
+                android:backgroundTint="@android:color/white"
+                android:text="@string/add_skill"
+                android:textColor="@android:color/black"
+                app:icon="@drawable/ic_plus_black_24dp"
                 app:iconTint="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/add_edit_quest_repeat_view" />
+
+            <TextView
+                android:id="@+id/add_edit_quest_skills_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/add_quest_items_margin_top"
+                android:text="@string/add_edit_quest_skills_label"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_edit_quest_add_skills_button" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/add_edit_quest_skills_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintTop_toBottomOf="@id/add_edit_quest_skills_text_view" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

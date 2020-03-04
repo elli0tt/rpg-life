@@ -24,6 +24,6 @@
         android:backgroundTint="@color/colorIsImportantCheckBox"
         app:layout_anchor="@id/quests_recycler_view"
         app:layout_anchorGravity="bottom|right|end"
-        app:srcCompat="@drawable/ic_plus_24dp" />
+        app:srcCompat="@drawable/ic_plus_black_24dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

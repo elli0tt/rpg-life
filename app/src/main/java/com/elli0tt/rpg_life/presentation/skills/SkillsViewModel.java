@@ -8,19 +8,30 @@ import androidx.lifecycle.LiveData;
 
 import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl;
 import com.elli0tt.rpg_life.domain.model.Skill;
+import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
+import com.elli0tt.rpg_life.domain.use_case.skills.DeleteAllSkillsUseCase;
+import com.elli0tt.rpg_life.domain.use_case.skills.GetAllSkillsUseCase;
+import com.elli0tt.rpg_life.domain.use_case.skills.InsertSkillsUseCase;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SkillsViewModel extends AndroidViewModel {
-    private SkillsRepositoryImpl repository;
-
     private LiveData<List<Skill>> allSkills;
+
+    private GetAllSkillsUseCase getAllSkillsUseCase;
+    private InsertSkillsUseCase insertSkillsUseCase;
+    private DeleteAllSkillsUseCase deleteAllSkillsUseCase;
 
     public SkillsViewModel(@NonNull Application application) {
         super(application);
-        repository = new SkillsRepositoryImpl(application);
-        allSkills = repository.getAllSkills();
+        SkillsRepository skillsRepository = new SkillsRepositoryImpl(application);
+
+        getAllSkillsUseCase = new GetAllSkillsUseCase(skillsRepository);
+        insertSkillsUseCase = new InsertSkillsUseCase(skillsRepository);
+        deleteAllSkillsUseCase = new DeleteAllSkillsUseCase(skillsRepository);
+
+        allSkills = getAllSkillsUseCase.invoke();
     }
 
     LiveData<List<Skill>> getAllSkills() {
@@ -28,7 +39,7 @@ public class SkillsViewModel extends AndroidViewModel {
     }
 
     void populateWithSamples() {
-        repository.insert(generateSampleSkillsList().toArray(new Skill[0]));
+        insertSkillsUseCase.invoke(generateSampleSkillsList().toArray(new Skill[0]));
     }
 
     private List<Skill> generateSampleSkillsList() {
@@ -40,7 +51,7 @@ public class SkillsViewModel extends AndroidViewModel {
     }
 
     void deleteAll() {
-        repository.deleteAll();
+        deleteAllSkillsUseCase.invoke();
     }
 
 }

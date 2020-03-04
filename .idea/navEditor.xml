@@ -53,6 +53,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="add_edit_skill_screen">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="237" />
+                            <option name="y" value="-326" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="character_screen">
                     <value>
                       <LayoutPositions>
@@ -79,8 +91,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="113" />
-                            <option name="y" value="-335" />
+                            <option name="x" value="240" />
+                            <option name="y" value="-698" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -103,8 +115,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="114" />
-                            <option name="y" value="-639" />
+                            <option name="x" value="60" />
+                            <option name="y" value="-1057" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -159,6 +171,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_skills_screen_to_add_edit_skill_screen">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_skills_screen_to_countdown_timer_screen">
                               <value>
                                 <LayoutPositions />

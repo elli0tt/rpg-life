@@ -34,7 +34,7 @@ public class SkillsRepositoryImpl implements SkillsRepository {
 
         @Override
         protected Void doInBackground(Skill... skills) {
-            dao.insert(skills[0]);
+            dao.insert(skills);
             return null;
         }
     }

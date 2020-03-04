@@ -3,16 +3,17 @@ package com.elli0tt.rpg_life.presentation.skills;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.domain.model.Skill;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class SkillsAdapter extends ListAdapter<Skill, SkillsAdapter.ViewHolder> {
 
@@ -58,15 +59,19 @@ public class SkillsAdapter extends ListAdapter<Skill, SkillsAdapter.ViewHolder> 
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView nameTextView;
-        private FloatingActionButton startTimerFab;
+        private AppCompatImageView startTimerImageView;
+        private TextView levelTextView;
+        private ProgressBar xpProgressBar;
 
         ViewHolder(@NonNull View itemView,
                    final OnStartTimerFabClickListener onStartTimerFabClickListener) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.skills_recycler_item_name_text_view);
-            startTimerFab = itemView.findViewById(R.id.skills_recycler_item_start_timer_fab);
+            startTimerImageView = itemView.findViewById(R.id.skills_recycler_item_start_timer_image_view);
+            levelTextView = itemView.findViewById(R.id.skills_recycler_item_level_value_text_view);
+            xpProgressBar = itemView.findViewById(R.id.skills_recycler_item_xp_progress_bar);
 
-            startTimerFab.setOnClickListener(v -> {
+            startTimerImageView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if (onStartTimerFabClickListener != null && position != RecyclerView.NO_POSITION){
                     onStartTimerFabClickListener.onClick();
@@ -76,6 +81,10 @@ public class SkillsAdapter extends ListAdapter<Skill, SkillsAdapter.ViewHolder> 
 
         void bind(@NonNull Skill skill) {
             nameTextView.setText(skill.getName());
+            levelTextView.setText(Long.toString(skill.getLevel()));
+            xpProgressBar.setMax(skill.getMaxXpPercentage());
+            xpProgressBar.setProgress(skill.getXpPercentage());
+
         }
     }
 }

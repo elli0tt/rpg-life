@@ -3,7 +3,6 @@ package com.elli0tt.rpg_life.presentation.quests;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.arch.core.util.Function;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
@@ -100,65 +99,50 @@ public class QuestsViewModel extends AndroidViewModel {
         allQuests = getAllQuestsUseCase.invoke();
 
 
-        questsToShow.addSource(allQuests, new Observer<List<Quest>>() {
-            @Override
-            public void onChanged(List<Quest> quests) {
-                if (quests != null
-                        && currentSortingState.getValue() != null
-                        && currentFilterState.getValue() != null
-                        && isShowCompleted.getValue() != null) {
-                    questsToShow.setValue(sortUseCase.invoke(filterUseCase.invoke(quests,
-                            currentFilterState.getValue(), isShowCompleted.getValue()),
-                            currentSortingState.getValue()));
-                }
+        questsToShow.addSource(allQuests, (Observer<List<Quest>>) quests -> {
+            if (quests != null
+                    && currentSortingState.getValue() != null
+                    && currentFilterState.getValue() != null
+                    && isShowCompleted.getValue() != null) {
+                questsToShow.setValue(sortUseCase.invoke(filterUseCase.invoke(quests,
+                        currentFilterState.getValue(), isShowCompleted.getValue()),
+                        currentSortingState.getValue()));
             }
         });
 
-        questsToShow.addSource(currentFilterState, new Observer<QuestsFilterState>() {
-            @Override
-            public void onChanged(QuestsFilterState filterState) {
-                if (allQuests.getValue() != null
-                        && currentSortingState.getValue() != null
-                        && isShowCompleted.getValue() != null) {
-                    questsToShow.setValue(sortUseCase.invoke(filterUseCase.invoke(allQuests.getValue(),
-                            filterState, isShowCompleted.getValue()),
-                            currentSortingState.getValue()));
-                }
+        questsToShow.addSource(currentFilterState, (Observer<QuestsFilterState>) filterState -> {
+            if (allQuests.getValue() != null
+                    && currentSortingState.getValue() != null
+                    && isShowCompleted.getValue() != null) {
+                questsToShow.setValue(sortUseCase.invoke(filterUseCase.invoke(allQuests.getValue(),
+                        filterState, isShowCompleted.getValue()),
+                        currentSortingState.getValue()));
             }
         });
 
-        questsToShow.addSource(currentSortingState, new Observer<QuestsSortingState>() {
-            @Override
-            public void onChanged(QuestsSortingState questsSortingState) {
-                if (allQuests.getValue() != null) {
-                    questsToShow.setValue(sortUseCase.invoke((List<Quest>) questsToShow.getValue(),
-                            questsSortingState));
-                }
+        questsToShow.addSource(currentSortingState,
+                (Observer<QuestsSortingState>) questsSortingState -> {
+            if (allQuests.getValue() != null) {
+                questsToShow.setValue(sortUseCase.invoke((List<Quest>) questsToShow.getValue(),
+                        questsSortingState));
             }
         });
 
-        questsToShow.addSource(isShowCompleted, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean isShowCompleted) {
-                if (allQuests.getValue() != null
-                        && currentFilterState.getValue() != null
-                        && currentSortingState.getValue() != null) {
-                    questsToShow.setValue(sortUseCase.invoke(filterUseCase.invoke(allQuests.getValue(),
-                            currentFilterState.getValue(), isShowCompleted),
-                            currentSortingState.getValue()));
-                }
+        questsToShow.addSource(isShowCompleted, (Observer<Boolean>) isShowCompleted -> {
+            if (allQuests.getValue() != null
+                    && currentFilterState.getValue() != null
+                    && currentSortingState.getValue() != null) {
+                questsToShow.setValue(sortUseCase.invoke(filterUseCase.invoke(allQuests.getValue(),
+                        currentFilterState.getValue(), isShowCompleted),
+                        currentSortingState.getValue()));
             }
         });
 
-        showCompletedTextResId = Transformations.map(isShowCompleted, new Function<Boolean,
-                Integer>() {
-            @Override
-            public Integer apply(Boolean isShowCompleted) {
-                if (isShowCompleted) {
-                    return R.string.hide_completed;
-                }
-                return R.string.show_completed;
+        showCompletedTextResId = Transformations.map(isShowCompleted, isShowCompleted -> {
+            if (isShowCompleted) {
+                return R.string.hide_completed;
             }
+            return R.string.show_completed;
         });
 
     }

@@ -22,12 +22,12 @@ import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetQuestDateDueStateU
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetRepeatTextResIdUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTodayCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTomorrowCalendarUseCase;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.InsertQuestsUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTodayCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTomorrowCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.GetQuestByIdUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.GetQuestsByIdUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.GetSubQuestsUseCase;
-import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.InsertQuestsUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.CompleteQuestUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.DeleteQuestsUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.UpdateQuestsUseCase;
@@ -73,13 +73,16 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private final String TODAY;
     private final String TOMORROW;
 
-    private GetQuestDateDueStateUseCase getQuestDateDueStateUseCase;
-    private GetCurrentYearUseCase getCurrentYearUseCase;
-    private GetCurrentMonthUseCase getCurrentMonthUseCase;
-    private GetCurrentDayOfMonthUseCase getCurrentDayOfMonthUseCase;
-    private GetCurrentHourOfDayUseCase getCurrentHourOfDayUseCase;
-    private GetCurrentMinuteUseCase getCurrentMinuteUseCase;
-    private GetRepeatTextResIdUseCase getRepeatTextResIdUseCase;
+    private GetQuestDateDueStateUseCase getQuestDateDueStateUseCase =
+            new GetQuestDateDueStateUseCase();
+    private GetCurrentYearUseCase getCurrentYearUseCase = new GetCurrentYearUseCase();
+    private GetCurrentMonthUseCase getCurrentMonthUseCase = new GetCurrentMonthUseCase();
+    private GetCurrentDayOfMonthUseCase getCurrentDayOfMonthUseCase =
+            new GetCurrentDayOfMonthUseCase();
+    private GetCurrentHourOfDayUseCase getCurrentHourOfDayUseCase =
+            new GetCurrentHourOfDayUseCase();
+    private GetCurrentMinuteUseCase getCurrentMinuteUseCase = new GetCurrentMinuteUseCase();
+    private GetRepeatTextResIdUseCase getRepeatTextResIdUseCase = new GetRepeatTextResIdUseCase();
 
     private InsertQuestsUseCase insertQuestsUseCase;
     private UpdateQuestsUseCase updateQuestsUseCase;
@@ -91,14 +94,6 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
     public AddEditQuestViewModel(@NonNull Application application) {
         super(application);
-
-        getQuestDateDueStateUseCase = new GetQuestDateDueStateUseCase();
-        getCurrentYearUseCase = new GetCurrentYearUseCase();
-        getCurrentMonthUseCase = new GetCurrentMonthUseCase();
-        getCurrentDayOfMonthUseCase = new GetCurrentDayOfMonthUseCase();
-        getCurrentHourOfDayUseCase = new GetCurrentHourOfDayUseCase();
-        getCurrentMinuteUseCase = new GetCurrentMinuteUseCase();
-        getRepeatTextResIdUseCase = new GetRepeatTextResIdUseCase();
 
         QuestsRepository repository = new QuestsRepositoryImpl(application);
 
@@ -142,11 +137,11 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         return repeatTextResId;
     }
 
-    LiveData<List<Quest>> getSubQuests(){
+    LiveData<List<Quest>> getSubQuests() {
         return subQuests;
     }
 
-    int getQuestId(){
+    int getQuestId() {
         return currentQuest.getId();
     }
 
@@ -182,7 +177,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         }.start();
     }
 
-    private void loadParentQuest(){
+    private void loadParentQuest() {
         new Thread() {
             @Override
             public void run() {
@@ -313,13 +308,13 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         setRepeatState(Quest.RepeatState.NOT_SET);
     }
 
-    void completeSubQuest(int position, boolean isCompleted){
+    void completeSubQuest(int position, boolean isCompleted) {
         if (subQuests.getValue() != null) {
             completeQuestUseCase.invoke(subQuests.getValue().get(position), isCompleted);
         }
     }
 
-    void removeSubQuest(int position){
+    void removeSubQuest(int position) {
         if (subQuests.getValue() != null) {
             List<Quest> listToDelete = new ArrayList<>();
             listToDelete.add(subQuests.getValue().get(position));

@@ -3,7 +3,6 @@ package com.elli0tt.rpg_life.presentation.add_edit_quest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,7 +20,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -34,9 +31,8 @@ import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.databinding.FragmentAddEditQuestBinding;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.presentation.custom_view.ButtonWithRemoveIcon;
+import com.elli0tt.rpg_life.presentation.utils.HideKeyboardUtil;
 import com.google.android.material.textfield.TextInputLayout;
-
-import java.util.List;
 
 public class AddEditQuestFragment extends Fragment {
     private EditText nameEditText;
@@ -47,7 +43,7 @@ public class AddEditQuestFragment extends Fragment {
     private ButtonWithRemoveIcon repeatView;
     private RecyclerView subQuestsRecycler;
     private Button addSubQuestButton;
-
+    private Button addSkillsButton;
 
     private SubQuestsAdapter subQuestsAdapter;
 
@@ -85,6 +81,7 @@ public class AddEditQuestFragment extends Fragment {
         repeatView = view.findViewById(R.id.add_edit_quest_repeat_view);
         subQuestsRecycler = view.findViewById(R.id.add_edit_quest_subquests_recycler);
         addSubQuestButton = view.findViewById(R.id.add_edit_quest_add_subquest_button);
+        addSkillsButton = view.findViewById(R.id.add_edit_quest_add_skills_button);
 
         navController = NavHostFragment.findNavController(this);
 
@@ -97,7 +94,7 @@ public class AddEditQuestFragment extends Fragment {
                     AddEditQuestFragmentArgs.fromBundle(getArguments()).getIsSubQuest(),
                     AddEditQuestFragmentArgs.fromBundle(getArguments()).getParentQuestId());
             //TODO: DELETE WHEN TREE SUBQUESTS ARE IMPLEMENTED
-            if (AddEditQuestFragmentArgs.fromBundle(getArguments()).getIsSubQuest()){
+            if (AddEditQuestFragmentArgs.fromBundle(getArguments()).getIsSubQuest()) {
                 addSubQuestButton.setVisibility(View.INVISIBLE);
                 view.findViewById(R.id.add_edit_quest_subquests_text_view).setVisibility(View.INVISIBLE);
             }
@@ -112,6 +109,7 @@ public class AddEditQuestFragment extends Fragment {
         repeatView.setOnClickListener(onRepeatViewClickListener);
         repeatView.setOnRemoveClickListener(onRemoveRepeatViewClickListener);
         addSubQuestButton.setOnClickListener(onAddSubQuestButtonClickListener);
+        addSkillsButton.setOnClickListener(onAddSkillsButtonClickListener);
     }
 
     private void subscribeToViewModel() {
@@ -132,29 +130,18 @@ public class AddEditQuestFragment extends Fragment {
                         addDateDueView.setRemoveIconVisisbility(View.VISIBLE);
                     }
                 });
-        viewModel.getRepeatTextResId().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer textResId) {
-                repeatView.setText(textResId);
-            }
-        });
+        viewModel.getRepeatTextResId().observe(getViewLifecycleOwner(),
+                textResId -> repeatView.setText(textResId));
         viewModel.getRepeatState().observe(getViewLifecycleOwner(),
-                new Observer<Quest.RepeatState>() {
-                    @Override
-                    public void onChanged(Quest.RepeatState repeatState) {
-                        if (repeatState.equals(Quest.RepeatState.NOT_SET)) {
-                            repeatView.setRemoveIconVisisbility(View.INVISIBLE);
-                        } else {
-                            repeatView.setRemoveIconVisisbility(View.VISIBLE);
-                        }
+                repeatState -> {
+                    if (repeatState.equals(Quest.RepeatState.NOT_SET)) {
+                        repeatView.setRemoveIconVisisbility(View.INVISIBLE);
+                    } else {
+                        repeatView.setRemoveIconVisisbility(View.VISIBLE);
                     }
                 });
-        viewModel.getSubQuests().observe(getViewLifecycleOwner(), new Observer<List<Quest>>() {
-            @Override
-            public void onChanged(List<Quest> subQuests) {
-                subQuestsAdapter.submitList(subQuests);
-            }
-        });
+        viewModel.getSubQuests().observe(getViewLifecycleOwner(),
+                subQuests -> subQuestsAdapter.submitList(subQuests));
     }
 
     private void setupDifficultySpinner() {
@@ -167,7 +154,7 @@ public class AddEditQuestFragment extends Fragment {
             difficultySpinner.setAdapter(adapter);
             difficultySpinner.setSelection(Quest.NORMAL);
             difficultySpinner.setOnTouchListener((v, event) -> {
-                AddEditQuestFragment.this.hideKeyboard(v);
+                HideKeyboardUtil.hideKeyboard(v, getActivity());
                 v.performClick();
                 return false;
             });
@@ -218,54 +205,42 @@ public class AddEditQuestFragment extends Fragment {
         Log.d(ON_FOCUS_CHANGE_TAG, "on focus change called");
         if (!hasFocus) {
             Log.d(ON_FOCUS_CHANGE_TAG, " on try close keyboard");
-            hideKeyboard(v);
+            HideKeyboardUtil.hideKeyboard(v, getActivity());
         }
     };
 
     private View.OnClickListener onAddDateDueViewClickListener = v -> {
-        hideKeyboard(v);
+        HideKeyboardUtil.hideKeyboard(v, getActivity());
         showAddDateDuePopupMenu(v);
     };
 
     private View.OnClickListener onRemoveDateDueViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            hideKeyboard(v);
+            HideKeyboardUtil.hideKeyboard(v, getActivity());
             viewModel.removeDateDue();
         }
     };
 
-    private View.OnClickListener onRepeatViewClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            hideKeyboard(v);
-            showRepeatPopup(v);
-        }
+    private View.OnClickListener onRepeatViewClickListener = v -> {
+        HideKeyboardUtil.hideKeyboard(v, getActivity());
+        showRepeatPopup(v);
     };
 
     private View.OnClickListener onRemoveRepeatViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            hideKeyboard(v);
+            HideKeyboardUtil.hideKeyboard(v, getActivity());
             viewModel.removeRepeat();
         }
     };
 
-    private View.OnClickListener onAddSubQuestButtonClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            navigateToAddSubQuestScreen();
-        }
-    };
+    private View.OnClickListener onAddSubQuestButtonClickListener =
+            v -> navigateToAddSubQuestScreen();
 
-    private void hideKeyboard(View view) {
-        Activity activity = getActivity();
-        if (activity != null) {
-            InputMethodManager inputMethodManager =
-                    (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }
+    private View.OnClickListener onAddSkillsButtonClickListener = v -> {
+
+    };
 
     private void showAddDateDuePopupMenu(View view) {
         PopupMenu popupMenu = new PopupMenu(getContext(), view);

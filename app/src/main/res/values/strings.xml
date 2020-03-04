@@ -76,4 +76,8 @@
     <string name="show_developers_options">Show developers options</string>
     <string name="show_completed">Show completed</string>
     <string name="hide_completed">Hide completed</string>
+    <string name="skills_level">Level:</string>
+    <string name="add_skill">Add skill</string>
+    <string name="add_edit_quest_skills_label">Skills:</string>
+    <string name="add_edit_skill_confirm">Confirm</string>
 </resources>

@@ -13,16 +13,20 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.presentation.custom_view.DividerItemDecoration;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class SkillsFragment extends Fragment {
     private SkillsViewModel viewModel;
+
     private RecyclerView recyclerView;
+    private FloatingActionButton addSkillFab;
 
     private NavController navController;
 
@@ -41,10 +45,15 @@ public class SkillsFragment extends Fragment {
         navController = NavHostFragment.findNavController(this);
 
         recyclerView = view.findViewById(R.id.skills_recycler_view);
+        addSkillFab = view.findViewById(R.id.skills_add_skill_fab);
 
         setupRecyclerView();
         setHasOptionsMenu(true);
+
+        addSkillFab.setOnClickListener(onAddSkillFabClickListener);
     }
+
+    private View.OnClickListener onAddSkillFabClickListener = v -> navigateToAddSkillScreen();
 
     private void setupRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,
@@ -53,11 +62,13 @@ public class SkillsFragment extends Fragment {
         viewModel.getAllSkills().observe(getViewLifecycleOwner(), adapter::submitList);
         adapter.setOnStartTimerFabClickListener(this::navigateToCountDownScreen);
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
+        if (getContext() != null) {
+            recyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
+        }
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.skills_toolbar_menu, menu);
     }
 
@@ -75,7 +86,12 @@ public class SkillsFragment extends Fragment {
         }
     }
 
-    private void navigateToCountDownScreen(){
+    private void navigateToCountDownScreen() {
         navController.navigate(R.id.countdown_timer_screen);
+    }
+
+    private void navigateToAddSkillScreen() {
+        NavDirections action = SkillsFragmentDirections.actionSkillsScreenToAddSkillScreen();
+        navController.navigate(action);
     }
 }
