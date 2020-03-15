@@ -5,9 +5,11 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
 import com.elli0tt.rpg_life.domain.model.room_type_converters.CalendarConverter;
+import com.elli0tt.rpg_life.domain.model.room_type_converters.RelatedSkillsIdsConverter;
 import com.elli0tt.rpg_life.domain.model.room_type_converters.RepeatStateConverter;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTodayCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTomorrowCalendarUseCase;
@@ -119,6 +121,9 @@ public class Quest {
 
     @TypeConverters({RepeatStateConverter.class})
     private RepeatState repeatState = RepeatState.NOT_SET;
+
+    @TypeConverters({RelatedSkillsIdsConverter.class})
+    private List<Integer> relatedSkillsIds = new ArrayList<>();
 
     @Ignore
     public Quest(@NonNull String name,
@@ -249,6 +254,10 @@ public class Quest {
         return repeatState;
     }
 
+    public List<Integer> getRelatedSkillsIds() {
+        return relatedSkillsIds;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -299,6 +308,10 @@ public class Quest {
 
     public void setRepeatState(RepeatState repeatState){
         this.repeatState = repeatState;
+    }
+
+    public void setRelatedSkillsIds(List<Integer> relatedSkillsIds){
+        this.relatedSkillsIds = relatedSkillsIds;
     }
 
     public int getIncreaseXp() {

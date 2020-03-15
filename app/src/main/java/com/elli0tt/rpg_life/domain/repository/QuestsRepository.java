@@ -17,6 +17,8 @@ public interface QuestsRepository {
 
     LiveData<List<Quest>> getSubQuests(int parentQuestId);
 
+    LiveData<Quest> getQuestByIdLiveData(int questId);
+
     void insert(Quest... quests);
 
     void update(Quest... quests);

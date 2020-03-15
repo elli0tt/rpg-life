@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import com.elli0tt.rpg_life.domain.model.AddSkillData;
 import com.elli0tt.rpg_life.domain.model.Skill;
 
 import java.util.List;
@@ -18,6 +19,10 @@ public interface SkillsDao {
 
     @Query("SELECT * FROM skills_table ORDER BY id")
     LiveData<List<Skill>> getAllSkills();
+
+    @Query("SELECT name FROM skills_table WHERE id IN (:ids) ORDER BY NAME")
+    List<String> getSkillsNamesByIds(List<Integer> ids);
+
 
     @Query("DELETE FROM skills_table")
     void deleteAll();

@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -59,7 +60,7 @@ public class AddEditQuestFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        viewModel = ViewModelProviders.of(this).get(AddEditQuestViewModel.class);
+        viewModel = new ViewModelProvider(this).get(AddEditQuestViewModel.class);
         FragmentAddEditQuestBinding binding =
                 FragmentAddEditQuestBinding.inflate(inflater, container, false);
 
@@ -239,7 +240,7 @@ public class AddEditQuestFragment extends Fragment {
             v -> navigateToAddSubQuestScreen();
 
     private View.OnClickListener onAddSkillsButtonClickListener = v -> {
-
+        navigateToAddSkillsToQuestScreen();
     };
 
     private void showAddDateDuePopupMenu(View view) {
@@ -322,6 +323,13 @@ public class AddEditQuestFragment extends Fragment {
                 AddEditQuestFragmentDirections.actionAddEditQuestScreenSelf();
         action.setParentQuestId(viewModel.getQuestId());
         action.setIsSubQuest(true);
+        navController.navigate(action);
+    }
+
+    private void navigateToAddSkillsToQuestScreen(){
+        AddEditQuestFragmentDirections.ActionAddEditQuestScreenToAddSkillsToQuestFragment action =
+                AddEditQuestFragmentDirections.actionAddEditQuestScreenToAddSkillsToQuestFragment();
+        action.setQuestId(viewModel.getQuestId());
         navController.navigate(action);
     }
 }

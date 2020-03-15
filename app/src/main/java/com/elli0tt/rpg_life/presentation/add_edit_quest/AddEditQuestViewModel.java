@@ -4,14 +4,18 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.arch.core.util.Function;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl;
+import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
+import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetCurrentDayOfMonthUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetCurrentHourOfDayUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetCurrentMinuteUseCase;
@@ -31,6 +35,7 @@ import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.GetSubQuest
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.CompleteQuestUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.DeleteQuestsUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.UpdateQuestsUseCase;
+import com.elli0tt.rpg_life.domain.use_case.skills.GetSkillsNamesByIdsUseCase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,6 +56,10 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
     private MutableLiveData<Quest.RepeatState> repeatState =
             new MutableLiveData<>(Quest.RepeatState.NOT_SET);
+
+    private MutableLiveData<List<Integer>> relatedSkillsIds = new MutableLiveData<>();
+
+    private LiveData<List<String>> skillsNames;
 
     private Calendar dateDue = Calendar.getInstance();
 
@@ -91,22 +100,40 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private GetSubQuestsUseCase getSubQuestsUseCase;
     private CompleteQuestUseCase completeQuestUseCase;
     private DeleteQuestsUseCase deleteQuestsUseCase;
+    private GetSkillsNamesByIdsUseCase getSkillsNamesByIdsUseCase;
 
     public AddEditQuestViewModel(@NonNull Application application) {
         super(application);
 
-        QuestsRepository repository = new QuestsRepositoryImpl(application);
+        QuestsRepository questsRepository = new QuestsRepositoryImpl(application);
+        SkillsRepository skillsRepository = new SkillsRepositoryImpl(application);
 
-        insertQuestsUseCase = new InsertQuestsUseCase(repository);
-        updateQuestsUseCase = new UpdateQuestsUseCase(repository);
-        getQuestByIdUseCase = new GetQuestByIdUseCase(repository);
-        getQuestsByIdUseCase = new GetQuestsByIdUseCase(repository);
-        getSubQuestsUseCase = new GetSubQuestsUseCase(repository);
-        completeQuestUseCase = new CompleteQuestUseCase(repository);
-        deleteQuestsUseCase = new DeleteQuestsUseCase(repository);
+        insertQuestsUseCase = new InsertQuestsUseCase(questsRepository);
+        updateQuestsUseCase = new UpdateQuestsUseCase(questsRepository);
+        getQuestByIdUseCase = new GetQuestByIdUseCase(questsRepository);
+        getQuestsByIdUseCase = new GetQuestsByIdUseCase(questsRepository);
+        getSubQuestsUseCase = new GetSubQuestsUseCase(questsRepository);
+        completeQuestUseCase = new CompleteQuestUseCase(questsRepository);
+        deleteQuestsUseCase = new DeleteQuestsUseCase(questsRepository);
+
+        getSkillsNamesByIdsUseCase = new GetSkillsNamesByIdsUseCase(skillsRepository);
 
         TODAY = application.getString(R.string.quest_date_due_today);
         TOMORROW = application.getString(R.string.quest_date_due_tomorrow);
+
+        skillsNames = Transformations.map(relatedSkillsIds, new Function<List<Integer>, List<String>>() {
+            @Override
+            public List<String> apply(List<Integer> ids) {
+                new Thread(){
+                    @Override
+                    public void run() {
+                        super.run();
+                        getSkillsNamesByIdsUseCase.invoke(ids);
+                    }
+                }.start();
+                return null;
+            }
+        });
     }
 
     public MutableLiveData<String> getName() {
@@ -140,6 +167,14 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     LiveData<List<Quest>> getSubQuests() {
         return subQuests;
     }
+
+//    StringBuilder result = new StringBuilder();
+//    List<String> namesList = getSkillsNamesByIdsUseCase.invoke(ids);
+//                        for (String name : namesList){
+//        result.append(name).append(", ");
+//    }
+//    //delete last two symbols (", ")
+//                        result.delete(result.length() - 2, result.length() - 1);
 
     int getQuestId() {
         return currentQuest.getId();
@@ -194,6 +229,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         dateDue = quest.getDateDue();
         repeatState.postValue(quest.getRepeatState());
         repeatTextResId.postValue(getRepeatTextResIdUseCase.invoke(quest.getRepeatState()));
+        relatedSkillsIds.postValue(quest.getRelatedSkillsIds());
         isDataLoaded = true;
     }
 

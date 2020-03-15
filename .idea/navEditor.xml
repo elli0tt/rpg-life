@@ -32,6 +32,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="addSkillsToQuestFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="607" />
+                            <option name="y" value="-65" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="add_edit_quest_screen">
                     <value>
                       <LayoutPositions>
@@ -171,7 +183,7 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_skills_screen_to_add_edit_skill_screen">
+                            <entry key="action_skills_screen_to_add_skill_screen">
                               <value>
                                 <LayoutPositions />
                               </value>

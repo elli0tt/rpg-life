@@ -30,6 +30,9 @@ public interface QuestsDao {
     @Query("SELECT * FROM quest_table WHERE parentQuestId = :parentQuestId ORDER BY id")
     LiveData<List<Quest>> getSubQuests(int parentQuestId);
 
+    @Query("select * from quest_table where id = :questId")
+    LiveData<Quest> getQuestByIdLiveData(int questId);
+
     @Update
     void update(Quest... quests);
 

@@ -46,6 +46,11 @@ public class QuestsRepositoryImpl implements QuestsRepository {
     }
 
     @Override
+    public LiveData<Quest> getQuestByIdLiveData(int questId) {
+        return dao.getQuestByIdLiveData(questId);
+    }
+
+    @Override
     public void insert(Quest... quests) {
         new InsertOneAsyncTask(dao).execute(quests);
     }

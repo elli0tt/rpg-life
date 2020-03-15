@@ -143,12 +143,9 @@ public class QuestsFragment extends Fragment {
             }
         });
         viewModel.getShowCompletedTextResId().observe(getViewLifecycleOwner(),
-                new Observer<Integer>() {
-                    @Override
-                    public void onChanged(Integer textResId) {
-                        if (showCompletedMenuItem != null) {
-                            showCompletedMenuItem.setTitle(textResId);
-                        }
+                textResId -> {
+                    if (showCompletedMenuItem != null) {
+                        showCompletedMenuItem.setTitle(textResId);
                     }
                 });
     }
