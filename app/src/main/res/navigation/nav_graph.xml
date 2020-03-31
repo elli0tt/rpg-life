@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/character_screen"
         android:name="com.elli0tt.rpg_life.presentation.character.CharacterFragment"
-        android:label="Character"
+        android:label="@string/nav_character"
         tools:layout="@layout/fragment_character">
         <action
             android:id="@+id/action_character_screen_to_add_characteristic_fragment"
@@ -22,7 +22,7 @@
     <fragment
         android:id="@+id/skills_screen"
         android:name="com.elli0tt.rpg_life.presentation.skills.SkillsFragment"
-        android:label="Skills"
+        android:label="@string/nav_skills"
         tools:layout="@layout/fragment_skills">
         <action
             android:id="@+id/action_skills_screen_to_countdown_timer_screen"
@@ -43,7 +43,7 @@
     <fragment
         android:id="@+id/quests_screen"
         android:name="com.elli0tt.rpg_life.presentation.quests.QuestsFragment"
-        android:label="Quests"
+        android:label="@string/nav_quests"
         tools:layout="@layout/fragment_quests">
         <!--<action-->
         <!--android:id="@+id/action_to_add_quest_screen"-->
@@ -80,36 +80,36 @@
     <fragment
         android:id="@+id/achievements_screen"
         android:name="com.elli0tt.rpg_life.presentation.achievements.AchievementsFragment"
-        android:label="Achievements"
+        android:label="@string/nav_achievements"
         tools:layout="@layout/fragment_achievements" />
 
     <fragment
         android:id="@+id/settings_screen"
         android:name="com.elli0tt.rpg_life.presentation.settings.SettingsFragment"
-        android:label="Settings"
+        android:label="@string/nav_settings"
         tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/faq_screen"
         android:name="com.elli0tt.rpg_life.presentation.faq.FAQFragment"
-        android:label="FAQ"
+        android:label="@string/nav_faq"
         tools:layout="@layout/fragment_faq" />
 
     <fragment
         android:id="@+id/about_me_screen"
         android:name="com.elli0tt.rpg_life.presentation.about_me.AboutMeFragment"
-        android:label="About me"
+        android:label="@string/nav_about_me"
         tools:layout="@layout/fragment_about_me" />
     <fragment
         android:id="@+id/new_characteristic_screen"
         android:name="com.elli0tt.rpg_life.presentation.add_edit_characteristic.AddEditCharacteristicFragment"
-        android:label="Add new characteristic"
+        android:label="@string/add_new_characterstic"
         tools:layout="@layout/fragment_add_edit_characteristic" />
 
     <fragment
         android:id="@+id/add_edit_quest_screen"
         android:name="com.elli0tt.rpg_life.presentation.add_edit_quest.AddEditQuestFragment"
-        android:label="AddEditQuestFragment"
+        android:label=""
         tools:layout="@layout/fragment_add_edit_quest">
         <argument
             android:name="questId"
@@ -150,13 +150,13 @@
     <fragment
         android:id="@+id/countdown_timer_screen"
         android:name="com.elli0tt.rpg_life.presentation.countdown_timer.CountDownFragment"
-        android:label="Timer"
+        android:label="@string/timer_label"
         tools:layout="@layout/fragment_countdown_timer" />
 
     <fragment
         android:id="@+id/add_edit_skill_screen"
         android:name="com.elli0tt.rpg_life.presentation.add_edit_skill.AddEditSkillFragment"
-        android:label="Add skill"
+        android:label="@string/add_skill_label"
         tools:layout="@layout/fragment_add_edit_skill" />
 
     <fragment

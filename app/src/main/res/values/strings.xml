@@ -80,4 +80,7 @@
     <string name="add_skill">Add skill</string>
     <string name="add_edit_quest_skills_label">Skills:</string>
     <string name="add_edit_skill_confirm">Confirm</string>
+    <string name="add_new_characterstic">Add new characteristic</string>
+    <string name="timer_label">Timer</string>
+    <string name="add_skill_label">Add skill</string>
 </resources>

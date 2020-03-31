@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RPG Life</string>
+    <string name="navigation_drawer_open">Открыть</string>
+    <string name="navigation_drawer_close">Закрыть</string>
+    <string name="nav_character">Персонаж</string>
+    <string name="nav_skills">Навыки</string>
+    <string name="nav_quests">Квесты</string>
+    <string name="nav_achievements">Достижения</string>
+    <string name="nav_settings">Настройки</string>
+    <string name="nav_faq">FAQ</string>
+    <string name="nav_about_me">Обо мне</string>
+    <string name="characteristic_name_input_hint">Название</string>
+    <string name="delete_all">Удалить все</string>
+    <string name="add_quest_name_hint">Название</string>
+    <string name="add_quest_toolbar_menu_confirm">Подтвердить</string>
+    <string name="quest_difficulty_label_text">Сложность</string>
+
+    <string name="difficulty_very_easy_text">Очень легкий</string>
+    <string name="difficulty_easy_text">Легкий</string>
+    <string name="difficulty_normal_text">Обычный</string>
+    <string name="difficulty_hard_text">Сложный</string>
+    <string name="difficulty_very_hard_text">Очень сложный</string>
+    <string name="difficulty_impossible_text">Невозможный</string>
+    <string name="difficulty_error_text">Ошибка: такой сложности нет</string>
+
+    <string name="add_quest_difficulty_text">Уровено сложности:</string>
+    <string name="add_quest_description_hint">Описание</string>
+    <string name="delete">Удалить</string>
+    <string name="populate_with_samples">Добавить сэмплы</string>
+    <string name="quest_toolbar_menu_select_all_text">Выделить все</string>
+
+    <string-array name="difficulty_levels_texts">
+        <item>Очень легкий</item>
+        <item>Легкий</item>
+        <item>Обычный</item>
+        <item>Тяжелый</item>
+        <item>Очень тяжелый</item>
+        <item>Невозможный</item>
+    </string-array>
+
+    <string name="character_toolbar_menu_item_populate_with_samples">Добавить сэмплы</string>
+    <string name="quests_toolbar_menu_filter_title">Фильтр</string>
+    <string name="quests_filtering_all">Все</string>
+    <string name="quests_filtering_active">Активные</string>
+    <string name="quests_filtering_completed">Завершенные</string>
+    <string name="stopwatch_start">Старт</string>
+    <string name="stopwatch_pause">Пауза</string>
+    <string name="stopwatch_reset">Сбросить</string>
+    <string name="countdown_timer_start">Старт</string>
+    <string name="countdown_timer_pause">Пауза</string>
+    <string name="countdown_timer_reset">Сбросить</string>
+    <string name="quests_toolbar_menu_sort_by">Отсортировать по</string>
+    <string name="quests_toolbar_sort_by_name">Названию</string>
+    <string name="quests_toolbar_sort_by_date_added">Дате добавления</string>
+    <string name="quests_toolbar_sort_by_date_due">Дате окончания</string>
+    <string name="quests_filtering_important">Важные</string>
+    <string name="add_edit_quest_add_date_due">Добавать дату окончания</string>
+    <string name="add_edit_quest_repeat">Повтор</string>
+    <string name="quest_recycler_due_date">До:</string>
+    <string name="quest_recycler_due_date_infinity">До: ∞</string>
+    <string name="quest_toolbar_sort_by_difficulty">Сложность</string>
+    <string name="quest_date_due_today">Сегодня</string>
+    <string name="quest_date_due_tomorrow">Завтра</string>
+    <string name="quest_date_due_next_week">Следующая неделя</string>
+    <string name="quest_date_due_pick_a_date">Выбрать дату</string>
+    <string name="add_edit_quest_name_error_message">Поле не может быть пустым</string>
+    <string name="add_edit_quest_repeat_popup_daily">Ежедневно</string>
+    <string name="add_edit_quest_repeat_popup_weekdays">По будням</string>
+    <string name="add_edit_quest_repeat_popup_weekends">По выходным</string>
+    <string name="add_edit_quest_repeat_popup_weekly">Еженедельно</string>
+    <string name="add_edit_quest_repeat_popup_monthly">Ежемесячно</string>
+    <string name="add_edit_quest_repeat_popup_yearly">Ежегодно</string>
+    <string name="add_edit_quest_repeat_popup_custom">Настроить</string>
+    <string name="add_edit_quest_subquests">Сабкветы:</string>
+    <string name="add_edit_quest_add_subquest">Добавить сабквест</string>
+    <string name="show_developers_options">Показать опции для разработчка</string>
+    <string name="show_completed">Показать завершенные</string>
+    <string name="hide_completed">Скрыть завешенные</string>
+    <string name="skills_level">Уровень:</string>
+    <string name="add_skill">Добавить навык</string>
+    <string name="add_edit_quest_skills_label">Навыки:</string>
+    <string name="add_edit_skill_confirm">Подтвердить</string>
+    <string name="add_new_characterstic">Добавть новую характеристику</string>
+    <string name="timer_label">Таймер</string>
+    <string name="add_skill_label">Добавть навык</string>
+</resources>
