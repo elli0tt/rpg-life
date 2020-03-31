@@ -6,15 +6,18 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.domain.model.AddSkillData
-import com.elli0tt.rpg_life.domain.model.Quest
-import java.util.*
-import kotlin.collections.ArrayList
 
 class AddSkillsToQuestAdapter : ListAdapter<AddSkillData, AddSkillsToQuestViewHolder>(DIFF_CALLBACK) {
+    interface OnSelectCheckBoxClickListener {
+        fun onCheck(position: Int, isChecked: Boolean)
+    }
+
+    lateinit var onSelectCheckBoxClickListener: OnSelectCheckBoxClickListener
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddSkillsToQuestViewHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.add_skills_to_quest_recycler_item, parent, false)
-        return AddSkillsToQuestViewHolder(view)
+        return AddSkillsToQuestViewHolder(view, onSelectCheckBoxClickListener)
     }
 
     override fun onBindViewHolder(holder: AddSkillsToQuestViewHolder, position: Int) {
@@ -28,7 +31,7 @@ class AddSkillsToQuestAdapter : ListAdapter<AddSkillData, AddSkillsToQuestViewHo
             }
 
             override fun areContentsTheSame(oldItem: AddSkillData, newItem: AddSkillData): Boolean {
-                return oldItem.name == newItem.name && oldItem.isAdded == newItem.isAdded
+                return oldItem.name == newItem.name && oldItem.isSelected == newItem.isSelected
             }
         }
     }

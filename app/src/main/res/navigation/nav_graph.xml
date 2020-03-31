@@ -156,7 +156,7 @@
     <fragment
         android:id="@+id/add_edit_skill_screen"
         android:name="com.elli0tt.rpg_life.presentation.add_edit_skill.AddEditSkillFragment"
-        android:label="fragment_add_edit_skill"
+        android:label="Add skill"
         tools:layout="@layout/fragment_add_edit_skill" />
 
     <fragment

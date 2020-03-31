@@ -12,8 +12,10 @@ import androidx.lifecycle.Transformations;
 
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl;
+import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
+import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetQuestDateDueStateUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.InsertQuestsUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.filter.FilterUseCase;
@@ -75,6 +77,7 @@ public class QuestsViewModel extends AndroidViewModel {
         super(application);
 
         QuestsRepository questsRepository = new QuestsRepositoryImpl(application);
+        SkillsRepository skillsRepository = new SkillsRepositoryImpl(application);
 
         getFilterStateUseCase = new GetFilterStateUseCase(questsRepository);
         getSortingStateUseCase = new GetSortingStateUseCase(questsRepository);
@@ -87,7 +90,7 @@ public class QuestsViewModel extends AndroidViewModel {
         setQuestsFilterStateUseCase = new SetQuestsFilterStateUseCase(questsRepository);
         setQuestsSortingStateUseCase = new SetQuestsSortingState(questsRepository);
         populateWithSamplesUseCase = new PopulateWithSamplesUseCase(questsRepository);
-        completeQuestUseCase = new CompleteQuestUseCase(questsRepository);
+        completeQuestUseCase = new CompleteQuestUseCase(questsRepository, skillsRepository);
         setQuestImportantUseCase = new SetQuestImportantUseCase(questsRepository);
         updateQuestsDateDueStateUseCase = new UpdateQuestsDateDueStateUseCase(questsRepository);
         setShowCompletedUseCase = new SetShowCompletedUseCase(questsRepository);

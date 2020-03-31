@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.elli0tt.rpg_life.domain.model.AddSkillData;
 import com.elli0tt.rpg_life.domain.model.Skill;
@@ -23,6 +24,11 @@ public interface SkillsDao {
     @Query("SELECT name FROM skills_table WHERE id IN (:ids) ORDER BY NAME")
     List<String> getSkillsNamesByIds(List<Integer> ids);
 
+    @Update
+    void update(Skill... skills);
+
+    @Query("update skills_table set totalXp = :totalXp where id = :id")
+    void updateTotalXpById(int id, long totalXp);
 
     @Query("DELETE FROM skills_table")
     void deleteAll();

@@ -32,6 +32,7 @@ public class CountDownSharedPrefUtils {
     }
 
     public TimerState getTimerState() {
+
         int ordinal = sharedPreferences.getInt(KEY_TIMER_STATE, TimerState.STOPPED.ordinal());
         return TimerState.values()[ordinal];
     }

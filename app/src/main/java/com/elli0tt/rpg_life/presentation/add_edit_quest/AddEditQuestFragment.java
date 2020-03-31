@@ -45,6 +45,7 @@ public class AddEditQuestFragment extends Fragment {
     private RecyclerView subQuestsRecycler;
     private Button addSubQuestButton;
     private Button addSkillsButton;
+    private RecyclerView skillsRecycler;
 
     private SubQuestsAdapter subQuestsAdapter;
 
@@ -83,6 +84,7 @@ public class AddEditQuestFragment extends Fragment {
         subQuestsRecycler = view.findViewById(R.id.add_edit_quest_subquests_recycler);
         addSubQuestButton = view.findViewById(R.id.add_edit_quest_add_subquest_button);
         addSkillsButton = view.findViewById(R.id.add_edit_quest_add_skills_button);
+        skillsRecycler = view.findViewById(R.id.add_edit_quest_skills_recycler);
 
         navController = NavHostFragment.findNavController(this);
 
@@ -181,6 +183,21 @@ public class AddEditQuestFragment extends Fragment {
 //            list.add(new Quest("Subquest " + i));
 //        }
 //        subQuestsAdapter.submitList(list);
+    }
+
+    private void setupSkillsRecycler(){
+        subQuestsAdapter = new SubQuestsAdapter();
+        subQuestsAdapter.setOnIsCompleteCheckBoxClickListener((isCompleted, position) -> {
+            viewModel.completeSubQuest(position, isCompleted);
+        });
+        subQuestsAdapter.setOnRemoveButtonClickListener(position -> {
+            viewModel.removeSubQuest(position);
+        });
+        subQuestsRecycler.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL));
+        subQuestsRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
+                RecyclerView.VERTICAL, false));
+        subQuestsRecycler.setAdapter(subQuestsAdapter);
     }
 
     @Override

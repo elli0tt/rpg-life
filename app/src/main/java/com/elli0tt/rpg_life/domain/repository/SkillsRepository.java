@@ -14,5 +14,9 @@ public interface SkillsRepository {
 
     List<String> getSkillsNamesByIds(List<Integer> ids);
 
+    void update(Skill... skills);
+
+    void updateTotalXpById(int id, long totalXp);
+
     void deleteAll();
 }

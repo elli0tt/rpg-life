@@ -113,7 +113,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         getQuestByIdUseCase = new GetQuestByIdUseCase(questsRepository);
         getQuestsByIdUseCase = new GetQuestsByIdUseCase(questsRepository);
         getSubQuestsUseCase = new GetSubQuestsUseCase(questsRepository);
-        completeQuestUseCase = new CompleteQuestUseCase(questsRepository);
+        completeQuestUseCase = new CompleteQuestUseCase(questsRepository, skillsRepository);
         deleteQuestsUseCase = new DeleteQuestsUseCase(questsRepository);
 
         getSkillsNamesByIdsUseCase = new GetSkillsNamesByIdsUseCase(skillsRepository);

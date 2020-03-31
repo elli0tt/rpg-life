@@ -3,21 +3,28 @@ package com.elli0tt.rpg_life.domain.use_case.quests.update_data;
 import com.elli0tt.rpg_life.domain.constants.Constants;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
+import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.InsertQuestsUseCase;
+import com.elli0tt.rpg_life.domain.use_case.skills.UpdateSkillTotalXpByIdUseCase;
+import com.elli0tt.rpg_life.domain.use_case.skills.UpdateSkillsUseCase;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class CompleteQuestUseCase {
     private UpdateQuestsUseCase updateQuestsUseCase;
     private InsertQuestsUseCase insertQuestsUseCase;
+    private UpdateSkillTotalXpByIdUseCase updateSkillTotalXpByIdUseCase;
 
-    public CompleteQuestUseCase(QuestsRepository repository) {
-        updateQuestsUseCase = new UpdateQuestsUseCase(repository);
-        insertQuestsUseCase = new InsertQuestsUseCase(repository);
+    public CompleteQuestUseCase(QuestsRepository questsRepository, SkillsRepository skillsRepository) {
+        updateQuestsUseCase = new UpdateQuestsUseCase(questsRepository);
+        insertQuestsUseCase = new InsertQuestsUseCase(questsRepository);
+        updateSkillTotalXpByIdUseCase = new UpdateSkillTotalXpByIdUseCase(skillsRepository);
     }
 
     public void invoke(Quest quest, boolean isCompleted) {
         quest.setCompleted(isCompleted);
+        increaseRelatedSkillsXps(quest);
         updateQuestsUseCase.invoke(quest);
         if (!quest.getRepeatState().equals(Quest.RepeatState.NOT_SET)) {
             Quest newQuest = new Quest();
@@ -30,6 +37,7 @@ public class CompleteQuestUseCase {
             newQuest.setDateDue(calculateNewDateDue(quest.getDateDue(), quest.getRepeatState()));
             newQuest.setImportant(quest.isImportant());
             insertQuestsUseCase.invoke(newQuest);
+            increaseRelatedSkillsXps(quest);
         }
     }
 
@@ -103,6 +111,12 @@ public class CompleteQuestUseCase {
                 newDateDue.setTimeInMillis(newDateDue.getTimeInMillis()
                         + Constants.MILLIS_IN_24_HOURS);
                 break;
+        }
+    }
+
+    private void increaseRelatedSkillsXps(Quest quest){
+        for (int id : quest.getRelatedSkillsIds()){
+            updateSkillTotalXpByIdUseCase.invoke(id, quest.getIncreaseXp());
         }
     }
 }
