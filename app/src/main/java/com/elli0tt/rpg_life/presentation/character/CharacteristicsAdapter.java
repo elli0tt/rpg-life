@@ -69,8 +69,8 @@ public class CharacteristicsAdapter extends RecyclerView.Adapter<Characteristics
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
-            characteristicImage = itemView.findViewById(R.id.characteristic_image);
-            characteristicName = itemView.findViewById(R.id.characteristic_name);
+            characteristicImage = itemView.findViewById(R.id.characteristic_image_view);
+            characteristicName = itemView.findViewById(R.id.characteristic_name_text_view);
             characteristicValue = itemView.findViewById(R.id.characteristic_value);
         }
     }

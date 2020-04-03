@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/characteristic_image"
+        android:id="@+id/characteristic_image_view"
         android:layout_width="@dimen/characteristics_list_image_size"
         android:layout_height="@dimen/characteristics_list_image_size"
         android:layout_margin="@dimen/characteristics_list_items_margin"
@@ -16,13 +16,13 @@
         tool:src="@drawable/ic_endurance" />
 
     <TextView
-        android:id="@+id/characteristic_name"
+        android:id="@+id/characteristic_name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/characteristics_list_items_margin"
         android:textSize="@dimen/characteristics_list_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/characteristic_image"
+        app:layout_constraintStart_toEndOf="@id/characteristic_image_view"
         app:layout_constraintTop_toTopOf="parent"
         tool:text="Strength:" />
 
@@ -33,7 +33,7 @@
         android:layout_margin="@dimen/characteristics_list_items_margin"
         android:textSize="@dimen/characteristics_list_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/characteristic_name"
+        app:layout_constraintStart_toEndOf="@id/characteristic_name_text_view"
         app:layout_constraintTop_toTopOf="parent"
         tool:text="100" />
 

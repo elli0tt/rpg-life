@@ -7,17 +7,17 @@
     android:padding="8dp">
 
     <TextView
-        android:id="@+id/add_skills_to_quest_recycler_item_name_text_view"
+        android:id="@+id/name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/add_skills_to_quest_recycler_item_select_check_box"
+        app:layout_constraintStart_toEndOf="@id/select_check_box"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Android" />
 
     <CheckBox
-        android:id="@+id/add_skills_to_quest_recycler_item_select_check_box"
+        android:id="@+id/select_check_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

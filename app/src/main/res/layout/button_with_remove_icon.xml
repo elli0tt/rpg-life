@@ -11,7 +11,7 @@
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/button_with_remove_icon_main_icon"
+            android:id="@+id/remove_icon_main_icon_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/white"
@@ -23,7 +23,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/button_with_remove_icon_text"
+            android:id="@+id/remove_icon_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/white"
@@ -31,11 +31,11 @@
             android:textColor="@android:color/black"
             android:layout_marginStart="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/button_with_remove_icon_main_icon"
+            app:layout_constraintStart_toEndOf="@+id/remove_icon_main_icon_image_view"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_with_remove_icon_remove"
+            android:id="@+id/remove_icon_remove_button"
             style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

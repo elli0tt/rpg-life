@@ -15,8 +15,8 @@ class AddSkillsToQuestViewHolder(itemView: View,
     private val selectCheckBox: CheckBox
 
     init {
-        nameTextView = itemView.findViewById(R.id.add_skills_to_quest_recycler_item_name_text_view)
-        selectCheckBox = itemView.findViewById<CheckBox>(R.id.add_skills_to_quest_recycler_item_select_check_box)
+        nameTextView = itemView.findViewById(R.id.name_text_view)
+        selectCheckBox = itemView.findViewById<CheckBox>(R.id.select_check_box)
 
         selectCheckBox.setOnCheckedChangeListener { _, isChecked ->
             onSelectCheckBoxClickListener.onCheck(adapterPosition, isChecked)

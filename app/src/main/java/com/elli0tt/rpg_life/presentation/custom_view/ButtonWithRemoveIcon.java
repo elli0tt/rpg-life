@@ -31,9 +31,9 @@ public class ButtonWithRemoveIcon extends CardView {
 
         inflate(context, R.layout.button_with_remove_icon, this);
 
-        removeButton = findViewById(R.id.button_with_remove_icon_remove);
-        textView = findViewById(R.id.button_with_remove_icon_text);
-        mainIconImageView = findViewById(R.id.button_with_remove_icon_main_icon);
+        removeButton = findViewById(R.id.remove_icon_remove_button);
+        textView = findViewById(R.id.remove_icon_text_view);
+        mainIconImageView = findViewById(R.id.remove_icon_main_icon_image_view);
 
         final TypedArray typedArray = context.obtainStyledAttributes(attrs,
                 R.styleable.ButtonWithRemoveIcon, defStyleAttr, 0);
