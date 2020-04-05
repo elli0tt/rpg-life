@@ -63,15 +63,15 @@ public class CountDownFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         subscribeToViewModel();
 
-        startFab = view.findViewById(R.id.countdown_timer_start_fab);
-        pauseFab = view.findViewById(R.id.countdown_timer_pause_fab);
-        stopFab = view.findViewById(R.id.countdown_timer_stop_fab);
-        hoursNumberPicker = view.findViewById(R.id.countdown_timer_hours_number_picker);
-        minutesNumberPicker = view.findViewById(R.id.countdown_timer_minutes_number_picker);
-        secondsNumberPicker = view.findViewById(R.id.countdown_timer_seconds_number_picker);
-        numberPickersLayout = view.findViewById(R.id.countdown_timer_number_pickers_layout);
-        timerTextView = view.findViewById(R.id.countdown_timer_text_view);
-        progressBar = view.findViewById(R.id.countdown_timer_progress_bar);
+        startFab = view.findViewById(R.id.start_fab);
+        pauseFab = view.findViewById(R.id.pause_fab);
+        stopFab = view.findViewById(R.id.stop_fab);
+        hoursNumberPicker = view.findViewById(R.id.hours_number_picker);
+        minutesNumberPicker = view.findViewById(R.id.minutes_number_picker);
+        secondsNumberPicker = view.findViewById(R.id.seconds_number_picker);
+        numberPickersLayout = view.findViewById(R.id.number_pickers_layout);
+        timerTextView = view.findViewById(R.id.time_left_text_view);
+        progressBar = view.findViewById(R.id.progress_bar);
 
         startFab.setOnClickListener(startFabOnClickListener);
         pauseFab.setOnClickListener(pauseFabOnClickListener);

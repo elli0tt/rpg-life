@@ -47,7 +47,7 @@ public class AddEditSkillFragment extends Fragment {
 
         navController = NavHostFragment.findNavController(this);
 
-        nameEditText = view.findViewById(R.id.add_edit_skill_name_edit_text);
+        nameEditText = view.findViewById(R.id.name_edit_text);
 
         nameEditText.setOnFocusChangeListener(onEditTextsFocusChangeListener);
 

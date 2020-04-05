@@ -37,11 +37,11 @@ public class StopwatchFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        startButton = view.findViewById(R.id.stopwatch_button_start_pause);
-        pauseButton = view.findViewById(R.id.stopwatch_button_pause);
-        resetButton = view.findViewById(R.id.stopwatch_button_reset);
+        startButton = view.findViewById(R.id.button_start_pause);
+        pauseButton = view.findViewById(R.id.button_pause);
+        resetButton = view.findViewById(R.id.button_reset);
 
-        chronometer = view.findViewById(R.id.stopwatch_chronometer);
+        chronometer = view.findViewById(R.id.chronometer);
 
         startButton.setOnClickListener(startButtonOnClickListener);
         pauseButton.setOnClickListener(pauseButtonOnClickListener);

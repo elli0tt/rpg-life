@@ -8,7 +8,7 @@
     android:padding="4dp">
     <!--android:background="?android:attr/selectableItemBackground">-->
     <CheckBox
-        android:id="@+id/subquest_is_completed"
+        android:id="@+id/is_completed_check_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
@@ -17,15 +17,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/subquest_name"
+        android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@id/subquest_is_important_check_box"
-        app:layout_constraintStart_toEndOf="@+id/subquest_is_completed"
+        app:layout_constraintEnd_toStartOf="@id/is_important_check_box"
+        app:layout_constraintStart_toEndOf="@+id/is_completed_check_box"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Read book" />
 
@@ -34,37 +34,37 @@
     <!--the color of this particular checkbox. I save this line for if I would like to use it later.-->
     <!--style="?android:attr/starStyle"-->
     <CheckBox
-        android:id="@+id/subquest_is_important_check_box"
+        android:id="@+id/is_important_check_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
         android:button="@drawable/is_important_checkbox"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/subquest_remove_button"
+        app:layout_constraintEnd_toStartOf="@id/remove_button"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/subquest_date_due_text_view"
+        android:id="@+id/date_due_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        app:layout_constraintStart_toEndOf="@id/subquest_is_completed"
-        app:layout_constraintTop_toBottomOf="@id/subquest_name"
+        app:layout_constraintStart_toEndOf="@id/is_completed_check_box"
+        app:layout_constraintTop_toBottomOf="@id/name"
         tools:text="Due: 12.12.2000" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/subquest_repeat_image_view"
+        android:id="@+id/repeat_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/subquest_date_due_text_view"
-        app:layout_constraintTop_toBottomOf="@id/subquest_name"
+        app:layout_constraintStart_toEndOf="@id/date_due_text_view"
+        app:layout_constraintTop_toBottomOf="@id/name"
         app:srcCompat="@drawable/ic_repeat_black_18dp" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/subquest_remove_button"
+        android:id="@+id/remove_button"
         style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

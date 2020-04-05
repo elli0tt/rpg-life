@@ -45,7 +45,7 @@ public class SkillsFragment extends Fragment {
         navController = NavHostFragment.findNavController(this);
 
         recyclerView = view.findViewById(R.id.skills_recycler_view);
-        addSkillFab = view.findViewById(R.id.skills_add_skill_fab);
+        addSkillFab = view.findViewById(R.id.add_skill_fab);
 
         setupRecyclerView();
         setHasOptionsMenu(true);

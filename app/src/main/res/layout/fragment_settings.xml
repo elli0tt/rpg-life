@@ -5,11 +5,10 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/settings_show_developers_options"
+        android:id="@+id/show_developers_options"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/show_developers_options" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,7 +13,7 @@
         android:padding="8dp">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/add_edit_skill_name_text_input"
+            android:id="@+id/name_text_input"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/add_edit_skill_name_edit_text"
+                android:id="@+id/name_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@={viewModel.name}" />

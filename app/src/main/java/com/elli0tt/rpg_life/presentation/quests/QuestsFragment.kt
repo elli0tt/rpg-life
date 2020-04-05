@@ -35,7 +35,7 @@ class QuestsFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = NavHostFragment.findNavController(this)
-        fab = view.findViewById(R.id.quests_fab)
+        fab = view.findViewById(R.id.fab)
         recyclerView = view.findViewById(R.id.quests_recycler_view)
         subscribeToViewModel()
         setHasOptionsMenu(true)

@@ -28,7 +28,7 @@ class AddSkillsToQuestFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recyclerView = view.findViewById(R.id.add_skills_to_quest_recycler)
+        recyclerView = view.findViewById(R.id.recycler)
 
         setupRecyclerView()
         subscribeToViewModel()

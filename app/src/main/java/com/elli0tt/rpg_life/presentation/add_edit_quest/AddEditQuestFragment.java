@@ -73,16 +73,16 @@ public class AddEditQuestFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        nameEditText = view.findViewById(R.id.add_edit_quest_name_edit_text);
-        descriptionEditText = view.findViewById(R.id.add_edit_quest_description_edit_text);
-        difficultySpinner = view.findViewById(R.id.add_edit_quest_difficulty_spinner);
-        nameTextInput = view.findViewById(R.id.add_edit_quest_name_text_input);
-        addDateDueView = view.findViewById(R.id.add_edit_quest_add_date_due_view);
-        repeatView = view.findViewById(R.id.add_edit_quest_repeat_view);
-        subQuestsRecycler = view.findViewById(R.id.add_edit_quest_subquests_recycler);
-        addSubQuestButton = view.findViewById(R.id.add_edit_quest_add_subquest_button);
-        addSkillsButton = view.findViewById(R.id.add_edit_quest_add_skills_button);
-        skillsRecycler = view.findViewById(R.id.add_edit_quest_skills_recycler);
+        nameEditText = view.findViewById(R.id.name_edit_text);
+        descriptionEditText = view.findViewById(R.id.description_edit_text);
+        difficultySpinner = view.findViewById(R.id.difficulty_spinner);
+        nameTextInput = view.findViewById(R.id.name_text_input);
+        addDateDueView = view.findViewById(R.id.add_date_due_view);
+        repeatView = view.findViewById(R.id.repeat_view);
+        subQuestsRecycler = view.findViewById(R.id.subquests_recycler);
+        addSubQuestButton = view.findViewById(R.id.add_subquest_button);
+        addSkillsButton = view.findViewById(R.id.add_skills_button);
+        skillsRecycler = view.findViewById(R.id.skills_recycler);
 
         navController = NavHostFragment.findNavController(this);
 
@@ -97,7 +97,7 @@ public class AddEditQuestFragment extends Fragment {
             //TODO: DELETE WHEN TREE SUBQUESTS ARE IMPLEMENTED
             if (AddEditQuestFragmentArgs.fromBundle(getArguments()).getIsSubQuest()) {
                 addSubQuestButton.setVisibility(View.INVISIBLE);
-                view.findViewById(R.id.add_edit_quest_subquests_text_view).setVisibility(View.INVISIBLE);
+                view.findViewById(R.id.subquests_text_view).setVisibility(View.INVISIBLE);
             }
         }
 

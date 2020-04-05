@@ -146,12 +146,12 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
                 final OnRemoveButtonClickListener onRemoveButtonClickListener) {
             super(itemView);
 
-            isCompletedCheckBox = itemView.findViewById(R.id.subquest_is_completed);
-            nameTextView = itemView.findViewById(R.id.subquest_name);
-            isImportantCheckBox = itemView.findViewById(R.id.subquest_is_important_check_box);
-            dateDueTextView = itemView.findViewById(R.id.subquest_date_due_text_view);
-            repeatImageView = itemView.findViewById(R.id.subquest_repeat_image_view);
-            removeButton = itemView.findViewById(R.id.subquest_remove_button);
+            isCompletedCheckBox = itemView.findViewById(R.id.is_completed_check_box);
+            nameTextView = itemView.findViewById(R.id.name);
+            isImportantCheckBox = itemView.findViewById(R.id.is_important_check_box);
+            dateDueTextView = itemView.findViewById(R.id.date_due_text_view);
+            repeatImageView = itemView.findViewById(R.id.repeat_image_view);
+            removeButton = itemView.findViewById(R.id.remove_button);
 
             defaultTextViewColor = dateDueTextView.getTextColors();
             greenColorId =

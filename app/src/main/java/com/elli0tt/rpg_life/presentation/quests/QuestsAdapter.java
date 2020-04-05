@@ -211,12 +211,12 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
                 final OnItemLongClickListener onItemLongClickListener) {
             super(itemView);
 
-            isCompletedCheckBox = itemView.findViewById(R.id.quest_is_completed);
-            nameTextView = itemView.findViewById(R.id.quest_name);
-            difficultyTextView = itemView.findViewById(R.id.quest_difficulty_value);
-            isImportantCheckBox = itemView.findViewById(R.id.quest_is_important_check_box);
-            dateDueTextView = itemView.findViewById(R.id.quest_date_due_text_view);
-            repeatImageView = itemView.findViewById(R.id.quest_repeat_image_view);
+            isCompletedCheckBox = itemView.findViewById(R.id.is_completed_check_box);
+            nameTextView = itemView.findViewById(R.id.name);
+            difficultyTextView = itemView.findViewById(R.id.difficulty_value);
+            isImportantCheckBox = itemView.findViewById(R.id.is_important_check_box);
+            dateDueTextView = itemView.findViewById(R.id.date_due_text_view);
+            repeatImageView = itemView.findViewById(R.id.repeat_image_view);
 
             defaultTextViewColor = dateDueTextView.getTextColors();
             greenColorId =
