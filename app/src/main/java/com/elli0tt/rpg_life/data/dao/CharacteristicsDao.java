@@ -18,12 +18,6 @@ public interface CharacteristicsDao {
     @Insert
     void insert(List<Characteristic> characteristicList);
 
-//    @Delete
-//    void delete();
-//
-//    @Update
-//    void update();
-
     @Query("SELECT * from characteristics_table ORDER BY id")
     LiveData<List<Characteristic>> getAllCharacteristics();
 

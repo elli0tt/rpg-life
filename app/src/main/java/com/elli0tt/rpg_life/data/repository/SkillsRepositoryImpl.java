@@ -8,7 +8,6 @@ import androidx.lifecycle.LiveData;
 
 import com.elli0tt.rpg_life.data.dao.SkillsDao;
 import com.elli0tt.rpg_life.data.database.room_database.AppRoomDatabase;
-import com.elli0tt.rpg_life.domain.model.AddSkillData;
 import com.elli0tt.rpg_life.domain.model.Skill;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
 

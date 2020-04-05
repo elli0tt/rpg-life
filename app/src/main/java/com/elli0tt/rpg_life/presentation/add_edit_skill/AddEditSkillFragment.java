@@ -18,7 +18,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.databinding.FragmentAddEditSkillBinding;
-import com.elli0tt.rpg_life.presentation.utils.HideKeyboardUtil;
+import com.elli0tt.rpg_life.presentation.utils.SoftKeyboardUtil;
 
 public class AddEditSkillFragment extends Fragment {
     private AddEditSkillViewModel viewModel;
@@ -57,7 +57,7 @@ public class AddEditSkillFragment extends Fragment {
 
     private View.OnFocusChangeListener onEditTextsFocusChangeListener = (v, hasFocus) -> {
         if (!hasFocus) {
-            HideKeyboardUtil.hideKeyboard(v, getActivity());
+            SoftKeyboardUtil.hideKeyboard(v, getActivity());
         }
     };
 

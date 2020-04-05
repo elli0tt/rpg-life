@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,7 +20,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -32,7 +30,7 @@ import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.databinding.FragmentAddEditQuestBinding;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.presentation.custom_view.ButtonWithRemoveIcon;
-import com.elli0tt.rpg_life.presentation.utils.HideKeyboardUtil;
+import com.elli0tt.rpg_life.presentation.utils.SoftKeyboardUtil;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class AddEditQuestFragment extends Fragment {
@@ -113,6 +111,10 @@ public class AddEditQuestFragment extends Fragment {
         repeatView.setOnRemoveClickListener(onRemoveRepeatViewClickListener);
         addSubQuestButton.setOnClickListener(onAddSubQuestButtonClickListener);
         addSkillsButton.setOnClickListener(onAddSkillsButtonClickListener);
+
+        if (viewModel.getIsNewQuest()) {
+            nameEditText.requestFocus();
+        }
     }
 
     private void subscribeToViewModel() {
@@ -157,7 +159,7 @@ public class AddEditQuestFragment extends Fragment {
             difficultySpinner.setAdapter(adapter);
             difficultySpinner.setSelection(Quest.NORMAL);
             difficultySpinner.setOnTouchListener((v, event) -> {
-                HideKeyboardUtil.hideKeyboard(v, getActivity());
+                SoftKeyboardUtil.hideKeyboard(v, getActivity());
                 v.performClick();
                 return false;
             });
@@ -185,7 +187,7 @@ public class AddEditQuestFragment extends Fragment {
 //        subQuestsAdapter.submitList(list);
     }
 
-    private void setupSkillsRecycler(){
+    private void setupSkillsRecycler() {
         subQuestsAdapter = new SubQuestsAdapter();
         subQuestsAdapter.setOnIsCompleteCheckBoxClickListener((isCompleted, position) -> {
             viewModel.completeSubQuest(position, isCompleted);
@@ -219,36 +221,36 @@ public class AddEditQuestFragment extends Fragment {
         }
     }
 
-    private View.OnFocusChangeListener onEditTextsFocusChangeListener = (v, hasFocus) -> {
-        Log.d(ON_FOCUS_CHANGE_TAG, "on focus change called");
-        if (!hasFocus) {
-            Log.d(ON_FOCUS_CHANGE_TAG, " on try close keyboard");
-            HideKeyboardUtil.hideKeyboard(v, getActivity());
+    private View.OnFocusChangeListener onEditTextsFocusChangeListener = (view, hasFocus) -> {
+        if (hasFocus) {
+            SoftKeyboardUtil.showKeyboard(view, getActivity());
+        } else {
+            SoftKeyboardUtil.hideKeyboard(view, getActivity());
         }
     };
 
     private View.OnClickListener onAddDateDueViewClickListener = v -> {
-        HideKeyboardUtil.hideKeyboard(v, getActivity());
+        SoftKeyboardUtil.hideKeyboard(v, getActivity());
         showAddDateDuePopupMenu(v);
     };
 
     private View.OnClickListener onRemoveDateDueViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            HideKeyboardUtil.hideKeyboard(v, getActivity());
+            SoftKeyboardUtil.hideKeyboard(v, getActivity());
             viewModel.removeDateDue();
         }
     };
 
     private View.OnClickListener onRepeatViewClickListener = v -> {
-        HideKeyboardUtil.hideKeyboard(v, getActivity());
+        SoftKeyboardUtil.hideKeyboard(v, getActivity());
         showRepeatPopup(v);
     };
 
     private View.OnClickListener onRemoveRepeatViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            HideKeyboardUtil.hideKeyboard(v, getActivity());
+            SoftKeyboardUtil.hideKeyboard(v, getActivity());
             viewModel.removeRepeat();
         }
     };
@@ -343,7 +345,7 @@ public class AddEditQuestFragment extends Fragment {
         navController.navigate(action);
     }
 
-    private void navigateToAddSkillsToQuestScreen(){
+    private void navigateToAddSkillsToQuestScreen() {
         AddEditQuestFragmentDirections.ActionAddEditQuestScreenToAddSkillsToQuestFragment action =
                 AddEditQuestFragmentDirections.actionAddEditQuestScreenToAddSkillsToQuestFragment();
         action.setQuestId(viewModel.getQuestId());

@@ -6,10 +6,8 @@ import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.InsertQuestsUseCase;
 import com.elli0tt.rpg_life.domain.use_case.skills.UpdateSkillTotalXpByIdUseCase;
-import com.elli0tt.rpg_life.domain.use_case.skills.UpdateSkillsUseCase;
 
 import java.util.Calendar;
-import java.util.List;
 
 public class CompleteQuestUseCase {
     private UpdateQuestsUseCase updateQuestsUseCase;

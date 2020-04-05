@@ -2,7 +2,6 @@ package com.elli0tt.rpg_life.domain.repository;
 
 import androidx.lifecycle.LiveData;
 
-import com.elli0tt.rpg_life.domain.model.AddSkillData;
 import com.elli0tt.rpg_life.domain.model.Skill;
 
 import java.util.List;

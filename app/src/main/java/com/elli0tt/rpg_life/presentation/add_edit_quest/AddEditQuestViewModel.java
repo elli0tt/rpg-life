@@ -42,7 +42,6 @@ import java.util.Calendar;
 import java.util.List;
 
 public class AddEditQuestViewModel extends AndroidViewModel {
-    //TODO - CHECK IF LIVEDATA IS NECESSARY
     private MutableLiveData<String> name = new MutableLiveData<>();
     private MutableLiveData<String> description = new MutableLiveData<>("");
     private MutableLiveData<Integer> difficulty = new MutableLiveData<>(Quest.NORMAL);
@@ -121,10 +120,11 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         TODAY = application.getString(R.string.quest_date_due_today);
         TOMORROW = application.getString(R.string.quest_date_due_tomorrow);
 
-        skillsNames = Transformations.map(relatedSkillsIds, new Function<List<Integer>, List<String>>() {
+        skillsNames = Transformations.map(relatedSkillsIds, new Function<List<Integer>,
+                List<String>>() {
             @Override
             public List<String> apply(List<Integer> ids) {
-                new Thread(){
+                new Thread() {
                     @Override
                     public void run() {
                         super.run();
@@ -168,13 +168,9 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         return subQuests;
     }
 
-//    StringBuilder result = new StringBuilder();
-//    List<String> namesList = getSkillsNamesByIdsUseCase.invoke(ids);
-//                        for (String name : namesList){
-//        result.append(name).append(", ");
-//    }
-//    //delete last two symbols (", ")
-//                        result.delete(result.length() - 2, result.length() - 1);
+    boolean getIsNewQuest(){
+        return isNewQuest;
+    }
 
     int getQuestId() {
         return currentQuest.getId();

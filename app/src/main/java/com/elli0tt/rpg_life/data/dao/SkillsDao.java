@@ -7,7 +7,6 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.elli0tt.rpg_life.domain.model.AddSkillData;
 import com.elli0tt.rpg_life.domain.model.Skill;
 
 import java.util.List;

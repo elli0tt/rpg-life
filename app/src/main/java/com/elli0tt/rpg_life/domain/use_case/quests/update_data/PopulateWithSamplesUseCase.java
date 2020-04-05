@@ -4,9 +4,6 @@ import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.InsertQuestsUseCase;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class PopulateWithSamplesUseCase {
     private InsertQuestsUseCase insertQuestsUseCase;
 
