@@ -169,7 +169,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     }
 
     int getQuestId() {
-        return currentQuest.getId();
+        return currentQuest.id;
     }
 
     void start(@Nullable Integer id, boolean isSubQuest, int parentQuestId) {
@@ -214,14 +214,14 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     }
 
     private void onDataLoaded(Quest quest) {
-        name.postValue(quest.getName());
-        description.postValue(quest.getDescription());
-        difficulty = quest.getDifficulty();
+        name.postValue(quest.name);
+        description.postValue(quest.description);
+        difficulty = quest.difficulty;
         isDateDueSet.postValue(quest.isDateDueSet());
-        dateDue = quest.getDateDue();
-        repeatState.postValue(quest.getRepeatState());
-        repeatTextResId.postValue(getRepeatTextResIdUseCase.invoke(quest.getRepeatState()));
-        relatedSkillsIds.postValue(quest.getRelatedSkillsIds());
+        dateDue = quest.dateDue;
+        repeatState.postValue(quest.repeatState);
+        repeatTextResId.postValue(getRepeatTextResIdUseCase.invoke(quest.repeatState));
+        relatedSkillsIds.postValue(quest.relatedSkillsIds);
         isDataLoaded = true;
     }
 
@@ -239,20 +239,20 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         nameErrorMessageId.setValue(null);
 
         Quest quest = new Quest();
-        quest.setName(name.getValue());
-        quest.setDescription(description.getValue());
-        quest.setDifficulty(difficulty);
-        quest.setDateDue(dateDue);
+        quest.name = name.getValue();
+        quest.description = description.getValue();
+        quest.difficulty = difficulty;
+        quest.dateDue = dateDue;
         quest.setIsDateDueSet(isDateDueSet.getValue());
-        quest.setRepeatState(repeatState.getValue());
+        quest.repeatState = repeatState.getValue();
         quest.setIsSubQuest(isSubQuest);
-        quest.setParentQuestId(parentQuestId);
+        quest.parentQuestId = parentQuestId;
 
 
         if (isNewQuest) {
             insertQuestsUseCase.invoke(quest);
         } else {
-            quest.setId(id);
+            quest.id = id;
             quest.setCompleted(currentQuest.isCompleted());
             quest.setImportant(currentQuest.isImportant());
             updateQuestsUseCase.invoke(quest);

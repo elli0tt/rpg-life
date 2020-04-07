@@ -56,19 +56,19 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
             new DiffUtil.ItemCallback<Quest>() {
                 @Override
                 public boolean areItemsTheSame(@NonNull Quest oldItem, @NonNull Quest newItem) {
-                    return oldItem.getId() == newItem.getId();
+                    return oldItem.id == newItem.id;
                 }
 
                 @Override
                 public boolean areContentsTheSame(@NonNull Quest oldItem, @NonNull Quest newItem) {
-                    return oldItem.getName().equals(newItem.getName()) &&
-                            oldItem.getDifficulty().equals(newItem.getDifficulty()) &&
-                            oldItem.getDescription().equals(newItem.getDescription()) &&
+                    return oldItem.name.equals(newItem.name) &&
+                            oldItem.difficulty.equals(newItem.difficulty) &&
+                            oldItem.description.equals(newItem.description) &&
                             oldItem.isCompleted() == newItem.isCompleted() &&
                             oldItem.isImportant() == newItem.isImportant() &&
-                            oldItem.getDateDue().equals(newItem.getDateDue()) &&
+                            oldItem.dateDue.equals(newItem.dateDue) &&
                             oldItem.getDateDueState().equals(newItem.getDateDueState()) &&
-                            oldItem.getRepeatState().equals(newItem.getRepeatState());
+                            oldItem.repeatState.equals(newItem.repeatState);
                 }
             };
 
@@ -233,8 +233,8 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
 
         void bind(Quest quest, boolean isSelected) {
             isCompletedCheckBox.setChecked(quest.isCompleted());
-            nameTextView.setText(quest.getName());
-            difficultyTextView.setText(getDifficultyStringValue(quest.getDifficulty()));
+            nameTextView.setText(quest.name);
+            difficultyTextView.setText(getDifficultyStringValue(quest.difficulty));
             isImportantCheckBox.setChecked(quest.isImportant());
             switch (quest.getDateDueState()) {
                 case NOT_SET:
@@ -244,12 +244,12 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
                     break;
                 case BEFORE_DATE_DUE:
                     dateDueTextView.setText(itemView.getContext().getString(R.string.quest_recycler_due_date)
-                            + " " + Quest.getDateDueFormatted(quest.getDateDue()));
+                            + " " + Quest.getDateDueFormatted(quest.dateDue));
                     dateDueTextView.setTextColor(greenColorId);
                     break;
                 case AFTER_DATE_DUE:
                     dateDueTextView.setText(itemView.getContext().getString(R.string.quest_recycler_due_date)
-                            + " " + Quest.getDateDueFormatted(quest.getDateDue()));
+                            + " " + Quest.getDateDueFormatted(quest.dateDue));
                     dateDueTextView.setTextColor(redColorId);
                     break;
                 case TODAY:
@@ -262,7 +262,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
                     break;
             }
             repeatImageView.setImageTintList(defaultTextViewColor);
-            if (quest.getRepeatState().equals(Quest.RepeatState.NOT_SET)) {
+            if (quest.repeatState.equals(Quest.RepeatState.NOT_SET)) {
                 repeatImageView.setVisibility(View.INVISIBLE);
             } else {
                 repeatImageView.setVisibility(View.VISIBLE);

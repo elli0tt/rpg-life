@@ -23,36 +23,36 @@ public class SortUseCase {
 
     private List<Quest> sortByDateAdded(List<Quest> quests) {
         Collections.sort(quests, (quest1, quest2) -> {
-            if (quest1.getId() == quest2.getId()) {
-                return quest1.getName().compareTo(quest2.getName());
+            if (quest1.id == quest2.id) {
+                return quest1.name.compareTo(quest2.name);
             }
-            return Integer.compare(quest1.getId(), quest2.getId());
+            return Integer.compare(quest1.id, quest2.id);
         });
         return quests;
     }
 
     private List<Quest> sortByDateDue(List<Quest> quests) {
         Collections.sort(quests, (quest1, quest2) -> {
-            if (quest1.getDateDue().equals(quest2.getDateDue())) {
-                return quest1.getName().compareTo(quest2.getName());
+            if (quest1.dateDue.equals(quest2.dateDue)) {
+                return quest1.name.compareTo(quest2.name);
             }
-            return quest1.getDateDue().compareTo(quest2.getDateDue());
+            return quest1.dateDue.compareTo(quest2.dateDue);
         });
         return quests;
     }
 
     private List<Quest> sortByDifficulty(List<Quest> quests) {
         Collections.sort(quests, (quest1, quest2) -> {
-            if (quest1.getDifficulty() == quest2.getDifficulty()) {
-                return quest1.getName().compareTo(quest2.getName());
+            if (quest1.difficulty == quest2.difficulty) {
+                return quest1.name.compareTo(quest2.name);
             }
-            return Integer.compare(quest1.getDifficulty().ordinal(), quest2.getDifficulty().ordinal());
+            return Integer.compare(quest1.difficulty.ordinal(), quest2.difficulty.ordinal());
         });
         return quests;
     }
 
     private List<Quest> sortByName(List<Quest> quests) {
-        Collections.sort(quests, (quest1, quest2) -> quest1.getName().compareTo(quest2.getName()));
+        Collections.sort(quests, (quest1, quest2) -> quest1.name.compareTo(quest2.name));
         return quests;
     }
 }

@@ -31,7 +31,7 @@ public class AddEditSkillViewModel extends AndroidViewModel {
 
     void saveSkill(){
         Skill skillToSave = new Skill();
-        skillToSave.setName(name.getValue());
+        skillToSave.name = name.getValue();
 
         insertSkillsUseCase.invoke(skillToSave);
     }

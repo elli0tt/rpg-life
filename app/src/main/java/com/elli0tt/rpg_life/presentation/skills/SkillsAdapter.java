@@ -35,12 +35,12 @@ public class SkillsAdapter extends ListAdapter<Skill, SkillsAdapter.ViewHolder> 
             new DiffUtil.ItemCallback<Skill>() {
         @Override
         public boolean areItemsTheSame(@NonNull Skill oldItem, @NonNull Skill newItem) {
-            return oldItem.getId() == newItem.getId();
+            return oldItem.id == newItem.id;
         }
 
         @Override
         public boolean areContentsTheSame(@NonNull Skill oldItem, @NonNull Skill newItem) {
-            return oldItem.getName().equals(newItem.getName());
+            return oldItem.name.equals(newItem.name);
         }
     };
 
@@ -80,7 +80,7 @@ public class SkillsAdapter extends ListAdapter<Skill, SkillsAdapter.ViewHolder> 
         }
 
         void bind(@NonNull Skill skill) {
-            nameTextView.setText(skill.getName());
+            nameTextView.setText(skill.name);
             levelTextView.setText(Long.toString(skill.getLevel()));
             xpProgressBar.setMax(skill.getMaxXpPercentage());
             xpProgressBar.setProgress(skill.getXpPercentage());
