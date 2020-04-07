@@ -1,6 +1,5 @@
 package com.elli0tt.rpg_life.presentation.add_edit_quest;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -10,10 +9,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,7 +33,6 @@ import com.google.android.material.textfield.TextInputLayout;
 public class AddEditQuestFragment extends Fragment {
     private EditText nameEditText;
     private EditText descriptionEditText;
-    private Spinner difficultySpinner;
     private TextInputLayout nameTextInput;
     private ButtonWithRemoveIcon addDateDueView;
     private ButtonWithRemoveIcon repeatView;
@@ -44,6 +40,7 @@ public class AddEditQuestFragment extends Fragment {
     private Button addSubQuestButton;
     private Button addSkillsButton;
     private RecyclerView skillsRecycler;
+    private ButtonWithRemoveIcon difficultyView;
 
     private SubQuestsAdapter subQuestsAdapter;
 
@@ -75,7 +72,6 @@ public class AddEditQuestFragment extends Fragment {
 
         nameEditText = view.findViewById(R.id.name_edit_text);
         descriptionEditText = view.findViewById(R.id.description_edit_text);
-        difficultySpinner = view.findViewById(R.id.difficulty_spinner);
         nameTextInput = view.findViewById(R.id.name_text_input);
         addDateDueView = view.findViewById(R.id.add_date_due_view);
         repeatView = view.findViewById(R.id.repeat_view);
@@ -83,10 +79,10 @@ public class AddEditQuestFragment extends Fragment {
         addSubQuestButton = view.findViewById(R.id.add_subquest_button);
         addSkillsButton = view.findViewById(R.id.add_skills_button);
         skillsRecycler = view.findViewById(R.id.skills_recycler);
+        difficultyView = view.findViewById(R.id.difficulty_view);
 
         navController = NavHostFragment.findNavController(this);
 
-        setupDifficultySpinner();
         setupSubQuestsRecycler();
         setHasOptionsMenu(true);
 
@@ -111,6 +107,8 @@ public class AddEditQuestFragment extends Fragment {
         repeatView.setOnRemoveClickListener(onRemoveRepeatViewClickListener);
         addSubQuestButton.setOnClickListener(onAddSubQuestButtonClickListener);
         addSkillsButton.setOnClickListener(onAddSkillsButtonClickListener);
+        difficultyView.setOnClickListener(onDifficultyViewClickListener);
+        difficultyView.setOnRemoveClickListener(onRemoveDifficultyViewClickListener);
 
         if (viewModel.getIsNewQuest()) {
             nameEditText.requestFocus();
@@ -129,10 +127,10 @@ public class AddEditQuestFragment extends Fragment {
                 isDateDueSet -> {
                     if (!isDateDueSet) {
                         addDateDueView.setText(R.string.add_edit_quest_add_date_due);
-                        addDateDueView.setRemoveIconVisisbility(View.INVISIBLE);
+                        addDateDueView.setRemoveIconVisibility(View.INVISIBLE);
                     } else {
                         addDateDueView.setText(viewModel.getDueDateFormatted());
-                        addDateDueView.setRemoveIconVisisbility(View.VISIBLE);
+                        addDateDueView.setRemoveIconVisibility(View.VISIBLE);
                     }
                 });
         viewModel.getRepeatTextResId().observe(getViewLifecycleOwner(),
@@ -140,30 +138,13 @@ public class AddEditQuestFragment extends Fragment {
         viewModel.getRepeatState().observe(getViewLifecycleOwner(),
                 repeatState -> {
                     if (repeatState.equals(Quest.RepeatState.NOT_SET)) {
-                        repeatView.setRemoveIconVisisbility(View.INVISIBLE);
+                        repeatView.setRemoveIconVisibility(View.INVISIBLE);
                     } else {
-                        repeatView.setRemoveIconVisisbility(View.VISIBLE);
+                        repeatView.setRemoveIconVisibility(View.VISIBLE);
                     }
                 });
         viewModel.getSubQuests().observe(getViewLifecycleOwner(),
                 subQuests -> subQuestsAdapter.submitList(subQuests));
-    }
-
-    private void setupDifficultySpinner() {
-        Activity activity = getActivity();
-        if (activity != null) {
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                    activity, R.array.difficulty_levels_texts,
-                    android.R.layout.simple_spinner_item);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            difficultySpinner.setAdapter(adapter);
-            difficultySpinner.setSelection(Quest.NORMAL);
-            difficultySpinner.setOnTouchListener((v, event) -> {
-                SoftKeyboardUtil.hideKeyboard(v, getActivity());
-                v.performClick();
-                return false;
-            });
-        }
     }
 
     private void setupSubQuestsRecycler() {
@@ -262,6 +243,16 @@ public class AddEditQuestFragment extends Fragment {
         navigateToAddSkillsToQuestScreen();
     };
 
+    private View.OnClickListener onDifficultyViewClickListener = v -> {
+        SoftKeyboardUtil.hideKeyboard(v, getActivity());
+        showDifficultyPopupMenu(v);
+    };
+
+    private View.OnClickListener onRemoveDifficultyViewClickListener = v -> {
+        SoftKeyboardUtil.hideKeyboard(v, getActivity());
+        difficultyView.setText(R.string.add_difficulty);
+    };
+
     private void showAddDateDuePopupMenu(View view) {
         PopupMenu popupMenu = new PopupMenu(getContext(), view);
         popupMenu.getMenuInflater().inflate(R.menu.add_edit_quest_add_date_due_popup_menu,
@@ -286,7 +277,6 @@ public class AddEditQuestFragment extends Fragment {
         });
 
         popupMenu.show();
-
     }
 
     private void pickDate() {
@@ -334,6 +324,46 @@ public class AddEditQuestFragment extends Fragment {
             }
             return false;
         });
+        popupMenu.show();
+    }
+
+    private void showDifficultyPopupMenu(View view) {
+        PopupMenu popupMenu = new PopupMenu(getContext(), view);
+        Menu menu = popupMenu.getMenu();
+
+        String veryEasyTitle = getString(R.string.add_edit_quest_difficulty_very_easy,
+                Quest.Difficulty.VERY_EASY.getXpIncrease());
+        String easyTitle = getString(R.string.add_edit_quest_difficulty_easy,
+                Quest.Difficulty.EASY.getXpIncrease());
+        String normalTitle = getString(R.string.add_edit_quest_difficulty_normal,
+                Quest.Difficulty.NORMAL.getXpIncrease());
+        String hardTitle = getString(R.string.add_edit_quest_difficulty_hard,
+                Quest.Difficulty.HARD.getXpIncrease());
+        String veryHardTitle = getString(R.string.add_edit_quest_difficulty_very_hard,
+                Quest.Difficulty.VERY_HARD.getXpIncrease());
+        String impossibleTitle = getString(R.string.add_edit_quest_difficulty_impossible,
+                Quest.Difficulty.IMPOSSIBLE.getXpIncrease());
+
+        menu.add(Menu.NONE, Constants.VERY_EASY_POPUP_MENU_ITEM_ID,
+                Constants.VERY_EASY_POPUP_MENU_ITEM_ORDER, veryEasyTitle);
+        menu.add(Menu.NONE, Constants.EASY_POPUP_MENU_ITEM_ID, Constants.EASY_POPUP_MENU_ITEM_ORDER,
+                easyTitle);
+        menu.add(Menu.NONE, Constants.NORMAL_POPUP_MENU_ITEM_ID,
+                Constants.NORMAL_POPUP_MENU_ITEM_ORDER, normalTitle);
+        menu.add(Menu.NONE, Constants.HARD_POPUP_MENU_ITEM_ID, Constants.HARD_POPUP_MENU_ITEM_ORDER,
+                hardTitle);
+        menu.add(Menu.NONE, Constants.VERY_HARD_POPUP_MENU_ITEM_ID,
+                Constants.VERY_HARD_POPUP_MENU_ITEM_ORDER, veryHardTitle);
+        menu.add(Menu.NONE, Constants.IMPOSSIBLE_POPUP_MENU_ITEM_ID,
+                Constants.IMPOSSIBLE_POPUP_MENU_ITEM_ORDER, impossibleTitle);
+
+        popupMenu.setOnMenuItemClickListener(item -> {
+            difficultyView.setText(item.getTitle().toString());
+            difficultyView.setRemoveIconVisibility(View.VISIBLE);
+            viewModel.changeDifficulty(item.getItemId());
+            return true;
+        });
+
         popupMenu.show();
     }
 

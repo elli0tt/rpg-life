@@ -114,7 +114,7 @@ public class CompleteQuestUseCase {
 
     private void increaseRelatedSkillsXps(Quest quest){
         for (int id : quest.getRelatedSkillsIds()){
-            updateSkillTotalXpByIdUseCase.invoke(id, quest.getIncreaseXp());
+            updateSkillTotalXpByIdUseCase.invoke(id, quest.getDifficulty().getXpIncrease());
         }
     }
 }

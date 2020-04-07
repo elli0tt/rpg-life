@@ -40,6 +40,11 @@ public class ButtonWithRemoveIcon extends CardView {
         mainIconImageView.setImageDrawable(context.getDrawable(
                 typedArray.getResourceId(R.styleable.ButtonWithRemoveIcon_icon, 0)));
         textView.setText(typedArray.getResourceId(R.styleable.ButtonWithRemoveIcon_text, 0));
+        if (typedArray.getBoolean(R.styleable.ButtonWithRemoveIcon_showRemoveIcon, false)){
+            removeButton.setVisibility(View.VISIBLE);
+        } else {
+            removeButton.setVisibility(View.INVISIBLE);
+        }
 
     }
 
@@ -52,10 +57,13 @@ public class ButtonWithRemoveIcon extends CardView {
     }
 
     public void setOnRemoveClickListener(@NonNull View.OnClickListener listener) {
-        removeButton.setOnClickListener(listener);
+        removeButton.setOnClickListener(v -> {
+            listener.onClick(v);
+            v.setVisibility(INVISIBLE);
+        });
     }
 
-    public void setRemoveIconVisisbility(int visibility) {
+    public void setRemoveIconVisibility(int visibility) {
         removeButton.setVisibility(visibility);
     }
 }

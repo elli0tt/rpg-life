@@ -62,7 +62,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
                 @Override
                 public boolean areContentsTheSame(@NonNull Quest oldItem, @NonNull Quest newItem) {
                     return oldItem.getName().equals(newItem.getName()) &&
-                            oldItem.getDifficulty() == newItem.getDifficulty() &&
+                            oldItem.getDifficulty().equals(newItem.getDifficulty()) &&
                             oldItem.getDescription().equals(newItem.getDescription()) &&
                             oldItem.isCompleted() == newItem.isCompleted() &&
                             oldItem.isImportant() == newItem.isImportant() &&
@@ -262,9 +262,9 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
                     break;
             }
             repeatImageView.setImageTintList(defaultTextViewColor);
-            if (quest.getRepeatState().equals(Quest.RepeatState.NOT_SET)){
+            if (quest.getRepeatState().equals(Quest.RepeatState.NOT_SET)) {
                 repeatImageView.setVisibility(View.INVISIBLE);
-            } else{
+            } else {
                 repeatImageView.setVisibility(View.VISIBLE);
             }
             itemView.setActivated(isSelected);
@@ -274,22 +274,22 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
             itemView.setOnClickListener(createOnItemClickListener(onItemClickListener));
         }
 
-        private String getDifficultyStringValue(@Quest.Difficulty int difficultyLevel) {
+        private String getDifficultyStringValue(Quest.Difficulty difficultyLevel) {
             switch (difficultyLevel) {
-                case Quest.VERY_EASY:
-                    return itemView.getContext().getText(R.string.difficulty_very_easy_text).toString();
-                case Quest.EASY:
-                    return itemView.getContext().getText(R.string.difficulty_easy_text).toString();
-                case Quest.NORMAL:
-                    return itemView.getContext().getText(R.string.difficulty_normal_text).toString();
-                case Quest.HARD:
-                    return itemView.getContext().getText(R.string.difficulty_hard_text).toString();
-                case Quest.VERY_HARD:
-                    return itemView.getContext().getText(R.string.difficulty_very_hard_text).toString();
-                case Quest.IMPOSSIBLE:
-                    return itemView.getContext().getText(R.string.difficulty_impossible_text).toString();
+                case VERY_EASY:
+                    return itemView.getContext().getText(R.string.quest_difficulty_very_easy).toString();
+                case EASY:
+                    return itemView.getContext().getText(R.string.quest_difficulty_easy).toString();
+                case NORMAL:
+                    return itemView.getContext().getText(R.string.quest_difficulty_normal).toString();
+                case HARD:
+                    return itemView.getContext().getText(R.string.quest_difficulty_hard).toString();
+                case VERY_HARD:
+                    return itemView.getContext().getText(R.string.quest_difficulty_very_hard).toString();
+                case IMPOSSIBLE:
+                    return itemView.getContext().getText(R.string.quest_difficulty_impossible).toString();
                 default:
-                    return itemView.getContext().getText(R.string.difficulty_error_text).toString();
+                    return itemView.getContext().getText(R.string.quest_difficulty_error).toString();
             }
         }
 

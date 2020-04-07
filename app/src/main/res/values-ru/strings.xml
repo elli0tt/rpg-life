@@ -16,28 +16,27 @@
     <string name="add_quest_toolbar_menu_confirm">Подтвердить</string>
     <string name="quest_difficulty_label_text">Сложность</string>
 
-    <string name="difficulty_very_easy_text">Очень легкий</string>
-    <string name="difficulty_easy_text">Легкий</string>
-    <string name="difficulty_normal_text">Обычный</string>
-    <string name="difficulty_hard_text">Сложный</string>
-    <string name="difficulty_very_hard_text">Очень сложный</string>
-    <string name="difficulty_impossible_text">Невозможный</string>
-    <string name="difficulty_error_text">Ошибка: такой сложности нет</string>
+    <string name="add_edit_quest_difficulty_very_easy">Очень легкий (+%1$d xp)</string>
+    <string name="add_edit_quest_difficulty_easy">Легкий (+%1$d xp)</string>
+    <string name="add_edit_quest_difficulty_normal">Обычный (+%1$d xp)</string>
+    <string name="add_edit_quest_difficulty_hard">Сложный (+%1$d xp)</string>
+    <string name="add_edit_quest_difficulty_very_hard">Очень сложный (+%1$d xp)</string>
+    <string name="add_edit_quest_difficulty_impossible">Невозможный (+%1$d xp)</string>
+    <string name="add_edit_quest_difficulty_error">Ошибка: такой сложности нет</string>
+
+    <string name="quest_difficulty_very_easy">Очень легкий</string>
+    <string name="quest_difficulty_easy">Легкий</string>
+    <string name="quest_difficulty_normal">Обычный</string>
+    <string name="quest_difficulty_hard">Сложный</string>
+    <string name="quest_difficulty_very_hard">Очень сложный</string>
+    <string name="quest_difficulty_impossible">Невозможный</string>
+    <string name="quest_difficulty_error">Ошибка: такой сложности не существует</string>
 
     <string name="add_quest_difficulty_text">Уровено сложности:</string>
     <string name="add_quest_description_hint">Описание</string>
     <string name="delete">Удалить</string>
     <string name="populate_with_samples">Добавить сэмплы</string>
     <string name="quest_toolbar_menu_select_all_text">Выделить все</string>
-
-    <string-array name="difficulty_levels_texts">
-        <item>Очень легкий</item>
-        <item>Легкий</item>
-        <item>Обычный</item>
-        <item>Тяжелый</item>
-        <item>Очень тяжелый</item>
-        <item>Невозможный</item>
-    </string-array>
 
     <string name="character_toolbar_menu_item_populate_with_samples">Добавить сэмплы</string>
     <string name="quests_toolbar_menu_filter_title">Фильтр</string>
@@ -83,5 +82,6 @@
     <string name="add_edit_skill_confirm">Подтвердить</string>
     <string name="add_new_characterstic">Добавть новую характеристику</string>
     <string name="timer_label">Таймер</string>
-    <string name="add_skill_label">Добавть навык</string>
+    <string name="add_skill_label">Добавить навык</string>
+    <string name="add_difficulty">Выбрать сложность</string>
 </resources>

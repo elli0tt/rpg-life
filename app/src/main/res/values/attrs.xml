@@ -3,5 +3,6 @@
     <declare-styleable name="ButtonWithRemoveIcon">
         <attr name="icon" format="reference" />
         <attr name="text" format="string" />
+        <attr name="showRemoveIcon" format="boolean" />
     </declare-styleable>
 </resources>

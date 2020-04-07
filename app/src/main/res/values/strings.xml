@@ -15,28 +15,27 @@
     <string name="add_quest_toolbar_menu_confirm">Confirm</string>
     <string name="quest_difficulty_label_text">Difficulty:</string>
 
-    <string name="difficulty_very_easy_text">Very easy</string>
-    <string name="difficulty_easy_text">Easy</string>
-    <string name="difficulty_normal_text">Normal</string>
-    <string name="difficulty_hard_text">Hard</string>
-    <string name="difficulty_very_hard_text">Very hard</string>
-    <string name="difficulty_impossible_text">Impossible</string>
-    <string name="difficulty_error_text">Error: non-existent difficulty</string>
+    <string name="add_edit_quest_difficulty_very_easy">Very easy (+%1$d xp)</string>
+    <string name="add_edit_quest_difficulty_easy">Easy (+%1$d xp)</string>
+    <string name="add_edit_quest_difficulty_normal">Normal (+%1$d xp)</string>
+    <string name="add_edit_quest_difficulty_hard">Hard (+%1$d xp)</string>
+    <string name="add_edit_quest_difficulty_very_hard">Very hard (+%1$d xp)</string>
+    <string name="add_edit_quest_difficulty_impossible">Impossible (+%1$d xp)</string>
+    <string name="add_edit_quest_difficulty_error">Error: non-existent difficulty</string>
+
+    <string name="quest_difficulty_very_easy">Very easy</string>
+    <string name="quest_difficulty_easy">Easy</string>
+    <string name="quest_difficulty_normal">Normal</string>
+    <string name="quest_difficulty_hard">Hard</string>
+    <string name="quest_difficulty_very_hard">Very hard</string>
+    <string name="quest_difficulty_impossible">Impossible</string>
+    <string name="quest_difficulty_error">Error: non-existent difficulty</string>
 
     <string name="add_quest_difficulty_text">Difficulty level:</string>
     <string name="add_quest_description_hint">Description</string>
     <string name="delete">Delete</string>
     <string name="populate_with_samples">Populate with samples</string>
     <string name="quest_toolbar_menu_select_all_text">Select all</string>
-
-    <string-array name="difficulty_levels_texts">
-        <item>Very easy</item>
-        <item>Easy</item>
-        <item>Normal</item>
-        <item>Hard</item>
-        <item>Very hard</item>
-        <item>Impossible</item>
-    </string-array>
 
     <string name="character_toolbar_menu_item_populate_with_samples">Populate with samples</string>
     <string name="quests_toolbar_menu_filter_title">Filter</string>
@@ -83,4 +82,5 @@
     <string name="add_new_characterstic">Add new characteristic</string>
     <string name="timer_label">Timer</string>
     <string name="add_skill_label">Add skill</string>
+    <string name="add_difficulty">Add difficulty</string>
 </resources>

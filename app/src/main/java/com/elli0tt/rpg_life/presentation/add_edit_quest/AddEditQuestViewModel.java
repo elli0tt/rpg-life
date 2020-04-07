@@ -44,7 +44,7 @@ import java.util.List;
 public class AddEditQuestViewModel extends AndroidViewModel {
     private MutableLiveData<String> name = new MutableLiveData<>();
     private MutableLiveData<String> description = new MutableLiveData<>("");
-    private MutableLiveData<Integer> difficulty = new MutableLiveData<>(Quest.NORMAL);
+    private Quest.Difficulty difficulty = Quest.Difficulty.NOT_SET;
 
     private MutableLiveData<Integer> nameErrorMessageId = new MutableLiveData<>();
 
@@ -144,10 +144,6 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         return description;
     }
 
-    public MutableLiveData<Integer> getDifficulty() {
-        return difficulty;
-    }
-
     LiveData<Integer> getNameErrorMessageId() {
         return nameErrorMessageId;
     }
@@ -168,7 +164,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         return subQuests;
     }
 
-    boolean getIsNewQuest(){
+    boolean getIsNewQuest() {
         return isNewQuest;
     }
 
@@ -220,7 +216,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private void onDataLoaded(Quest quest) {
         name.postValue(quest.getName());
         description.postValue(quest.getDescription());
-        difficulty.postValue(quest.getDifficulty());
+        difficulty = quest.getDifficulty();
         isDateDueSet.postValue(quest.isDateDueSet());
         dateDue = quest.getDateDue();
         repeatState.postValue(quest.getRepeatState());
@@ -245,7 +241,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         Quest quest = new Quest();
         quest.setName(name.getValue());
         quest.setDescription(description.getValue());
-        quest.setDifficulty(difficulty.getValue());
+        quest.setDifficulty(difficulty);
         quest.setDateDue(dateDue);
         quest.setIsDateDueSet(isDateDueSet.getValue());
         quest.setRepeatState(repeatState.getValue());
@@ -351,6 +347,29 @@ public class AddEditQuestViewModel extends AndroidViewModel {
             List<Quest> listToDelete = new ArrayList<>();
             listToDelete.add(subQuests.getValue().get(position));
             deleteQuestsUseCase.invoke(listToDelete.toArray(new Quest[0]));
+        }
+    }
+
+    void changeDifficulty(int popUpMenuItemId) {
+        switch (popUpMenuItemId) {
+            case Constants.VERY_EASY_POPUP_MENU_ITEM_ID:
+                difficulty = Quest.Difficulty.VERY_EASY;
+                break;
+            case Constants.EASY_POPUP_MENU_ITEM_ID:
+                difficulty = Quest.Difficulty.EASY;
+                break;
+            case Constants.NORMAL_POPUP_MENU_ITEM_ID:
+                difficulty = Quest.Difficulty.NORMAL;
+                break;
+            case Constants.HARD_POPUP_MENU_ITEM_ID:
+                difficulty = Quest.Difficulty.HARD;
+                break;
+            case Constants.VERY_HARD_POPUP_MENU_ITEM_ID:
+                difficulty = Quest.Difficulty.VERY_HARD;
+                break;
+            case Constants.IMPOSSIBLE_POPUP_MENU_ITEM_ID:
+                difficulty = Quest.Difficulty.IMPOSSIBLE;
+                break;
         }
     }
 }
