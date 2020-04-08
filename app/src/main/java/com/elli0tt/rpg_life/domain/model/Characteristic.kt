@@ -15,10 +15,8 @@ class Characteristic {
     //Builder
     var imageResource = 0
 
-    constructor() { //do nothing
-    }
 
-    @Ignore
+
     constructor(name: String, value: Int, description: String, imageResource: Int) {
         this.name = name
         this.value = value

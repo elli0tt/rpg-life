@@ -19,7 +19,7 @@ public class UpdateQuestsDateDueStateUseCase {
     public void invoke(List<Quest> quests) {
         List<Quest> questsToUpdate = new ArrayList<>();
         for (Quest quest : quests) {
-            if (!getQuestDateDueStateUseCase.invoke(quest.dateDue).equals(quest.getDateDueState())) {
+            if (!getQuestDateDueStateUseCase.invoke(quest.getDateDue()).equals(quest.getDateDueState())) {
                 questsToUpdate.add(quest);
             }
         }

@@ -24,15 +24,15 @@ public class CompleteQuestUseCase {
         quest.setCompleted(isCompleted);
         increaseRelatedSkillsXps(quest);
         updateQuestsUseCase.invoke(quest);
-        if (!quest.repeatState.equals(Quest.RepeatState.NOT_SET)) {
-            Quest newQuest = new Quest();
-            newQuest.name = quest.name;
-            newQuest.description = quest.description;
-            newQuest.difficulty = quest.difficulty;
+        if (!quest.getRepeatState().equals(Quest.RepeatState.NOT_SET)) {
+            Quest newQuest = new Quest(quest.getName());
+            //newQuest.name = quest.name;
+            newQuest.setDescription(quest.getDescription());
+            newQuest.setDifficulty(quest.getDifficulty());
             newQuest.setCompleted(false);
-            newQuest.repeatState = quest.repeatState;
-            newQuest.setIsDateDueSet(quest.isDateDueSet());
-            newQuest.dateDue = calculateNewDateDue(quest.dateDue, quest.repeatState);
+            newQuest.setRepeatState(quest.getRepeatState());
+            newQuest.setDateDueSet(quest.isDateDueSet());
+            newQuest.setDateDue(calculateNewDateDue(quest.getDateDue(), quest.getRepeatState()));
             newQuest.setImportant(quest.isImportant());
             insertQuestsUseCase.invoke(newQuest);
             increaseRelatedSkillsXps(quest);
@@ -113,8 +113,8 @@ public class CompleteQuestUseCase {
     }
 
     private void increaseRelatedSkillsXps(Quest quest){
-        for (int id : quest.relatedSkillsIds){
-            updateSkillTotalXpByIdUseCase.invoke(id, quest.difficulty.getXpIncrease());
+        for (int id : quest.getRelatedSkillsIds()){
+            updateSkillTotalXpByIdUseCase.invoke(id, quest.getDifficulty().getXpIncrease());
         }
     }
 }

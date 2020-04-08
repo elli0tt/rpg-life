@@ -44,9 +44,9 @@ public class CharacteristicsAdapter extends RecyclerView.Adapter<Characteristics
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (characteristicList != null) {
             Characteristic characteristic = characteristicList.get(position);
-            holder.characteristicImage.setImageResource(characteristic.imageResource);
-            holder.characteristicName.setText(characteristic.name);
-            holder.characteristicValue.setText(String.format(Locale.getDefault(), "%d", characteristic.value));
+            holder.characteristicImage.setImageResource(characteristic.getImageResource());
+            holder.characteristicName.setText(characteristic.getName());
+            holder.characteristicValue.setText(String.format(Locale.getDefault(), "%d", characteristic.getValue()));
         } else{
             // TODO
             // I don't know if I have to do something here

@@ -65,7 +65,7 @@ class Quest {
     @TypeConverters(RepeatStateConverter::class)
     var repeatState = RepeatState.NOT_SET
     @TypeConverters(RelatedSkillsIdsConverter::class)
-    var relatedSkillsIds: List<Int> = ArrayList()
+    var relatedSkillsIds: MutableList<Int> = ArrayList()
 
     @Ignore
     constructor(name: String,
@@ -80,10 +80,10 @@ class Quest {
         this.isImportant = isImportant
     }
 
-    constructor() { // do nothing
-    }
+//    constructor() { // do nothing
+//    }
 
-    @Ignore
+
     constructor(name: String) {
         this.name = name
     }

@@ -88,7 +88,7 @@ public class FilterUseCase {
     private List<Quest> getTodayWithCompleted(List<Quest> quests) {
         List<Quest> resultList = new ArrayList<>();
         for (Quest quest : quests) {
-            if (isCalendarEqualsTodayCalendarUseCase.invoke(quest.dateDue)) {
+            if (isCalendarEqualsTodayCalendarUseCase.invoke(quest.getDateDue())) {
                 resultList.add(quest);
             }
         }
@@ -98,7 +98,7 @@ public class FilterUseCase {
     private List<Quest> getTodayWithoutCompleted(List<Quest> quests) {
         List<Quest> resultList = new ArrayList<>();
         for (Quest quest : quests) {
-            if (isCalendarEqualsTodayCalendarUseCase.invoke(quest.dateDue)
+            if (isCalendarEqualsTodayCalendarUseCase.invoke(quest.getDateDue())
                     && !quest.isCompleted()) {
                 resultList.add(quest);
             }
@@ -116,7 +116,7 @@ public class FilterUseCase {
     private List<Quest> getTomorrowWithCompleted(List<Quest> quests) {
         List<Quest> resultList = new ArrayList<>();
         for (Quest quest : quests) {
-            if (isCalendarEqualsTomorrowCalendarUseCase.invoke(quest.dateDue)) {
+            if (isCalendarEqualsTomorrowCalendarUseCase.invoke(quest.getDateDue())) {
                 resultList.add(quest);
             }
         }
@@ -126,7 +126,7 @@ public class FilterUseCase {
     private List<Quest> getTomorrowWithoutCompleted(List<Quest> quests) {
         List<Quest> resultList = new ArrayList<>();
         for (Quest quest : quests) {
-            if (isCalendarEqualsTomorrowCalendarUseCase.invoke(quest.dateDue)
+            if (isCalendarEqualsTomorrowCalendarUseCase.invoke(quest.getDateDue())
                     && !quest.isCompleted()) {
                 resultList.add(quest);
             }

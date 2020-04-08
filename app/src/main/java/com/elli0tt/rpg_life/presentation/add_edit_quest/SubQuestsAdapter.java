@@ -58,17 +58,17 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
             new DiffUtil.ItemCallback<Quest>() {
                 @Override
                 public boolean areItemsTheSame(@NonNull Quest oldItem, @NonNull Quest newItem) {
-                    return oldItem.id == newItem.id;
+                    return oldItem.getId() == newItem.getId();
                 }
 
                 @Override
                 public boolean areContentsTheSame(@NonNull Quest oldItem, @NonNull Quest newItem) {
-                    return oldItem.name.equals(newItem.name) &&
-                            oldItem.difficulty.equals(newItem.difficulty) &&
-                            oldItem.description.equals(newItem.description) &&
+                    return oldItem.getName().equals(newItem.getName()) &&
+                            oldItem.getDifficulty().equals(newItem.getDifficulty()) &&
+                            oldItem.getDescription().equals(newItem.getDescription()) &&
                             oldItem.isCompleted() == newItem.isCompleted() &&
                             oldItem.isImportant() == newItem.isImportant() &&
-                            oldItem.dateDue.equals(newItem.dateDue) &&
+                            oldItem.getDateDue().equals(newItem.getDateDue()) &&
                             oldItem.getDateDueState().equals(newItem.getDateDueState());
                 }
             };
@@ -169,7 +169,7 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
 
         void bind(Quest quest) {
             isCompletedCheckBox.setChecked(quest.isCompleted());
-            nameTextView.setText(quest.name);
+            nameTextView.setText(quest.getName());
             isImportantCheckBox.setChecked(quest.isImportant());
             switch (quest.getDateDueState()) {
                 case NOT_SET:
@@ -179,12 +179,12 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
                     break;
                 case BEFORE_DATE_DUE:
                     dateDueTextView.setText(itemView.getContext().getString(R.string.quest_recycler_due_date)
-                            + " " + Quest.getDateDueFormatted(quest.dateDue));
+                            + " " + Quest.getDateDueFormatted(quest.getDateDue()));
                     dateDueTextView.setTextColor(greenColorId);
                     break;
                 case AFTER_DATE_DUE:
                     dateDueTextView.setText(itemView.getContext().getString(R.string.quest_recycler_due_date)
-                            + " " + Quest.getDateDueFormatted(quest.dateDue));
+                            + " " + Quest.getDateDueFormatted(quest.getDateDue()));
                     dateDueTextView.setTextColor(redColorId);
                     break;
                 case TODAY:
@@ -197,7 +197,7 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
                     break;
             }
             repeatImageView.setImageTintList(defaultTextViewColor);
-            if (quest.repeatState.equals(Quest.RepeatState.NOT_SET)) {
+            if (quest.getRepeatState().equals(Quest.RepeatState.NOT_SET)) {
                 repeatImageView.setVisibility(View.INVISIBLE);
             } else {
                 repeatImageView.setVisibility(View.VISIBLE);

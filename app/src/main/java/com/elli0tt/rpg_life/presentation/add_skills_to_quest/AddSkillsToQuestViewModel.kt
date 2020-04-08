@@ -43,9 +43,9 @@ class AddSkillsToQuestViewModel(application: Application) : AndroidViewModel(app
 
     fun onSelectCheckBoxCheckChange(position: Int, isChecked: Boolean){
         if (isChecked){
-            quest.relatedSkillsIds.add(skillsToShow.value?.get(position)?.id)
+            quest.relatedSkillsIds.add(skillsToShow.value?.get(position)?.id!!)
         } else {
-            quest.relatedSkillsIds.remove(skillsToShow.value?.get(position)?.id)
+            quest.relatedSkillsIds.remove(skillsToShow.value?.get(position)?.id!!)
         }
         updateQuestsUseCase.invoke(quest)
     }

@@ -11,8 +11,8 @@ class Skill {
     var timeSpentMillis: Long = 0
     var totalXp: Long = 0
 
-    constructor() { //do nothing
-    }
+//    constructor() { //do nothing
+//    }
 
     constructor(name: String) {
         this.name = name

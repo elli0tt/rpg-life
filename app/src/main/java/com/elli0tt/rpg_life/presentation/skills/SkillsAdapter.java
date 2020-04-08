@@ -33,16 +33,16 @@ public class SkillsAdapter extends ListAdapter<Skill, SkillsAdapter.ViewHolder> 
 
     private static final DiffUtil.ItemCallback<Skill> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<Skill>() {
-        @Override
-        public boolean areItemsTheSame(@NonNull Skill oldItem, @NonNull Skill newItem) {
-            return oldItem.id == newItem.id;
-        }
+                @Override
+                public boolean areItemsTheSame(@NonNull Skill oldItem, @NonNull Skill newItem) {
+                    return oldItem.getId() == newItem.getId();
+                }
 
-        @Override
-        public boolean areContentsTheSame(@NonNull Skill oldItem, @NonNull Skill newItem) {
-            return oldItem.name.equals(newItem.name);
-        }
-    };
+                @Override
+                public boolean areContentsTheSame(@NonNull Skill oldItem, @NonNull Skill newItem) {
+                    return oldItem.getName().equals(newItem.getName());
+                }
+            };
 
     @NonNull
     @Override
@@ -73,18 +73,17 @@ public class SkillsAdapter extends ListAdapter<Skill, SkillsAdapter.ViewHolder> 
 
             startTimerImageView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
-                if (onStartTimerFabClickListener != null && position != RecyclerView.NO_POSITION){
+                if (onStartTimerFabClickListener != null && position != RecyclerView.NO_POSITION) {
                     onStartTimerFabClickListener.onClick();
                 }
             });
         }
 
         void bind(@NonNull Skill skill) {
-            nameTextView.setText(skill.name);
+            nameTextView.setText(skill.getName());
             levelTextView.setText(Long.toString(skill.getLevel()));
-            xpProgressBar.setMax(skill.getMaxXpPercentage());
+            xpProgressBar.setMax(Skill.maxXpPercentage);
             xpProgressBar.setProgress(skill.getXpPercentage());
-
         }
     }
 }

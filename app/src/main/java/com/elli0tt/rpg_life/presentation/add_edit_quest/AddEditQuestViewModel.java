@@ -169,7 +169,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     }
 
     int getQuestId() {
-        return currentQuest.id;
+        return currentQuest.getId();
     }
 
     void start(@Nullable Integer id, boolean isSubQuest, int parentQuestId) {
@@ -178,7 +178,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
         if (id == null) {
             //No need to populate, the quest is new
-            currentQuest = new Quest();
+            currentQuest = new Quest("");
             isNewQuest = true;
             subQuests = new MutableLiveData<>();
             return;
@@ -214,14 +214,14 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     }
 
     private void onDataLoaded(Quest quest) {
-        name.postValue(quest.name);
-        description.postValue(quest.description);
-        difficulty = quest.difficulty;
+        name.postValue(quest.getName());
+        description.postValue(quest.getDescription());
+        difficulty = quest.getDifficulty();
         isDateDueSet.postValue(quest.isDateDueSet());
-        dateDue = quest.dateDue;
-        repeatState.postValue(quest.repeatState);
-        repeatTextResId.postValue(getRepeatTextResIdUseCase.invoke(quest.repeatState));
-        relatedSkillsIds.postValue(quest.relatedSkillsIds);
+        dateDue = quest.getDateDue();
+        repeatState.postValue(quest.getRepeatState());
+        repeatTextResId.postValue(getRepeatTextResIdUseCase.invoke(quest.getRepeatState()));
+        relatedSkillsIds.postValue(quest.getRelatedSkillsIds());
         isDataLoaded = true;
     }
 
@@ -238,21 +238,21 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
         nameErrorMessageId.setValue(null);
 
-        Quest quest = new Quest();
-        quest.name = name.getValue();
-        quest.description = description.getValue();
-        quest.difficulty = difficulty;
-        quest.dateDue = dateDue;
-        quest.setIsDateDueSet(isDateDueSet.getValue());
-        quest.repeatState = repeatState.getValue();
-        quest.setIsSubQuest(isSubQuest);
-        quest.parentQuestId = parentQuestId;
+        Quest quest = new Quest(name.getValue());
+        quest.setName(name.getValue());
+        quest.setDescription(description.getValue());
+        quest.setDifficulty(difficulty);
+        quest.setDateDue(dateDue);
+        quest.setDateDueSet(isDateDueSet.getValue());
+        quest.setRepeatState(repeatState.getValue());
+        quest.setSubQuest(isSubQuest);
+        quest.setParentQuestId(parentQuestId);
 
 
         if (isNewQuest) {
             insertQuestsUseCase.invoke(quest);
         } else {
-            quest.id = id;
+            quest.setId(id);
             quest.setCompleted(currentQuest.isCompleted());
             quest.setImportant(currentQuest.isImportant());
             updateQuestsUseCase.invoke(quest);
