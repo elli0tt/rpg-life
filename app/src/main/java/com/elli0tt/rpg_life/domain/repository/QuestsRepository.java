@@ -23,6 +23,8 @@ public interface QuestsRepository {
 
     void update(Quest... quests);
 
+    void updateQuestHasSubquestsById(int id, boolean hasSubquests);
+
     void delete(Quest... quests);
 
     void deleteAll();

@@ -40,7 +40,7 @@ class QuestsFragment() : Fragment() {
         subscribeToViewModel()
         setHasOptionsMenu(true)
         setupQuestsRecyclerView()
-        fab?.setOnClickListener(View.OnClickListener { v: View? -> navigateToAddQuestScreen() })
+        fab?.setOnClickListener { v: View? -> navigateToAddQuestScreen() }
     }
 
     override fun onResume() {

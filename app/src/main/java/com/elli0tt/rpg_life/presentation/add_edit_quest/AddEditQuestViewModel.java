@@ -34,6 +34,7 @@ import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.GetQuestsBy
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.GetSubQuestsUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.CompleteQuestUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.DeleteQuestsUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.update_data.UpdateQuestHasSubquestsByIdUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.UpdateQuestsUseCase;
 import com.elli0tt.rpg_life.domain.use_case.skills.GetSkillsNamesByIdsUseCase;
 
@@ -100,6 +101,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private CompleteQuestUseCase completeQuestUseCase;
     private DeleteQuestsUseCase deleteQuestsUseCase;
     private GetSkillsNamesByIdsUseCase getSkillsNamesByIdsUseCase;
+    private UpdateQuestHasSubquestsByIdUseCase updateQuestHasSubquestsByIdUseCase;
 
     public AddEditQuestViewModel(@NonNull Application application) {
         super(application);
@@ -114,6 +116,8 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         getSubQuestsUseCase = new GetSubQuestsUseCase(questsRepository);
         completeQuestUseCase = new CompleteQuestUseCase(questsRepository, skillsRepository);
         deleteQuestsUseCase = new DeleteQuestsUseCase(questsRepository);
+        updateQuestHasSubquestsByIdUseCase =
+                new UpdateQuestHasSubquestsByIdUseCase(questsRepository);
 
         getSkillsNamesByIdsUseCase = new GetSkillsNamesByIdsUseCase(skillsRepository);
 
@@ -248,7 +252,6 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         quest.setSubQuest(isSubQuest);
         quest.setParentQuestId(parentQuestId);
 
-
         if (isNewQuest) {
             insertQuestsUseCase.invoke(quest);
         } else {
@@ -256,6 +259,10 @@ public class AddEditQuestViewModel extends AndroidViewModel {
             quest.setCompleted(currentQuest.isCompleted());
             quest.setImportant(currentQuest.isImportant());
             updateQuestsUseCase.invoke(quest);
+        }
+
+        if (isSubQuest) {
+            updateQuestHasSubquestsByIdUseCase.invoke(parentQuestId, true);
         }
         return true;
     }

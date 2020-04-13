@@ -36,6 +36,9 @@ public interface QuestsDao {
     @Update
     void update(Quest... quests);
 
+    @Query("update quest_table set hasSubquests = :hasSubquest where id = :id")
+    void updateHasSubquestsById(int id, boolean hasSubquest);
+
     @Delete
     void delete(Quest... quests);
 

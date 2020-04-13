@@ -67,6 +67,8 @@ class Quest {
     @TypeConverters(RelatedSkillsIdsConverter::class)
     var relatedSkillsIds: MutableList<Int> = ArrayList()
 
+    var hasSubquests: Boolean = false
+
     @Ignore
     constructor(name: String,
                 description: String,

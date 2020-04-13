@@ -68,7 +68,8 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
                             oldItem.isImportant() == newItem.isImportant() &&
                             oldItem.getDateDue().equals(newItem.getDateDue()) &&
                             oldItem.getDateDueState().equals(newItem.getDateDueState()) &&
-                            oldItem.getRepeatState().equals(newItem.getRepeatState());
+                            oldItem.getRepeatState().equals(newItem.getRepeatState()) &&
+                            oldItem.getHasSubquests() == newItem.getHasSubquests();
                 }
             };
 
@@ -197,6 +198,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         private CheckBox isImportantCheckBox;
         private TextView dateDueTextView;
         private AppCompatImageView repeatImageView;
+        private AppCompatImageView hasSubquestsImageView;
 
         private ColorStateList defaultTextViewColor;
 
@@ -217,6 +219,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
             isImportantCheckBox = itemView.findViewById(R.id.is_important_check_box);
             dateDueTextView = itemView.findViewById(R.id.date_due_text_view);
             repeatImageView = itemView.findViewById(R.id.repeat_image_view);
+            hasSubquestsImageView = itemView.findViewById(R.id.has_subquests_image_view);
 
             defaultTextViewColor = dateDueTextView.getTextColors();
             greenColorId =
@@ -262,11 +265,15 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
                     break;
             }
             repeatImageView.setImageTintList(defaultTextViewColor);
+            hasSubquestsImageView.setImageTintList(defaultTextViewColor);
             if (quest.getRepeatState().equals(Quest.RepeatState.NOT_SET)) {
-                repeatImageView.setVisibility(View.INVISIBLE);
+                repeatImageView.setVisibility(View.GONE);
             } else {
                 repeatImageView.setVisibility(View.VISIBLE);
             }
+
+            hasSubquestsImageView.setVisibility(quest.getHasSubquests() ? View.VISIBLE : View.GONE);
+
             itemView.setActivated(isSelected);
         }
 

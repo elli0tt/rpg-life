@@ -35,7 +35,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.character_screen, R.id.skills_screen, R.id.quests_screen, R.id.achievements_screen
+                R.id.character_screen, R.id.skills_screen, R.id.quests_screen,
+                R.id.achievements_screen
         ).setDrawerLayout(drawer).build();
         NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
     }

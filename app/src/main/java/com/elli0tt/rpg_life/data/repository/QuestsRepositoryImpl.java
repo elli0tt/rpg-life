@@ -3,6 +3,7 @@ package com.elli0tt.rpg_life.data.repository;
 import android.app.Application;
 import android.os.AsyncTask;
 
+import androidx.core.util.Pair;
 import androidx.lifecycle.LiveData;
 
 import com.elli0tt.rpg_life.data.dao.QuestsDao;
@@ -84,6 +85,26 @@ public class QuestsRepositoryImpl implements QuestsRepository {
         @Override
         protected Void doInBackground(Quest... quests) {
             dao.update(quests);
+            return null;
+        }
+    }
+
+    @Override
+    public void updateQuestHasSubquestsById(int id, boolean hasSubquests) {
+        new UpdateQuestHasSubquestByIdAsyncTask(dao).execute(new Pair<>(id, hasSubquests));
+    }
+
+    private static class UpdateQuestHasSubquestByIdAsyncTask extends AsyncTask<Pair<Integer,
+            Boolean>, Void, Void> {
+        private QuestsDao dao;
+
+        UpdateQuestHasSubquestByIdAsyncTask(QuestsDao dao) {
+            this.dao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Pair<Integer, Boolean>... value) {
+            dao.updateHasSubquestsById(value[0].first, value[0].second);
             return null;
         }
     }
