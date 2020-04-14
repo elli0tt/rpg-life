@@ -53,9 +53,4 @@ class AddSkillsToQuestFragment : Fragment() {
             addSkillsToQuestAdapter.submitList(allSkillsData)
         })
     }
-
-    override fun onResume() {
-        super.onResume()
-        addSkillsToQuestAdapter.notifyDataSetChanged()
-    }
 }

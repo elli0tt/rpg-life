@@ -45,7 +45,7 @@ public class SkillsViewModel extends AndroidViewModel {
     private List<Skill> generateSampleSkillsList() {
         List<Skill> resultList = new ArrayList<>(10);
         for (int i = 0; i < 10; ++i) {
-            resultList.add(new Skill("Skill " + i));
+            resultList.add(new Skill(0, "Skill " + i));
         }
         return resultList;
     }

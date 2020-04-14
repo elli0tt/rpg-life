@@ -225,7 +225,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         dateDue = quest.getDateDue();
         repeatState.postValue(quest.getRepeatState());
         repeatTextResId.postValue(getRepeatTextResIdUseCase.invoke(quest.getRepeatState()));
-        relatedSkillsIds.postValue(quest.getRelatedSkillsIds());
+        //relatedSkillsIds.postValue(quest.getRelatedSkillsIds());
         isDataLoaded = true;
     }
 

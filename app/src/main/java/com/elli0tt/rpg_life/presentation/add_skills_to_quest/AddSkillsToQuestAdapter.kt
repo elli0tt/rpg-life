@@ -36,7 +36,7 @@ class AddSkillsToQuestAdapter : ListAdapter<AddSkillData, AddSkillsToQuestViewHo
         }
     }
 
-    override fun submitList(list: MutableList<AddSkillData>?) {
+    override fun submitList(list: List<AddSkillData>?) {
         super.submitList(if (list != null) ArrayList(list) else null)
     }
 

@@ -70,8 +70,8 @@ public class SkillsRepositoryImpl implements SkillsRepository {
     }
 
     @Override
-    public void updateTotalXpById(int id, long totalXp){
-        new UpdateTotalXpByIdAsyncTask(skillsDao).execute(new Pair<>(id, totalXp));
+    public void updateTotalXpById(int id, long xpIncrease){
+        new UpdateTotalXpByIdAsyncTask(skillsDao).execute(new Pair<>(id, xpIncrease));
     }
 
     private static class UpdateTotalXpByIdAsyncTask extends AsyncTask<Pair<Integer, Long>, Void, Void> {

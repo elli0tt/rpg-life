@@ -15,7 +15,7 @@ public interface SkillsRepository {
 
     void update(Skill... skills);
 
-    void updateTotalXpById(int id, long totalXp);
+    void updateTotalXpById(int id, long xpIncrease);
 
     void deleteAll();
 }

@@ -41,4 +41,12 @@ public interface QuestsRepository {
 
     void setShowCompleted(boolean isShowCompleted);
 
+    LiveData<List<Integer>> getRelatedSkillsIdsLiveData(int questId);
+
+    List<Integer> getRelatedSkillsIds(int questId);
+
+    void insertRelatedSkill(int questId, int skillId);
+
+    void deleteRelatedSkill(int questId, int skillId);
+
 }

@@ -26,8 +26,8 @@ public interface SkillsDao {
     @Update
     void update(Skill... skills);
 
-    @Query("update skills_table set totalXp = :totalXp where id = :id")
-    void updateTotalXpById(int id, long totalXp);
+    @Query("update skills_table set totalXp = totalXp + :xpIncrease where id = :id")
+    void updateTotalXpById(int id, long xpIncrease);
 
     @Query("DELETE FROM skills_table")
     void deleteAll();

@@ -8,17 +8,20 @@ import androidx.room.RoomDatabase;
 
 import com.elli0tt.rpg_life.data.dao.CharacteristicsDao;
 import com.elli0tt.rpg_life.data.dao.QuestsDao;
+import com.elli0tt.rpg_life.data.dao.RelatedToQuestsSkillsDao;
 import com.elli0tt.rpg_life.data.dao.SkillsDao;
 import com.elli0tt.rpg_life.domain.model.Characteristic;
 import com.elli0tt.rpg_life.domain.model.Quest;
+import com.elli0tt.rpg_life.domain.model.RelatedToQuestSkills;
 import com.elli0tt.rpg_life.domain.model.Skill;
 
-@Database(entities = {Characteristic.class, Quest.class, Skill.class}, version = 1)
+@Database(entities = {Characteristic.class, Quest.class, Skill.class, RelatedToQuestSkills.class}, version = 1)
 public abstract class AppRoomDatabase extends RoomDatabase {
 
     public abstract CharacteristicsDao getCharacteristicsDao();
     public abstract QuestsDao getQuestDao();
     public abstract SkillsDao getSkillsDao();
+    public abstract RelatedToQuestsSkillsDao getRelatedToQuestSkillsDao();
 
     private static volatile AppRoomDatabase INSTANCE;
 

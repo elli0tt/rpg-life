@@ -82,8 +82,9 @@ public class SkillsAdapter extends ListAdapter<Skill, SkillsAdapter.ViewHolder> 
         void bind(@NonNull Skill skill) {
             nameTextView.setText(skill.getName());
             levelTextView.setText(Long.toString(skill.getLevel()));
-            xpProgressBar.setMax(Skill.maxXpPercentage);
-            xpProgressBar.setProgress(skill.getXpPercentage());
+            long xpToNextLevel = skill.getXpLeftToNextLevel();
+            xpProgressBar.setMax((int)skill.getXpToNextLevel());
+            xpProgressBar.setProgress((int)(skill.getXpToNextLevel() - skill.getXpLeftToNextLevel()));
         }
     }
 }

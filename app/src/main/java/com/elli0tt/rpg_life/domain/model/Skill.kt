@@ -2,32 +2,22 @@ package com.elli0tt.rpg_life.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlin.math.sqrt
 
 @Entity(tableName = "skills_table")
-class Skill {
-    @PrimaryKey(autoGenerate = true)
-    var id = 0
-    var name = ""
-    var timeSpentMillis: Long = 0
-    var totalXp: Long = 0
-
-//    constructor() { //do nothing
-//    }
-
-    constructor(name: String) {
-        this.name = name
-    }
+data class Skill @JvmOverloads constructor(
+        @PrimaryKey(autoGenerate = true)
+        var id: Int = 0,
+        var name: String = "",
+        var timeSpentMillis: Long = 0,
+        var totalXp: Long = 0) {
 
     val level: Long
-        get() = totalXp / 1000
+        get() = ((-1 + sqrt((1 + 8 * (totalXp / 1000)).toDouble())).toLong()) / 2
 
     val xpLeftToNextLevel: Long
-        get() = totalXp % 1000
+        get() = ((level + 1) * (level + 2)) / 2 * 1000 - totalXp
 
-    val xpPercentage: Int
-        get() = xpLeftToNextLevel.toInt() / 10
-
-    companion object {
-        const val maxXpPercentage = 100
-    }
+    val xpToNextLevel: Long
+        get() = ((level + 1) * (level + 2)) / 2 * 1000 - (level * (level + 1)) / 2 * 1000
 }

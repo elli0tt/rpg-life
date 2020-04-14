@@ -64,8 +64,6 @@ class Quest {
 
     @TypeConverters(RepeatStateConverter::class)
     var repeatState = RepeatState.NOT_SET
-    @TypeConverters(RelatedSkillsIdsConverter::class)
-    var relatedSkillsIds: MutableList<Int> = ArrayList()
 
     var hasSubquests: Boolean = false
 

@@ -5,24 +5,30 @@ import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.InsertQuestsUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.load_data.GetRelatedSkillsIdsUseCase;
 import com.elli0tt.rpg_life.domain.use_case.skills.UpdateSkillTotalXpByIdUseCase;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class CompleteQuestUseCase {
     private UpdateQuestsUseCase updateQuestsUseCase;
     private InsertQuestsUseCase insertQuestsUseCase;
     private UpdateSkillTotalXpByIdUseCase updateSkillTotalXpByIdUseCase;
+    private GetRelatedSkillsIdsUseCase getRelatedSkillsIdsUseCase;
 
     public CompleteQuestUseCase(QuestsRepository questsRepository, SkillsRepository skillsRepository) {
         updateQuestsUseCase = new UpdateQuestsUseCase(questsRepository);
         insertQuestsUseCase = new InsertQuestsUseCase(questsRepository);
         updateSkillTotalXpByIdUseCase = new UpdateSkillTotalXpByIdUseCase(skillsRepository);
+        getRelatedSkillsIdsUseCase = new GetRelatedSkillsIdsUseCase(questsRepository);
     }
 
     public void invoke(Quest quest, boolean isCompleted) {
         quest.setCompleted(isCompleted);
-        increaseRelatedSkillsXps(quest);
+        if (isCompleted){
+            increaseRelatedSkillsXps(quest.getId(), quest.getDifficulty().getXpIncrease());
+        }
         updateQuestsUseCase.invoke(quest);
         if (!quest.getRepeatState().equals(Quest.RepeatState.NOT_SET)) {
             Quest newQuest = new Quest(quest.getName());
@@ -35,7 +41,6 @@ public class CompleteQuestUseCase {
             newQuest.setDateDue(calculateNewDateDue(quest.getDateDue(), quest.getRepeatState()));
             newQuest.setImportant(quest.isImportant());
             insertQuestsUseCase.invoke(newQuest);
-            increaseRelatedSkillsXps(quest);
         }
     }
 
@@ -112,9 +117,16 @@ public class CompleteQuestUseCase {
         }
     }
 
-    private void increaseRelatedSkillsXps(Quest quest){
-        for (int id : quest.getRelatedSkillsIds()){
-            updateSkillTotalXpByIdUseCase.invoke(id, quest.getDifficulty().getXpIncrease());
-        }
+    private void increaseRelatedSkillsXps(int questId, int xpIncrease){
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                List<Integer> relatedSkillsIds = getRelatedSkillsIdsUseCase.invoke(questId);
+                for (int skillId : relatedSkillsIds){
+                    updateSkillTotalXpByIdUseCase.invoke(skillId, xpIncrease);
+                }
+            }
+        }.start();
     }
 }
