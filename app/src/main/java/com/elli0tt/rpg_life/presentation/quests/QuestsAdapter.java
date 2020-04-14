@@ -284,19 +284,21 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         private String getDifficultyStringValue(Quest.Difficulty difficultyLevel) {
             switch (difficultyLevel) {
                 case VERY_EASY:
-                    return itemView.getContext().getText(R.string.quest_difficulty_very_easy).toString();
+                    return itemView.getContext().getString(R.string.quest_difficulty_very_easy);
                 case EASY:
-                    return itemView.getContext().getText(R.string.quest_difficulty_easy).toString();
+                    return itemView.getContext().getString(R.string.quest_difficulty_easy);
                 case NORMAL:
-                    return itemView.getContext().getText(R.string.quest_difficulty_normal).toString();
+                    return itemView.getContext().getString(R.string.quest_difficulty_normal);
                 case HARD:
-                    return itemView.getContext().getText(R.string.quest_difficulty_hard).toString();
+                    return itemView.getContext().getString(R.string.quest_difficulty_hard);
                 case VERY_HARD:
-                    return itemView.getContext().getText(R.string.quest_difficulty_very_hard).toString();
+                    return itemView.getContext().getString(R.string.quest_difficulty_very_hard);
                 case IMPOSSIBLE:
-                    return itemView.getContext().getText(R.string.quest_difficulty_impossible).toString();
+                    return itemView.getContext().getString(R.string.quest_difficulty_impossible);
+                case NOT_SET:
+                    return itemView.getContext().getString(R.string.quest_difficulty_not_set);
                 default:
-                    return itemView.getContext().getText(R.string.quest_difficulty_error).toString();
+                    return itemView.getContext().getString(R.string.quest_difficulty_error);
             }
         }
 

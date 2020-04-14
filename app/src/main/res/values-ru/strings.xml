@@ -85,4 +85,5 @@
     <string name="add_skill_label">Добавить навык</string>
     <string name="add_difficulty">Выбрать сложность</string>
     <string name="xp_left_to_next_level">%1$d / %2$d xp</string>
+    <string name="quest_difficulty_not_set">Не выбрана</string>
 </resources>

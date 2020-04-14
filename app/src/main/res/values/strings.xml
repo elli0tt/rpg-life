@@ -29,6 +29,7 @@
     <string name="quest_difficulty_hard">Hard</string>
     <string name="quest_difficulty_very_hard">Very hard</string>
     <string name="quest_difficulty_impossible">Impossible</string>
+    <string name="quest_difficulty_not_set">Not set</string>
     <string name="quest_difficulty_error">Error: non-existent difficulty</string>
 
     <string name="add_quest_difficulty_text">Difficulty level:</string>

@@ -4,11 +4,9 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.arch.core.util.Function;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
 
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl;
@@ -43,7 +41,8 @@ import java.util.List;
 public class AddEditQuestViewModel extends AndroidViewModel {
     private MutableLiveData<String> name = new MutableLiveData<>();
     private MutableLiveData<String> description = new MutableLiveData<>("");
-    private Quest.Difficulty difficulty = Quest.Difficulty.NOT_SET;
+    private MutableLiveData<Quest.Difficulty> difficulty =
+            new MutableLiveData<>(Quest.Difficulty.NOT_SET);
 
     private MutableLiveData<Integer> nameErrorMessageId = new MutableLiveData<>();
 
@@ -122,6 +121,10 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         return description;
     }
 
+    LiveData<Quest.Difficulty> getDifficulty() {
+        return difficulty;
+    }
+
     LiveData<Integer> getNameErrorMessageId() {
         return nameErrorMessageId;
     }
@@ -185,7 +188,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private void onDataLoaded(Quest quest) {
         name.postValue(quest.getName());
         description.postValue(quest.getDescription());
-        difficulty = quest.getDifficulty();
+        difficulty.postValue(quest.getDifficulty());
         isDateDueSet.postValue(quest.isDateDueSet());
         dateDue = quest.getDateDue();
         repeatState.postValue(quest.getRepeatState());
@@ -209,7 +212,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         Quest quest = new Quest(name.getValue());
         quest.setName(name.getValue());
         quest.setDescription(description.getValue());
-        quest.setDifficulty(difficulty);
+        quest.setDifficulty(difficulty.getValue());
         quest.setDateDue(dateDue);
         quest.setDateDueSet(isDateDueSet.getValue());
         quest.setRepeatState(repeatState.getValue());
@@ -324,22 +327,22 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     void changeDifficulty(int popUpMenuItemId) {
         switch (popUpMenuItemId) {
             case Constants.VERY_EASY_POPUP_MENU_ITEM_ID:
-                difficulty = Quest.Difficulty.VERY_EASY;
+                difficulty.setValue(Quest.Difficulty.VERY_EASY);
                 break;
             case Constants.EASY_POPUP_MENU_ITEM_ID:
-                difficulty = Quest.Difficulty.EASY;
+                difficulty.setValue(Quest.Difficulty.EASY);
                 break;
             case Constants.NORMAL_POPUP_MENU_ITEM_ID:
-                difficulty = Quest.Difficulty.NORMAL;
+                difficulty.setValue(Quest.Difficulty.NORMAL);
                 break;
             case Constants.HARD_POPUP_MENU_ITEM_ID:
-                difficulty = Quest.Difficulty.HARD;
+                difficulty.setValue(Quest.Difficulty.HARD);
                 break;
             case Constants.VERY_HARD_POPUP_MENU_ITEM_ID:
-                difficulty = Quest.Difficulty.VERY_HARD;
+                difficulty.setValue(Quest.Difficulty.VERY_HARD);
                 break;
             case Constants.IMPOSSIBLE_POPUP_MENU_ITEM_ID:
-                difficulty = Quest.Difficulty.IMPOSSIBLE;
+                difficulty.setValue(Quest.Difficulty.IMPOSSIBLE);
                 break;
         }
     }

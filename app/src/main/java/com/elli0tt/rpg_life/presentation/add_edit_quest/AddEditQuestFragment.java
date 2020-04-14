@@ -48,8 +48,12 @@ public class AddEditQuestFragment extends Fragment {
 
     private AddEditQuestViewModel viewModel;
 
-    //Tags for Log.d()
-    private static final String ON_FOCUS_CHANGE_TAG = "On focus change";
+    private String veryEasyTitle;
+    private String easyTitle;
+    private String normalTitle;
+    private String hardTitle;
+    private String veryHardTitle;
+    private String impossibleTitle;
 
     @Nullable
     @Override
@@ -115,6 +119,23 @@ public class AddEditQuestFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        veryEasyTitle = getString(R.string.add_edit_quest_difficulty_very_easy,
+                Quest.Difficulty.VERY_EASY.getXpIncrease());
+        easyTitle = getString(R.string.add_edit_quest_difficulty_easy,
+                Quest.Difficulty.EASY.getXpIncrease());
+        normalTitle = getString(R.string.add_edit_quest_difficulty_normal,
+                Quest.Difficulty.NORMAL.getXpIncrease());
+        hardTitle = getString(R.string.add_edit_quest_difficulty_hard,
+                Quest.Difficulty.HARD.getXpIncrease());
+        veryHardTitle = getString(R.string.add_edit_quest_difficulty_very_hard,
+                Quest.Difficulty.VERY_HARD.getXpIncrease());
+        impossibleTitle = getString(R.string.add_edit_quest_difficulty_impossible,
+                Quest.Difficulty.IMPOSSIBLE.getXpIncrease());
+    }
+
     private void subscribeToViewModel() {
         viewModel.getNameErrorMessageId().observe(getViewLifecycleOwner(),
                 errorMessageId -> {
@@ -145,6 +166,28 @@ public class AddEditQuestFragment extends Fragment {
                 });
         viewModel.getSubQuests().observe(getViewLifecycleOwner(),
                 subQuests -> subQuestsAdapter.submitList(subQuests));
+        viewModel.getDifficulty().observe(getViewLifecycleOwner(), difficulty -> {
+            switch (difficulty) {
+                case VERY_EASY:
+                    difficultyView.setText(veryEasyTitle);
+                    break;
+                case EASY:
+                    difficultyView.setText(easyTitle);
+                    break;
+                case NORMAL:
+                    difficultyView.setText(normalTitle);
+                    break;
+                case HARD:
+                    difficultyView.setText(hardTitle);
+                    break;
+                case VERY_HARD:
+                    difficultyView.setText(veryHardTitle);
+                    break;
+                case IMPOSSIBLE:
+                    difficultyView.setText(impossibleTitle);
+                    break;
+            }
+        });
     }
 
     private void setupSubQuestsRecycler() {
@@ -160,12 +203,6 @@ public class AddEditQuestFragment extends Fragment {
         subQuestsRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
                 RecyclerView.VERTICAL, false));
         subQuestsRecycler.setAdapter(subQuestsAdapter);
-
-//        List<Quest> list = new ArrayList<>(10);
-//        for (int i = 0; i < 20; ++i){
-//            list.add(new Quest("Subquest " + i));
-//        }
-//        subQuestsAdapter.submitList(list);
     }
 
     private void setupSkillsRecycler() {
@@ -330,19 +367,6 @@ public class AddEditQuestFragment extends Fragment {
     private void showDifficultyPopupMenu(View view) {
         PopupMenu popupMenu = new PopupMenu(getContext(), view);
         Menu menu = popupMenu.getMenu();
-
-        String veryEasyTitle = getString(R.string.add_edit_quest_difficulty_very_easy,
-                Quest.Difficulty.VERY_EASY.getXpIncrease());
-        String easyTitle = getString(R.string.add_edit_quest_difficulty_easy,
-                Quest.Difficulty.EASY.getXpIncrease());
-        String normalTitle = getString(R.string.add_edit_quest_difficulty_normal,
-                Quest.Difficulty.NORMAL.getXpIncrease());
-        String hardTitle = getString(R.string.add_edit_quest_difficulty_hard,
-                Quest.Difficulty.HARD.getXpIncrease());
-        String veryHardTitle = getString(R.string.add_edit_quest_difficulty_very_hard,
-                Quest.Difficulty.VERY_HARD.getXpIncrease());
-        String impossibleTitle = getString(R.string.add_edit_quest_difficulty_impossible,
-                Quest.Difficulty.IMPOSSIBLE.getXpIncrease());
 
         menu.add(Menu.NONE, Constants.VERY_EASY_POPUP_MENU_ITEM_ID,
                 Constants.VERY_EASY_POPUP_MENU_ITEM_ORDER, veryEasyTitle);
