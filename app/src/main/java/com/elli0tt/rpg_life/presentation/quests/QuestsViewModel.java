@@ -16,7 +16,6 @@ import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
-import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetQuestDateDueStateUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.InsertQuestsUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.filter.FilterUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.load_data.GetAllQuestsUseCase;
@@ -32,7 +31,6 @@ import com.elli0tt.rpg_life.domain.use_case.quests.update_data.SetQuestImportant
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.SetQuestsFilterStateUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.SetQuestsSortingState;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.SetShowCompletedUseCase;
-import com.elli0tt.rpg_life.domain.use_case.quests.update_data.UpdateQuestsDateDueStateUseCase;
 
 import java.util.List;
 
@@ -67,11 +65,7 @@ public class QuestsViewModel extends AndroidViewModel {
     private PopulateWithSamplesUseCase populateWithSamplesUseCase;
     private CompleteQuestUseCase completeQuestUseCase;
     private SetQuestImportantUseCase setQuestImportantUseCase;
-    private UpdateQuestsDateDueStateUseCase updateQuestsDateDueStateUseCase;
     private SetShowCompletedUseCase setShowCompletedUseCase;
-
-    private GetQuestDateDueStateUseCase getQuestDateDueStateUseCase =
-            new GetQuestDateDueStateUseCase();
 
     public QuestsViewModel(@NonNull Application application) {
         super(application);
@@ -92,7 +86,6 @@ public class QuestsViewModel extends AndroidViewModel {
         populateWithSamplesUseCase = new PopulateWithSamplesUseCase(questsRepository);
         completeQuestUseCase = new CompleteQuestUseCase(questsRepository, skillsRepository);
         setQuestImportantUseCase = new SetQuestImportantUseCase(questsRepository);
-        updateQuestsDateDueStateUseCase = new UpdateQuestsDateDueStateUseCase(questsRepository);
         setShowCompletedUseCase = new SetShowCompletedUseCase(questsRepository);
 
         currentFilterState.setValue(getFilterStateUseCase.invoke());
@@ -100,7 +93,6 @@ public class QuestsViewModel extends AndroidViewModel {
         isShowCompleted.setValue(getShowCompletedUseCase.invoke());
 
         allQuests = getAllQuestsUseCase.invoke();
-
 
         questsToShow.addSource(allQuests, (Observer<List<Quest>>) quests -> {
             if (quests != null
@@ -125,11 +117,11 @@ public class QuestsViewModel extends AndroidViewModel {
 
         questsToShow.addSource(currentSortingState,
                 (Observer<QuestsSortingState>) questsSortingState -> {
-            if (allQuests.getValue() != null) {
-                questsToShow.setValue(sortUseCase.invoke((List<Quest>) questsToShow.getValue(),
-                        questsSortingState));
-            }
-        });
+                    if (allQuests.getValue() != null) {
+                        questsToShow.setValue(sortUseCase.invoke((List<Quest>) questsToShow.getValue(),
+                                questsSortingState));
+                    }
+                });
 
         questsToShow.addSource(isShowCompleted, (Observer<Boolean>) isShowCompleted -> {
             if (allQuests.getValue() != null
@@ -206,12 +198,6 @@ public class QuestsViewModel extends AndroidViewModel {
     void setQuestImportant(int position, boolean isImportant) {
         if (getQuests().getValue() != null) {
             setQuestImportantUseCase.invoke(getQuests().getValue().get(position), isImportant);
-        }
-    }
-
-    void updateQuestsDateDueState() {
-        if (getQuests().getValue() != null) {
-            updateQuestsDateDueStateUseCase.invoke(getQuests().getValue());
         }
     }
 

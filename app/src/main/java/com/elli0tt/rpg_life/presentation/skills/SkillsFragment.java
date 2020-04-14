@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
@@ -40,8 +41,7 @@ public class SkillsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = ViewModelProviders.of(this).get(SkillsViewModel.class);
-
+        viewModel = new ViewModelProvider(this).get(SkillsViewModel.class);
         navController = NavHostFragment.findNavController(this);
 
         recyclerView = view.findViewById(R.id.skills_recycler_view);

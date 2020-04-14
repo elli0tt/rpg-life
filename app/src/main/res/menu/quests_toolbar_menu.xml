@@ -9,19 +9,19 @@
         app:showAsAction="ifRoom">
         <menu>
             <item
-                android:id="@+id/quests_toolbar_menu_filtering_all"
+                android:id="@+id/filtering_all"
                 android:title="@string/quests_filtering_all"
                 app:showAsAction="never" />
             <item
-                android:id="@+id/quests_toolbar_menu_filtering_important"
+                android:id="@+id/filtering_important"
                 android:title="@string/quests_filtering_important"
                 app:showAsAction="never" />
             <item
-                android:id="@+id/quests_toolbar_menu_filter_today"
+                android:id="@+id/filter_today"
                 android:title="@string/quest_date_due_today"
                 app:showAsAction="never" />
             <item
-                android:id="@+id/quests_toolbar_menu_filter_tomorrow"
+                android:id="@+id/filter_tomorrow"
                 android:title="@string/quest_date_due_tomorrow"
                 app:showAsAction="never" />
         </menu>
@@ -34,19 +34,19 @@
         app:showAsAction="never">
         <menu>
             <item
-                android:id="@+id/quests_toolbar_menu_sort_by_name"
+                android:id="@+id/sort_by_name"
                 android:title="@string/quests_toolbar_sort_by_name"
                 app:showAsAction="never" />
             <item
-                android:id="@+id/quests_toolbar_menu_sort_by_date_added"
+                android:id="@+id/sort_by_date_added"
                 android:title="@string/quests_toolbar_sort_by_date_added"
                 app:showAsAction="never" />
             <item
-                android:id="@+id/quests_toolbar_menu_sort_by_date_due"
+                android:id="@+id/sort_by_date_due"
                 android:title="@string/quests_toolbar_sort_by_date_due"
                 app:showAsAction="never" />
             <item
-                android:id="@+id/quests_toolbar_menu_sort_by_difficulty"
+                android:id="@+id/sort_by_difficulty"
                 android:title="@string/quest_toolbar_sort_by_difficulty"
                 app:showAsAction="never" />
         </menu>
@@ -54,7 +54,7 @@
     </item>
 
     <item
-        android:id="@+id/quests_toolbar_menu_show_completed"
+        android:id="@+id/show_completed"
         android:title="@string/show_completed"
         app:showAsAction="never" />
 
@@ -65,7 +65,7 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/quests_toolbar_menu_populate_with_samples"
+        android:id="@+id/populate_with_samples"
         android:title="@string/populate_with_samples"
         app:showAsAction="never" />
 
