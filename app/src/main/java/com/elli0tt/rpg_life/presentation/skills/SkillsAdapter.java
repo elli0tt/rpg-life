@@ -62,6 +62,7 @@ public class SkillsAdapter extends ListAdapter<Skill, SkillsAdapter.ViewHolder> 
         private AppCompatImageView startTimerImageView;
         private TextView levelTextView;
         private ProgressBar xpProgressBar;
+        private TextView xpLeftToNextLevelTextView;
 
         ViewHolder(@NonNull View itemView,
                    final OnStartTimerFabClickListener onStartTimerFabClickListener) {
@@ -70,6 +71,8 @@ public class SkillsAdapter extends ListAdapter<Skill, SkillsAdapter.ViewHolder> 
             startTimerImageView = itemView.findViewById(R.id.start_timer_image_view);
             levelTextView = itemView.findViewById(R.id.level_value_text_view);
             xpProgressBar = itemView.findViewById(R.id.xp_progress_bar);
+            xpLeftToNextLevelTextView =
+                    itemView.findViewById(R.id.xp_left_to_next_level_value_text_view);
 
             startTimerImageView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
@@ -82,9 +85,11 @@ public class SkillsAdapter extends ListAdapter<Skill, SkillsAdapter.ViewHolder> 
         void bind(@NonNull Skill skill) {
             nameTextView.setText(skill.getName());
             levelTextView.setText(Long.toString(skill.getLevel()));
-            long xpToNextLevel = skill.getXpLeftToNextLevel();
-            xpProgressBar.setMax((int)skill.getXpToNextLevel());
-            xpProgressBar.setProgress((int)(skill.getXpToNextLevel() - skill.getXpLeftToNextLevel()));
+            xpProgressBar.setMax((int) skill.getXpToNextLevel());
+            xpProgressBar.setProgress((int) (skill.getXpToNextLevel() - skill.getXpLeftToNextLevel()));
+            xpLeftToNextLevelTextView.setText(itemView.getContext().getString(R.string.xp_left_to_next_level,
+                    (int) (skill.getXpToNextLevel() - skill.getXpLeftToNextLevel()),
+                    (int) skill.getXpToNextLevel()));
         }
     }
 }
