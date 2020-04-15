@@ -90,4 +90,7 @@
     <string name="skill_toolbar_menu_sort_by">Сортировать по</string>
     <string name="skills_toolbar_menu_sort_by_name">Названию</string>
     <string name="skills_toolbar_menu_sort_by_level">Уровню</string>
+
+    <string name="skills_sorted_by_name">Отсортированы по названию</string>
+    <string name="skills_sorted_by_level">Отсортированы по уровню</string>
 </resources>

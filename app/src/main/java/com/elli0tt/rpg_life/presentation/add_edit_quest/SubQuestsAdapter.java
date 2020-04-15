@@ -151,7 +151,7 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
             isImportantCheckBox = itemView.findViewById(R.id.is_important_check_box);
             dateDueTextView = itemView.findViewById(R.id.date_due_text_view);
             repeatImageView = itemView.findViewById(R.id.repeat_image_view);
-            removeButton = itemView.findViewById(R.id.remove_button);
+            removeButton = itemView.findViewById(R.id.remove_image_view);
 
             defaultTextViewColor = dateDueTextView.getTextColors();
             greenColorId =

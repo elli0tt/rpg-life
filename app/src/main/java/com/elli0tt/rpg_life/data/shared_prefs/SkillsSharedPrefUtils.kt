@@ -19,7 +19,7 @@ class SkillsSharedPrefUtils(context: Context) {
 
     fun getQuestsSortingState(): SkillsSortingState {
         val ordinal = sharedPreferences.getInt(KEY_SKILLS_SORTING_STATE,
-                SkillsSortingState.NAME.ordinal)
+                SkillsSortingState.NAME_ASC.ordinal)
         return SkillsSortingState.values()[ordinal]
     }
 

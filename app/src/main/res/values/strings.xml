@@ -89,4 +89,7 @@
     <string name="skill_toolbar_menu_sort_by">Sort by</string>
     <string name="skills_toolbar_menu_sort_by_name">Name</string>
     <string name="skills_toolbar_menu_sort_by_level">Level</string>
+
+    <string name="skills_sorted_by_name">Sorted by name</string>
+    <string name="skills_sorted_by_level">Sorted by level</string>
 </resources>

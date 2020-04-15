@@ -41,7 +41,7 @@
         android:button="@drawable/is_important_checkbox"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/remove_button"
+        app:layout_constraintEnd_toStartOf="@id/remove_image_view"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -64,7 +64,7 @@
         app:srcCompat="@drawable/ic_repeat_black_18dp" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/remove_button"
+        android:id="@+id/remove_image_view"
         style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
