@@ -8,17 +8,21 @@ import androidx.lifecycle.LiveData;
 
 import com.elli0tt.rpg_life.data.dao.SkillsDao;
 import com.elli0tt.rpg_life.data.database.room_database.AppRoomDatabase;
+import com.elli0tt.rpg_life.data.shared_prefs.SkillsSharedPrefUtils;
 import com.elli0tt.rpg_life.domain.model.Skill;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
+import com.elli0tt.rpg_life.presentation.skills.SkillsSortingState;
 
 import java.util.List;
 
 public class SkillsRepositoryImpl implements SkillsRepository {
     private SkillsDao skillsDao;
+    private SkillsSharedPrefUtils skillsSharedPrefUtils;
 
     public SkillsRepositoryImpl(Application application) {
         AppRoomDatabase database = AppRoomDatabase.getDatabase(application);
         skillsDao = database.getSkillsDao();
+        skillsSharedPrefUtils = new SkillsSharedPrefUtils(application);
     }
 
     @Override
@@ -105,6 +109,16 @@ public class SkillsRepositoryImpl implements SkillsRepository {
             dao.deleteAll();
             return null;
         }
+    }
+
+    @Override
+    public SkillsSortingState getSkillsSortingState() {
+        return skillsSharedPrefUtils.getQuestsSortingState();
+    }
+
+    @Override
+    public void setSkillsSortingState(SkillsSortingState sortingState) {
+        skillsSharedPrefUtils.setQuestsSortingState(sortingState);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.elli0tt.rpg_life.domain.use_case.quests.filter;
+package com.elli0tt.rpg_life.domain.use_case.quests;
 
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTodayCalendarUseCase;
@@ -8,7 +8,7 @@ import com.elli0tt.rpg_life.presentation.quests.QuestsFilterState;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FilterUseCase {
+public class FilterQuestsUseCase {
     private IsCalendarEqualsTodayCalendarUseCase isCalendarEqualsTodayCalendarUseCase =
             new IsCalendarEqualsTodayCalendarUseCase();
     private IsCalendarEqualsTomorrowCalendarUseCase isCalendarEqualsTomorrowCalendarUseCase =

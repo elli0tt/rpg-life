@@ -85,4 +85,8 @@
     <string name="add_skill_label">Add skill</string>
     <string name="add_difficulty">Add difficulty</string>
     <string name="xp_left_to_next_level">%1$d / %2$d xp</string>
+
+    <string name="skill_toolbar_menu_sort_by">Sort by</string>
+    <string name="skills_toolbar_menu_sort_by_name">Name</string>
+    <string name="skills_toolbar_menu_sort_by_level">Level</string>
 </resources>

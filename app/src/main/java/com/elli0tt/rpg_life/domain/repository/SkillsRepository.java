@@ -3,6 +3,7 @@ package com.elli0tt.rpg_life.domain.repository;
 import androidx.lifecycle.LiveData;
 
 import com.elli0tt.rpg_life.domain.model.Skill;
+import com.elli0tt.rpg_life.presentation.skills.SkillsSortingState;
 
 import java.util.List;
 
@@ -18,4 +19,8 @@ public interface SkillsRepository {
     void updateTotalXpById(int id, long xpIncrease);
 
     void deleteAll();
+
+    SkillsSortingState getSkillsSortingState();
+
+    void setSkillsSortingState(SkillsSortingState sortingState);
 }

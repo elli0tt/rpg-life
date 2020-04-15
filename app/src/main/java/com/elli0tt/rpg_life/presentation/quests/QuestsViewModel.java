@@ -17,19 +17,19 @@ import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.InsertQuestsUseCase;
-import com.elli0tt.rpg_life.domain.use_case.quests.filter.FilterUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.FilterQuestsUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.SortQuestsUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.load_data.GetAllQuestsUseCase;
-import com.elli0tt.rpg_life.domain.use_case.quests.load_data.GetFilterStateUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.load_data.GetQuestsFilterStateUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.load_data.GetQuestsSortingStateUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.load_data.GetShowCompletedUseCase;
-import com.elli0tt.rpg_life.domain.use_case.quests.load_data.GetSortingStateUseCase;
-import com.elli0tt.rpg_life.domain.use_case.quests.sort.SortUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.CompleteQuestUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.DeleteAllQuestsUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.DeleteQuestsUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.PopulateWithSamplesUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.SetQuestImportantUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.SetQuestsFilterStateUseCase;
-import com.elli0tt.rpg_life.domain.use_case.quests.update_data.SetQuestsSortingState;
+import com.elli0tt.rpg_life.domain.use_case.quests.update_data.SetQuestsSortingStateUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.SetShowCompletedUseCase;
 
 import java.util.List;
@@ -38,22 +38,17 @@ public class QuestsViewModel extends AndroidViewModel {
     private LiveData<List<Quest>> allQuests;
 
     private MutableLiveData<QuestsFilterState> currentFilterState = new MutableLiveData<>();
-
     private MediatorLiveData questsToShow = new MediatorLiveData<>();
-
     private MutableLiveData<QuestsSortingState> currentSortingState = new MutableLiveData<>();
-
     private MutableLiveData<Boolean> isSelectionStarted = new MutableLiveData<>(false);
-
     private MutableLiveData<Boolean> isShowCompleted = new MutableLiveData<>();
-
     private LiveData<Integer> showCompletedTextResId;
 
-    private SortUseCase sortUseCase = new SortUseCase();
-    private FilterUseCase filterUseCase = new FilterUseCase();
+    private SortQuestsUseCase sortQuestsUseCase = new SortQuestsUseCase();
+    private FilterQuestsUseCase filterQuestsUseCase = new FilterQuestsUseCase();
 
-    private GetFilterStateUseCase getFilterStateUseCase;
-    private GetSortingStateUseCase getSortingStateUseCase;
+    private GetQuestsFilterStateUseCase getQuestsFilterStateUseCase;
+    private GetQuestsSortingStateUseCase getQuestsSortingStateUseCase;
     private GetAllQuestsUseCase getAllQuestsUseCase;
     private GetShowCompletedUseCase getShowCompletedUseCase;
 
@@ -61,7 +56,7 @@ public class QuestsViewModel extends AndroidViewModel {
     private DeleteQuestsUseCase deleteQuestsUseCase;
     private DeleteAllQuestsUseCase deleteAllQuestsUseCase;
     private SetQuestsFilterStateUseCase setQuestsFilterStateUseCase;
-    private SetQuestsSortingState setQuestsSortingStateUseCase;
+    private SetQuestsSortingStateUseCase setQuestsSortingStateUseCase;
     private PopulateWithSamplesUseCase populateWithSamplesUseCase;
     private CompleteQuestUseCase completeQuestUseCase;
     private SetQuestImportantUseCase setQuestImportantUseCase;
@@ -73,8 +68,8 @@ public class QuestsViewModel extends AndroidViewModel {
         QuestsRepository questsRepository = new QuestsRepositoryImpl(application);
         SkillsRepository skillsRepository = new SkillsRepositoryImpl(application);
 
-        getFilterStateUseCase = new GetFilterStateUseCase(questsRepository);
-        getSortingStateUseCase = new GetSortingStateUseCase(questsRepository);
+        getQuestsFilterStateUseCase = new GetQuestsFilterStateUseCase(questsRepository);
+        getQuestsSortingStateUseCase = new GetQuestsSortingStateUseCase(questsRepository);
         getAllQuestsUseCase = new GetAllQuestsUseCase(questsRepository);
         getShowCompletedUseCase = new GetShowCompletedUseCase(questsRepository);
 
@@ -82,14 +77,14 @@ public class QuestsViewModel extends AndroidViewModel {
         deleteQuestsUseCase = new DeleteQuestsUseCase(questsRepository);
         deleteAllQuestsUseCase = new DeleteAllQuestsUseCase(questsRepository);
         setQuestsFilterStateUseCase = new SetQuestsFilterStateUseCase(questsRepository);
-        setQuestsSortingStateUseCase = new SetQuestsSortingState(questsRepository);
+        setQuestsSortingStateUseCase = new SetQuestsSortingStateUseCase(questsRepository);
         populateWithSamplesUseCase = new PopulateWithSamplesUseCase(questsRepository);
         completeQuestUseCase = new CompleteQuestUseCase(questsRepository, skillsRepository);
         setQuestImportantUseCase = new SetQuestImportantUseCase(questsRepository);
         setShowCompletedUseCase = new SetShowCompletedUseCase(questsRepository);
 
-        currentFilterState.setValue(getFilterStateUseCase.invoke());
-        currentSortingState.setValue(getSortingStateUseCase.invoke());
+        currentFilterState.setValue(getQuestsFilterStateUseCase.invoke());
+        currentSortingState.setValue(getQuestsSortingStateUseCase.invoke());
         isShowCompleted.setValue(getShowCompletedUseCase.invoke());
 
         allQuests = getAllQuestsUseCase.invoke();
@@ -99,7 +94,7 @@ public class QuestsViewModel extends AndroidViewModel {
                     && currentSortingState.getValue() != null
                     && currentFilterState.getValue() != null
                     && isShowCompleted.getValue() != null) {
-                questsToShow.setValue(sortUseCase.invoke(filterUseCase.invoke(quests,
+                questsToShow.setValue(sortQuestsUseCase.invoke(filterQuestsUseCase.invoke(quests,
                         currentFilterState.getValue(), isShowCompleted.getValue()),
                         currentSortingState.getValue()));
             }
@@ -109,7 +104,7 @@ public class QuestsViewModel extends AndroidViewModel {
             if (allQuests.getValue() != null
                     && currentSortingState.getValue() != null
                     && isShowCompleted.getValue() != null) {
-                questsToShow.setValue(sortUseCase.invoke(filterUseCase.invoke(allQuests.getValue(),
+                questsToShow.setValue(sortQuestsUseCase.invoke(filterQuestsUseCase.invoke(allQuests.getValue(),
                         filterState, isShowCompleted.getValue()),
                         currentSortingState.getValue()));
             }
@@ -118,7 +113,7 @@ public class QuestsViewModel extends AndroidViewModel {
         questsToShow.addSource(currentSortingState,
                 (Observer<QuestsSortingState>) questsSortingState -> {
                     if (allQuests.getValue() != null) {
-                        questsToShow.setValue(sortUseCase.invoke((List<Quest>) questsToShow.getValue(),
+                        questsToShow.setValue(sortQuestsUseCase.invoke((List<Quest>) questsToShow.getValue(),
                                 questsSortingState));
                     }
                 });
@@ -127,7 +122,7 @@ public class QuestsViewModel extends AndroidViewModel {
             if (allQuests.getValue() != null
                     && currentFilterState.getValue() != null
                     && currentSortingState.getValue() != null) {
-                questsToShow.setValue(sortUseCase.invoke(filterUseCase.invoke(allQuests.getValue(),
+                questsToShow.setValue(sortQuestsUseCase.invoke(filterQuestsUseCase.invoke(allQuests.getValue(),
                         currentFilterState.getValue(), isShowCompleted),
                         currentSortingState.getValue()));
             }

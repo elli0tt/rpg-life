@@ -1,4 +1,4 @@
-package com.elli0tt.rpg_life.domain.use_case.quests.sort;
+package com.elli0tt.rpg_life.domain.use_case.quests;
 
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.presentation.quests.QuestsSortingState;
@@ -6,7 +6,7 @@ import com.elli0tt.rpg_life.presentation.quests.QuestsSortingState;
 import java.util.Collections;
 import java.util.List;
 
-public class SortUseCase {
+public class SortQuestsUseCase {
     public List<Quest> invoke(List<Quest> quests, QuestsSortingState sortingState) {
         switch (sortingState) {
             case NAME:

@@ -1,4 +1,4 @@
-package com.elli0tt.rpg_life.domain.use_case.skills;
+package com.elli0tt.rpg_life.domain.use_case.skills.load_data;
 
 import androidx.lifecycle.LiveData;
 

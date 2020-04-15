@@ -5,14 +5,13 @@ import androidx.lifecycle.*
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl
 import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl
 import com.elli0tt.rpg_life.domain.model.AddSkillData
-import com.elli0tt.rpg_life.domain.model.Quest
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.GetQuestByIdUseCase
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.DeleteRelatedSkillUseCase
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.InsertRelatedSkillUseCase
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.UpdateQuestsUseCase
-import com.elli0tt.rpg_life.domain.use_case.skills.GetAddSkillsDataUseCase
+import com.elli0tt.rpg_life.domain.use_case.skills.load_data.GetAddSkillsDataUseCase
 
 class AddSkillsToQuestViewModel(application: Application) : AndroidViewModel(application) {
     private val getAddSkillsDataUseCase: GetAddSkillsDataUseCase

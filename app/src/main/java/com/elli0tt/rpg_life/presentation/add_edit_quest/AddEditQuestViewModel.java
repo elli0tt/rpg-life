@@ -32,7 +32,7 @@ import com.elli0tt.rpg_life.domain.use_case.quests.update_data.CompleteQuestUseC
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.DeleteQuestsUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.UpdateQuestHasSubquestsByIdUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.UpdateQuestsUseCase;
-import com.elli0tt.rpg_life.domain.use_case.skills.GetSkillsNamesByIdsUseCase;
+import com.elli0tt.rpg_life.domain.use_case.skills.load_data.GetSkillsNamesByIdsUseCase;
 
 import java.util.ArrayList;
 import java.util.Calendar;

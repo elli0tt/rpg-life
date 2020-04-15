@@ -3,11 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <!-- Only for developers-->
     <item
-        android:id="@+id/skills_toolbar_menu_delete_all"
+        android:id="@+id/delete_all"
         android:title="@string/delete_all"
         app:showAsAction="never" />
     <item
-        android:id="@+id/skills_toolbar_menu_populate_with_samples"
+        android:id="@+id/populate_with_samples"
         android:title="@string/populate_with_samples"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/sort_by"
+        android:title="@string/skill_toolbar_menu_sort_by"
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/sort_by_name"
+                android:title="@string/skills_toolbar_menu_sort_by_name"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/sort_by_level"
+                android:title="@string/skills_toolbar_menu_sort_by_level"
+                app:showAsAction="never" />
+        </menu>
+    </item>
 </menu>

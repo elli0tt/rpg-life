@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
@@ -59,7 +58,7 @@ public class SkillsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,
                 false));
         SkillsAdapter adapter = new SkillsAdapter();
-        viewModel.getAllSkills().observe(getViewLifecycleOwner(), adapter::submitList);
+        viewModel.getSkillsToShow().observe(getViewLifecycleOwner(), adapter::submitList);
         adapter.setOnStartTimerFabClickListener(this::navigateToCountDownScreen);
         recyclerView.setAdapter(adapter);
         if (getContext() != null) {
@@ -75,11 +74,17 @@ public class SkillsFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.skills_toolbar_menu_delete_all:
+            case R.id.delete_all:
                 viewModel.deleteAll();
                 return true;
-            case R.id.skills_toolbar_menu_populate_with_samples:
+            case R.id.populate_with_samples:
                 viewModel.populateWithSamples();
+                return true;
+            case R.id.sort_by_name:
+                viewModel.setSortingState(SkillsSortingState.NAME);
+                return true;
+            case R.id.sort_by_level:
+                viewModel.setSortingState(SkillsSortingState.LEVEL);
                 return true;
             default:
                 return false;
