@@ -80,6 +80,19 @@ public class SkillsFragment extends Fragment {
         viewModel.getSortedByTextResId().observe(getViewLifecycleOwner(), textResId -> {
             sortUpDownArrowsView.setText(textResId);
         });
+
+        viewModel.getSortingState().observe(getViewLifecycleOwner(), skillsSortingState -> {
+            switch (skillsSortingState) {
+                case NAME_ASC:
+                case LEVEL_ASC:
+                    sortUpDownArrowsView.setArrowUp();
+                    break;
+                case NAME_DESC:
+                case LEVEL_DESC:
+                    sortUpDownArrowsView.setArrowDown();
+                    break;
+            }
+        });
     }
 
     @Override

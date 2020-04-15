@@ -14,12 +14,6 @@ class UpDownArrowsView(context: Context, attributeSet: AttributeSet?)
     private val textView: TextView
     private val removeImageView: AppCompatImageView
 
-    enum class ArrowState {
-        UP, DOWN
-    }
-
-    private var currentArrowState = ArrowState.UP
-
     var onViewClickListener: OnClickListener? = null
 
     init {
@@ -30,13 +24,6 @@ class UpDownArrowsView(context: Context, attributeSet: AttributeSet?)
         removeImageView = findViewById(R.id.remove_image_view)
 
         setOnClickListener {
-            currentArrowState = if (currentArrowState == ArrowState.UP) {
-                arrowImageView.setImageDrawable(context.getDrawable(R.drawable.ic_keyboard_arrow_down_black_20dp))
-                ArrowState.DOWN
-            } else {
-                arrowImageView.setImageDrawable(context.getDrawable(R.drawable.ic_keyboard_arrow_up_black_20dp))
-                ArrowState.UP
-            }
             onViewClickListener?.onClick(it)
         }
     }
@@ -47,5 +34,13 @@ class UpDownArrowsView(context: Context, attributeSet: AttributeSet?)
 
     fun setText(textResId: Int) {
         textView.setText(textResId)
+    }
+
+    fun setArrowUp(){
+        arrowImageView.setImageDrawable(context.getDrawable(R.drawable.ic_keyboard_arrow_up_black_20dp))
+    }
+
+    fun setArrowDown(){
+        arrowImageView.setImageDrawable(context.getDrawable(R.drawable.ic_keyboard_arrow_down_black_20dp))
     }
 }

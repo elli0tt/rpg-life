@@ -29,6 +29,8 @@ class SortSkillsUseCase {
         return skills.sortedWith(Comparator { skill1, skill2 ->
             if (skill1.level != skill2.level) {
                 skill1.level.compareTo(skill2.level)
+            } else if (skill1.xpLeftToNextLevel != skill2.xpLeftToNextLevel) {
+                skill2.xpLeftToNextLevel.compareTo(skill1.xpLeftToNextLevel)
             } else {
                 skill1.name.compareTo(skill2.name)
             }
@@ -39,8 +41,10 @@ class SortSkillsUseCase {
         return skills.sortedWith(Comparator { skill1, skill2 ->
             if (skill1.level != skill2.level) {
                 skill2.level.compareTo(skill1.level)
+            } else if (skill1.xpLeftToNextLevel != skill2.xpLeftToNextLevel) {
+                skill1.xpLeftToNextLevel.compareTo(skill2.xpLeftToNextLevel)
             } else {
-                skill2.name.compareTo(skill1.name)
+                skill1.name.compareTo(skill2.name)
             }
         })
     }

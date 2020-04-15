@@ -68,6 +68,10 @@ public class SkillsViewModel extends AndroidViewModel {
         return skillsToShow;
     }
 
+    LiveData<SkillsSortingState> getSortingState(){
+        return sortingState;
+    }
+
     LiveData<Integer> getSortedByTextResId(){
         return sortedByTextResId;
     }
@@ -96,16 +100,16 @@ public class SkillsViewModel extends AndroidViewModel {
     void changeSortingDirection() {
         switch (sortingState.getValue()) {
             case NAME_ASC:
-                sortingState.setValue(SkillsSortingState.NAME_DESC);
+                setSortingState(SkillsSortingState.NAME_DESC);
                 break;
             case NAME_DESC:
-                sortingState.setValue(SkillsSortingState.NAME_ASC);
+                setSortingState(SkillsSortingState.NAME_ASC);
                 break;
             case LEVEL_ASC:
-                sortingState.setValue(SkillsSortingState.LEVEL_DESC);
+                setSortingState(SkillsSortingState.LEVEL_DESC);
                 break;
             case LEVEL_DESC:
-                sortingState.setValue(SkillsSortingState.LEVEL_ASC);
+                setSortingState(SkillsSortingState.LEVEL_ASC);
                 break;
         }
 
