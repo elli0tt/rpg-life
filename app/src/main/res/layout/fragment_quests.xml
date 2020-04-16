@@ -5,13 +5,12 @@
     android:id="@+id/quest_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:attr/colorBackground">
+    android:background="@color/colorPrimaryLight">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/quests_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"
         tools:listitem="@layout/quest_recycler_item" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

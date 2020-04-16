@@ -86,8 +86,6 @@ class QuestsFragment : Fragment() {
             viewModel.setQuestImportant(position, isImportant)
         }
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        recyclerView.addItemDecoration(DividerItemDecoration(context,
-                DividerItemDecoration.VERTICAL))
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if ((dy < 0) && !fab.isShown && !viewModel.isSelectionStarted.value!!) {

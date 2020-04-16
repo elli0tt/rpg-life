@@ -2,8 +2,8 @@
 <resources>
     <color name="colorPrimary">#344955</color>
     <color name="colorPrimaryDark">#232F34</color>
+    <color name="colorPrimaryLight">#4A6572</color>
     <color name="colorAccent">#F9AA33</color>
-    <color name="colorSecondary">#E30425</color>
     <color name="colorIsImportantCheckBox">#FFC400</color>
     <color name="colorAccentDark">#558b2f</color>
     <color name="colorQuestDateStateBeforeDateDue">#64dd17</color>

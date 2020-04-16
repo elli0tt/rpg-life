@@ -69,9 +69,6 @@ public class SkillsFragment extends Fragment {
                 false));
         skillsAdapter.setOnStartTimerFabClickListener(this::navigateToCountDownScreen);
         recyclerView.setAdapter(skillsAdapter);
-        if (getContext() != null) {
-            recyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
-        }
     }
 
     private void subscribeToViewModel() {
