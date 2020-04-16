@@ -13,9 +13,9 @@
         android:icon="@drawable/ic_quests"
         android:title="@string/nav_quests" />
     <item
-        android:id="@+id/achievements_screen"
-        android:icon="@drawable/ic_achievements"
-        android:title="@string/nav_achievements" />
+        android:id="@+id/statistics_screen"
+        android:icon="@drawable/ic_statistics"
+        android:title="@string/nav_statistics" />
     <item
         android:id="@+id/settings_screen"
         android:icon="@drawable/ic_settings"

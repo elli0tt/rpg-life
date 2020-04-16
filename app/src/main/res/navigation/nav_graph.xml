@@ -78,10 +78,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/achievements_screen"
-        android:name="com.elli0tt.rpg_life.presentation.achievements.AchievementsFragment"
-        android:label="@string/nav_achievements"
-        tools:layout="@layout/fragment_achievements" />
+        android:id="@+id/statistics_screen"
+        android:name="com.elli0tt.rpg_life.presentation.statistics.StatisticsFragment"
+        android:label="@string/nav_statistics"
+        tools:layout="@layout/fragment_statistics" />
 
     <fragment
         android:id="@+id/settings_screen"

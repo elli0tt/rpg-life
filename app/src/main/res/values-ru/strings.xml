@@ -6,7 +6,7 @@
     <string name="nav_character">Персонаж</string>
     <string name="nav_skills">Навыки</string>
     <string name="nav_quests">Квесты</string>
-    <string name="nav_achievements">Достижения</string>
+    <string name="nav_statistics">Статистика</string>
     <string name="nav_settings">Настройки</string>
     <string name="nav_faq">FAQ</string>
     <string name="nav_about_me">Обо мне</string>
@@ -93,4 +93,5 @@
 
     <string name="skills_sorted_by_name">Отсортированы по названию</string>
     <string name="skills_sorted_by_level">Отсортированы по уровню</string>
+    <string name="skills_statistics_pie_chart_label">Навыки</string>
 </resources>
