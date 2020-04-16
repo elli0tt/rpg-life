@@ -1,91 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/quests_list_item_background"
-    android:padding="4dp">
-    <!--android:background="?android:attr/selectableItemBackground">-->
-    <CheckBox
-        android:id="@+id/is_completed_check_box"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:layout_margin="16dp">
 
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@id/is_important_check_box"
-        app:layout_constraintStart_toEndOf="@+id/is_completed_check_box"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Read book" />
+        android:background="@drawable/quests_list_item_background"
+        android:padding="4dp">
+        <!--android:background="?android:attr/selectableItemBackground">-->
+        <CheckBox
+            android:id="@+id/is_completed_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/difficulty_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:text="@string/quest_difficulty_label_text"
-        app:layout_constraintStart_toEndOf="@+id/is_completed_check_box"
-        app:layout_constraintTop_toBottomOf="@id/name" />
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@id/is_important_check_box"
+            app:layout_constraintStart_toEndOf="@+id/is_completed_check_box"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Read book" />
 
-    <TextView
-        android:id="@+id/difficulty_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        app:layout_constraintStart_toEndOf="@id/difficulty_label"
-        app:layout_constraintTop_toBottomOf="@id/name"
-        tools:text="Normal" />
+        <TextView
+            android:id="@+id/difficulty_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:text="@string/quest_difficulty_label_text"
+            app:layout_constraintStart_toEndOf="@+id/is_completed_check_box"
+            app:layout_constraintTop_toBottomOf="@id/name" />
 
-    <!--Star style for checkBox. It's a bit inconvenient way because I haven't found out how to change -->
-    <!--the color of this particular checkbox. I save this line for if I would like to use it later.-->
-    <!--style="?android:attr/starStyle"-->
-    <CheckBox
-        android:id="@+id/is_important_check_box"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:button="@drawable/is_important_checkbox"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/difficulty_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            app:layout_constraintStart_toEndOf="@id/difficulty_label"
+            app:layout_constraintTop_toBottomOf="@id/name"
+            tools:text="Normal" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/date_due_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        app:layout_constraintStart_toEndOf="@id/is_completed_check_box"
-        app:layout_constraintTop_toBottomOf="@id/difficulty_label"
-        tools:text="Due: 12.12.2000" />
+        <!--Star style for checkBox. It's a bit inconvenient way because I haven't found out how to change -->
+        <!--the color of this particular checkbox. I save this line for if I would like to use it later.-->
+        <!--style="?android:attr/starStyle"-->
+        <CheckBox
+            android:id="@+id/is_important_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:button="@drawable/is_important_checkbox"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/repeat_image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/date_due_text_view"
-        app:layout_constraintTop_toBottomOf="@id/difficulty_label"
-        app:srcCompat="@drawable/ic_repeat_black_18dp" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/date_due_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            app:layout_constraintStart_toEndOf="@id/is_completed_check_box"
+            app:layout_constraintTop_toBottomOf="@id/difficulty_label"
+            tools:text="Due: 12.12.2000" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/has_subquests_image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/repeat_image_view"
-        app:layout_constraintTop_toBottomOf="@id/difficulty_label"
-        app:srcCompat="@drawable/ic_subquests_black_18dp" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/repeat_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/date_due_text_view"
+            app:layout_constraintTop_toBottomOf="@id/difficulty_label"
+            app:srcCompat="@drawable/ic_repeat_black_18dp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/has_subquests_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/repeat_image_view"
+            app:layout_constraintTop_toBottomOf="@id/difficulty_label"
+            app:srcCompat="@drawable/ic_subquests_black_18dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

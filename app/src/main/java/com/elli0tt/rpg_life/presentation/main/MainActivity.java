@@ -11,38 +11,28 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.elli0tt.rpg_life.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private DrawerLayout drawer;
     private NavController navController;
-    private NavigationView navigationView;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        drawer = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
+        bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
         setupToolbar();
-        setupNavigationView();
     }
 
     private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.character_screen, R.id.skills_screen, R.id.quests_screen,
-                R.id.achievements_screen
-        ).setDrawerLayout(drawer).build();
-        NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
-    }
-
-    private void setupNavigationView() {
-        NavigationUI.setupWithNavController(navigationView, navController);
     }
 
 
