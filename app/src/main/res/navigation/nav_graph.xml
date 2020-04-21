@@ -75,6 +75,9 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_quests_screen_to_add_edit_challenge_screen"
+            app:destination="@id/add_edit_challenge_screen" />
     </fragment>
 
     <fragment
@@ -134,7 +137,7 @@
             android:defaultValue="0" />
         <action
             android:id="@+id/action_add_edit_quest_screen_to_addSkillsToQuestFragment"
-            app:destination="@id/addSkillsToQuestFragment"
+            app:destination="@id/add_skills_to_quest_screen"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -160,13 +163,27 @@
         tools:layout="@layout/fragment_add_edit_skill" />
 
     <fragment
-        android:id="@+id/addSkillsToQuestFragment"
+        android:id="@+id/add_skills_to_quest_screen"
         android:name="com.elli0tt.rpg_life.presentation.add_skills_to_quest.AddSkillsToQuestFragment"
         tools:layout="@layout/fragment_add_skills_to_quest">
         <argument
             android:name="questId"
             app:argType="integer"
             android:defaultValue="0" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/add_edit_challenge_screen"
+        android:name="com.elli0tt.rpg_life.presentation.add_edit_challenge.AddEditChallengeFragment"
+        android:label="AddEditChallengeFragment"
+        tools:layout="@layout/fragment_add_edit_challenge">
+        <argument
+            android:name="challengeId"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <action
+            android:id="@+id/action_add_edit_challenge_screen_to_add_skills_to_quest_screen"
+            app:destination="@id/add_skills_to_quest_screen" />
     </fragment>
 
 

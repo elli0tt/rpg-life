@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/very_easy"
+        android:title="@string/add_edit_quest_difficulty_very_easy" />
+
+    <item
+        android:id="@+id/easy"
+        android:title="@string/add_edit_quest_difficulty_easy" />
+
+    <item
+        android:id="@+id/normal"
+        android:title="@string/add_edit_quest_difficulty_normal" />
+
+    <item
+        android:id="@+id/hard"
+        android:title="@string/add_edit_quest_difficulty_hard" />
+
+    <item
+        android:id="@+id/very_hard"
+        android:title="@string/add_edit_quest_difficulty_very_hard" />
+
+    <item
+        android:id="@+id/impossible"
+        android:title="@string/add_edit_quest_difficulty_impossible" />
+
+</menu>

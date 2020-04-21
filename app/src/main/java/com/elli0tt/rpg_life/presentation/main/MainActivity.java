@@ -28,7 +28,9 @@ public class MainActivity extends AppCompatActivity {
             int id = destination.getId();
             if (id == R.id.add_edit_quest_screen ||
                     id == R.id.add_edit_skill_screen ||
-                    id == R.id.countdown_timer_screen) {
+                    id == R.id.countdown_timer_screen ||
+                    id == R.id.add_skills_to_quest_screen ||
+                    id == R.id.add_edit_challenge_screen) {
                 bottomNavigationView.setVisibility(View.GONE);
             } else {
                 bottomNavigationView.setVisibility(View.VISIBLE);

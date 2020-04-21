@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.elli0tt.rpg_life.domain.model.room_type_converters.CalendarConverter
 import com.elli0tt.rpg_life.domain.model.room_type_converters.DifficultyConverter
-import com.elli0tt.rpg_life.domain.model.room_type_converters.RelatedSkillsIdsConverter
 import com.elli0tt.rpg_life.domain.model.room_type_converters.RepeatStateConverter
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTodayCalendarUseCase
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTomorrowCalendarUseCase
@@ -14,16 +13,6 @@ import java.util.*
 
 @Entity(tableName = "quest_table")
 class Quest {
-    enum class Difficulty(val xpIncrease: Int, val xpDecrease: Int, val procrastinationIncrease: Int, val procrastinationDecrease: Int) {
-        VERY_EASY(100, 400, 1, 2),
-        EASY(500, 800, 2, 4),
-        NORMAL(1000, 2000, 3, 6),
-        HARD(2000, 4000, 5, 10),
-        VERY_HARD(5000, 20000, 10, 20),
-        IMPOSSIBLE(10000, 60000, 30, 60),
-        NOT_SET(0, 0, 0, 0);
-    }
-
     @PrimaryKey(autoGenerate = true)
     var id = 0
     var name = ""
@@ -66,6 +55,10 @@ class Quest {
     var repeatState = RepeatState.NOT_SET
 
     var hasSubquests: Boolean = false
+
+    var isChallenge: Boolean = false
+    var totalDaysCount: Int = 0
+    var dayNumber: Int = 0
 
     @Ignore
     constructor(name: String,

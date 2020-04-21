@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.elli0tt.rpg_life.R;
+import com.elli0tt.rpg_life.domain.model.Difficulty;
 import com.elli0tt.rpg_life.domain.model.Quest;
 
 import java.util.ArrayList;
@@ -208,7 +209,7 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
             itemView.setOnClickListener(createOnItemClickListener(onItemClickListener));
         }
 
-        private String getDifficultyStringValue(Quest.Difficulty difficultyLevel) {
+        private String getDifficultyStringValue(Difficulty difficultyLevel) {
             switch (difficultyLevel) {
                 case VERY_EASY:
                     return itemView.getContext().getText(R.string.add_edit_quest_difficulty_very_easy).toString();

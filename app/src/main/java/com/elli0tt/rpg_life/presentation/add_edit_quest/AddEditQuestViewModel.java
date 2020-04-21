@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl;
 import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl;
+import com.elli0tt.rpg_life.domain.model.Difficulty;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
@@ -41,8 +42,8 @@ import java.util.List;
 public class AddEditQuestViewModel extends AndroidViewModel {
     private MutableLiveData<String> name = new MutableLiveData<>();
     private MutableLiveData<String> description = new MutableLiveData<>("");
-    private MutableLiveData<Quest.Difficulty> difficulty =
-            new MutableLiveData<>(Quest.Difficulty.NOT_SET);
+    private MutableLiveData<Difficulty> difficulty =
+            new MutableLiveData<>(Difficulty.NOT_SET);
 
     private MutableLiveData<Integer> nameErrorMessageId = new MutableLiveData<>();
 
@@ -121,7 +122,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         return description;
     }
 
-    LiveData<Quest.Difficulty> getDifficulty() {
+    LiveData<Difficulty> getDifficulty() {
         return difficulty;
     }
 
@@ -327,22 +328,22 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     void changeDifficulty(int popUpMenuItemId) {
         switch (popUpMenuItemId) {
             case Constants.VERY_EASY_POPUP_MENU_ITEM_ID:
-                difficulty.setValue(Quest.Difficulty.VERY_EASY);
+                difficulty.setValue(Difficulty.VERY_EASY);
                 break;
             case Constants.EASY_POPUP_MENU_ITEM_ID:
-                difficulty.setValue(Quest.Difficulty.EASY);
+                difficulty.setValue(Difficulty.EASY);
                 break;
             case Constants.NORMAL_POPUP_MENU_ITEM_ID:
-                difficulty.setValue(Quest.Difficulty.NORMAL);
+                difficulty.setValue(Difficulty.NORMAL);
                 break;
             case Constants.HARD_POPUP_MENU_ITEM_ID:
-                difficulty.setValue(Quest.Difficulty.HARD);
+                difficulty.setValue(Difficulty.HARD);
                 break;
             case Constants.VERY_HARD_POPUP_MENU_ITEM_ID:
-                difficulty.setValue(Quest.Difficulty.VERY_HARD);
+                difficulty.setValue(Difficulty.VERY_HARD);
                 break;
             case Constants.IMPOSSIBLE_POPUP_MENU_ITEM_ID:
-                difficulty.setValue(Quest.Difficulty.IMPOSSIBLE);
+                difficulty.setValue(Difficulty.IMPOSSIBLE);
                 break;
         }
     }

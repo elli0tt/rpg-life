@@ -16,31 +16,50 @@ public class CompleteQuestUseCase {
     private InsertQuestsUseCase insertQuestsUseCase;
     private UpdateSkillTotalXpByIdUseCase updateSkillTotalXpByIdUseCase;
     private GetRelatedSkillsIdsUseCase getRelatedSkillsIdsUseCase;
+    private InsertRelatedSkillUseCase insertRelatedSkillUseCase;
 
     public CompleteQuestUseCase(QuestsRepository questsRepository, SkillsRepository skillsRepository) {
         updateQuestsUseCase = new UpdateQuestsUseCase(questsRepository);
         insertQuestsUseCase = new InsertQuestsUseCase(questsRepository);
         updateSkillTotalXpByIdUseCase = new UpdateSkillTotalXpByIdUseCase(skillsRepository);
         getRelatedSkillsIdsUseCase = new GetRelatedSkillsIdsUseCase(questsRepository);
+        insertRelatedSkillUseCase = new InsertRelatedSkillUseCase(questsRepository);
     }
 
     public void invoke(Quest quest, boolean isCompleted) {
         quest.setCompleted(isCompleted);
-        if (isCompleted){
-            increaseRelatedSkillsXps(quest.getId(), quest.getDifficulty().getXpIncrease());
-        }
-        updateQuestsUseCase.invoke(quest);
-        if (!quest.getRepeatState().equals(Quest.RepeatState.NOT_SET)) {
-            Quest newQuest = new Quest(quest.getName());
-            //newQuest.name = quest.name;
-            newQuest.setDescription(quest.getDescription());
-            newQuest.setDifficulty(quest.getDifficulty());
-            newQuest.setCompleted(false);
-            newQuest.setRepeatState(quest.getRepeatState());
-            newQuest.setDateDueSet(quest.isDateDueSet());
-            newQuest.setDateDue(calculateNewDateDue(quest.getDateDue(), quest.getRepeatState()));
-            newQuest.setImportant(quest.isImportant());
-            insertQuestsUseCase.invoke(newQuest);
+        if (quest.isChallenge()){
+            if (isCompleted){
+                increaseRelatedSkillsXps(quest.getId(), quest.getDifficulty().getXpIncrease() + 10 * quest.getDayNumber());
+                quest.setDayNumber(quest.getDayNumber() + 1);
+                updateQuestsUseCase.invoke(quest);
+                if (quest.getDayNumber() < quest.getTotalDaysCount()){
+                    Quest newQuest = new Quest(quest.getName());
+                    newQuest.setDifficulty(quest.getDifficulty());
+                    newQuest.setCompleted(false);
+                    newQuest.setDayNumber(quest.getDayNumber());
+                    newQuest.setChallenge(true);
+                    newQuest.setTotalDaysCount(quest.getTotalDaysCount());
+                    insertQuestsUseCase.invoke(newQuest);
+                }
+            }
+        } else {
+            if (isCompleted) {
+                increaseRelatedSkillsXps(quest.getId(), quest.getDifficulty().getXpIncrease());
+            }
+            updateQuestsUseCase.invoke(quest);
+            if (!quest.getRepeatState().equals(Quest.RepeatState.NOT_SET)) {
+                Quest newQuest = new Quest(quest.getName());
+                //newQuest.name = quest.name;
+                newQuest.setDescription(quest.getDescription());
+                newQuest.setDifficulty(quest.getDifficulty());
+                newQuest.setCompleted(false);
+                newQuest.setRepeatState(quest.getRepeatState());
+                newQuest.setDateDueSet(quest.isDateDueSet());
+                newQuest.setDateDue(calculateNewDateDue(quest.getDateDue(), quest.getRepeatState()));
+                newQuest.setImportant(quest.isImportant());
+                insertQuestsUseCase.invoke(newQuest);
+            }
         }
     }
 

@@ -1,0 +1,84 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.elli0tt.rpg_life.presentation.add_edit_challenge.AddEditChallengeViewModel" />
+    </data>
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:padding="16dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/name_text_input"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/add_quest_name_hint"
+                app:errorEnabled="true"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/name_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@={viewModel.name}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.elli0tt.rpg_life.presentation.custom_view.ButtonWithRemoveIcon
+                android:id="@+id/difficulty_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/add_quest_items_margin_top"
+                app:icon="@drawable/ic_difficulty_black_24dp"
+                app:layout_constraintTop_toBottomOf="@id/name_text_input"
+                app:text="@string/add_difficulty" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_skills_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/add_quest_items_margin_top"
+                android:backgroundTint="@android:color/white"
+                android:text="@string/add_skill"
+                android:textColor="@android:color/black"
+                app:icon="@drawable/ic_plus_black_24dp"
+                app:iconTint="@android:color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/difficulty_view" />
+
+            <TextView
+                android:id="@+id/total_days_count_label_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_edit_challenge_total_days_count"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_skills_button"/>
+
+            <EditText
+                android:id="@+id/total_days_count_value_edit_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="3"
+                android:layout_marginStart="8dp"
+                android:text="@={`` + viewModel.totalDaysCount}"
+                app:layout_constraintBaseline_toBaselineOf="@id/total_days_count_label_text_view"
+                app:layout_constraintStart_toEndOf="@id/total_days_count_label_text_view"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+</layout>

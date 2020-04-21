@@ -15,6 +15,7 @@ public class QuestsSharedPrefUtils {
     private static final String KEY_QUESTS_FILTER_STATE = "key quests filter state";
     private static final String KEY_QUESTS_SORTING_STATE = "key quests sorting state";
     private static final String KEY_SHOW_COMPLETED = "key show completed";
+    private static final String KEY_CURRENT_ID = "key current id";
 
     public QuestsSharedPrefUtils(@NonNull Context context) {
         sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES_NAME,
@@ -47,6 +48,14 @@ public class QuestsSharedPrefUtils {
 
     public void setShowCompleted(boolean isShowCompleted) {
         sharedPreferences.edit().putBoolean(KEY_SHOW_COMPLETED, isShowCompleted).apply();
+    }
+
+    public int getCurrentId(){
+        return sharedPreferences.getInt(KEY_CURRENT_ID, 0);
+    }
+
+    public void setCurrentId(int id){
+        sharedPreferences.edit().putInt(KEY_CURRENT_ID, id).apply();
     }
 
 }

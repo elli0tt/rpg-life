@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.elli0tt.rpg_life.R;
+import com.elli0tt.rpg_life.domain.model.Difficulty;
 import com.elli0tt.rpg_life.domain.model.Quest;
 
 import java.util.ArrayList;
@@ -199,6 +200,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         private TextView dateDueTextView;
         private AppCompatImageView repeatImageView;
         private AppCompatImageView hasSubquestsImageView;
+        private TextView dayNumberTextView;
 
         private ColorStateList defaultTextViewColor;
 
@@ -220,6 +222,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
             dateDueTextView = itemView.findViewById(R.id.date_due_text_view);
             repeatImageView = itemView.findViewById(R.id.repeat_image_view);
             hasSubquestsImageView = itemView.findViewById(R.id.has_subquests_image_view);
+            dayNumberTextView = itemView.findViewById(R.id.day_number_text_view);
 
             defaultTextViewColor = dateDueTextView.getTextColors();
             greenColorId =
@@ -274,6 +277,13 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
 
             hasSubquestsImageView.setVisibility(quest.getHasSubquests() ? View.VISIBLE : View.GONE);
 
+            if (quest.isChallenge()){
+                dayNumberTextView.setVisibility(View.VISIBLE);
+                dayNumberTextView.setText(Integer.toString(quest.getDayNumber() + 1));
+            } else {
+                dayNumberTextView.setVisibility(View.GONE);
+            }
+
             itemView.setActivated(isSelected);
         }
 
@@ -281,7 +291,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
             itemView.setOnClickListener(createOnItemClickListener(onItemClickListener));
         }
 
-        private String getDifficultyStringValue(Quest.Difficulty difficultyLevel) {
+        private String getDifficultyStringValue(Difficulty difficultyLevel) {
             switch (difficultyLevel) {
                 case VERY_EASY:
                     return itemView.getContext().getString(R.string.quest_difficulty_very_easy);

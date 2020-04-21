@@ -57,13 +57,13 @@ public class QuestsRepositoryImpl implements QuestsRepository {
 
     @Override
     public void insert(Quest... quests) {
-        new InsertOneAsyncTask(questsDao).execute(quests);
+        new InsertQuestsAsyncTask(questsDao).execute(quests);
     }
 
-    private static class InsertOneAsyncTask extends android.os.AsyncTask<Quest, Void, Void> {
+    private static class InsertQuestsAsyncTask extends android.os.AsyncTask<Quest, Void, Void> {
         private QuestsDao dao;
 
-        InsertOneAsyncTask(QuestsDao dao) {
+        InsertQuestsAsyncTask(QuestsDao dao) {
             this.dao = dao;
         }
 
@@ -230,4 +230,15 @@ public class QuestsRepositoryImpl implements QuestsRepository {
             return null;
         }
     }
+
+    @Override
+    public int getCurrentId() {
+        return questsSharedPrefUtils.getCurrentId();
+    }
+
+    @Override
+    public void setCurrentId(int id) {
+        questsSharedPrefUtils.setCurrentId(id);
+    }
+
 }

@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.preference.PreferenceManager
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.elli0tt.rpg_life.R
@@ -21,7 +20,8 @@ class QuestsFragment : Fragment() {
     private lateinit var viewModel: QuestsViewModel
     private val questsAdapter = QuestsAdapter()
     private lateinit var navController: NavController
-    private lateinit var fab: FloatingActionButton
+    private lateinit var addQuestFab: FloatingActionButton
+    private lateinit var addChallengeFab: FloatingActionButton
     private lateinit var recyclerView: RecyclerView
     private var actionMode: ActionMode? = null
     private var isToShowDevelopersOptions = false
@@ -36,12 +36,17 @@ class QuestsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = NavHostFragment.findNavController(this)
-        fab = view.findViewById(R.id.fab)
+
+        addQuestFab = view.findViewById(R.id.add_quest_fab)
+        addChallengeFab = view.findViewById(R.id.add_challenge_fab)
         recyclerView = view.findViewById(R.id.quests_recycler_view)
+
         subscribeToViewModel()
         setHasOptionsMenu(true)
         setupQuestsRecyclerView()
-        fab.setOnClickListener { navigateToAddQuestScreen() }
+
+        addQuestFab.setOnClickListener { navigateToAddQuestScreen() }
+        addChallengeFab.setOnClickListener { navigateToAddChallengeScreen() }
     }
 
     override fun onResume() {
@@ -55,8 +60,13 @@ class QuestsFragment : Fragment() {
     }
 
     private val onItemClickListener = QuestsAdapter.OnItemClickListener { position: Int ->
-        if (viewModel.quests.value != null) {
-            navigateToEditQuestScreen(viewModel.quests.value!![position].id)
+        val quests = viewModel.quests.value
+        if (quests != null) {
+            if (quests[position].isChallenge) {
+                navigateToEditChallengeScreen(quests[position].id)
+            } else {
+                navigateToEditQuestScreen(viewModel.quests.value!![position].id)
+            }
         }
     }
 
@@ -88,10 +98,10 @@ class QuestsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if ((dy < 0) && !fab.isShown && !viewModel.isSelectionStarted.value!!) {
-                    fab.show()
-                } else if (dy > 0 && fab.isShown) {
-                    fab.hide()
+                if ((dy < 0) && !addQuestFab.isShown && !viewModel.isSelectionStarted.value!!) {
+                    addQuestFab.show()
+                } else if (dy > 0 && addQuestFab.isShown) {
+                    addQuestFab.hide()
                 }
             }
         })
@@ -102,9 +112,9 @@ class QuestsFragment : Fragment() {
         viewModel.quests.observe(viewLifecycleOwner, Observer { questList: List<Quest?>? -> questsAdapter.submitList(questList) })
         viewModel.isSelectionStarted.observe(viewLifecycleOwner, Observer { isSelectionStarted ->
             if (isSelectionStarted) {
-                fab.hide()
+                addQuestFab.hide()
             } else {
-                fab.show()
+                addQuestFab.show()
             }
         })
         viewModel.showCompletedTextResId.observe(viewLifecycleOwner,
@@ -129,7 +139,7 @@ class QuestsFragment : Fragment() {
         when (item.itemId) {
             R.id.quests_toolbar_menu_delete_all -> {
                 viewModel.deleteAll()
-                fab.show()
+                addQuestFab.show()
             }
             R.id.populate_with_samples -> viewModel.populateWithSamples()
             R.id.show_completed -> viewModel.changeShowCompleted()
@@ -155,6 +165,17 @@ class QuestsFragment : Fragment() {
     private fun navigateToEditQuestScreen(questId: Int) {
         val action = QuestsFragmentDirections.actionQuestsScreenToEditQuestScreen()
         action.questId = questId
+        navController.navigate(action)
+    }
+
+    private fun navigateToAddChallengeScreen() {
+        val action = QuestsFragmentDirections.actionQuestsScreenToAddEditChallengeScreen()
+        navController.navigate(action)
+    }
+
+    private fun navigateToEditChallengeScreen(challengeId: Int) {
+        val action = QuestsFragmentDirections.actionQuestsScreenToAddEditChallengeScreen()
+        action.challengeId = challengeId
         navController.navigate(action)
     }
 }

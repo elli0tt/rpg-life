@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.databinding.FragmentAddEditQuestBinding;
+import com.elli0tt.rpg_life.domain.model.Difficulty;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.presentation.custom_view.ButtonWithRemoveIcon;
 import com.elli0tt.rpg_life.presentation.utils.SoftKeyboardUtil;
@@ -123,17 +124,17 @@ public class AddEditQuestFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         veryEasyTitle = getString(R.string.add_edit_quest_difficulty_very_easy,
-                Quest.Difficulty.VERY_EASY.getXpIncrease());
+                Difficulty.VERY_EASY.getXpIncrease());
         easyTitle = getString(R.string.add_edit_quest_difficulty_easy,
-                Quest.Difficulty.EASY.getXpIncrease());
+                Difficulty.EASY.getXpIncrease());
         normalTitle = getString(R.string.add_edit_quest_difficulty_normal,
-                Quest.Difficulty.NORMAL.getXpIncrease());
+                Difficulty.NORMAL.getXpIncrease());
         hardTitle = getString(R.string.add_edit_quest_difficulty_hard,
-                Quest.Difficulty.HARD.getXpIncrease());
+                Difficulty.HARD.getXpIncrease());
         veryHardTitle = getString(R.string.add_edit_quest_difficulty_very_hard,
-                Quest.Difficulty.VERY_HARD.getXpIncrease());
+                Difficulty.VERY_HARD.getXpIncrease());
         impossibleTitle = getString(R.string.add_edit_quest_difficulty_impossible,
-                Quest.Difficulty.IMPOSSIBLE.getXpIncrease());
+                Difficulty.IMPOSSIBLE.getXpIncrease());
     }
 
     private void subscribeToViewModel() {

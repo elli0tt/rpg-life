@@ -20,37 +20,13 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="achievements_screen">
+                  <entry key="add_edit_challenge_screen">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="12" />
-                            <option name="y" value="12" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="addParentSkillFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="508" />
-                            <option name="y" value="896" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="addSkillsToQuestFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="988" />
-                            <option name="y" value="368" />
+                            <option name="x" value="890" />
+                            <option name="y" value="886" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -89,6 +65,18 @@
                           <Point>
                             <option name="x" value="269" />
                             <option name="y" value="1169" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="add_skills_to_quest_screen">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="1154" />
+                            <option name="y" value="312" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -156,12 +144,17 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="500" />
-                            <option name="y" value="389" />
+                            <option name="x" value="524" />
+                            <option name="y" value="795" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_quests_screen_to_add_edit_challenge_screen">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_quests_screen_to_add_quest_screen">
                               <value>
                                 <LayoutPositions />
@@ -211,6 +204,18 @@
                               </value>
                             </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="statistics_screen">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>
