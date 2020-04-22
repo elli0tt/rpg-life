@@ -4,17 +4,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Transformations
 import com.elli0tt.rpg_life.domain.model.AddSkillData
+import com.elli0tt.rpg_life.domain.model.RelatedToQuestSkills
 import com.elli0tt.rpg_life.domain.model.Skill
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository
-import com.elli0tt.rpg_life.domain.use_case.quests.load_data.GetRelatedSkillsIdsLiveDataUseCase
+import com.elli0tt.rpg_life.domain.use_case.quests.load_data.GetRelatedSkillsLiveDataUseCase
 
 class GetAddSkillsDataUseCase(private val skillsRepository: SkillsRepository,
                               private val questsRepository: QuestsRepository) {
 
     private val addSkillData = MediatorLiveData<List<AddSkillData>>()
     private lateinit var allSkills: LiveData<List<Skill>>
-    private lateinit var relatedSkillsIds: LiveData<List<Int>>
+    private lateinit var relatedSkills: LiveData<List<RelatedToQuestSkills>>
     private lateinit var questId: LiveData<Int>
 
     fun invoke(questId: LiveData<Int>): LiveData<List<AddSkillData>> {
@@ -22,28 +23,46 @@ class GetAddSkillsDataUseCase(private val skillsRepository: SkillsRepository,
         val getAllSkillsUseCase = GetAllSkillsUseCase(skillsRepository)
         allSkills = getAllSkillsUseCase.invoke()
 
-        val getRelatedSkillsIdsUseCase = GetRelatedSkillsIdsLiveDataUseCase(questsRepository)
-        relatedSkillsIds = Transformations.switchMap(this.questId){ questId ->
+        val getRelatedSkillsIdsUseCase = GetRelatedSkillsLiveDataUseCase(questsRepository)
+        relatedSkills = Transformations.switchMap(this.questId) { questId ->
             getRelatedSkillsIdsUseCase.invoke(questId)
         }
 
         addSkillData.addSource(allSkills) { allSkills ->
-            addSkillData.value = mapToAddSkillData(allSkills, relatedSkillsIds.value)
+            addSkillData.value = mapToAddSkillData(allSkills, relatedSkills.value)
         }
 
-        addSkillData.addSource(relatedSkillsIds) { relatedSkillsIds ->
+        addSkillData.addSource(relatedSkills) { relatedSkillsIds ->
             addSkillData.value = mapToAddSkillData(allSkills.value, relatedSkillsIds)
         }
         return addSkillData
     }
 
-    private fun mapToAddSkillData(allSkills: List<Skill>?, relatedSkillsIds: List<Int>?): MutableList<AddSkillData> {
+    private fun mapToAddSkillData(allSkills: List<Skill>?, relatedSkills: List<RelatedToQuestSkills>?): MutableList<AddSkillData> {
         val resultList = ArrayList<AddSkillData>(allSkills?.size ?: 0)
-        if (relatedSkillsIds != null && allSkills != null) {
+        if (relatedSkills != null && allSkills != null) {
             for (skill in allSkills) {
-                resultList.add(AddSkillData(skill.id, skill.name, relatedSkillsIds.contains(skill.id)))
+                resultList.add(AddSkillData(skill.id, skill.name, isSelected(relatedSkills, skill), getXpPercentage(relatedSkills, skill.id)))
             }
         }
         return resultList
+    }
+
+    private fun isSelected(relatedSkills: List<RelatedToQuestSkills>, skill: Skill): Boolean {
+        for (relatedSkill in relatedSkills) {
+            if (skill.id == relatedSkill.skillId) {
+                return true;
+            }
+        }
+        return false
+    }
+
+    private fun getXpPercentage(relatedSkills: List<RelatedToQuestSkills>, skillId: Int): Int {
+        for (relatedSkill in relatedSkills) {
+            if (skillId == relatedSkill.skillId) {
+                return relatedSkill.xpPercentage
+            }
+        }
+        return 100
     }
 }

@@ -94,4 +94,6 @@
     <string name="skills_sorted_by_name">Отсортированы по названию</string>
     <string name="skills_sorted_by_level">Отсортированы по уровню</string>
     <string name="skills_statistics_pie_chart_label">Навыки</string>
+    <string name="add_skills_to_quest_xp">%1$d xp</string>
+    <string name="add_edit_challenge_total_days_count">Количество дней</string>
 </resources>

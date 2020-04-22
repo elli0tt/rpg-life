@@ -42,8 +42,8 @@ class AddSkillsToQuestFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 
         addSkillsToQuestAdapter.onSelectCheckBoxClickListener = object : AddSkillsToQuestAdapter.OnSelectCheckBoxClickListener{
-            override fun onCheck(position: Int, isChecked: Boolean) {
-                viewModel.onSelectCheckBoxCheckChange(position, isChecked)
+            override fun onCheck(position: Int, isChecked: Boolean, xpPercentage: Int) {
+                viewModel.onSelectCheckBoxCheckChange(position, isChecked, xpPercentage)
             }
         }
     }
@@ -52,5 +52,10 @@ class AddSkillsToQuestFragment : Fragment() {
         viewModel.skillsToShow.observe(viewLifecycleOwner, Observer { allSkillsData ->
             addSkillsToQuestAdapter.submitList(allSkillsData)
         })
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.save()
     }
 }

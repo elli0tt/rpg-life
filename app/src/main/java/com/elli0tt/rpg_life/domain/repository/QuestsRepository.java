@@ -3,6 +3,7 @@ package com.elli0tt.rpg_life.domain.repository;
 import androidx.lifecycle.LiveData;
 
 import com.elli0tt.rpg_life.domain.model.Quest;
+import com.elli0tt.rpg_life.domain.model.RelatedToQuestSkills;
 import com.elli0tt.rpg_life.presentation.quests.QuestsFilterState;
 import com.elli0tt.rpg_life.presentation.quests.QuestsSortingState;
 
@@ -41,11 +42,11 @@ public interface QuestsRepository {
 
     void setShowCompleted(boolean isShowCompleted);
 
-    LiveData<List<Integer>> getRelatedSkillsIdsLiveData(int questId);
+    LiveData<List<RelatedToQuestSkills>> getRelatedSkillsLiveData(int questId);
 
-    List<Integer> getRelatedSkillsIds(int questId);
+    List<RelatedToQuestSkills> getRelatedSkills(int questId);
 
-    void insertRelatedSkill(int questId, int skillId);
+    void insertRelatedSkill(int questId, int skillId, int xpPercentage);
 
     void deleteRelatedSkill(int questId, int skillId);
 

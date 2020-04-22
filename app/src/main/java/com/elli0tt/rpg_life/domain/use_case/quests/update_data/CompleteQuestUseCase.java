@@ -2,6 +2,7 @@ package com.elli0tt.rpg_life.domain.use_case.quests.update_data;
 
 import com.elli0tt.rpg_life.domain.constants.Constants;
 import com.elli0tt.rpg_life.domain.model.Quest;
+import com.elli0tt.rpg_life.domain.model.RelatedToQuestSkills;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.InsertQuestsUseCase;
@@ -141,9 +142,9 @@ public class CompleteQuestUseCase {
             @Override
             public void run() {
                 super.run();
-                List<Integer> relatedSkillsIds = getRelatedSkillsIdsUseCase.invoke(questId);
-                for (int skillId : relatedSkillsIds){
-                    updateSkillTotalXpByIdUseCase.invoke(skillId, xpIncrease);
+                List<RelatedToQuestSkills> relatedSkills = getRelatedSkillsIdsUseCase.invoke(questId);
+                for (RelatedToQuestSkills skill : relatedSkills){
+                    updateSkillTotalXpByIdUseCase.invoke(skill.getSkillId(), xpIncrease * skill.getXpPercentage() / 100);
                 }
             }
         }.start();

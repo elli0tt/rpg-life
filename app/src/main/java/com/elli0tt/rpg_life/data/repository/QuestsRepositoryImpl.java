@@ -182,18 +182,18 @@ public class QuestsRepositoryImpl implements QuestsRepository {
     }
 
     @Override
-    public LiveData<List<Integer>> getRelatedSkillsIdsLiveData(int questId) {
-        return relatedToQuestsSkillsDao.getRelatedSkillsIdsLiveData(questId);
+    public LiveData<List<RelatedToQuestSkills>> getRelatedSkillsLiveData(int questId) {
+        return relatedToQuestsSkillsDao.getRelatedSkillsLiveData(questId);
     }
 
     @Override
-    public List<Integer> getRelatedSkillsIds(int questId) {
-        return relatedToQuestsSkillsDao.getRelatedSkillsIds(questId);
+    public List<RelatedToQuestSkills> getRelatedSkills(int questId) {
+        return relatedToQuestsSkillsDao.getRelatedSkills(questId);
     }
 
     @Override
-    public void insertRelatedSkill(int questId, int skillId) {
-        new InsertRelatedSkillAsyncTask(relatedToQuestsSkillsDao).execute(new RelatedToQuestSkills(questId, skillId));
+    public void insertRelatedSkill(int questId, int skillId, int xpPercentage) {
+        new InsertRelatedSkillAsyncTask(relatedToQuestsSkillsDao).execute(new RelatedToQuestSkills(questId, skillId, xpPercentage));
     }
 
     private static class InsertRelatedSkillAsyncTask extends AsyncTask<RelatedToQuestSkills, Void

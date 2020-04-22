@@ -1,7 +1,9 @@
 package com.elli0tt.rpg_life.presentation.add_skills_to_quest
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl
 import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl
 import com.elli0tt.rpg_life.domain.model.AddSkillData
@@ -24,10 +26,12 @@ class AddSkillsToQuestViewModel(application: Application) : AndroidViewModel(app
         get() = getAddSkillsDataUseCase.invoke(questId)
 
     private var questId: MutableLiveData<Int> = MutableLiveData(0)
+    //position and xpPercentage
+    private val selectedXpPercentages = ArrayList<Pair<Int, Int>>()
 
     init {
         val skillsRepository: SkillsRepository = SkillsRepositoryImpl(application)
-        val questsRepository:QuestsRepository = QuestsRepositoryImpl(application)
+        val questsRepository: QuestsRepository = QuestsRepositoryImpl(application)
         getAddSkillsDataUseCase = GetAddSkillsDataUseCase(skillsRepository, questsRepository)
         getQuestByIdUseCase = GetQuestByIdUseCase(questsRepository)
         updateQuestsUseCase = UpdateQuestsUseCase(questsRepository)
@@ -35,16 +39,26 @@ class AddSkillsToQuestViewModel(application: Application) : AndroidViewModel(app
         deleteRelatedSkillUseCase = DeleteRelatedSkillUseCase(questsRepository)
     }
 
-    fun start(questId: Int){
+    fun start(questId: Int) {
         this.questId.value = questId
-
     }
 
-    fun onSelectCheckBoxCheckChange(position: Int, isChecked: Boolean){
-        if (isChecked){
-            insertRelatedSkillUseCase.invoke(questId.value!!, skillsToShow.value?.get(position)?.id!!)
+    fun onSelectCheckBoxCheckChange(position: Int, isChecked: Boolean, xpPercentage: Int) {
+        if (isChecked) {
+            selectedXpPercentages.add(position to xpPercentage)
         } else {
-            deleteRelatedSkillUseCase.invoke(questId.value!!, skillsToShow.value?.get(position)?.id!!)
+            for (element in selectedXpPercentages){
+                if (element.first == position){
+                    selectedXpPercentages.remove(element)
+                }
+            }
         }
     }
+
+    fun save(){
+        for (element in selectedXpPercentages){
+            insertRelatedSkillUseCase.invoke(questId.value!!, skillsToShow.value?.get(element.first)?.id!!, element.second)
+        }
+    }
+
 }

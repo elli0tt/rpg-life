@@ -10,11 +10,11 @@ import com.elli0tt.rpg_life.domain.model.RelatedToQuestSkills
 @Dao
 interface RelatedToQuestsSkillsDao {
 
-    @Query("select skillId from related_to_quests_skills where questId = :questId")
-    fun getRelatedSkillsIdsLiveData(questId: Int): LiveData<List<Int>>
+    @Query("select * from related_to_quests_skills where questId = :questId")
+    fun getRelatedSkillsLiveData(questId: Int): LiveData<List<RelatedToQuestSkills>>
 
-    @Query("select skillId from related_to_quests_skills where questId = :questId")
-    fun getRelatedSkillsIds(questId: Int): List<Int>
+    @Query("select * from related_to_quests_skills where questId = :questId")
+    fun getRelatedSkills(questId: Int): List<RelatedToQuestSkills>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(relatedToQuestsSkills: RelatedToQuestSkills)

@@ -95,4 +95,5 @@
 
     <string name="skills_statistics_pie_chart_label">Skills</string>
     <string name="add_edit_challenge_total_days_count">Total days count:</string>
+    <string name="add_skills_to_quest_xp">%1$d xp</string>
 </resources>

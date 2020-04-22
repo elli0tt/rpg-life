@@ -9,7 +9,7 @@ import com.elli0tt.rpg_life.domain.model.AddSkillData
 
 class AddSkillsToQuestAdapter : ListAdapter<AddSkillData, AddSkillsToQuestViewHolder>(DIFF_CALLBACK) {
     interface OnSelectCheckBoxClickListener {
-        fun onCheck(position: Int, isChecked: Boolean)
+        fun onCheck(position: Int, isChecked: Boolean, xpPercentage: Int)
     }
 
     lateinit var onSelectCheckBoxClickListener: OnSelectCheckBoxClickListener
@@ -31,7 +31,7 @@ class AddSkillsToQuestAdapter : ListAdapter<AddSkillData, AddSkillsToQuestViewHo
             }
 
             override fun areContentsTheSame(oldItem: AddSkillData, newItem: AddSkillData): Boolean {
-                return oldItem.name == newItem.name && oldItem.isSelected == newItem.isSelected
+                return oldItem.name == newItem.name
             }
         }
     }
