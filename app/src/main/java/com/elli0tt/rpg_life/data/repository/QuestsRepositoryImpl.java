@@ -241,4 +241,9 @@ public class QuestsRepositoryImpl implements QuestsRepository {
         questsSharedPrefUtils.setCurrentId(id);
     }
 
+    @Override
+    public int getRelatedSkillId(int questId) {
+        return relatedToQuestsSkillsDao.getRelatedSkillId(questId);
+    }
+
 }

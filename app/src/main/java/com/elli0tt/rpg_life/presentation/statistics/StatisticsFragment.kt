@@ -11,12 +11,10 @@ import androidx.lifecycle.observe
 import com.elli0tt.rpg_life.R
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
-import com.github.mikephil.charting.formatter.ValueFormatter
-import com.github.mikephil.charting.utils.ColorTemplate
 
 
 class StatisticsFragment : Fragment() {
@@ -38,11 +36,20 @@ class StatisticsFragment : Fragment() {
         skillsPieChart.apply {
             setUsePercentValues(true)
             description.isEnabled = false
-            setExtraOffsets(5f, 10f, 5f, 5f)
+//            setExtraOffsets(30f, 0f, 30f, 0f)
             animateY(1400, Easing.EaseInOutQuad)
             isDrawHoleEnabled = false
-            setEntryLabelTextSize(20f)
-            setEntryLabelColor(Color.BLACK)
+            setDrawEntryLabels(false)
+//            setEntryLabelTextSize(20f)
+//            setEntryLabelColor(Color.BLACK)
+            minAngleForSlices = 2f
+
+            legend.apply {
+                isWordWrapEnabled = true
+                horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+                xEntrySpace = 7f
+                form = Legend.LegendForm.CIRCLE
+            }
         }
 
         subscribeToViewModel()
@@ -50,14 +57,18 @@ class StatisticsFragment : Fragment() {
 
     private fun subscribeToViewModel() {
         viewModel.skillsPieEntries.observe(viewLifecycleOwner) { pieEntries ->
-            val dataSet = PieDataSet(pieEntries, getString(R.string.skills_statistics_pie_chart_label)).apply {
+            val dataSet = PieDataSet(pieEntries, "").apply {
                 colors = viewModel.colors
-                sliceSpace = 3f
+                sliceSpace = 2f
+                valueLinePart1OffsetPercentage = 90f
+                valueLinePart1Length = 0.6f
+                valueLinePart2Length = 0.7f
+//                yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
             }
             val pieData = PieData(dataSet).apply {
                 setValueFormatter(PercentFormatter(skillsPieChart))
                 setValueTextSize(15f)
-
+                setValueTextColor(Color.BLACK)
             }
             skillsPieChart.data = pieData
             skillsPieChart.invalidate()

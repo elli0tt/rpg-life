@@ -4,11 +4,14 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl
+import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl
 import com.elli0tt.rpg_life.domain.model.Difficulty
 import com.elli0tt.rpg_life.domain.model.Quest
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository
+import com.elli0tt.rpg_life.domain.repository.SkillsRepository
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.InsertQuestsUseCase
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.GetQuestByIdUseCase
+import com.elli0tt.rpg_life.domain.use_case.quests.FailChallengeUseCase
 import com.elli0tt.rpg_life.domain.use_case.quests.update_data.UpdateQuestsUseCase
 import com.elli0tt.rpg_life.presentation.add_edit_quest.Constants
 
@@ -25,13 +28,16 @@ class AddEditChallengeViewModel(application: Application) : AndroidViewModel(app
     private val insertQuestsUseCase: InsertQuestsUseCase
     private val updateQuestsUseCase: UpdateQuestsUseCase
     private val getQuestByIdUseCase: GetQuestByIdUseCase
+    private val failChallengeUseCase: FailChallengeUseCase
 
     init {
         val questsRepository: QuestsRepository = QuestsRepositoryImpl(application)
+        val skillsRepository: SkillsRepository = SkillsRepositoryImpl(application)
 
         insertQuestsUseCase = InsertQuestsUseCase(questsRepository)
         updateQuestsUseCase = UpdateQuestsUseCase(questsRepository)
         getQuestByIdUseCase = GetQuestByIdUseCase(questsRepository)
+        failChallengeUseCase = FailChallengeUseCase(skillsRepository, questsRepository)
     }
 
     fun start(challengeId: Int) {
@@ -52,7 +58,7 @@ class AddEditChallengeViewModel(application: Application) : AndroidViewModel(app
         }.start()
     }
 
-    private fun onChallengeLoaded(challenge: Quest){
+    private fun onChallengeLoaded(challenge: Quest) {
         name.postValue(challenge.name)
         difficulty.postValue(challenge.difficulty)
         totalDaysCount.postValue(challenge.totalDaysCount)
@@ -83,5 +89,9 @@ class AddEditChallengeViewModel(application: Application) : AndroidViewModel(app
             Constants.VERY_HARD_POPUP_MENU_ITEM_ID -> difficulty.setValue(Difficulty.VERY_HARD)
             Constants.IMPOSSIBLE_POPUP_MENU_ITEM_ID -> difficulty.setValue(Difficulty.IMPOSSIBLE)
         }
+    }
+
+    fun failChallenge() {
+        failChallengeUseCase.invoke(challengeId, dayNumber.value!!, difficulty.value!!.xpIncrease)
     }
 }

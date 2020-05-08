@@ -16,6 +16,9 @@ interface RelatedToQuestsSkillsDao {
     @Query("select * from related_to_quests_skills where questId = :questId")
     fun getRelatedSkills(questId: Int): List<RelatedToQuestSkills>
 
+    @Query("select skillId from related_to_quests_skills where questId = :questId")
+    fun getRelatedSkillId(questId: Int): Int
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(relatedToQuestsSkills: RelatedToQuestSkills)
 

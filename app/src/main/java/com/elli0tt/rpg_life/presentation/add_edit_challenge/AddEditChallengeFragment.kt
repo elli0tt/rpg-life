@@ -45,6 +45,7 @@ class AddEditChallengeFragment : Fragment() {
 
         binding.difficultyView.setOnClickListener { showDifficultyPopupMenu(it) }
         binding.addSkillsButton.setOnClickListener { navigateToAddSkillsToQuestScreen() }
+        binding.failButton.setOnClickListener { viewModel.failChallenge() }
 
         subscribeToViewModel()
     }

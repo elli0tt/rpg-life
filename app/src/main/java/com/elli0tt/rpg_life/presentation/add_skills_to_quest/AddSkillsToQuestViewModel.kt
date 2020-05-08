@@ -50,6 +50,7 @@ class AddSkillsToQuestViewModel(application: Application) : AndroidViewModel(app
             for (element in selectedXpPercentages){
                 if (element.first == position){
                     selectedXpPercentages.remove(element)
+                    break
                 }
             }
         }

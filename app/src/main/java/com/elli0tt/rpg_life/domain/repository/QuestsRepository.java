@@ -54,4 +54,6 @@ public interface QuestsRepository {
 
     void setCurrentId(int id);
 
+    int getRelatedSkillId(int questId);
+
 }

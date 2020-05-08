@@ -6,7 +6,7 @@ import com.elli0tt.rpg_life.domain.model.RelatedToQuestSkills;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.InsertQuestsUseCase;
-import com.elli0tt.rpg_life.domain.use_case.quests.load_data.GetRelatedSkillsIdsUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.load_data.GetRelatedSkillsUseCase;
 import com.elli0tt.rpg_life.domain.use_case.skills.update_data.UpdateSkillTotalXpByIdUseCase;
 
 import java.util.Calendar;
@@ -16,14 +16,14 @@ public class CompleteQuestUseCase {
     private UpdateQuestsUseCase updateQuestsUseCase;
     private InsertQuestsUseCase insertQuestsUseCase;
     private UpdateSkillTotalXpByIdUseCase updateSkillTotalXpByIdUseCase;
-    private GetRelatedSkillsIdsUseCase getRelatedSkillsIdsUseCase;
+    private GetRelatedSkillsUseCase getRelatedSkillsUseCase;
     private InsertRelatedSkillUseCase insertRelatedSkillUseCase;
 
     public CompleteQuestUseCase(QuestsRepository questsRepository, SkillsRepository skillsRepository) {
         updateQuestsUseCase = new UpdateQuestsUseCase(questsRepository);
         insertQuestsUseCase = new InsertQuestsUseCase(questsRepository);
         updateSkillTotalXpByIdUseCase = new UpdateSkillTotalXpByIdUseCase(skillsRepository);
-        getRelatedSkillsIdsUseCase = new GetRelatedSkillsIdsUseCase(questsRepository);
+        getRelatedSkillsUseCase = new GetRelatedSkillsUseCase(questsRepository);
         insertRelatedSkillUseCase = new InsertRelatedSkillUseCase(questsRepository);
     }
 
@@ -142,7 +142,7 @@ public class CompleteQuestUseCase {
             @Override
             public void run() {
                 super.run();
-                List<RelatedToQuestSkills> relatedSkills = getRelatedSkillsIdsUseCase.invoke(questId);
+                List<RelatedToQuestSkills> relatedSkills = getRelatedSkillsUseCase.invoke(questId);
                 for (RelatedToQuestSkills skill : relatedSkills){
                     updateSkillTotalXpByIdUseCase.invoke(skill.getSkillId(), xpIncrease * skill.getXpPercentage() / 100);
                 }

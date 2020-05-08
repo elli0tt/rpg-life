@@ -78,6 +78,15 @@
                 app:layout_constraintBaseline_toBaselineOf="@id/total_days_count_label_text_view"
                 app:layout_constraintStart_toEndOf="@id/total_days_count_label_text_view"/>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/fail_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/add_edit_challenge_fail_challenge"
+                android:backgroundTint="@android:color/holo_red_dark"
+                app:layout_constraintTop_toBottomOf="@id/total_days_count_label_text_view"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
