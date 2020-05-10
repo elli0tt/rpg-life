@@ -9,7 +9,8 @@ import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.domain.model.AddSkillData
 
 class AddSkillsToQuestViewHolder(itemView: View,
-                                 onSelectCheckBoxClickListener: AddSkillsToQuestAdapter.OnSelectCheckBoxClickListener)
+                                 onSelectCheckBoxClickListener: AddSkillsToQuestAdapter.OnSelectCheckBoxClickListener,
+                                 onXpPercentageSeekBarTouchStopListener: AddSkillsToQuestAdapter.OnXpPercentageSeekBarTouchStopListener)
     : RecyclerView.ViewHolder(itemView) {
 
     private val nameTextView: TextView = itemView.findViewById(R.id.name_text_view)
@@ -23,7 +24,7 @@ class AddSkillsToQuestViewHolder(itemView: View,
         }
         xpPercentageSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                xpValueTextView.text = itemView.context.getString(R.string.add_skills_to_quest_xp, progress)
+                xpValueTextView.text = itemView.context.getString(R.string.add_skills_to_quest_xp_percent, progress)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -31,7 +32,7 @@ class AddSkillsToQuestViewHolder(itemView: View,
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                //do nothing
+                onXpPercentageSeekBarTouchStopListener.onTouchStop(adapterPosition, selectCheckBox.isChecked, seekBar!!.progress)
             }
         })
     }

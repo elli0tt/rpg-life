@@ -3,6 +3,7 @@ package com.elli0tt.rpg_life.presentation.add_skills_to_quest
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl
 import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl
@@ -22,12 +23,12 @@ class AddSkillsToQuestViewModel(application: Application) : AndroidViewModel(app
     private val insertRelatedSkillUseCase: InsertRelatedSkillUseCase
     private val deleteRelatedSkillUseCase: DeleteRelatedSkillUseCase
 
-    val skillsToShow: LiveData<List<AddSkillData>>
+    private val skillsFromDB: LiveData<List<AddSkillData>>
         get() = getAddSkillsDataUseCase.invoke(questId)
 
+    val skillsToShow: MediatorLiveData<MutableList<AddSkillData>> = MediatorLiveData()
+
     private var questId: MutableLiveData<Int> = MutableLiveData(0)
-    //position and xpPercentage
-    private val selectedXpPercentages = ArrayList<Pair<Int, Int>>()
 
     init {
         val skillsRepository: SkillsRepository = SkillsRepositoryImpl(application)
@@ -37,6 +38,11 @@ class AddSkillsToQuestViewModel(application: Application) : AndroidViewModel(app
         updateQuestsUseCase = UpdateQuestsUseCase(questsRepository)
         insertRelatedSkillUseCase = InsertRelatedSkillUseCase(questsRepository)
         deleteRelatedSkillUseCase = DeleteRelatedSkillUseCase(questsRepository)
+
+        skillsToShow.addSource(skillsFromDB) {
+            skillsToShow.value = it as MutableList<AddSkillData>?
+        }
+
     }
 
     fun start(questId: Int) {
@@ -44,21 +50,29 @@ class AddSkillsToQuestViewModel(application: Application) : AndroidViewModel(app
     }
 
     fun onSelectCheckBoxCheckChange(position: Int, isChecked: Boolean, xpPercentage: Int) {
-        if (isChecked) {
-            selectedXpPercentages.add(position to xpPercentage)
-        } else {
-            for (element in selectedXpPercentages){
-                if (element.first == position){
-                    selectedXpPercentages.remove(element)
-                    break
-                }
-            }
-        }
+        val skill = skillsToShow.value?.get(position)
+        val skills = skillsToShow.value
+        skills?.set(position, AddSkillData(skill!!.id, skill.name, isChecked, xpPercentage))
+        skillsToShow.value = skills
     }
 
-    fun save(){
-        for (element in selectedXpPercentages){
-            insertRelatedSkillUseCase.invoke(questId.value!!, skillsToShow.value?.get(element.first)?.id!!, element.second)
+    fun onXpPercentageSeekBarTouchStop(position: Int, isChecked: Boolean, xpPercentage: Int) {
+        val skill = skillsToShow.value?.get(position)
+        val skills = skillsToShow.value
+        skills?.set(position, AddSkillData(skill!!.id, skill.name, isChecked, xpPercentage))
+        skillsToShow.value = skills
+    }
+
+    fun save() {
+        val skills = skillsToShow.value
+        if (skills != null) {
+            for (skill in skills) {
+                if (skill.isSelected) {
+                    insertRelatedSkillUseCase.invoke(questId.value!!, skill.id, skill.xpPercentage)
+                } else {
+                    deleteRelatedSkillUseCase.invoke(questId.value!!, skill.id)
+                }
+            }
         }
     }
 
