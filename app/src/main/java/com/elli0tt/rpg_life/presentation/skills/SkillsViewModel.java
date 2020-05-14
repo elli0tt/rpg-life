@@ -27,7 +27,8 @@ public class SkillsViewModel extends AndroidViewModel {
     private LiveData<List<Skill>> allSkills;
     private MutableLiveData<SkillsSortingState> sortingState = new MutableLiveData<>();
     private MediatorLiveData<List<Skill>> skillsToShow = new MediatorLiveData<>();
-    private LiveData<Integer> sortedByTextResId = Transformations.map(sortingState, this::getSortedByTextResId);
+    private LiveData<Integer> sortedByTextResId = Transformations.map(sortingState,
+            this::getSortedByTextResId);
 
     private GetAllSkillsUseCase getAllSkillsUseCase;
     private InsertSkillsUseCase insertSkillsUseCase;
@@ -68,11 +69,11 @@ public class SkillsViewModel extends AndroidViewModel {
         return skillsToShow;
     }
 
-    LiveData<SkillsSortingState> getSortingState(){
+    LiveData<SkillsSortingState> getSortingState() {
         return sortingState;
     }
 
-    LiveData<Integer> getSortedByTextResId(){
+    LiveData<Integer> getSortedByTextResId() {
         return sortedByTextResId;
     }
 
@@ -115,7 +116,7 @@ public class SkillsViewModel extends AndroidViewModel {
 
     }
 
-    private int getSortedByTextResId(SkillsSortingState skillsSortingState){
+    private int getSortedByTextResId(SkillsSortingState skillsSortingState) {
         switch (sortingState.getValue()) {
             case NAME_ASC:
             case NAME_DESC:
@@ -125,6 +126,10 @@ public class SkillsViewModel extends AndroidViewModel {
                 return R.string.skills_sorted_by_level;
         }
         return 0;
+    }
+
+    int getSkillId(int position) {
+        return skillsToShow.getValue().get(position).getId();
     }
 
 }

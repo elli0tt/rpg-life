@@ -23,6 +23,9 @@ public interface SkillsDao {
     @Query("SELECT name FROM skills_table WHERE id IN (:ids) ORDER BY NAME")
     List<String> getSkillsNamesByIds(List<Integer> ids);
 
+    @Query("SELECT * FROM skills_table WHERE id = :skillId")
+    Skill getSkillById(int skillId);
+
     @Update
     void update(Skill... skills);
 

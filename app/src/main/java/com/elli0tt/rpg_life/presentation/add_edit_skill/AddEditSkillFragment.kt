@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.navArgs
 import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.databinding.FragmentAddEditSkillBinding
 import com.elli0tt.rpg_life.presentation.utils.SoftKeyboardUtil
@@ -16,6 +17,9 @@ class AddEditSkillFragment : Fragment() {
     private lateinit var viewModel: AddEditSkillViewModel
     private lateinit var navController: NavController
     private lateinit var nameEditText: EditText
+
+    private val args: AddEditSkillFragmentArgs by navArgs()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         viewModel = ViewModelProvider(this).get(AddEditSkillViewModel::class.java)
@@ -35,6 +39,16 @@ class AddEditSkillFragment : Fragment() {
         setHasOptionsMenu(true)
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.start(args.skillId)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.save()
+    }
+
     private val onEditTextsFocusChangeListener = OnFocusChangeListener { v: View?, hasFocus: Boolean ->
         if (!hasFocus) {
             SoftKeyboardUtil.hideKeyboard(v, activity)
@@ -42,20 +56,4 @@ class AddEditSkillFragment : Fragment() {
     }
 
     private fun subscribeToViewModel() {}
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.add_edit_skill_menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.add_edit_skill_menu_save -> {
-                viewModel.saveSkill()
-                navController.popBackStack()
-                return true
-            }
-        }
-        return false
-    }
 }

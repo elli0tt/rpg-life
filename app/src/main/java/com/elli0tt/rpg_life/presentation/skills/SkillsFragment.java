@@ -13,13 +13,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.elli0tt.rpg_life.R;
-import com.elli0tt.rpg_life.presentation.custom_view.DividerItemDecoration;
 import com.elli0tt.rpg_life.presentation.custom_view.UpDownArrowsView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -68,6 +66,9 @@ public class SkillsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,
                 false));
         skillsAdapter.setOnStartTimerFabClickListener(this::navigateToCountDownScreen);
+        skillsAdapter.setOnItemClickListener(position -> {
+            navigateToEditSkillScreen(viewModel.getSkillId(position));
+        });
         recyclerView.setAdapter(skillsAdapter);
     }
 
@@ -122,7 +123,16 @@ public class SkillsFragment extends Fragment {
     }
 
     private void navigateToAddSkillScreen() {
-        NavDirections action = SkillsFragmentDirections.actionSkillsScreenToAddSkillScreen();
+        SkillsFragmentDirections.ActionSkillsScreenToAddSkillScreen action =
+                SkillsFragmentDirections.actionSkillsScreenToAddSkillScreen();
         navController.navigate(action);
+    }
+
+    private void navigateToEditSkillScreen(int skillId) {
+        SkillsFragmentDirections.ActionSkillsScreenToEditSkillScreen action =
+                SkillsFragmentDirections.actionSkillsScreenToEditSkillScreen();
+        action.setSkillId(skillId);
+        navController.navigate(action);
+
     }
 }

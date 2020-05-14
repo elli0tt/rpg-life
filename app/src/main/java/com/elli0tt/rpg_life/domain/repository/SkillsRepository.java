@@ -23,4 +23,6 @@ public interface SkillsRepository {
     SkillsSortingState getSkillsSortingState();
 
     void setSkillsSortingState(SkillsSortingState sortingState);
+
+    Skill getSkillById(int skillId);
 }

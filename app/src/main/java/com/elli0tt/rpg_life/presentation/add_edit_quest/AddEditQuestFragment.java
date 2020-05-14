@@ -188,7 +188,7 @@ public class AddEditQuestFragment extends Fragment {
                     difficultyView.setText(impossibleTitle);
                     break;
             }
-            if (difficulty.equals(Difficulty.NOT_SET)){
+            if (difficulty.equals(Difficulty.NOT_SET)) {
                 difficultyView.setRemoveIconVisibility(View.INVISIBLE);
             } else {
                 difficultyView.setRemoveIconVisibility(View.VISIBLE);

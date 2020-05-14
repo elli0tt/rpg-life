@@ -121,4 +121,9 @@ public class SkillsRepositoryImpl implements SkillsRepository {
         skillsSharedPrefUtils.setQuestsSortingState(sortingState);
     }
 
+    @Override
+    public Skill getSkillById(int skillId) {
+        return skillsDao.getSkillById(skillId);
+    }
+
 }

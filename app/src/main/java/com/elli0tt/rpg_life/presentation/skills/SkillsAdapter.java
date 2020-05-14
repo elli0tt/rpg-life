@@ -21,10 +21,19 @@ public class SkillsAdapter extends ListAdapter<Skill, SkillsAdapter.ViewHolder> 
         void onClick();
     }
 
-    private OnStartTimerFabClickListener onStartTimerFabClickListener;
+    public interface OnItemClickListener{
+        void onClick(int position);
+    }
 
-    public void setOnStartTimerFabClickListener(OnStartTimerFabClickListener listener) {
+    private OnStartTimerFabClickListener onStartTimerFabClickListener;
+    private OnItemClickListener onItemClickListener;
+
+    void setOnStartTimerFabClickListener(OnStartTimerFabClickListener listener) {
         onStartTimerFabClickListener = listener;
+    }
+
+    void setOnItemClickListener(OnItemClickListener listener){
+        onItemClickListener = listener;
     }
 
     SkillsAdapter() {
@@ -49,7 +58,7 @@ public class SkillsAdapter extends ListAdapter<Skill, SkillsAdapter.ViewHolder> 
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.skill_recycler_item,
                 parent, false);
-        return new ViewHolder(view, onStartTimerFabClickListener);
+        return new ViewHolder(view, onStartTimerFabClickListener, onItemClickListener);
     }
 
     @Override
@@ -65,7 +74,8 @@ public class SkillsAdapter extends ListAdapter<Skill, SkillsAdapter.ViewHolder> 
         private TextView xpLeftToNextLevelTextView;
 
         ViewHolder(@NonNull View itemView,
-                   final OnStartTimerFabClickListener onStartTimerFabClickListener) {
+                   final OnStartTimerFabClickListener onStartTimerFabClickListener,
+                   final OnItemClickListener onItemClickListener) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.name_text_view);
             startTimerImageView = itemView.findViewById(R.id.start_timer_image_view);
@@ -73,6 +83,13 @@ public class SkillsAdapter extends ListAdapter<Skill, SkillsAdapter.ViewHolder> 
             xpProgressBar = itemView.findViewById(R.id.xp_progress_bar);
             xpLeftToNextLevelTextView =
                     itemView.findViewById(R.id.xp_left_to_next_level_value_text_view);
+
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (onItemClickListener != null && position != RecyclerView.NO_POSITION){
+                    onItemClickListener.onClick(position);
+                }
+            });
 
             startTimerImageView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
