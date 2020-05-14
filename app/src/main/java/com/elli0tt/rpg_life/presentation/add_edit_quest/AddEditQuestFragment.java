@@ -9,8 +9,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,21 +25,12 @@ import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.databinding.FragmentAddEditQuestBinding;
 import com.elli0tt.rpg_life.domain.model.Difficulty;
 import com.elli0tt.rpg_life.domain.model.Quest;
-import com.elli0tt.rpg_life.presentation.custom_view.ButtonWithRemoveIcon;
 import com.elli0tt.rpg_life.presentation.utils.SoftKeyboardUtil;
-import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.Calendar;
 
 public class AddEditQuestFragment extends Fragment {
-    private EditText nameEditText;
-    private EditText descriptionEditText;
-    private TextInputLayout nameTextInput;
-    private ButtonWithRemoveIcon addDateDueView;
-    private ButtonWithRemoveIcon repeatView;
-    private RecyclerView subQuestsRecycler;
-    private Button addSubQuestButton;
-    private Button addSkillsButton;
-    private RecyclerView skillsRecycler;
-    private ButtonWithRemoveIcon difficultyView;
+    private FragmentAddEditQuestBinding binding;
 
     private SubQuestsAdapter subQuestsAdapter;
 
@@ -62,8 +51,7 @@ public class AddEditQuestFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         viewModel = new ViewModelProvider(this).get(AddEditQuestViewModel.class);
-        FragmentAddEditQuestBinding binding =
-                FragmentAddEditQuestBinding.inflate(inflater, container, false);
+        binding = FragmentAddEditQuestBinding.inflate(inflater, container, false);
 
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
@@ -74,17 +62,6 @@ public class AddEditQuestFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        nameEditText = view.findViewById(R.id.name_edit_text);
-        descriptionEditText = view.findViewById(R.id.description_edit_text);
-        nameTextInput = view.findViewById(R.id.name_text_input);
-        addDateDueView = view.findViewById(R.id.add_date_due_view);
-        repeatView = view.findViewById(R.id.repeat_view);
-        subQuestsRecycler = view.findViewById(R.id.subquests_recycler);
-        addSubQuestButton = view.findViewById(R.id.add_subquest_button);
-        addSkillsButton = view.findViewById(R.id.add_skills_button);
-        skillsRecycler = view.findViewById(R.id.skills_recycler);
-        difficultyView = view.findViewById(R.id.difficulty_view);
 
         navController = NavHostFragment.findNavController(this);
 
@@ -97,26 +74,26 @@ public class AddEditQuestFragment extends Fragment {
                     AddEditQuestFragmentArgs.fromBundle(getArguments()).getParentQuestId());
             //TODO: DELETE WHEN TREE SUBQUESTS ARE IMPLEMENTED
             if (AddEditQuestFragmentArgs.fromBundle(getArguments()).getIsSubQuest()) {
-                addSubQuestButton.setVisibility(View.INVISIBLE);
+                binding.addSubquestButton.setVisibility(View.INVISIBLE);
                 view.findViewById(R.id.subquests_text_view).setVisibility(View.INVISIBLE);
             }
         }
 
         subscribeToViewModel();
 
-        nameEditText.setOnFocusChangeListener(onEditTextsFocusChangeListener);
-        descriptionEditText.setOnFocusChangeListener(onEditTextsFocusChangeListener);
-        addDateDueView.setOnClickListener(onAddDateDueViewClickListener);
-        addDateDueView.setOnRemoveClickListener(onRemoveDateDueViewClickListener);
-        repeatView.setOnClickListener(onRepeatViewClickListener);
-        repeatView.setOnRemoveClickListener(onRemoveRepeatViewClickListener);
-        addSubQuestButton.setOnClickListener(onAddSubQuestButtonClickListener);
-        addSkillsButton.setOnClickListener(onAddSkillsButtonClickListener);
-        difficultyView.setOnClickListener(onDifficultyViewClickListener);
-        difficultyView.setOnRemoveClickListener(onRemoveDifficultyViewClickListener);
+        binding.nameEditText.setOnFocusChangeListener(onEditTextsFocusChangeListener);
+        binding.descriptionEditText.setOnFocusChangeListener(onEditTextsFocusChangeListener);
+        binding.addDateDueView.setOnClickListener(onAddDateDueViewClickListener);
+        binding.addDateDueView.setOnRemoveClickListener(onRemoveDateDueViewClickListener);
+        binding.repeatView.setOnClickListener(onRepeatViewClickListener);
+        binding.repeatView.setOnRemoveClickListener(onRemoveRepeatViewClickListener);
+        binding.addSubquestButton.setOnClickListener(onAddSubQuestButtonClickListener);
+        binding.addSkillsButton.setOnClickListener(onAddSkillsButtonClickListener);
+        binding.difficultyView.setOnClickListener(onDifficultyViewClickListener);
+        binding.difficultyView.setOnRemoveClickListener(onRemoveDifficultyViewClickListener);
 
         if (viewModel.getIsNewQuest()) {
-            nameEditText.requestFocus();
+            binding.nameEditText.requestFocus();
         }
     }
 
@@ -141,28 +118,28 @@ public class AddEditQuestFragment extends Fragment {
         viewModel.getNameErrorMessageId().observe(getViewLifecycleOwner(),
                 errorMessageId -> {
                     if (errorMessageId != null) {
-                        nameTextInput.setError(getString(errorMessageId));
+                        binding.nameTextInput.setError(getString(errorMessageId));
                     }
                 }
         );
         viewModel.isDateDueSet().observe(getViewLifecycleOwner(),
                 isDateDueSet -> {
                     if (!isDateDueSet) {
-                        addDateDueView.setText(R.string.add_edit_quest_add_date_due);
-                        addDateDueView.setRemoveIconVisibility(View.INVISIBLE);
+                        binding.addDateDueView.setText(R.string.add_edit_quest_add_date_due);
+                        binding.addDateDueView.setRemoveIconVisibility(View.INVISIBLE);
                     } else {
-                        addDateDueView.setText(viewModel.getDueDateFormatted());
-                        addDateDueView.setRemoveIconVisibility(View.VISIBLE);
+                        binding.addDateDueView.setText(viewModel.getDueDateFormatted());
+                        binding.addDateDueView.setRemoveIconVisibility(View.VISIBLE);
                     }
                 });
         viewModel.getRepeatTextResId().observe(getViewLifecycleOwner(),
-                textResId -> repeatView.setText(textResId));
+                textResId -> binding.repeatView.setText(textResId));
         viewModel.getRepeatState().observe(getViewLifecycleOwner(),
                 repeatState -> {
                     if (repeatState.equals(Quest.RepeatState.NOT_SET)) {
-                        repeatView.setRemoveIconVisibility(View.INVISIBLE);
+                        binding.repeatView.setRemoveIconVisibility(View.INVISIBLE);
                     } else {
-                        repeatView.setRemoveIconVisibility(View.VISIBLE);
+                        binding.repeatView.setRemoveIconVisibility(View.VISIBLE);
                     }
                 });
         viewModel.getSubQuests().observe(getViewLifecycleOwner(),
@@ -170,28 +147,28 @@ public class AddEditQuestFragment extends Fragment {
         viewModel.getDifficulty().observe(getViewLifecycleOwner(), difficulty -> {
             switch (difficulty) {
                 case VERY_EASY:
-                    difficultyView.setText(veryEasyTitle);
+                    binding.difficultyView.setText(veryEasyTitle);
                     break;
                 case EASY:
-                    difficultyView.setText(easyTitle);
+                    binding.difficultyView.setText(easyTitle);
                     break;
                 case NORMAL:
-                    difficultyView.setText(normalTitle);
+                    binding.difficultyView.setText(normalTitle);
                     break;
                 case HARD:
-                    difficultyView.setText(hardTitle);
+                    binding.difficultyView.setText(hardTitle);
                     break;
                 case VERY_HARD:
-                    difficultyView.setText(veryHardTitle);
+                    binding.difficultyView.setText(veryHardTitle);
                     break;
                 case IMPOSSIBLE:
-                    difficultyView.setText(impossibleTitle);
+                    binding.difficultyView.setText(impossibleTitle);
                     break;
             }
             if (difficulty.equals(Difficulty.NOT_SET)) {
-                difficultyView.setRemoveIconVisibility(View.INVISIBLE);
+                binding.difficultyView.setRemoveIconVisibility(View.INVISIBLE);
             } else {
-                difficultyView.setRemoveIconVisibility(View.VISIBLE);
+                binding.difficultyView.setRemoveIconVisibility(View.VISIBLE);
             }
         });
     }
@@ -204,11 +181,11 @@ public class AddEditQuestFragment extends Fragment {
         subQuestsAdapter.setOnRemoveButtonClickListener(position -> {
             viewModel.removeSubQuest(position);
         });
-        subQuestsRecycler.addItemDecoration(new DividerItemDecoration(getContext(),
+        binding.subquestsRecycler.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));
-        subQuestsRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
+        binding.subquestsRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
                 RecyclerView.VERTICAL, false));
-        subQuestsRecycler.setAdapter(subQuestsAdapter);
+        binding.subquestsRecycler.setAdapter(subQuestsAdapter);
     }
 
     private void setupSkillsRecycler() {
@@ -219,11 +196,11 @@ public class AddEditQuestFragment extends Fragment {
         subQuestsAdapter.setOnRemoveButtonClickListener(position -> {
             viewModel.removeSubQuest(position);
         });
-        subQuestsRecycler.addItemDecoration(new DividerItemDecoration(getContext(),
+        binding.subquestsRecycler.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));
-        subQuestsRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
+        binding.subquestsRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
                 RecyclerView.VERTICAL, false));
-        subQuestsRecycler.setAdapter(subQuestsAdapter);
+        binding.subquestsRecycler.setAdapter(subQuestsAdapter);
     }
 
     @Override
@@ -293,7 +270,7 @@ public class AddEditQuestFragment extends Fragment {
 
     private View.OnClickListener onRemoveDifficultyViewClickListener = v -> {
         SoftKeyboardUtil.hideKeyboard(v, getActivity());
-        difficultyView.setText(R.string.add_difficulty);
+        binding.difficultyView.setText(R.string.add_difficulty);
         viewModel.removeDifficulty();
     };
 
@@ -325,16 +302,19 @@ public class AddEditQuestFragment extends Fragment {
 
     private void pickDate() {
         TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
-                (view, hourOfDay, minute) -> viewModel.setDateDue(hourOfDay,
-                        minute),
-                viewModel.getCurrentHourOfDay(), viewModel.getCurrentMinute(), true);
+                (view, hourOfDay, minute) -> viewModel.setDateDue(hourOfDay, minute),
+                Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
+                Calendar.getInstance().get(Calendar.MINUTE),
+                true);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
                 (view, year, month, dayOfMonth) -> {
                     viewModel.setDateDue(year, month, dayOfMonth);
                     timePickerDialog.show();
-                }, viewModel.getCurrentYear(), viewModel.getCurrentMonth(),
-                viewModel.getCurrentDayOfMonth());
+                },
+                Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.MONTH),
+                Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show();
     }
 
@@ -389,7 +369,7 @@ public class AddEditQuestFragment extends Fragment {
                 Constants.IMPOSSIBLE_POPUP_MENU_ITEM_ORDER, impossibleTitle);
 
         popupMenu.setOnMenuItemClickListener(item -> {
-            difficultyView.setText(item.getTitle().toString());
+            binding.difficultyView.setText(item.getTitle().toString());
             viewModel.changeDifficulty(item.getItemId());
             return true;
         });

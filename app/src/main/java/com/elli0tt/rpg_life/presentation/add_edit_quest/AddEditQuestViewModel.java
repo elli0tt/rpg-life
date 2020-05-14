@@ -15,11 +15,6 @@ import com.elli0tt.rpg_life.domain.model.Difficulty;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
-import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetCurrentDayOfMonthUseCase;
-import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetCurrentHourOfDayUseCase;
-import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetCurrentMinuteUseCase;
-import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetCurrentMonthUseCase;
-import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetCurrentYearUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetNextWeekCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetRepeatTextResIdUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTodayCalendarUseCase;
@@ -75,13 +70,6 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private final String TODAY;
     private final String TOMORROW;
 
-    private GetCurrentYearUseCase getCurrentYearUseCase = new GetCurrentYearUseCase();
-    private GetCurrentMonthUseCase getCurrentMonthUseCase = new GetCurrentMonthUseCase();
-    private GetCurrentDayOfMonthUseCase getCurrentDayOfMonthUseCase =
-            new GetCurrentDayOfMonthUseCase();
-    private GetCurrentHourOfDayUseCase getCurrentHourOfDayUseCase =
-            new GetCurrentHourOfDayUseCase();
-    private GetCurrentMinuteUseCase getCurrentMinuteUseCase = new GetCurrentMinuteUseCase();
     private GetRepeatTextResIdUseCase getRepeatTextResIdUseCase = new GetRepeatTextResIdUseCase();
 
     private InsertQuestsUseCase insertQuestsUseCase;
@@ -235,26 +223,6 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         return true;
     }
 
-    int getCurrentYear() {
-        return getCurrentYearUseCase.invoke();
-    }
-
-    int getCurrentMonth() {
-        return getCurrentMonthUseCase.invoke();
-    }
-
-    int getCurrentDayOfMonth() {
-        return getCurrentDayOfMonthUseCase.invoke();
-    }
-
-    int getCurrentHourOfDay() {
-        return getCurrentHourOfDayUseCase.invoke();
-    }
-
-    int getCurrentMinute() {
-        return getCurrentMinuteUseCase.invoke();
-    }
-
     String getDueDateFormatted() {
         if (new IsCalendarEqualsTodayCalendarUseCase().invoke(dateDue)) {
             return TODAY;
@@ -348,7 +316,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         }
     }
 
-    void removeDifficulty(){
+    void removeDifficulty() {
         difficulty.setValue(Difficulty.NOT_SET);
     }
 }

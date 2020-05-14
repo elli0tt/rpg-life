@@ -6,39 +6,26 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.NumberPicker;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.databinding.FragmentCountdownTimerBinding;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Locale;
 
-import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
-
 public class CountDownFragment extends Fragment {
 
-    private FloatingActionButton startFab;
-    private FloatingActionButton pauseFab;
-    private FloatingActionButton stopFab;
-    private TextView timerTextView;
-    private CountDownTimer timer;
-    private NumberPicker hoursNumberPicker;
-    private NumberPicker minutesNumberPicker;
-    private NumberPicker secondsNumberPicker;
-    private LinearLayout numberPickersLayout;
-    private MaterialProgressBar progressBar;
+    private FragmentCountdownTimerBinding binding;
 
     private CountDownViewModel viewModel;
+    private CountDownTimer timer;
 
     //Used to enable startTimerFab just 1 time - after it was disabled
     private boolean isStartFabEnabled = true;
@@ -50,9 +37,9 @@ public class CountDownFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        FragmentCountdownTimerBinding binding = FragmentCountdownTimerBinding.inflate(inflater,
+        binding = FragmentCountdownTimerBinding.inflate(inflater,
                 container, false);
-        viewModel = ViewModelProviders.of(this).get(CountDownViewModel.class);
+        viewModel = new ViewModelProvider(this).get(CountDownViewModel.class);
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
         return binding.getRoot();
@@ -63,33 +50,23 @@ public class CountDownFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         subscribeToViewModel();
 
-        startFab = view.findViewById(R.id.start_fab);
-        pauseFab = view.findViewById(R.id.pause_fab);
-        stopFab = view.findViewById(R.id.stop_fab);
-        hoursNumberPicker = view.findViewById(R.id.hours_number_picker);
-        minutesNumberPicker = view.findViewById(R.id.minutes_number_picker);
-        secondsNumberPicker = view.findViewById(R.id.seconds_number_picker);
-        numberPickersLayout = view.findViewById(R.id.number_pickers_layout);
-        timerTextView = view.findViewById(R.id.time_left_text_view);
-        progressBar = view.findViewById(R.id.progress_bar);
+        binding.startFab.setOnClickListener(startFabOnClickListener);
+        binding.pauseFab.setOnClickListener(pauseFabOnClickListener);
+        binding.stopFab.setOnClickListener(stopFabOnClickListener);
 
-        startFab.setOnClickListener(startFabOnClickListener);
-        pauseFab.setOnClickListener(pauseFabOnClickListener);
-        stopFab.setOnClickListener(stopFabOnClickListener);
+        binding.hoursNumberPicker.setMaxValue(Constants.HOURS_NUMBER_PICKER_MAX);
+        binding.minutesNumberPicker.setMaxValue(Constants.MINUTES_NUMBER_PICKER_MAX);
+        binding.secondsNumberPicker.setMaxValue(Constants.SECONDS_NUMBER_PICKER_MAX);
 
-        hoursNumberPicker.setMaxValue(Constants.HOURS_NUMBER_PICKER_MAX);
-        minutesNumberPicker.setMaxValue(Constants.MINUTES_NUMBER_PICKER_MAX);
-        secondsNumberPicker.setMaxValue(Constants.SECONDS_NUMBER_PICKER_MAX);
-
-        hoursNumberPicker.setFormatter(numberPickersFormatter);
-        minutesNumberPicker.setFormatter(numberPickersFormatter);
-        secondsNumberPicker.setFormatter(numberPickersFormatter);
+        binding.hoursNumberPicker.setFormatter(numberPickersFormatter);
+        binding.minutesNumberPicker.setFormatter(numberPickersFormatter);
+        binding.secondsNumberPicker.setFormatter(numberPickersFormatter);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        progressBar.setMax(viewModel.getMaxProgress());
+        binding.progressBar.setMax(viewModel.getMaxProgress());
         //Log.d(MAX_PROGRESS_TAG, Integer.toString(viewModel.getMaxProgress()));
         if (viewModel.getTimerState().getValue() == TimerState.RUNNING) {
             startTimer();
@@ -108,18 +85,18 @@ public class CountDownFragment extends Fragment {
     private void subscribeToViewModel() {
         viewModel.isTimerNew().observe(getViewLifecycleOwner(), aBoolean -> {
             if (!aBoolean) {
-                numberPickersLayout.setVisibility(View.INVISIBLE);
-                timerTextView.setVisibility(View.VISIBLE);
+                binding.numberPickersLayout.setVisibility(View.INVISIBLE);
+                binding.timeLeftTextView.setVisibility(View.VISIBLE);
             } else {
-                numberPickersLayout.setVisibility(View.VISIBLE);
+                binding.numberPickersLayout.setVisibility(View.VISIBLE);
                 enableStartFab(false);
-                timerTextView.setVisibility(View.INVISIBLE);
+                binding.timeLeftTextView.setVisibility(View.INVISIBLE);
                 //progressBar.setProgress(0);
             }
         });
         viewModel.getTimeLeftSeconds().observe(getViewLifecycleOwner(), aLong -> {
-            timerTextView.setText(viewModel.getTimeLeft());
-            progressBar.setProgress(viewModel.getProgress());
+            binding.timeLeftTextView.setText(viewModel.getTimeLeft());
+            binding.progressBar.setProgress(viewModel.getProgress());
             Log.d(TIME_LEFT_TAG,
                     viewModel.getTimeLeft() + " " + Integer.toString(viewModel.getProgress()));
         });
@@ -132,7 +109,7 @@ public class CountDownFragment extends Fragment {
     }
 
     private Observer<Integer> numberPickersValuesObserver = integer -> {
-        if (numberPickersLayout.getVisibility() == View.VISIBLE &&
+        if (binding.numberPickersLayout.getVisibility() == View.VISIBLE &&
                 (isStartFabEnabled ^ viewModel.isNeedToEnableStartFab())) {
             enableStartFab(viewModel.isNeedToEnableStartFab());
         }
@@ -142,7 +119,7 @@ public class CountDownFragment extends Fragment {
 
     private void startTimer() {
         viewModel.startTimer(System.currentTimeMillis());
-        progressBar.setMax(viewModel.getMaxProgress());
+        binding.progressBar.setMax(viewModel.getMaxProgress());
         timer = new CountDownTimer(viewModel.getTimeLeftMillis(), Constants.COUNT_DOWN_INTERVAL) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -152,7 +129,7 @@ public class CountDownFragment extends Fragment {
             @Override
             public void onFinish() {
                 viewModel.stopTimer();
-                progressBar.setProgress(0);
+                binding.progressBar.setProgress(0);
 
             }
         }.start();
@@ -182,19 +159,19 @@ public class CountDownFragment extends Fragment {
     private void updateButtons() {
         switch (viewModel.getTimerState().getValue()) {
             case RUNNING:
-                startFab.hide();
-                pauseFab.show();
-                stopFab.show();
+                binding.startFab.hide();
+                binding.pauseFab.show();
+                binding.stopFab.show();
                 break;
             case PAUSED:
-                startFab.show();
-                pauseFab.hide();
-                stopFab.show();
+                binding.startFab.show();
+                binding.pauseFab.hide();
+                binding.stopFab.show();
                 break;
             case STOPPED:
-                startFab.show();
-                pauseFab.hide();
-                stopFab.hide();
+                binding.startFab.show();
+                binding.pauseFab.hide();
+                binding.stopFab.hide();
                 break;
         }
     }
@@ -204,17 +181,17 @@ public class CountDownFragment extends Fragment {
     // displayed
     //There is a workaround - you need to call fab.hide(), change icon and then fab.show()
     private void enableStartFab(boolean enabled) {
-        startFab.hide();
+        binding.startFab.hide();
         if (enabled) {
-            startFab.setImageDrawable(ContextCompat.getDrawable(getContext(),
+            binding.startFab.setImageDrawable(ContextCompat.getDrawable(getContext(),
                     R.drawable.ic_play_arrow_white_24dp));
             isStartFabEnabled = true;
         } else {
-            startFab.setImageDrawable(ContextCompat.getDrawable(getContext(),
+            binding.startFab.setImageDrawable(ContextCompat.getDrawable(getContext(),
                     R.drawable.ic_play_arrow_gray_24dp));
             isStartFabEnabled = false;
         }
-        startFab.show();
-        startFab.setEnabled(enabled);
+        binding.startFab.show();
+        binding.startFab.setEnabled(enabled);
     }
 }
