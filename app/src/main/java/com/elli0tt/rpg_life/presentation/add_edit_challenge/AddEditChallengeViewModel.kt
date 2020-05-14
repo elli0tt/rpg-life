@@ -94,4 +94,8 @@ class AddEditChallengeViewModel(application: Application) : AndroidViewModel(app
     fun failChallenge() {
         failChallengeUseCase.invoke(challengeId, dayNumber.value!!, difficulty.value!!.xpIncrease)
     }
+
+    fun removeDifficulty(){
+        difficulty.value = Difficulty.NOT_SET
+    }
 }

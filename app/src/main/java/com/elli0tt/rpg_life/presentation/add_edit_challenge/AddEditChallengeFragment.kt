@@ -13,6 +13,8 @@ import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.databinding.FragmentAddEditChallengeBinding
 import com.elli0tt.rpg_life.domain.model.Difficulty
 import com.elli0tt.rpg_life.presentation.add_edit_quest.Constants
+import com.elli0tt.rpg_life.presentation.custom_view.ButtonWithRemoveIcon
+import com.elli0tt.rpg_life.presentation.utils.SoftKeyboardUtil
 
 class AddEditChallengeFragment : Fragment() {
 
@@ -44,6 +46,10 @@ class AddEditChallengeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.difficultyView.setOnClickListener { showDifficultyPopupMenu(it) }
+        binding.difficultyView.setOnRemoveClickListener {
+            viewModel.removeDifficulty()
+            SoftKeyboardUtil.hideKeyboard(it, activity)
+        }
         binding.addSkillsButton.setOnClickListener { navigateToAddSkillsToQuestScreen() }
         binding.failButton.setOnClickListener { viewModel.failChallenge() }
 
@@ -75,6 +81,12 @@ class AddEditChallengeFragment : Fragment() {
                 Difficulty.HARD -> binding.difficultyView.setText(hardTitle)
                 Difficulty.VERY_HARD -> binding.difficultyView.setText(veryHardTitle)
                 Difficulty.IMPOSSIBLE -> binding.difficultyView.setText(impossibleTitle)
+                Difficulty.NOT_SET -> binding.difficultyView.setText(R.string.add_difficulty)
+            }
+            if (difficulty == Difficulty.NOT_SET) {
+                binding.difficultyView.setRemoveIconVisibility(View.INVISIBLE)
+            } else {
+                binding.difficultyView.setRemoveIconVisibility(View.VISIBLE)
             }
         })
     }
@@ -106,7 +118,6 @@ class AddEditChallengeFragment : Fragment() {
                 Constants.IMPOSSIBLE_POPUP_MENU_ITEM_ORDER, impossibleTitle)
         popupMenu.setOnMenuItemClickListener { item: MenuItem ->
             binding.difficultyView.setText(item.title.toString())
-            binding.difficultyView.setRemoveIconVisibility(View.VISIBLE)
             viewModel.changeDifficulty(item.itemId)
             true
         }

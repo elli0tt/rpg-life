@@ -188,6 +188,11 @@ public class AddEditQuestFragment extends Fragment {
                     difficultyView.setText(impossibleTitle);
                     break;
             }
+            if (difficulty.equals(Difficulty.NOT_SET)){
+                difficultyView.setRemoveIconVisibility(View.INVISIBLE);
+            } else {
+                difficultyView.setRemoveIconVisibility(View.VISIBLE);
+            }
         });
     }
 
@@ -289,6 +294,7 @@ public class AddEditQuestFragment extends Fragment {
     private View.OnClickListener onRemoveDifficultyViewClickListener = v -> {
         SoftKeyboardUtil.hideKeyboard(v, getActivity());
         difficultyView.setText(R.string.add_difficulty);
+        viewModel.removeDifficulty();
     };
 
     private void showAddDateDuePopupMenu(View view) {
@@ -384,7 +390,6 @@ public class AddEditQuestFragment extends Fragment {
 
         popupMenu.setOnMenuItemClickListener(item -> {
             difficultyView.setText(item.getTitle().toString());
-            difficultyView.setRemoveIconVisibility(View.VISIBLE);
             viewModel.changeDifficulty(item.getItemId());
             return true;
         });

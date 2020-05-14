@@ -347,4 +347,8 @@ public class AddEditQuestViewModel extends AndroidViewModel {
                 break;
         }
     }
+
+    void removeDifficulty(){
+        difficulty.setValue(Difficulty.NOT_SET);
+    }
 }

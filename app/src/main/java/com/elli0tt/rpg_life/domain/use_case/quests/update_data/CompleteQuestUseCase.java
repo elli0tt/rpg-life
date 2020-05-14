@@ -41,6 +41,7 @@ public class CompleteQuestUseCase {
                     newQuest.setDayNumber(quest.getDayNumber());
                     newQuest.setChallenge(true);
                     newQuest.setTotalDaysCount(quest.getTotalDaysCount());
+                    insertRelatedSkills(quest.getId());
                     insertQuestsUseCase.invoke(newQuest);
                 }
             }
@@ -148,5 +149,19 @@ public class CompleteQuestUseCase {
                 }
             }
         }.start();
+    }
+
+    private void insertRelatedSkills(int questId){
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                List<RelatedToQuestSkills> relatedToQuestSkills = getRelatedSkillsUseCase.invoke(questId);
+                for (RelatedToQuestSkills skill : relatedToQuestSkills){
+                    insertRelatedSkillUseCase.invoke(questId, skill.getSkillId(), skill.getXpPercentage());
+                }
+            }
+        }.start();
+
     }
 }
