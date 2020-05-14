@@ -49,17 +49,10 @@ class AddSkillsToQuestViewModel(application: Application) : AndroidViewModel(app
         this.questId.value = questId
     }
 
-    fun onSelectCheckBoxCheckChange(position: Int, isChecked: Boolean, xpPercentage: Int) {
+    fun onXpPercentageSeekBarTouchStop(position: Int, xpPercentage: Int) {
         val skill = skillsToShow.value?.get(position)
         val skills = skillsToShow.value
-        skills?.set(position, AddSkillData(skill!!.id, skill.name, isChecked, xpPercentage))
-        skillsToShow.value = skills
-    }
-
-    fun onXpPercentageSeekBarTouchStop(position: Int, isChecked: Boolean, xpPercentage: Int) {
-        val skill = skillsToShow.value?.get(position)
-        val skills = skillsToShow.value
-        skills?.set(position, AddSkillData(skill!!.id, skill.name, isChecked, xpPercentage))
+        skills?.set(position, AddSkillData(skill!!.id, skill.name, xpPercentage))
         skillsToShow.value = skills
     }
 
@@ -67,7 +60,7 @@ class AddSkillsToQuestViewModel(application: Application) : AndroidViewModel(app
         val skills = skillsToShow.value
         if (skills != null) {
             for (skill in skills) {
-                if (skill.isSelected) {
+                if (skill.xpPercentage != AddSkillData.DEFAULT_XP_PERCENT) {
                     insertRelatedSkillUseCase.invoke(questId.value!!, skill.id, skill.xpPercentage)
                 } else {
                     deleteRelatedSkillUseCase.invoke(questId.value!!, skill.id)

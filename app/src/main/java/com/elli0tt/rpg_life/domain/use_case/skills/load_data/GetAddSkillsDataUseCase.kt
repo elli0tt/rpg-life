@@ -42,20 +42,12 @@ class GetAddSkillsDataUseCase(private val skillsRepository: SkillsRepository,
         val resultList = ArrayList<AddSkillData>(allSkills?.size ?: 0)
         if (relatedSkills != null && allSkills != null) {
             for (skill in allSkills) {
-                resultList.add(AddSkillData(skill.id, skill.name, isSelected(relatedSkills, skill), getXpPercentage(relatedSkills, skill.id)))
+                resultList.add(AddSkillData(skill.id, skill.name, getXpPercentage(relatedSkills, skill.id)))
             }
         }
         return resultList
     }
 
-    private fun isSelected(relatedSkills: List<RelatedToQuestSkills>, skill: Skill): Boolean {
-        for (relatedSkill in relatedSkills) {
-            if (skill.id == relatedSkill.skillId) {
-                return true;
-            }
-        }
-        return false
-    }
 
     private fun getXpPercentage(relatedSkills: List<RelatedToQuestSkills>, skillId: Int): Int {
         for (relatedSkill in relatedSkills) {
@@ -63,6 +55,6 @@ class GetAddSkillsDataUseCase(private val skillsRepository: SkillsRepository,
                 return relatedSkill.xpPercentage
             }
         }
-        return 100
+        return AddSkillData.DEFAULT_XP_PERCENT
     }
 }

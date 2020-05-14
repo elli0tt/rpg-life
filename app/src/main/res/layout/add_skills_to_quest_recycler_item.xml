@@ -11,18 +11,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/select_check_box"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Android" />
-
-    <CheckBox
-        android:id="@+id/select_check_box"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Android" />
 
     <androidx.appcompat.widget.AppCompatSeekBar
         android:id="@+id/xp_percentage_seek_bar"

@@ -8,21 +8,17 @@ import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.domain.model.AddSkillData
 
 class AddSkillsToQuestAdapter : ListAdapter<AddSkillData, AddSkillsToQuestViewHolder>(DIFF_CALLBACK) {
-    interface OnSelectCheckBoxClickListener {
-        fun onCheck(position: Int, isChecked: Boolean, xpPercentage: Int)
-    }
 
     interface OnXpPercentageSeekBarTouchStopListener{
-        fun onTouchStop(position: Int, isChecked: Boolean, xpPercentage: Int)
+        fun onTouchStop(position: Int, xpPercentage: Int)
     }
 
-    lateinit var onSelectCheckBoxClickListener: OnSelectCheckBoxClickListener
     lateinit var onXpPercentageSeekBarTouchStopListener: OnXpPercentageSeekBarTouchStopListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddSkillsToQuestViewHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.add_skills_to_quest_recycler_item, parent, false)
-        return AddSkillsToQuestViewHolder(view, onSelectCheckBoxClickListener, onXpPercentageSeekBarTouchStopListener)
+        return AddSkillsToQuestViewHolder(view, onXpPercentageSeekBarTouchStopListener)
     }
 
     override fun onBindViewHolder(holder: AddSkillsToQuestViewHolder, position: Int) {
@@ -37,7 +33,6 @@ class AddSkillsToQuestAdapter : ListAdapter<AddSkillData, AddSkillsToQuestViewHo
 
             override fun areContentsTheSame(oldItem: AddSkillData, newItem: AddSkillData): Boolean {
                 return oldItem.name == newItem.name &&
-                        oldItem.isSelected == newItem.isSelected &&
                         oldItem.xpPercentage == newItem.xpPercentage
             }
         }
