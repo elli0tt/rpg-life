@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.*
 import android.view.View.OnFocusChangeListener
 import android.widget.EditText
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -39,9 +41,26 @@ class AddEditSkillFragment : Fragment() {
         setHasOptionsMenu(true)
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
     override fun onStart() {
         super.onStart()
         viewModel.start(args.skillId)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.add_edit_skill_toolbar_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            android.R.id.home -> navController.popBackStack()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onStop() {

@@ -1,12 +1,14 @@
 package com.elli0tt.rpg_life.presentation.add_skills_to_quest
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,10 +20,12 @@ class AddSkillsToQuestFragment : Fragment() {
     private lateinit var addSkillsToQuestAdapter: AddSkillsToQuestAdapter
 
     private val args: AddSkillsToQuestFragmentArgs by navArgs()
+    private lateinit var navController: NavController
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         viewModel = ViewModelProvider(this).get(AddSkillsToQuestViewModel::class.java)
+        navController = NavHostFragment.findNavController(this)
         return inflater.inflate(R.layout.fragment_add_skills_to_quest, container, false)
     }
 
@@ -34,6 +38,24 @@ class AddSkillsToQuestFragment : Fragment() {
         subscribeToViewModel()
 
         viewModel.start(args.questId)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        setHasOptionsMenu(true)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.add_skills_to_quest_toolbar_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            android.R.id.home -> popUpToQuestsScreen()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun setupRecyclerView() {
@@ -58,5 +80,10 @@ class AddSkillsToQuestFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         viewModel.save()
+    }
+
+    private fun popUpToQuestsScreen(){
+        val action = AddSkillsToQuestFragmentDirections.actionAddSkillsToQuestScreenToQuestsScreen()
+        navController.navigate(action)
     }
 }

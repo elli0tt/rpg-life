@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -100,6 +102,14 @@ public class AddEditQuestFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        AppCompatActivity activity = (AppCompatActivity)getActivity();
+        if (activity != null) {
+            ActionBar supportActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            if (supportActionBar != null) {
+                supportActionBar.setDisplayHomeAsUpEnabled(true);
+            }
+        }
+
         veryEasyTitle = getString(R.string.add_edit_quest_difficulty_very_easy,
                 Difficulty.VERY_EASY.getXpIncrease());
         easyTitle = getString(R.string.add_edit_quest_difficulty_easy,
@@ -112,6 +122,27 @@ public class AddEditQuestFragment extends Fragment {
                 Difficulty.VERY_HARD.getXpIncrease());
         impossibleTitle = getString(R.string.add_edit_quest_difficulty_impossible,
                 Difficulty.IMPOSSIBLE.getXpIncrease());
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.add_edit_quest_toolbar_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                navController.popBackStack();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        viewModel.saveQuest();
     }
 
     private void subscribeToViewModel() {
@@ -201,25 +232,6 @@ public class AddEditQuestFragment extends Fragment {
         binding.subquestsRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
                 RecyclerView.VERTICAL, false));
         binding.subquestsRecycler.setAdapter(subQuestsAdapter);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.add_quest_toolbar_menu, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.add_quest_confirm_button:
-                if (viewModel.saveQuest()) {
-                    navController.popBackStack();
-                }
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-
-        }
     }
 
     private View.OnFocusChangeListener onEditTextsFocusChangeListener = (view, hasFocus) -> {

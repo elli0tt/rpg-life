@@ -49,6 +49,11 @@ class QuestsFragment : Fragment() {
         addChallengeFab.setOnClickListener { navigateToAddChallengeScreen() }
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+    }
+
     override fun onResume() {
         super.onResume()
         questsAdapter.notifyDataSetChanged()

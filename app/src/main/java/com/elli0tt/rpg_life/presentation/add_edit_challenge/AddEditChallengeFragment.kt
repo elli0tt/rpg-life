@@ -2,6 +2,8 @@ package com.elli0tt.rpg_life.presentation.add_edit_challenge
 
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -13,7 +15,6 @@ import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.databinding.FragmentAddEditChallengeBinding
 import com.elli0tt.rpg_life.domain.model.Difficulty
 import com.elli0tt.rpg_life.presentation.add_edit_quest.Constants
-import com.elli0tt.rpg_life.presentation.custom_view.ButtonWithRemoveIcon
 import com.elli0tt.rpg_life.presentation.utils.SoftKeyboardUtil
 
 class AddEditChallengeFragment : Fragment() {
@@ -58,6 +59,10 @@ class AddEditChallengeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        setHasOptionsMenu(true)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         veryEasyTitle = getString(R.string.add_edit_quest_difficulty_very_easy,
                 Difficulty.VERY_EASY.xpIncrease)
         easyTitle = getString(R.string.add_edit_quest_difficulty_easy,
@@ -94,6 +99,18 @@ class AddEditChallengeFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         viewModel.start(args.challengeId)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.add_edit_challenge_toolbar_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            android.R.id.home -> navController.popBackStack()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onStop() {

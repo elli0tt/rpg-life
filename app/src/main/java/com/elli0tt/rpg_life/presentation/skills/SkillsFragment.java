@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -54,6 +56,18 @@ public class SkillsFragment extends Fragment {
 
         addSkillFab.setOnClickListener(onAddSkillFabClickListener);
         sortUpDownArrowsView.setOnViewClickListener(onSortUpDownArrowsViewClickListener);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        AppCompatActivity activity = (AppCompatActivity)getActivity();
+        if (activity != null){
+            ActionBar supportActionBar = activity.getSupportActionBar();
+            if (supportActionBar != null){
+                supportActionBar.setDisplayHomeAsUpEnabled(false);
+            }
+        }
     }
 
     private View.OnClickListener onAddSkillFabClickListener = v -> navigateToAddSkillScreen();

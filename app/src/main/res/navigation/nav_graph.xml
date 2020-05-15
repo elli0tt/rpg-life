@@ -186,6 +186,15 @@
             android:name="questId"
             android:defaultValue="0"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_add_skills_to_quest_screen_to_quests_screen"
+            app:destination="@id/quests_screen"
+            app:popUpTo="@id/quests_screen"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <fragment
