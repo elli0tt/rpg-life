@@ -1,4 +1,4 @@
-package com.elli0tt.rpg_life.domain.use_case.skills.load_data
+package com.elli0tt.rpg_life.domain.use_case.skills
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -8,7 +8,6 @@ import com.elli0tt.rpg_life.domain.model.RelatedToQuestSkills
 import com.elli0tt.rpg_life.domain.model.Skill
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository
-import com.elli0tt.rpg_life.domain.use_case.quests.load_data.GetRelatedSkillsLiveDataUseCase
 
 class GetAddSkillsDataUseCase(private val skillsRepository: SkillsRepository,
                               private val questsRepository: QuestsRepository) {
@@ -20,12 +19,10 @@ class GetAddSkillsDataUseCase(private val skillsRepository: SkillsRepository,
 
     fun invoke(questId: LiveData<Int>): LiveData<List<AddSkillData>> {
         this.questId = questId
-        val getAllSkillsUseCase = GetAllSkillsUseCase(skillsRepository)
-        allSkills = getAllSkillsUseCase.invoke()
+        allSkills = skillsRepository.allSkills
 
-        val getRelatedSkillsIdsUseCase = GetRelatedSkillsLiveDataUseCase(questsRepository)
         relatedSkills = Transformations.switchMap(this.questId) { questId ->
-            getRelatedSkillsIdsUseCase.invoke(questId)
+            questsRepository.getRelatedSkillsLiveData(questId)
         }
 
         addSkillData.addSource(allSkills) { allSkills ->

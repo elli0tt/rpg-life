@@ -162,7 +162,7 @@ public class QuestsRepositoryImpl implements QuestsRepository {
     }
 
     @Override
-    public QuestsSortingState getQuestSortingState() {
+    public QuestsSortingState getQuestsSortingState() {
         return questsSharedPrefUtils.getQuestsSortingState();
     }
 

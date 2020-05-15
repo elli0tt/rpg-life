@@ -14,11 +14,6 @@ import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl;
 import com.elli0tt.rpg_life.domain.model.Skill;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
 import com.elli0tt.rpg_life.domain.use_case.skills.SortSkillsUseCase;
-import com.elli0tt.rpg_life.domain.use_case.skills.load_data.GetAllSkillsUseCase;
-import com.elli0tt.rpg_life.domain.use_case.skills.load_data.GetSkillsSortingStateUseCase;
-import com.elli0tt.rpg_life.domain.use_case.skills.update_data.DeleteAllSkillsUseCase;
-import com.elli0tt.rpg_life.domain.use_case.skills.update_data.InsertSkillsUseCase;
-import com.elli0tt.rpg_life.domain.use_case.skills.update_data.SetSkillsSortingStateUseCase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,26 +25,16 @@ public class SkillsViewModel extends AndroidViewModel {
     private LiveData<Integer> sortedByTextResId = Transformations.map(sortingState,
             this::getSortedByTextResId);
 
-    private GetAllSkillsUseCase getAllSkillsUseCase;
-    private InsertSkillsUseCase insertSkillsUseCase;
-    private DeleteAllSkillsUseCase deleteAllSkillsUseCase;
-    private GetSkillsSortingStateUseCase getSkillsSortingStateUseCase;
-    private SetSkillsSortingStateUseCase setSkillsSortingStateUseCase;
-
     private SortSkillsUseCase sortSkillsUseCase = new SortSkillsUseCase();
+
+    private SkillsRepository skillsRepository;
 
     public SkillsViewModel(@NonNull Application application) {
         super(application);
-        SkillsRepository skillsRepository = new SkillsRepositoryImpl(application);
+        skillsRepository = new SkillsRepositoryImpl(application);
 
-        getAllSkillsUseCase = new GetAllSkillsUseCase(skillsRepository);
-        insertSkillsUseCase = new InsertSkillsUseCase(skillsRepository);
-        deleteAllSkillsUseCase = new DeleteAllSkillsUseCase(skillsRepository);
-        getSkillsSortingStateUseCase = new GetSkillsSortingStateUseCase(skillsRepository);
-        setSkillsSortingStateUseCase = new SetSkillsSortingStateUseCase(skillsRepository);
-
-        sortingState.setValue(getSkillsSortingStateUseCase.invoke());
-        allSkills = getAllSkillsUseCase.invoke();
+        sortingState.setValue(skillsRepository.getSkillsSortingState());
+        allSkills = skillsRepository.getAllSkills();
 
         skillsToShow.addSource(allSkills, skills -> {
             if (skills != null && sortingState.getValue() != null) {
@@ -78,7 +63,7 @@ public class SkillsViewModel extends AndroidViewModel {
     }
 
     void populateWithSamples() {
-        insertSkillsUseCase.invoke(generateSampleSkillsList().toArray(new Skill[0]));
+        skillsRepository.insert(generateSampleSkillsList().toArray(new Skill[0]));
     }
 
     private List<Skill> generateSampleSkillsList() {
@@ -90,12 +75,12 @@ public class SkillsViewModel extends AndroidViewModel {
     }
 
     void deleteAll() {
-        deleteAllSkillsUseCase.invoke();
+        skillsRepository.deleteAll();
     }
 
     void setSortingState(SkillsSortingState sortingState) {
         this.sortingState.setValue(sortingState);
-        setSkillsSortingStateUseCase.invoke(sortingState);
+        skillsRepository.setSkillsSortingState(sortingState);
     }
 
     void changeSortingDirection() {

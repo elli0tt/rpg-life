@@ -1,14 +1,12 @@
-package com.elli0tt.rpg_life.domain.use_case.quests.update_data;
+package com.elli0tt.rpg_life.domain.use_case.quests;
 
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
-import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.InsertQuestsUseCase;
 
 public class PopulateWithSamplesUseCase {
-    private InsertQuestsUseCase insertQuestsUseCase;
-
+    private QuestsRepository questsRepository;
     public PopulateWithSamplesUseCase(QuestsRepository repository) {
-        insertQuestsUseCase = new InsertQuestsUseCase(repository);
+        questsRepository = repository;
     }
 
     private Quest[] generateSampleQuestsList() {
@@ -20,7 +18,7 @@ public class PopulateWithSamplesUseCase {
     }
 
     public void invoke(){
-        insertQuestsUseCase.invoke(generateSampleQuestsList());
+        questsRepository.insert(generateSampleQuestsList());
     }
 
 }

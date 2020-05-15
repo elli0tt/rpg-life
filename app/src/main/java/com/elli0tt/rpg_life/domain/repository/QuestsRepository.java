@@ -34,7 +34,7 @@ public interface QuestsRepository {
 
     void setQuestsFilterState(QuestsFilterState filterState);
 
-    QuestsSortingState getQuestSortingState();
+    QuestsSortingState getQuestsSortingState();
 
     void setQuestsSoringState(QuestsSortingState sortingState);
 

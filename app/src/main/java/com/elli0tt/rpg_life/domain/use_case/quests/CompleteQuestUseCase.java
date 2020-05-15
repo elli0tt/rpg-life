@@ -1,40 +1,33 @@
-package com.elli0tt.rpg_life.domain.use_case.quests.update_data;
+package com.elli0tt.rpg_life.domain.use_case.quests;
 
 import com.elli0tt.rpg_life.domain.constants.Constants;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.model.RelatedToQuestSkills;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
-import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.InsertQuestsUseCase;
-import com.elli0tt.rpg_life.domain.use_case.quests.load_data.GetRelatedSkillsUseCase;
-import com.elli0tt.rpg_life.domain.use_case.skills.update_data.UpdateSkillTotalXpByIdUseCase;
 
 import java.util.Calendar;
 import java.util.List;
 
 public class CompleteQuestUseCase {
-    private UpdateQuestsUseCase updateQuestsUseCase;
-    private InsertQuestsUseCase insertQuestsUseCase;
-    private UpdateSkillTotalXpByIdUseCase updateSkillTotalXpByIdUseCase;
-    private GetRelatedSkillsUseCase getRelatedSkillsUseCase;
-    private InsertRelatedSkillUseCase insertRelatedSkillUseCase;
+    private QuestsRepository questsRepository;
+    private SkillsRepository skillsRepository;
 
-    public CompleteQuestUseCase(QuestsRepository questsRepository, SkillsRepository skillsRepository) {
-        updateQuestsUseCase = new UpdateQuestsUseCase(questsRepository);
-        insertQuestsUseCase = new InsertQuestsUseCase(questsRepository);
-        updateSkillTotalXpByIdUseCase = new UpdateSkillTotalXpByIdUseCase(skillsRepository);
-        getRelatedSkillsUseCase = new GetRelatedSkillsUseCase(questsRepository);
-        insertRelatedSkillUseCase = new InsertRelatedSkillUseCase(questsRepository);
+    public CompleteQuestUseCase(QuestsRepository questsRepository,
+                                SkillsRepository skillsRepository) {
+        this.questsRepository = questsRepository;
+        this.skillsRepository = skillsRepository;
     }
 
     public void invoke(Quest quest, boolean isCompleted) {
         quest.setCompleted(isCompleted);
-        if (quest.isChallenge()){
-            if (isCompleted){
-                increaseRelatedSkillsXps(quest.getId(), quest.getDifficulty().getXpIncrease() + 10 * quest.getDayNumber());
+        if (quest.isChallenge()) {
+            if (isCompleted) {
+                increaseRelatedSkillsXps(quest.getId(),
+                        quest.getDifficulty().getXpIncrease() + 10 * quest.getDayNumber());
                 quest.setDayNumber(quest.getDayNumber() + 1);
-                updateQuestsUseCase.invoke(quest);
-                if (quest.getDayNumber() < quest.getTotalDaysCount()){
+                questsRepository.update(quest);
+                if (quest.getDayNumber() < quest.getTotalDaysCount()) {
                     Quest newQuest = new Quest(quest.getName());
                     newQuest.setDifficulty(quest.getDifficulty());
                     newQuest.setCompleted(false);
@@ -42,14 +35,14 @@ public class CompleteQuestUseCase {
                     newQuest.setChallenge(true);
                     newQuest.setTotalDaysCount(quest.getTotalDaysCount());
                     insertRelatedSkills(quest.getId());
-                    insertQuestsUseCase.invoke(newQuest);
+                    questsRepository.insert(newQuest);
                 }
             }
         } else {
             if (isCompleted) {
                 increaseRelatedSkillsXps(quest.getId(), quest.getDifficulty().getXpIncrease());
             }
-            updateQuestsUseCase.invoke(quest);
+            questsRepository.update(quest);
             if (!quest.getRepeatState().equals(Quest.RepeatState.NOT_SET)) {
                 Quest newQuest = new Quest(quest.getName());
                 //newQuest.name = quest.name;
@@ -58,9 +51,10 @@ public class CompleteQuestUseCase {
                 newQuest.setCompleted(false);
                 newQuest.setRepeatState(quest.getRepeatState());
                 newQuest.setDateDueSet(quest.isDateDueSet());
-                newQuest.setDateDue(calculateNewDateDue(quest.getDateDue(), quest.getRepeatState()));
+                newQuest.setDateDue(calculateNewDateDue(quest.getDateDue(),
+                        quest.getRepeatState()));
                 newQuest.setImportant(quest.isImportant());
-                insertQuestsUseCase.invoke(newQuest);
+                questsRepository.insert(newQuest);
             }
         }
     }
@@ -138,30 +132,33 @@ public class CompleteQuestUseCase {
         }
     }
 
-    private void increaseRelatedSkillsXps(int questId, int xpIncrease){
-        new Thread(){
+    private void increaseRelatedSkillsXps(int questId, int xpIncrease) {
+        new Thread() {
             @Override
             public void run() {
                 super.run();
-                List<RelatedToQuestSkills> relatedSkills = getRelatedSkillsUseCase.invoke(questId);
-                for (RelatedToQuestSkills skill : relatedSkills){
-                    updateSkillTotalXpByIdUseCase.invoke(skill.getSkillId(), xpIncrease * skill.getXpPercentage() / 100);
+                List<RelatedToQuestSkills> relatedSkills =
+                        questsRepository.getRelatedSkills(questId);
+                for (RelatedToQuestSkills skill : relatedSkills) {
+                    skillsRepository.updateTotalXpById(skill.getSkillId(),
+                            xpIncrease * skill.getXpPercentage() / 100);
                 }
             }
         }.start();
     }
 
-    private void insertRelatedSkills(int questId){
-        new Thread(){
+    private void insertRelatedSkills(int questId) {
+        new Thread() {
             @Override
             public void run() {
                 super.run();
-                List<RelatedToQuestSkills> relatedToQuestSkills = getRelatedSkillsUseCase.invoke(questId);
-                for (RelatedToQuestSkills skill : relatedToQuestSkills){
-                    insertRelatedSkillUseCase.invoke(questId, skill.getSkillId(), skill.getXpPercentage());
+                List<RelatedToQuestSkills> relatedToQuestSkills =
+                        questsRepository.getRelatedSkills(questId);
+                for (RelatedToQuestSkills skill : relatedToQuestSkills) {
+                    questsRepository.insertRelatedSkill(questId, skill.getSkillId(),
+                            skill.getXpPercentage());
                 }
             }
         }.start();
-
     }
 }

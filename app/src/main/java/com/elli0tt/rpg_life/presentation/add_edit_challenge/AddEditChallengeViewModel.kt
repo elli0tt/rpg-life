@@ -9,10 +9,7 @@ import com.elli0tt.rpg_life.domain.model.Difficulty
 import com.elli0tt.rpg_life.domain.model.Quest
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository
-import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.InsertQuestsUseCase
-import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.load_data.GetQuestByIdUseCase
 import com.elli0tt.rpg_life.domain.use_case.quests.FailChallengeUseCase
-import com.elli0tt.rpg_life.domain.use_case.quests.update_data.UpdateQuestsUseCase
 import com.elli0tt.rpg_life.presentation.add_edit_quest.Constants
 
 class AddEditChallengeViewModel(application: Application) : AndroidViewModel(application) {
@@ -25,18 +22,12 @@ class AddEditChallengeViewModel(application: Application) : AndroidViewModel(app
 
     var challengeId = 0
 
-    private val insertQuestsUseCase: InsertQuestsUseCase
-    private val updateQuestsUseCase: UpdateQuestsUseCase
-    private val getQuestByIdUseCase: GetQuestByIdUseCase
     private val failChallengeUseCase: FailChallengeUseCase
 
-    init {
-        val questsRepository: QuestsRepository = QuestsRepositoryImpl(application)
-        val skillsRepository: SkillsRepository = SkillsRepositoryImpl(application)
+    val questsRepository: QuestsRepository = QuestsRepositoryImpl(application)
+    val skillsRepository: SkillsRepository = SkillsRepositoryImpl(application)
 
-        insertQuestsUseCase = InsertQuestsUseCase(questsRepository)
-        updateQuestsUseCase = UpdateQuestsUseCase(questsRepository)
-        getQuestByIdUseCase = GetQuestByIdUseCase(questsRepository)
+    init {
         failChallengeUseCase = FailChallengeUseCase(skillsRepository, questsRepository)
     }
 
@@ -52,7 +43,7 @@ class AddEditChallengeViewModel(application: Application) : AndroidViewModel(app
         object : Thread() {
             override fun run() {
                 super.run()
-                val challenge = getQuestByIdUseCase.invoke(challengeId)
+                val challenge = questsRepository.getQuestById(challengeId)
                 onChallengeLoaded(challenge)
             }
         }.start()
@@ -73,10 +64,10 @@ class AddEditChallengeViewModel(application: Application) : AndroidViewModel(app
         challenge.dayNumber = dayNumber.value!!
 
         if (isChallengeNew) {
-            insertQuestsUseCase.invoke(challenge)
+            questsRepository.insert(challenge)
         } else {
             challenge.id = challengeId
-            updateQuestsUseCase.invoke(challenge)
+            questsRepository.update(challenge)
         }
     }
 
@@ -95,7 +86,7 @@ class AddEditChallengeViewModel(application: Application) : AndroidViewModel(app
         failChallengeUseCase.invoke(challengeId, dayNumber.value!!, difficulty.value!!.xpIncrease)
     }
 
-    fun removeDifficulty(){
+    fun removeDifficulty() {
         difficulty.value = Difficulty.NOT_SET
     }
 }
