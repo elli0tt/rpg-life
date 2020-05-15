@@ -206,12 +206,12 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         quest.setParentQuestId(parentQuestId);
 
         if (isNewQuest) {
-            questsRepository.insert(quest);
+            questsRepository.insertQuests(quest);
         } else {
             quest.setId(id);
             quest.setCompleted(currentQuest.isCompleted());
             quest.setImportant(currentQuest.isImportant());
-            questsRepository.update(quest);
+            questsRepository.updateQuests(quest);
         }
 
         if (isSubQuest) {
@@ -286,7 +286,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         if (subQuests.getValue() != null) {
             List<Quest> listToDelete = new ArrayList<>();
             listToDelete.add(subQuests.getValue().get(position));
-            questsRepository.delete(listToDelete.toArray(new Quest[0]));
+            questsRepository.deleteQuests(listToDelete.toArray(new Quest[0]));
         }
     }
 

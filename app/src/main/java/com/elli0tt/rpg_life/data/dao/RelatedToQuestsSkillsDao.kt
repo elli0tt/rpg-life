@@ -20,8 +20,8 @@ interface RelatedToQuestsSkillsDao {
     fun getRelatedSkillId(questId: Int): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(relatedToQuestsSkills: RelatedToQuestSkills)
+    fun insertRelatedSkill(relatedToQuestsSkills: RelatedToQuestSkills)
 
     @Query("delete from related_to_quests_skills where questId = :questId and skillId = :skillId")
-    fun delete(questId: Int, skillId: Int)
+    fun deleteRelatedSkill(questId: Int, skillId: Int)
 }

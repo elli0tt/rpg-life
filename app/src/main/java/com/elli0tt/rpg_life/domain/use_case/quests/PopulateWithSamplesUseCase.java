@@ -18,7 +18,7 @@ public class PopulateWithSamplesUseCase {
     }
 
     public void invoke(){
-        questsRepository.insert(generateSampleQuestsList());
+        questsRepository.insertQuests(generateSampleQuestsList());
     }
 
 }

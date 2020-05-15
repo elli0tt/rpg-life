@@ -12,6 +12,6 @@ public class SetQuestImportantUseCase {
 
     public void invoke(Quest quest, boolean isImportant){
         quest.setImportant(isImportant);
-        questsRepository.update(quest);
+        questsRepository.updateQuests(quest);
     }
 }

@@ -16,7 +16,7 @@ import java.util.List;
 public interface QuestsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Quest... quests);
+    void insertQuests(Quest... quests);
 
     @Query("SELECT * FROM quest_table WHERE id = :questId")
     Quest getQuestById(int questId);
@@ -34,14 +34,14 @@ public interface QuestsDao {
     LiveData<Quest> getQuestByIdLiveData(int questId);
 
     @Update
-    void update(Quest... quests);
+    void updateQuests(Quest... quests);
 
     @Query("update quest_table set hasSubquests = :hasSubquest where id = :id")
     void updateHasSubquestsById(int id, boolean hasSubquest);
 
     @Delete
-    void delete(Quest... quests);
+    void deleteQuests(Quest... quests);
 
     @Query("DELETE FROM quest_table")
-    void deleteAll();
+    void deleteAllQuests();
 }

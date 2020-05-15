@@ -9,11 +9,11 @@ import java.util.List;
 public interface CharacteristicsRepository {
     LiveData<List<Characteristic>> getAllCharacteristics();
 
-    void insert(Characteristic characteristic);
+    void insertCharacteristics(Characteristic characteristic);
 
-    void insert(List<Characteristic> characteristicList);
+    void insertCharacteristics(List<Characteristic> characteristicList);
 
-    void delete();
+    void deleteCharacteristic();
 
-    void update();
+    void updateCharacteristic();
 }

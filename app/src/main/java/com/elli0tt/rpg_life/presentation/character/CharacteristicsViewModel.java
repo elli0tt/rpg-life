@@ -27,7 +27,7 @@ public class CharacteristicsViewModel extends AndroidViewModel {
     }
 
     public void insert(Characteristic characteristic){
-        characteristicsRepository.insert(characteristic);
+        characteristicsRepository.insertCharacteristics(characteristic);
     }
 
     private List<Characteristic> generateSampleCharacteristicsList() {
@@ -44,6 +44,6 @@ public class CharacteristicsViewModel extends AndroidViewModel {
     }
 
     public void populateWithSamples(){
-        characteristicsRepository.insert(generateSampleCharacteristicsList());
+        characteristicsRepository.insertCharacteristics(generateSampleCharacteristicsList());
     }
 }

@@ -15,7 +15,7 @@ import java.util.List;
 public interface SkillsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Skill... skills);
+    void insertSkill(Skill... skills);
 
     @Query("SELECT * FROM skills_table ORDER BY id")
     LiveData<List<Skill>> getAllSkills();
@@ -27,11 +27,11 @@ public interface SkillsDao {
     Skill getSkillById(int skillId);
 
     @Update
-    void update(Skill... skills);
+    void updateSkill(Skill... skills);
 
     @Query("update skills_table set totalXp = totalXp + :xpIncrease where id = :id")
-    void updateTotalXpById(int id, long xpIncrease);
+    void updateSkillTotalXpById(int id, long xpIncrease);
 
     @Query("DELETE FROM skills_table")
-    void deleteAll();
+    void deleteAllSkills();
 }

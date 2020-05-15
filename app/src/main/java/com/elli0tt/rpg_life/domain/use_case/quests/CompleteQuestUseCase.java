@@ -26,7 +26,7 @@ public class CompleteQuestUseCase {
                 increaseRelatedSkillsXps(quest.getId(),
                         quest.getDifficulty().getXpIncrease() + 10 * quest.getDayNumber());
                 quest.setDayNumber(quest.getDayNumber() + 1);
-                questsRepository.update(quest);
+                questsRepository.updateQuests(quest);
                 if (quest.getDayNumber() < quest.getTotalDaysCount()) {
                     Quest newQuest = new Quest(quest.getName());
                     newQuest.setDifficulty(quest.getDifficulty());
@@ -35,14 +35,14 @@ public class CompleteQuestUseCase {
                     newQuest.setChallenge(true);
                     newQuest.setTotalDaysCount(quest.getTotalDaysCount());
                     insertRelatedSkills(quest.getId());
-                    questsRepository.insert(newQuest);
+                    questsRepository.insertQuests(newQuest);
                 }
             }
         } else {
             if (isCompleted) {
                 increaseRelatedSkillsXps(quest.getId(), quest.getDifficulty().getXpIncrease());
             }
-            questsRepository.update(quest);
+            questsRepository.updateQuests(quest);
             if (!quest.getRepeatState().equals(Quest.RepeatState.NOT_SET)) {
                 Quest newQuest = new Quest(quest.getName());
                 //newQuest.name = quest.name;
@@ -54,7 +54,7 @@ public class CompleteQuestUseCase {
                 newQuest.setDateDue(calculateNewDateDue(quest.getDateDue(),
                         quest.getRepeatState()));
                 newQuest.setImportant(quest.isImportant());
-                questsRepository.insert(newQuest);
+                questsRepository.insertQuests(newQuest);
             }
         }
     }
@@ -140,7 +140,7 @@ public class CompleteQuestUseCase {
                 List<RelatedToQuestSkills> relatedSkills =
                         questsRepository.getRelatedSkills(questId);
                 for (RelatedToQuestSkills skill : relatedSkills) {
-                    skillsRepository.updateTotalXpById(skill.getSkillId(),
+                    skillsRepository.updateSkillTotalXpById(skill.getSkillId(),
                             xpIncrease * skill.getXpPercentage() / 100);
                 }
             }

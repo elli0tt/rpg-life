@@ -11,7 +11,7 @@ class FailChallengeUseCase(private val skillsRepository: SkillsRepository, priva
                 val relatedSkills = questsRepository.getRelatedSkills(challengeId)
                 for (relatedSkill in relatedSkills) {
                     val xpDecrease: Long = (startXp.toLong() * dayNumber + dayNumber * (dayNumber - 1) / 2 * 10) / 2;
-                    skillsRepository.updateTotalXpById(relatedSkill.skillId, -xpDecrease);
+                    skillsRepository.updateSkillTotalXpById(relatedSkill.skillId, -xpDecrease);
                 }
             }
         }.start()

@@ -26,7 +26,7 @@ public class SkillsRepositoryImpl implements SkillsRepository {
     }
 
     @Override
-    public void insert(Skill... skills) {
+    public void insertSkills(Skill... skills) {
         new InsertAsyncTask(skillsDao).execute(skills);
     }
 
@@ -39,7 +39,7 @@ public class SkillsRepositoryImpl implements SkillsRepository {
 
         @Override
         protected Void doInBackground(Skill... skills) {
-            dao.insert(skills);
+            dao.insertSkill(skills);
             return null;
         }
     }
@@ -55,7 +55,7 @@ public class SkillsRepositoryImpl implements SkillsRepository {
     }
 
     @Override
-    public void update(Skill... skills){
+    public void updateSkills(Skill... skills){
         new UpdateAsyncTask(skillsDao).execute(skills);
     }
 
@@ -68,13 +68,13 @@ public class SkillsRepositoryImpl implements SkillsRepository {
 
         @Override
         protected Void doInBackground(Skill... skills) {
-            dao.update(skills);
+            dao.updateSkill(skills);
             return null;
         }
     }
 
     @Override
-    public void updateTotalXpById(int id, long xpIncrease){
+    public void updateSkillTotalXpById(int id, long xpIncrease){
         new UpdateTotalXpByIdAsyncTask(skillsDao).execute(new Pair<>(id, xpIncrease));
     }
 
@@ -87,13 +87,13 @@ public class SkillsRepositoryImpl implements SkillsRepository {
 
         @Override
         protected Void doInBackground(Pair<Integer, Long>... params) {
-            dao.updateTotalXpById(params[0].first, params[0].second);
+            dao.updateSkillTotalXpById(params[0].first, params[0].second);
             return null;
         }
     }
 
     @Override
-    public void deleteAll() {
+    public void deleteAllSkills() {
         new DeleteAllAsyncTask(skillsDao).execute();
     }
 
@@ -106,7 +106,7 @@ public class SkillsRepositoryImpl implements SkillsRepository {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            dao.deleteAll();
+            dao.deleteAllSkills();
             return null;
         }
     }

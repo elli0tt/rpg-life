@@ -121,11 +121,11 @@ public class QuestsViewModel extends AndroidViewModel {
     }
 
     public void insert(List<Quest> questList) {
-        questsRepository.insert((Quest[]) questList.toArray());
+        questsRepository.insertQuests((Quest[]) questList.toArray());
     }
 
     void deleteAll() {
-        questsRepository.deleteAll();
+        questsRepository.deleteAllQuests();
     }
 
     void populateWithSamples() {
@@ -133,7 +133,7 @@ public class QuestsViewModel extends AndroidViewModel {
     }
 
     public void delete(List<Quest> questList) {
-        questsRepository.delete(questList.toArray(new Quest[0]));
+        questsRepository.deleteQuests(questList.toArray(new Quest[0]));
     }
 
     void setFiltering(QuestsFilterState filterState) {

@@ -45,12 +45,12 @@ class AddEditSkillViewModel(application: Application) : AndroidViewModel(applica
         when (mode) {
             Mode.ADD -> {
                 skill = Skill(name = name.value ?: "")
-                skillsRepository.insert(skill)
+                skillsRepository.insertSkills(skill)
             }
 
             Mode.EDIT -> {
                 skill.name = name.value ?: ""
-                skillsRepository.update(skill)
+                skillsRepository.updateSkills(skill)
             }
         }
     }

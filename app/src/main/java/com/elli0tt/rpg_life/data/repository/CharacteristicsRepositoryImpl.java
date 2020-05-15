@@ -26,33 +26,33 @@ public class CharacteristicsRepositoryImpl implements CharacteristicsRepository 
     }
 
     @Override
-    public void insert(Characteristic characteristic) {
-        new InsertOneAsyncTask(characteristicsDao).execute(characteristic);
+    public void insertCharacteristics(Characteristic characteristic) {
+        new InsertCharacteristicAsyncTask(characteristicsDao).execute(characteristic);
     }
 
-    private static class InsertOneAsyncTask extends AsyncTask<Characteristic, Void, Void> {
+    private static class InsertCharacteristicAsyncTask extends AsyncTask<Characteristic, Void, Void> {
         private CharacteristicsDao characteristicsDao;
 
-        InsertOneAsyncTask(CharacteristicsDao characteristicsDao) {
+        InsertCharacteristicAsyncTask(CharacteristicsDao characteristicsDao) {
             this.characteristicsDao = characteristicsDao;
         }
 
         @Override
         protected Void doInBackground(Characteristic... characteristics) {
-            characteristicsDao.insert(characteristics[0]);
+            characteristicsDao.insertCharacteristic(characteristics[0]);
             return null;
         }
     }
 
     @Override
-    public void insert(List<Characteristic> characteristicList) {
-        new InsertListAsyncTask(characteristicsDao).execute(characteristicList);
+    public void insertCharacteristics(List<Characteristic> characteristicList) {
+        new InsertCharacteristicsAsyncTask(characteristicsDao).execute(characteristicList);
     }
 
-    private static class InsertListAsyncTask extends AsyncTask<List<Characteristic>, Void, Void> {
+    private static class InsertCharacteristicsAsyncTask extends AsyncTask<List<Characteristic>, Void, Void> {
         private CharacteristicsDao characteristicsDao;
 
-        InsertListAsyncTask(CharacteristicsDao characteristicsDao) {
+        InsertCharacteristicsAsyncTask(CharacteristicsDao characteristicsDao) {
             this.characteristicsDao = characteristicsDao;
         }
 
@@ -60,18 +60,18 @@ public class CharacteristicsRepositoryImpl implements CharacteristicsRepository 
         @SafeVarargs
         @Override
         protected final Void doInBackground(List<Characteristic>... lists) {
-            characteristicsDao.insert(lists[0]);
+            characteristicsDao.insertCharacteristic(lists[0]);
             return null;
         }
     }
 
     @Override
-    public void delete() {
+    public void deleteCharacteristic() {
 
     }
 
     @Override
-    public void update() {
+    public void updateCharacteristic() {
 
     }
 

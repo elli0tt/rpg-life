@@ -13,10 +13,10 @@ import java.util.List;
 public interface CharacteristicsDao {
 
     @Insert
-    void insert(Characteristic characteristic);
+    void insertCharacteristic(Characteristic characteristic);
 
     @Insert
-    void insert(List<Characteristic> characteristicList);
+    void insertCharacteristic(List<Characteristic> characteristicList);
 
     @Query("SELECT * from characteristics_table ORDER BY id")
     LiveData<List<Characteristic>> getAllCharacteristics();

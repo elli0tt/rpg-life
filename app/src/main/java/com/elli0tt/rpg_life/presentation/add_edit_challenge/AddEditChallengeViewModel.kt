@@ -64,10 +64,10 @@ class AddEditChallengeViewModel(application: Application) : AndroidViewModel(app
         challenge.dayNumber = dayNumber.value!!
 
         if (isChallengeNew) {
-            questsRepository.insert(challenge)
+            questsRepository.insertQuests(challenge)
         } else {
             challenge.id = challengeId
-            questsRepository.update(challenge)
+            questsRepository.updateQuests(challenge)
         }
     }
 

@@ -20,15 +20,15 @@ public interface QuestsRepository {
 
     LiveData<Quest> getQuestByIdLiveData(int questId);
 
-    void insert(Quest... quests);
+    void insertQuests(Quest... quests);
 
-    void update(Quest... quests);
+    void updateQuests(Quest... quests);
 
     void updateQuestHasSubquestsById(int id, boolean hasSubquests);
 
-    void delete(Quest... quests);
+    void deleteQuests(Quest... quests);
 
-    void deleteAll();
+    void deleteAllQuests();
 
     QuestsFilterState getQuestsFilterState();
 

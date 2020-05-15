@@ -56,7 +56,7 @@ public class QuestsRepositoryImpl implements QuestsRepository {
     }
 
     @Override
-    public void insert(Quest... quests) {
+    public void insertQuests(Quest... quests) {
         new InsertQuestsAsyncTask(questsDao).execute(quests);
     }
 
@@ -69,26 +69,26 @@ public class QuestsRepositoryImpl implements QuestsRepository {
 
         @Override
         protected Void doInBackground(Quest... quests) {
-            dao.insert(quests);
+            dao.insertQuests(quests);
             return null;
         }
     }
 
     @Override
-    public void update(Quest... quests) {
-        new UpdateAsyncTask(questsDao).execute(quests);
+    public void updateQuests(Quest... quests) {
+        new UpdateQuestsAsyncTask(questsDao).execute(quests);
     }
 
-    private static class UpdateAsyncTask extends android.os.AsyncTask<Quest, Void, Void> {
+    private static class UpdateQuestsAsyncTask extends android.os.AsyncTask<Quest, Void, Void> {
         private QuestsDao dao;
 
-        UpdateAsyncTask(QuestsDao dao) {
+        UpdateQuestsAsyncTask(QuestsDao dao) {
             this.dao = dao;
         }
 
         @Override
         protected Void doInBackground(Quest... quests) {
-            dao.update(quests);
+            dao.updateQuests(quests);
             return null;
         }
     }
@@ -114,39 +114,39 @@ public class QuestsRepositoryImpl implements QuestsRepository {
     }
 
     @Override
-    public void delete(Quest... quests) {
-        new DeleteAsyncTask(questsDao).execute(quests);
+    public void deleteQuests(Quest... quests) {
+        new DeleteQuestsAsyncTask(questsDao).execute(quests);
     }
 
-    private static class DeleteAsyncTask extends android.os.AsyncTask<Quest, Void, Void> {
+    private static class DeleteQuestsAsyncTask extends android.os.AsyncTask<Quest, Void, Void> {
         private QuestsDao dao;
 
-        DeleteAsyncTask(QuestsDao dao) {
+        DeleteQuestsAsyncTask(QuestsDao dao) {
             this.dao = dao;
         }
 
         @Override
         protected Void doInBackground(Quest... quests) {
-            dao.delete(quests);
+            dao.deleteQuests(quests);
             return null;
         }
     }
 
     @Override
-    public void deleteAll() {
-        new DeleteAllAsyncTask(questsDao).execute();
+    public void deleteAllQuests() {
+        new DeleteAllQuestsAsyncTask(questsDao).execute();
     }
 
-    private static class DeleteAllAsyncTask extends android.os.AsyncTask<Void, Void, Void> {
+    private static class DeleteAllQuestsAsyncTask extends android.os.AsyncTask<Void, Void, Void> {
         private QuestsDao dao;
 
-        DeleteAllAsyncTask(QuestsDao dao) {
+        DeleteAllQuestsAsyncTask(QuestsDao dao) {
             this.dao = dao;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            dao.deleteAll();
+            dao.deleteAllQuests();
             return null;
         }
     }
@@ -206,7 +206,7 @@ public class QuestsRepositoryImpl implements QuestsRepository {
 
         @Override
         protected Void doInBackground(RelatedToQuestSkills... relatedToQuestSkills) {
-            dao.insert(relatedToQuestSkills[0]);
+            dao.insertRelatedSkill(relatedToQuestSkills[0]);
             return null;
         }
     }
@@ -226,7 +226,7 @@ public class QuestsRepositoryImpl implements QuestsRepository {
 
         @Override
         protected Void doInBackground(RelatedToQuestSkills... relatedToQuestSkills) {
-            dao.delete(relatedToQuestSkills[0].getQuestId(), relatedToQuestSkills[0].getSkillId());
+            dao.deleteRelatedSkill(relatedToQuestSkills[0].getQuestId(), relatedToQuestSkills[0].getSkillId());
             return null;
         }
     }

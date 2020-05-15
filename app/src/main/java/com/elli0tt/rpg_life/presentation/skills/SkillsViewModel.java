@@ -63,7 +63,7 @@ public class SkillsViewModel extends AndroidViewModel {
     }
 
     void populateWithSamples() {
-        skillsRepository.insert(generateSampleSkillsList().toArray(new Skill[0]));
+        skillsRepository.insertSkills(generateSampleSkillsList().toArray(new Skill[0]));
     }
 
     private List<Skill> generateSampleSkillsList() {
@@ -75,7 +75,7 @@ public class SkillsViewModel extends AndroidViewModel {
     }
 
     void deleteAll() {
-        skillsRepository.deleteAll();
+        skillsRepository.deleteAllSkills();
     }
 
     void setSortingState(SkillsSortingState sortingState) {
