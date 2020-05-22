@@ -2,9 +2,7 @@ package com.elli0tt.rpg_life.presentation.statistics
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -53,10 +51,11 @@ class StatisticsFragment : Fragment() {
         }
 
         subscribeToViewModel()
+        setHasOptionsMenu(true)
     }
 
     private fun subscribeToViewModel() {
-        viewModel.skillsPieEntries.observe(viewLifecycleOwner) { pieEntries ->
+        viewModel.pieEntries.observe(viewLifecycleOwner) { pieEntries ->
             val dataSet = PieDataSet(pieEntries, "").apply {
                 colors = viewModel.colors
                 sliceSpace = 2f
@@ -71,8 +70,22 @@ class StatisticsFragment : Fragment() {
                 setValueTextColor(Color.BLACK)
             }
             skillsPieChart.data = pieData
-            skillsPieChart.invalidate()
+            skillsPieChart.animateY(1400, Easing.EaseInOutQuad)
+            //skillsPieChart.invalidate()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.statistics_toolbar_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.skills -> viewModel.showSkillsStatistics()
+            R.id.skills_categories -> viewModel.showSkillsCategoriesStatistics()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }

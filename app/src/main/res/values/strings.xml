@@ -99,4 +99,6 @@
     <string name="add_edit_challenge_fail_challenge">Fail challenge</string>
     <string name="add_edit_skill_add_category">Add category</string>
     <string name="add_category_to_skill_toolbar_menu_add_category">Add category</string>
+    <string name="statistics_toolbar_menu_skills">Skills</string>
+    <string name="statistics_toolbar_menu_skills_categories">Skills categories</string>
 </resources>

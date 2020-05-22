@@ -5,8 +5,7 @@ import androidx.lifecycle.Transformations
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository
 import com.github.mikephil.charting.data.PieEntry
 
-class GetSkillsStatisticsPieEntriesUseCase(private val skillsRepository: SkillsRepository) {
-
+class GetSkillsPieEntriesUseCase(private val skillsRepository: SkillsRepository) {
     fun invoke(): LiveData<List<PieEntry>> {
         return Transformations.map(skillsRepository.allSkills) { skills ->
             val result = ArrayList<PieEntry>(skills.size)
@@ -15,7 +14,7 @@ class GetSkillsStatisticsPieEntriesUseCase(private val skillsRepository: SkillsR
 
             for (skill in skills) {
                 val value = skill.totalXp.toFloat() / totalXpSum * 100
-                if (value > 0){
+                if (value > 0) {
                     result.add(PieEntry(value, skill.name))
                 }
             }
