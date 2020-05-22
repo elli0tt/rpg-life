@@ -26,14 +26,15 @@ public class MainActivity extends AppCompatActivity {
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             int id = destination.getId();
-            if (id == R.id.add_edit_quest_screen ||
-                    id == R.id.add_edit_skill_screen ||
-                    id == R.id.countdown_timer_screen ||
-                    id == R.id.add_skills_to_quest_screen ||
-                    id == R.id.add_edit_challenge_screen) {
-                bottomNavigationView.setVisibility(View.GONE);
-            } else {
+            if (id == R.id.character_screen ||
+                    id == R.id.skills_screen ||
+                    id == R.id.quests_screen ||
+                    id == R.id.statistics_screen ||
+                    id == R.id.settings_screen
+            ) {
                 bottomNavigationView.setVisibility(View.VISIBLE);
+            } else {
+                bottomNavigationView.setVisibility(View.GONE);
             }
         });
         NavigationUI.setupWithNavController(bottomNavigationView, navController);

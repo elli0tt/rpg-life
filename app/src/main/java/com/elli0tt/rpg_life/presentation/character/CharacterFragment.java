@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,8 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.presentation.custom_view.DividerItemDecoration;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.Objects;
 
 
 public class CharacterFragment extends Fragment {
@@ -67,14 +65,14 @@ public class CharacterFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         DividerItemDecoration itemDecoration =
-                new DividerItemDecoration(Objects.requireNonNull(getActivity()));
+                new DividerItemDecoration(requireActivity());
         recyclerView.addItemDecoration(itemDecoration);
     }
 
     private void setupCharacteristicsViewModel() {
-        viewModel = ViewModelProviders.of(this)
+        viewModel = new ViewModelProvider(this)
                 .get(CharacteristicsViewModel.class);
-        viewModel.getAllCharacteristics().observe(this,
+        viewModel.getAllCharacteristics().observe(getViewLifecycleOwner(),
                 characteristics -> adapter.setCharacteristicList(characteristics));
     }
 

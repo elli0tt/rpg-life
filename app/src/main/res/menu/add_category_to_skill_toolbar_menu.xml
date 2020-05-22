@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/add_category"
+        android:icon="@drawable/ic_plus_white_24dp"
+        android:title="@string/add_category_to_skill_toolbar_menu_add_category"
+        app:showAsAction="ifRoom" />
+
+</menu>

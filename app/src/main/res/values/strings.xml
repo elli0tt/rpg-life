@@ -97,4 +97,6 @@
     <string name="add_edit_challenge_total_days_count">Total days count:</string>
     <string name="add_skills_to_quest_xp_percent">%1$d %%</string>
     <string name="add_edit_challenge_fail_challenge">Fail challenge</string>
+    <string name="add_edit_skill_add_category">Add category</string>
+    <string name="add_category_to_skill_toolbar_menu_add_category">Add category</string>
 </resources>

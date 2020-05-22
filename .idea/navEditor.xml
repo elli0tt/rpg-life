@@ -20,6 +20,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="add_category_to_skill_screen">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="519" />
+                            <option name="y" value="1166" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="add_edit_challenge_screen">
                     <value>
                       <LayoutPositions>
@@ -67,6 +79,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="add_edit_skill_category_screen">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="739" />
+                            <option name="y" value="1165" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="add_edit_skill_screen">
                     <value>
                       <LayoutPositions>
@@ -75,6 +99,15 @@
                             <option name="x" value="269" />
                             <option name="y" value="1169" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_add_edit_skill_screen_to_addCategoryToSkillFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>

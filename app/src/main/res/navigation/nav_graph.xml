@@ -176,6 +176,9 @@
             android:name="skillId"
             android:defaultValue="0"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_add_edit_skill_screen_to_addCategoryToSkillFragment"
+            app:destination="@id/add_category_to_skill_screen" />
     </fragment>
 
     <fragment
@@ -189,12 +192,12 @@
         <action
             android:id="@+id/action_add_skills_to_quest_screen_to_quests_screen"
             app:destination="@id/quests_screen"
-            app:popUpTo="@id/quests_screen"
-            app:popUpToInclusive="true"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/quests_screen"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -209,6 +212,31 @@
         <action
             android:id="@+id/action_add_edit_challenge_screen_to_add_skills_to_quest_screen"
             app:destination="@id/add_skills_to_quest_screen" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/add_category_to_skill_screen"
+        android:name="com.elli0tt.rpg_life.presentation.add_category_to_skill.AddCategoryToSkillFragment"
+        android:label="AddCategoryToSkillFragment"
+        tools:layout="@layout/fragment_add_category_to_skill">
+        <argument
+            android:name="skillId"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_add_category_to_skill_screen_to_add_edit_skill_category_screen"
+            app:destination="@id/add_edit_skill_category_screen" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/add_edit_skill_category_screen"
+        android:name="com.elli0tt.rpg_life.presentation.add_edit_skill_category.AddEditSkillsCategoryFragment"
+        android:label="AddEditSkillCategory"
+        tools:layout="@layout/fragment_add_edit_skill_category" >
+        <argument
+            android:name="categoryId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 
 
