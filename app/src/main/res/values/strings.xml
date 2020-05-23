@@ -101,4 +101,9 @@
     <string name="add_category_to_skill_toolbar_menu_add_category">Add category</string>
     <string name="statistics_toolbar_menu_skills">Skills</string>
     <string name="statistics_toolbar_menu_skills_categories">Skills categories</string>
+    <string name="add_edit_skill_delete">Delete</string>
+    <string name="add_edit_skill_corfirm_delete_title">Are you sure</string>
+    <string name="add_eidt_skill_confirem_delete_message">%1$s will be permanently deleted</string>
+    <string name="add_edit_skill_confirm_positive_text">Delete</string>
+    <string name="add_edit_skill_confirm_negative_text">Cancel</string>
 </resources>

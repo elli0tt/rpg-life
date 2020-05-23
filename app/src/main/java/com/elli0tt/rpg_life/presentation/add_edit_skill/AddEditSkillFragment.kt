@@ -1,8 +1,10 @@
 package com.elli0tt.rpg_life.presentation.add_edit_skill
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
 import android.view.View.OnFocusChangeListener
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -71,6 +73,9 @@ class AddEditSkillFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> navController.popBackStack()
+            R.id.delete -> {
+                showOnDeleteConfirmDialog()
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -90,5 +95,21 @@ class AddEditSkillFragment : Fragment() {
         val action = AddEditSkillFragmentDirections.actionAddEditSkillScreenToAddCategoryToSkillFragment()
         action.skillId = viewModel.skillId
         navController.navigate(action)
+    }
+
+    private fun showOnDeleteConfirmDialog(){
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(getString(R.string.add_edit_skill_corfirm_delete_title))
+            setMessage(getString(R.string.add_eidt_skill_confirem_delete_message, viewModel.skillName))
+            setCancelable(true)
+            setPositiveButton(getString(R.string.add_edit_skill_confirm_positive_text)) { dialog, which ->
+                viewModel.delete()
+                navController.popBackStack()
+            }
+            setNegativeButton(getString(R.string.add_edit_skill_confirm_negative_text)) { _, _ ->
+                //do nothing
+            }
+            show()
+        }
     }
 }

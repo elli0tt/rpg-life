@@ -37,4 +37,7 @@ public interface SkillsDao {
 
     @Query("UPDATE skills_table SET categoryId = :categoryId WHERE id = :skillId")
     void updateSkillCategoryById(int skillId, int categoryId);
+
+    @Query("DELETE FROM skills_table WHERE id = :skillId")
+    void deleteSkillsById(Integer... skillId);
 }

@@ -22,9 +22,11 @@ class AddEditSkillViewModel(application: Application) : AndroidViewModel(applica
 
     val skillId
         get() = skill.id
+    val skillName
+        get() = name.value
 
     enum class Mode {
-        ADD, EDIT
+        ADD, EDIT, DELETED
     }
 
     private var mode: Mode = Mode.ADD
@@ -70,7 +72,15 @@ class AddEditSkillViewModel(application: Application) : AndroidViewModel(applica
                 skill.name = name.value ?: ""
                 skillsRepository.updateSkills(skill)
             }
+            Mode.DELETED -> {/** Do nothing*/}
         }
+    }
+
+    fun delete(){
+        if (mode == Mode.EDIT){
+            skillsRepository.deleteSkillsById(skillId)
+        }
+        mode = Mode.DELETED
     }
 
 }

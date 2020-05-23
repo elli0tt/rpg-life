@@ -1,7 +1,6 @@
 package com.elli0tt.rpg_life.data.repository;
 
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.core.util.Pair;
 import androidx.lifecycle.LiveData;
@@ -141,6 +140,25 @@ public class SkillsRepositoryImpl implements SkillsRepository {
         @Override
         protected Void doInBackground(Pair<Integer, Integer>... pairs) {
             dao.updateSkillCategoryById(pairs[0].first, pairs[0].second);
+            return null;
+        }
+    }
+
+    @Override
+    public void deleteSkillsById(Integer... skillId) {
+        new DeleteSkillsByIdAsyncTask(skillsDao).execute(skillId);
+    }
+
+    private static class DeleteSkillsByIdAsyncTask extends android.os.AsyncTask<Integer, Void, Void> {
+        private SkillsDao dao;
+
+        DeleteSkillsByIdAsyncTask(SkillsDao dao) {
+            this.dao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Integer... ids) {
+            dao.deleteSkillsById(ids);
             return null;
         }
     }
