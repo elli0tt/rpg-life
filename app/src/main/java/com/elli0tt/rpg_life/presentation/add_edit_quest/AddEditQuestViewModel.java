@@ -56,7 +56,12 @@ public class AddEditQuestViewModel extends AndroidViewModel {
      */
     private int id;
 
-    private boolean isNewQuest = false;
+    private enum Mode {
+        ADD, EDIT
+    }
+
+    private Mode mode = Mode.EDIT;
+
     private boolean isDataLoaded = false;
 
     private final String TODAY;
@@ -111,7 +116,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     }
 
     boolean getIsNewQuest() {
-        return isNewQuest;
+        return mode.equals(Mode.ADD);
     }
 
     int getQuestId() {
@@ -125,7 +130,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         if (id == null) {
             //No need to populate, the quest is new
             currentQuest = new Quest("");
-            isNewQuest = true;
+            mode = Mode.ADD;
             subQuests = new MutableLiveData<>();
             return;
         }
@@ -186,7 +191,6 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         return name.getValue() != null && !name.getValue().isEmpty();
     }
 
-
     boolean saveQuest() {
         if (!isNameValid()) {
             nameErrorMessageId.setValue(R.string.add_edit_quest_name_error_message);
@@ -205,15 +209,17 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         quest.setSubQuest(isSubQuest);
         quest.setParentQuestId(parentQuestId);
 
-        if (isNewQuest) {
-            questsRepository.insertQuests(quest);
-        } else {
-            quest.setId(id);
-            quest.setCompleted(currentQuest.isCompleted());
-            quest.setImportant(currentQuest.isImportant());
-            questsRepository.updateQuests(quest);
+        switch (mode) {
+            case ADD:
+                questsRepository.insertQuests(quest);
+                break;
+            case EDIT:
+                quest.setId(id);
+                quest.setCompleted(currentQuest.isCompleted());
+                quest.setImportant(currentQuest.isImportant());
+                questsRepository.updateQuests(quest);
+                break;
         }
-
         if (isSubQuest) {
             questsRepository.updateQuestHasSubquestsById(parentQuestId, true);
         }

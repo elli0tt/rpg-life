@@ -1,5 +1,6 @@
 package com.elli0tt.rpg_life.presentation.character;
 
+import android.app.WallpaperManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -31,6 +33,8 @@ public class CharacterFragment extends Fragment {
     private RecyclerView recyclerView;
     private FloatingActionButton fab;
 
+    private AppCompatImageView imageView;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -43,6 +47,7 @@ public class CharacterFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.characteristics_recycler_view);
         fab = view.findViewById(R.id.character_fab);
+        imageView = view.findViewById(R.id.image_view);
 
         setupRecyclerView();
         navController = NavHostFragment.findNavController(this);
@@ -51,6 +56,13 @@ public class CharacterFragment extends Fragment {
         setHasOptionsMenu(true);
 
         fab.setOnClickListener(v -> navigateToAddCharacteristicFragment());
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        WallpaperManager wallpaperManager = WallpaperManager.getInstance(requireContext());
+        imageView.setImageDrawable(wallpaperManager.getDrawable());
     }
 
     public void navigateToAddCharacteristicFragment() {

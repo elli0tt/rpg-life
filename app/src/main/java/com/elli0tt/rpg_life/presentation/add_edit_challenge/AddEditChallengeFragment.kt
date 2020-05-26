@@ -2,7 +2,7 @@ package com.elli0tt.rpg_life.presentation.add_edit_challenge
 
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
@@ -52,7 +52,7 @@ class AddEditChallengeFragment : Fragment() {
             SoftKeyboardUtil.hideKeyboard(it, activity)
         }
         binding.addSkillsButton.setOnClickListener { navigateToAddSkillsToQuestScreen() }
-        binding.failButton.setOnClickListener { viewModel.failChallenge() }
+        binding.failButton.setOnClickListener { showFailChallengeConfirmDialog() }
 
         subscribeToViewModel()
     }
@@ -107,7 +107,7 @@ class AddEditChallengeFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             android.R.id.home -> navController.popBackStack()
         }
         return super.onOptionsItemSelected(item)
@@ -139,6 +139,22 @@ class AddEditChallengeFragment : Fragment() {
             true
         }
         popupMenu.show()
+    }
+
+    private fun showFailChallengeConfirmDialog() {
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(getString(R.string.add_edit_challege_fail_confirm_title))
+            setMessage(getString(R.string.add_edit_challenge_fail_confirm_message))
+            setCancelable(true)
+            setPositiveButton(getString(R.string.add_edit_challenge_fail_confrim_positive)) { _, _ ->
+                viewModel.failChallenge()
+                navController.popBackStack()
+            }
+            setNegativeButton(getString(R.string.add_edit_challenge_fail_confirm_negative)) { _, _ ->
+                // do nothing
+            }
+            show()
+        }
     }
 
     private fun navigateToAddSkillsToQuestScreen() {

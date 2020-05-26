@@ -106,4 +106,8 @@
     <string name="add_eidt_skill_confirem_delete_message">%1$s will be permanently deleted</string>
     <string name="add_edit_skill_confirm_positive_text">Delete</string>
     <string name="add_edit_skill_confirm_negative_text">Cancel</string>
+    <string name="add_edit_challege_fail_confirm_title">Are you sure</string>
+    <string name="add_edit_challenge_fail_confirm_message">All related to this challenge skills will lose half of experience, earned for this challenge</string>
+    <string name="add_edit_challenge_fail_confrim_positive">Fail</string>
+    <string name="add_edit_challenge_fail_confirm_negative">Cancel</string>
 </resources>
