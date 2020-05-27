@@ -35,7 +35,7 @@ public class CompleteQuestUseCase {
                     newQuest.setChallenge(true);
                     newQuest.setTotalDaysCount(quest.getTotalDaysCount());
                     insertRelatedSkills(quest.getId());
-                    questsRepository.insertQuests(newQuest);
+                    questsRepository.insertQuestWithRelatedSkills(newQuest, quest.getId());
                 }
             }
         } else {
@@ -54,7 +54,7 @@ public class CompleteQuestUseCase {
                 newQuest.setDateDue(calculateNewDateDue(quest.getDateDue(),
                         quest.getRepeatState()));
                 newQuest.setImportant(quest.isImportant());
-                questsRepository.insertQuests(newQuest);
+                questsRepository.insertQuestWithRelatedSkills(newQuest, quest.getId());
             }
         }
     }

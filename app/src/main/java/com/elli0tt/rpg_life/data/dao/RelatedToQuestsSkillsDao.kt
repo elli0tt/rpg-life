@@ -24,4 +24,7 @@ interface RelatedToQuestsSkillsDao {
 
     @Query("delete from related_to_quests_skills where questId = :questId and skillId = :skillId")
     fun deleteRelatedSkill(questId: Int, skillId: Int)
+
+    @Query("INSERT INTO related_to_quests_skills SELECT :newQuestId, skillId, xpPercentage FROM related_to_quests_skills WHERE questId = :oldQuestId")
+    fun copyRelatedSkills(oldQuestId: Int, newQuestId: Int)
 }

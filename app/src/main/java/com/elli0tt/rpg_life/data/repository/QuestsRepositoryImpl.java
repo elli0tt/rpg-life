@@ -226,7 +226,8 @@ public class QuestsRepositoryImpl implements QuestsRepository {
 
         @Override
         protected Void doInBackground(RelatedToQuestSkills... relatedToQuestSkills) {
-            dao.deleteRelatedSkill(relatedToQuestSkills[0].getQuestId(), relatedToQuestSkills[0].getSkillId());
+            dao.deleteRelatedSkill(relatedToQuestSkills[0].getQuestId(),
+                    relatedToQuestSkills[0].getSkillId());
             return null;
         }
     }
@@ -244,6 +245,31 @@ public class QuestsRepositoryImpl implements QuestsRepository {
     @Override
     public int getRelatedSkillId(int questId) {
         return relatedToQuestsSkillsDao.getRelatedSkillId(questId);
+    }
+
+    @Override
+    public void insertQuestWithRelatedSkills(Quest quest, int oldQuestId) {
+        new InsertQuestWithRelatedSkillsAsyncTask(questsDao, relatedToQuestsSkillsDao).execute(new Pair<>(quest, oldQuestId));
+    }
+
+    private static class InsertQuestWithRelatedSkillsAsyncTask extends android.os.AsyncTask<Pair<Quest, Integer>, Void, Void> {
+        private QuestsDao questsDao;
+        private RelatedToQuestsSkillsDao relatedToQuestsSkillsDao;
+
+        InsertQuestWithRelatedSkillsAsyncTask(QuestsDao questsDao,
+                                              RelatedToQuestsSkillsDao relatedToQuestsSkillsDao) {
+            this.questsDao = questsDao;
+            this.relatedToQuestsSkillsDao = relatedToQuestsSkillsDao;
+        }
+
+        @Override
+        protected Void doInBackground(Pair<Quest, Integer>... pairs) {
+            List<Long> ids = questsDao.insertQuests(pairs[0].first);
+            for (long id : ids) {
+                relatedToQuestsSkillsDao.copyRelatedSkills(pairs[0].second, (int) id);
+            }
+            return null;
+        }
     }
 
 }

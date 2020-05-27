@@ -16,7 +16,7 @@ import java.util.List;
 public interface QuestsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertQuests(Quest... quests);
+    List<Long> insertQuests(Quest... quests);
 
     @Query("SELECT * FROM quest_table WHERE id = :questId")
     Quest getQuestById(int questId);
