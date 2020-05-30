@@ -1,20 +1,27 @@
 package com.elli0tt.rpg_life.presentation.add_edit_quest;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.ContentResolver;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -32,6 +39,10 @@ import com.elli0tt.rpg_life.presentation.utils.SoftKeyboardUtil;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import static android.Manifest.permission.WRITE_CALENDAR;
+import static android.content.pm.PackageManager.PERMISSION_DENIED;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+
 public class AddEditQuestFragment extends Fragment {
     private FragmentAddEditQuestBinding binding;
 
@@ -48,6 +59,8 @@ public class AddEditQuestFragment extends Fragment {
     private String hardTitle;
     private String veryHardTitle;
     private String impossibleTitle;
+
+    private static final int REQUEST_PERMISSIONS = 1000;
 
     @Nullable
     @Override
@@ -103,6 +116,7 @@ public class AddEditQuestFragment extends Fragment {
         binding.addStartTimeView.setOnRemoveClickListener(onRemoveStartTimeViewClickListener);
         binding.addTimeDueView.setOnClickListener(onAddTimeDueViewClickListener);
         binding.addTimeDueView.setOnRemoveClickListener(onRemoveTimeDueViewClickListener);
+        binding.addToCalendarButton.setOnClickListener(onAddToCalendarClickListener);
 
         if (viewModel.getIsNewQuest()) {
             binding.nameEditText.requestFocus();
@@ -348,6 +362,15 @@ public class AddEditQuestFragment extends Fragment {
         viewModel.removeTimeDue();
     };
 
+    private View.OnClickListener onAddToCalendarClickListener = v -> {
+        checkPermissions();
+        ContentResolver contentResolver = requireActivity().getContentResolver();
+        Uri uri = contentResolver.insert(CalendarContract.Events.CONTENT_URI,
+                viewModel.getQuestContentValues());
+
+        Toast.makeText(requireContext(), "Added", Toast.LENGTH_SHORT).show();
+    };
+
     private void showAddStartDatePopupMenu(View view) {
         PopupMenu popupMenu = new PopupMenu(requireContext(), view);
         popupMenu.getMenuInflater().inflate(R.menu.add_edit_quest_add_start_date_popup_menu,
@@ -512,5 +535,27 @@ public class AddEditQuestFragment extends Fragment {
                 AddEditQuestFragmentDirections.actionAddEditQuestScreenToAddSkillsToQuestFragment();
         action.setQuestId(viewModel.getQuestId());
         navController.navigate(action);
+    }
+
+    private void checkPermissions() {
+        if (ContextCompat.checkSelfPermission(requireContext(),
+                WRITE_CALENDAR) == PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{WRITE_CALENDAR}, REQUEST_PERMISSIONS);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case REQUEST_PERMISSIONS:
+                if (grantResults.length > 0 && grantResults[0] == PERMISSION_GRANTED){
+                    Toast.makeText(requireContext(), "Granted", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(requireContext(), "Not Granted", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
     }
 }

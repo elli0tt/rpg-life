@@ -5,6 +5,8 @@
     package="com.elli0tt.rpg_life">
 
     <dist:module dist:instant="true" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
 
     <application
         android:allowBackup="true"

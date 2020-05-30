@@ -1,6 +1,8 @@
 package com.elli0tt.rpg_life.presentation.add_edit_quest;
 
 import android.app.Application;
+import android.content.ContentValues;
+import android.provider.CalendarContract;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,7 +38,8 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
     private MutableLiveData<Integer> nameErrorMessageId = new MutableLiveData<>();
 
-    private MutableLiveData<Quest.DateState> dateDueState = new MutableLiveData<>(Quest.DateState.NOT_SET);
+    private MutableLiveData<Quest.DateState> dateDueState =
+            new MutableLiveData<>(Quest.DateState.NOT_SET);
     private MutableLiveData<Quest.DateState> startDateState =
             new MutableLiveData<>(Quest.DateState.NOT_SET);
 
@@ -251,7 +254,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         return dateFormat.format(dateDue.getTime());
     }
 
-    String getTimeDueFormatted(){
+    String getTimeDueFormatted() {
         return timeFormat.format(dateDue.getTime());
     }
 
@@ -288,7 +291,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         removeRepeat();
     }
 
-    void removeTimeDue(){
+    void removeTimeDue() {
         dateDueState.setValue(Quest.DateState.DATE_SET);
     }
 
@@ -394,5 +397,15 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
     void removeDifficulty() {
         difficulty.setValue(Difficulty.NOT_SET);
+    }
+
+    ContentValues getQuestContentValues() {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(CalendarContract.Events.TITLE, name.getValue());
+        contentValues.put(CalendarContract.Events.DTSTART, startDate.getTimeInMillis());
+        contentValues.put(CalendarContract.Events.DTEND, dateDue.getTimeInMillis());
+        contentValues.put(CalendarContract.Events.CALENDAR_ID, 1);
+        contentValues.put(CalendarContract.Events.EVENT_TIMEZONE, Calendar.getInstance().getTimeZone().getID());
+        return contentValues;
     }
 }
