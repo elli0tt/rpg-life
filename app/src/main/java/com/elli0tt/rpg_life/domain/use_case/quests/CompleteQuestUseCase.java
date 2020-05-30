@@ -50,7 +50,6 @@ public class CompleteQuestUseCase {
                 newQuest.setDifficulty(quest.getDifficulty());
                 newQuest.setCompleted(false);
                 newQuest.setRepeatState(quest.getRepeatState());
-                newQuest.setDateDueSet(quest.isDateDueSet());
                 newQuest.setDateDue(calculateNewDateDue(quest.getDateDue(),
                         quest.getRepeatState()));
                 newQuest.setImportant(quest.isImportant());

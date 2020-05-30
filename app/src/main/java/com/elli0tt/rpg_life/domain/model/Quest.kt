@@ -5,6 +5,7 @@ import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.elli0tt.rpg_life.domain.model.room_type_converters.CalendarConverter
+import com.elli0tt.rpg_life.domain.model.room_type_converters.DateStateConverter
 import com.elli0tt.rpg_life.domain.model.room_type_converters.DifficultyConverter
 import com.elli0tt.rpg_life.domain.model.room_type_converters.RepeatStateConverter
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTodayCalendarUseCase
@@ -25,27 +26,42 @@ class Quest {
     var rewards: List<Reward> = ArrayList()
     var isImportant = false
     var isCompleted = false
-    @Ignore
-    private val startDate: Calendar? = null
+
     @TypeConverters(CalendarConverter::class)
-    var dateDue = Calendar.getInstance()
+    var startDate: Calendar = Calendar.getInstance()
+    @TypeConverters(CalendarConverter::class)
+    var dateDue: Calendar = Calendar.getInstance()
+
+    /**
+     * NOT_SET - hasn't been set yet
+     * DATE_SET - only date is set
+     * DATE_TIME_SET - date and time were set
+     */
+    enum class DateState {
+        NOT_SET, DATE_SET, DATE_TIME_SET
+    }
+
+    @TypeConverters(DateStateConverter::class)
+    var startDateState = DateState.NOT_SET
+    @TypeConverters(DateStateConverter::class)
+    var dateDueState = DateState.NOT_SET
 
     /**
      * NOT_SET - dateDue wasn't set yet
      * AFTER_DATE_DUE - current date is after dateDue (deadline is expired)
      * BEFORE_DATE_DUE - current date is before dateDue (deadline isn't expired)
      */
-    enum class DateDueState {
+    enum class DateDueCurrentState {
         NOT_SET, AFTER_DATE_DUE, BEFORE_DATE_DUE, TODAY, TOMORROW
     }
 
     //    public void setDateDueState(DateDueState dateDueState){
 //        this.dateDueState = dateDueState;
 //    }
-    var isDateDueSet = false
+
     //@TypeConverters({DateDueStateConverter.class})
     @Ignore
-    private var dateDueState = DateDueState.NOT_SET
+    private var dateDueCurrentState = DateDueCurrentState.NOT_SET
 
     enum class RepeatState {
         DAILY, WEEKDAYS, WEEKENDS, WEEKLY, MONTHLY, YEARLY, CUSTOM, NOT_SET
@@ -83,12 +99,12 @@ class Quest {
 
     @Ignore
     constructor(name: String, description: String, difficulty: Difficulty,
-                dateDue: Calendar, dateDueState: DateDueState) {
+                dateDue: Calendar, dateDueCurrentState: DateDueCurrentState) {
         this.name = name
         this.description = description
         this.difficulty = difficulty
         this.dateDue = dateDue
-        this.dateDueState = dateDueState
+        this.dateDueCurrentState = dateDueCurrentState
     }
 
     @Ignore
@@ -106,22 +122,22 @@ class Quest {
         //this.dateDueState = dateDueState;
     }
 
-    fun complete() {}
-
-    fun getDateDueState(): DateDueState {
-        if (!isDateDueSet) {
-            return DateDueState.NOT_SET
+    fun getDateDueCurrentState(): DateDueCurrentState {
+        if (dateDueState == DateState.NOT_SET) {
+            return DateDueCurrentState.NOT_SET
         }
         val currentDate = Calendar.getInstance()
         if (areCalendarEquals(GetTodayCalendarUseCase().invoke(), dateDue)) {
-            return DateDueState.TODAY
+            return DateDueCurrentState.TODAY
         }
         if (areCalendarEquals(GetTomorrowCalendarUseCase().invoke(), dateDue)) {
-            return DateDueState.TOMORROW
+            return DateDueCurrentState.TOMORROW
         }
         return if (currentDate.after(dateDue)) {
-            DateDueState.AFTER_DATE_DUE
-        } else DateDueState.BEFORE_DATE_DUE
+            DateDueCurrentState.AFTER_DATE_DUE
+        } else {
+            DateDueCurrentState.BEFORE_DATE_DUE
+        }
     }
 
     private fun areCalendarEquals(calendar1: Calendar, calendar2: Calendar): Boolean {

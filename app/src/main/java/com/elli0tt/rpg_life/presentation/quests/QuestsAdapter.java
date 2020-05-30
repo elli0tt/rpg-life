@@ -242,7 +242,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
             nameTextView.setText(quest.getName());
             difficultyTextView.setText(getDifficultyStringValue(quest.getDifficulty()));
             isImportantCheckBox.setChecked(quest.isImportant());
-            switch (quest.getDateDueState()) {
+            switch (quest.getDateDueCurrentState()) {
                 case NOT_SET:
                     dateDueTextView.setText(itemView.getContext()
                             .getString(R.string.quest_recycler_due_date_infinity));

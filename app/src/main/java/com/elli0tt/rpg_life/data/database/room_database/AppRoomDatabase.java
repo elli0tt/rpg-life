@@ -22,7 +22,7 @@ import com.elli0tt.rpg_life.domain.model.SkillsCategory;
 
 @Database(entities = {Characteristic.class, Quest.class, Skill.class, RelatedToQuestSkills.class,
         SkillsCategory.class}
-        , version = 5, exportSchema = true)
+        , version = 8, exportSchema = true)
 public abstract class AppRoomDatabase extends RoomDatabase {
 
     public abstract CharacteristicsDao getCharacteristicsDao();
@@ -43,7 +43,8 @@ public abstract class AppRoomDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             AppRoomDatabase.class, "app_database")
-                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
+                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4,
+                                    MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8)
                             //.fallbackToDestructiveMigration()
                             .build();
                 }
@@ -75,14 +76,70 @@ public abstract class AppRoomDatabase extends RoomDatabase {
     private static final Migration MIGRATION_3_4 = new Migration(3, 4) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-            database.execSQL("CREATE TABLE IF NOT EXISTS `skills_categories_table` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL)");
+            database.execSQL("CREATE TABLE IF NOT EXISTS `skills_categories_table` (`id` INTEGER " +
+                    "PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL)");
         }
     };
 
-    private static final Migration MIGRATION_4_5 = new Migration(4, 5){
+    private static final Migration MIGRATION_4_5 = new Migration(4, 5) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-            database.execSQL("ALTER TABLE skills_table ADD COLUMN categoryId INTEGER DEFAULT 0 NOT NULL");
+            database.execSQL("ALTER TABLE skills_table ADD COLUMN categoryId INTEGER DEFAULT 0 " +
+                    "NOT NULL");
+        }
+    };
+
+    private static final Migration MIGRATION_5_6 = new Migration(5, 6) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE quest_table ADD COLUMN startDate INTEGER");
+        }
+    };
+
+    private static final Migration MIGRATION_6_7 = new Migration(6, 7) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE quest_table ADD COLUMN isStartDateSet INTEGER DEFAULT 0" +
+                    " NOT NULL");
+        }
+    };
+
+    private static final Migration MIGRATION_7_8 = new Migration(7, 8) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            //Create a new translation table
+            database.execSQL("CREATE TABLE IF NOT EXISTS `quest_table_new` (" +
+                    "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+                    " `name` TEXT NOT NULL," +
+                    " `description` TEXT NOT NULL," +
+                    " `difficulty` INTEGER NOT NULL," +
+                    " `parentQuestId` INTEGER NOT NULL," +
+                    " `isSubQuest` INTEGER NOT NULL," +
+                    " `isImportant` INTEGER NOT NULL," +
+                    " `isCompleted` INTEGER NOT NULL," +
+                    " `startDate` INTEGER NOT NULL," +
+                    " `dateDue` INTEGER NOT NULL," +
+                    " `startDateState` INTEGER NOT NULL," +
+                    " `dateDueState` INTEGER NOT NULL," +
+                    " `repeatState` INTEGER NOT NULL," +
+                    " `hasSubquests` INTEGER NOT NULL," +
+                    " `isChallenge` INTEGER NOT NULL," +
+                    " `totalDaysCount` INTEGER NOT NULL," +
+                    " `dayNumber` INTEGER NOT NULL)");
+            // Copy the data
+            database.execSQL("INSERT INTO `quest_table_new` (id, name, description, difficulty, " +
+                    "parentQuestId, isSubQuest, isImportant, isCompleted, startDate, dateDue, " +
+                    "startDateState, dateDueState, repeatState, hasSubquests, isChallenge, " +
+                    "totalDaysCount, dayNumber) " +
+                    "SELECT id, name, description, difficulty, parentQuestId, isSubQuest, " +
+                    "isImportant, isCompleted, 0, dateDue, 0, 0, repeatState, hasSubquests, " +
+                    "isChallenge, " +
+                    "totalDaysCount, dayNumber " +
+                    "FROM quest_table");
+            // Remove old table
+            database.execSQL("DROP TABLE quest_table");
+            // Change name of table to correct one
+            database.execSQL("ALTER TABLE quest_table_new RENAME TO quest_table");
         }
     };
 
@@ -99,9 +156,11 @@ public abstract class AppRoomDatabase extends RoomDatabase {
 //                    " `timeSpentMillis` INTEGER NOT NULL," +
 //                    " `totalXp` INTEGER NOT NULL," +
 //                    " `categoryId` INTEGER NOT NULL," +
-//                    " FOREIGN KEY(`categoryId`) REFERENCES `skills_categories_table`(`id`) ON UPDATE CASCADE ON DELETE NO ACTION )");
+//                    " FOREIGN KEY(`categoryId`) REFERENCES `skills_categories_table`(`id`) ON
+//                    UPDATE CASCADE ON DELETE NO ACTION )");
 //            // Copy the data
-//            database.execSQL("INSERT INTO `skills_table_new` (id, name, timeSpentMillis, totalXp, categoryId) " +
+//            database.execSQL("INSERT INTO `skills_table_new` (id, name, timeSpentMillis,
+//            totalXp, categoryId) " +
 //                    "SELECT id, name, timeSpentMillis, totalXp, 0 " +
 //                    "FROM skills_table");
 //            // Remove old table

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/add_edit_quest_add_start_date_popup_today"
+        android:title="@string/add_edit_quest_add_start_date_today_popup_title" />
+    <item
+        android:id="@+id/add_edit_quest_add_start_date_popup_tomorrow"
+        android:title="@string/add_edit_quest_add_start_date_tomorrow_popup_title" />
+    <item
+        android:id="@+id/add_edit_quest_add_start_date_popup_next_week"
+        android:title="@string/add_edit_quest_add_start_date_next_week_popup_title" />
+    <item
+        android:id="@+id/add_edit_quest_add_start_date_popup_pick_date"
+        android:title="@string/add_edit_quest_add_start_date_pick_date_popup_title" />
+</menu>

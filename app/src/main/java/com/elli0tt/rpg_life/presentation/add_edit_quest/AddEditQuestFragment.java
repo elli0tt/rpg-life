@@ -30,6 +30,7 @@ import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.presentation.utils.SoftKeyboardUtil;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class AddEditQuestFragment extends Fragment {
     private FragmentAddEditQuestBinding binding;
@@ -39,6 +40,7 @@ public class AddEditQuestFragment extends Fragment {
     private NavController navController;
 
     private AddEditQuestViewModel viewModel;
+    private AddEditQuestAddSkillToQuestSharedViewModel sharedViewModel;
 
     private String veryEasyTitle;
     private String easyTitle;
@@ -53,6 +55,8 @@ public class AddEditQuestFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         viewModel = new ViewModelProvider(this).get(AddEditQuestViewModel.class);
+        sharedViewModel =
+                new ViewModelProvider(requireActivity()).get(AddEditQuestAddSkillToQuestSharedViewModel.class);
         binding = FragmentAddEditQuestBinding.inflate(inflater, container, false);
 
         binding.setViewModel(viewModel);
@@ -93,6 +97,12 @@ public class AddEditQuestFragment extends Fragment {
         binding.addSkillsButton.setOnClickListener(onAddSkillsButtonClickListener);
         binding.difficultyView.setOnClickListener(onDifficultyViewClickListener);
         binding.difficultyView.setOnRemoveClickListener(onRemoveDifficultyViewClickListener);
+        binding.addStartDateView.setOnClickListener(onAddStartDateViewClickListener);
+        binding.addStartDateView.setOnRemoveClickListener(onRemoveStartDateViewClickListener);
+        binding.addStartTimeView.setOnClickListener(onAddStartTimeViewClickListener);
+        binding.addStartTimeView.setOnRemoveClickListener(onRemoveStartTimeViewClickListener);
+        binding.addTimeDueView.setOnClickListener(onAddTimeDueViewClickListener);
+        binding.addTimeDueView.setOnRemoveClickListener(onRemoveTimeDueViewClickListener);
 
         if (viewModel.getIsNewQuest()) {
             binding.nameEditText.requestFocus();
@@ -102,7 +112,7 @@ public class AddEditQuestFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        AppCompatActivity activity = (AppCompatActivity)getActivity();
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
         if (activity != null) {
             ActionBar supportActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
             if (supportActionBar != null) {
@@ -142,7 +152,7 @@ public class AddEditQuestFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        viewModel.saveQuest();
+        viewModel.saveQuest(sharedViewModel.getRelatedSkills().getValue());
     }
 
     private void subscribeToViewModel() {
@@ -153,16 +163,53 @@ public class AddEditQuestFragment extends Fragment {
                     }
                 }
         );
-        viewModel.isDateDueSet().observe(getViewLifecycleOwner(),
-                isDateDueSet -> {
-                    if (!isDateDueSet) {
-                        binding.addDateDueView.setText(R.string.add_edit_quest_add_date_due);
-                        binding.addDateDueView.setRemoveIconVisibility(View.INVISIBLE);
-                    } else {
-                        binding.addDateDueView.setText(viewModel.getDueDateFormatted());
-                        binding.addDateDueView.setRemoveIconVisibility(View.VISIBLE);
+        viewModel.getDateDueState().observe(getViewLifecycleOwner(),
+                dateDueState -> {
+                    switch (dateDueState) {
+                        case NOT_SET:
+                            binding.addDateDueView.setText(R.string.add_edit_quest_add_date_due);
+                            binding.addDateDueView.setRemoveIconVisibility(View.INVISIBLE);
+                            binding.addTimeDueView.setVisibility(View.GONE);
+                            binding.addTimeDueView.setRemoveIconVisibility(View.INVISIBLE);
+                            break;
+                        case DATE_SET:
+                            binding.addDateDueView.setText(viewModel.getDateDueFormatted());
+                            binding.addDateDueView.setRemoveIconVisibility(View.VISIBLE);
+                            binding.addTimeDueView.setVisibility(View.VISIBLE);
+                            binding.addTimeDueView.setText(R.string.add_edit_quest_add_time_due);
+                            break;
+                        case DATE_TIME_SET:
+                            binding.addDateDueView.setText(viewModel.getDateDueFormatted());
+                            binding.addDateDueView.setRemoveIconVisibility(View.VISIBLE);
+                            binding.addTimeDueView.setVisibility(View.VISIBLE);
+                            binding.addTimeDueView.setText(viewModel.getTimeDueFormatted());
+                            binding.addTimeDueView.setRemoveIconVisibility(View.VISIBLE);
+                            break;
                     }
                 });
+        viewModel.getStartDateState().observe(getViewLifecycleOwner(), startDateState -> {
+            switch (startDateState) {
+                case NOT_SET:
+                    binding.addStartDateView.setText(R.string.add_edit_quest_add_start_date);
+                    binding.addStartDateView.setRemoveIconVisibility(View.INVISIBLE);
+                    binding.addStartTimeView.setVisibility(View.GONE);
+                    binding.addStartTimeView.setRemoveIconVisibility(View.INVISIBLE);
+                    break;
+                case DATE_SET:
+                    binding.addStartDateView.setText(viewModel.getStartDateFormatted());
+                    binding.addStartDateView.setRemoveIconVisibility(View.VISIBLE);
+                    binding.addStartTimeView.setVisibility(View.VISIBLE);
+                    binding.addStartTimeView.setText(R.string.add_edit_quest_add_start_time);
+                    break;
+                case DATE_TIME_SET:
+                    binding.addStartDateView.setText(viewModel.getStartDateFormatted());
+                    binding.addStartDateView.setRemoveIconVisibility(View.VISIBLE);
+                    binding.addStartTimeView.setText(viewModel.getStartTimeFormatted());
+                    binding.addStartTimeView.setRemoveIconVisibility(View.VISIBLE);
+                    binding.addStartTimeView.setVisibility(View.VISIBLE);
+                    break;
+            }
+        });
         viewModel.getRepeatTextResId().observe(getViewLifecycleOwner(),
                 textResId -> binding.repeatView.setText(textResId));
         viewModel.getRepeatState().observe(getViewLifecycleOwner(),
@@ -212,22 +259,7 @@ public class AddEditQuestFragment extends Fragment {
         subQuestsAdapter.setOnRemoveButtonClickListener(position -> {
             viewModel.removeSubQuest(position);
         });
-        binding.subquestsRecycler.addItemDecoration(new DividerItemDecoration(getContext(),
-                DividerItemDecoration.VERTICAL));
-        binding.subquestsRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
-                RecyclerView.VERTICAL, false));
-        binding.subquestsRecycler.setAdapter(subQuestsAdapter);
-    }
-
-    private void setupSkillsRecycler() {
-        subQuestsAdapter = new SubQuestsAdapter();
-        subQuestsAdapter.setOnIsCompleteCheckBoxClickListener((isCompleted, position) -> {
-            viewModel.completeSubQuest(position, isCompleted);
-        });
-        subQuestsAdapter.setOnRemoveButtonClickListener(position -> {
-            viewModel.removeSubQuest(position);
-        });
-        binding.subquestsRecycler.addItemDecoration(new DividerItemDecoration(getContext(),
+        binding.subquestsRecycler.addItemDecoration(new DividerItemDecoration(requireContext(),
                 DividerItemDecoration.VERTICAL));
         binding.subquestsRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
                 RecyclerView.VERTICAL, false));
@@ -286,8 +318,84 @@ public class AddEditQuestFragment extends Fragment {
         viewModel.removeDifficulty();
     };
 
+    private View.OnClickListener onAddStartDateViewClickListener = v -> {
+        SoftKeyboardUtil.hideKeyboard(v, getActivity());
+        showAddStartDatePopupMenu(v);
+    };
+
+    private View.OnClickListener onRemoveStartDateViewClickListener = v -> {
+        SoftKeyboardUtil.hideKeyboard(v, getActivity());
+        viewModel.removeStartDate();
+    };
+
+    private View.OnClickListener onAddStartTimeViewClickListener = v -> {
+        SoftKeyboardUtil.hideKeyboard(v, getActivity());
+        pickStartTime();
+    };
+
+    private View.OnClickListener onRemoveStartTimeViewClickListener = v -> {
+        SoftKeyboardUtil.hideKeyboard(v, getActivity());
+        viewModel.removeStartTime();
+    };
+
+    private View.OnClickListener onAddTimeDueViewClickListener = v -> {
+        SoftKeyboardUtil.hideKeyboard(v, getActivity());
+        pickTimeDue();
+    };
+
+    private View.OnClickListener onRemoveTimeDueViewClickListener = v -> {
+        SoftKeyboardUtil.hideKeyboard(v, getActivity());
+        viewModel.removeTimeDue();
+    };
+
+    private void showAddStartDatePopupMenu(View view) {
+        PopupMenu popupMenu = new PopupMenu(requireContext(), view);
+        popupMenu.getMenuInflater().inflate(R.menu.add_edit_quest_add_start_date_popup_menu,
+                popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.add_edit_quest_add_start_date_popup_today:
+                    viewModel.setStartDateToday();
+                    return true;
+                case R.id.add_edit_quest_add_start_date_popup_tomorrow:
+                    viewModel.setStartDateTomorrow();
+                    return true;
+                case R.id.add_edit_quest_add_start_date_popup_next_week:
+                    viewModel.setStartDateNextWeek();
+                    return true;
+                case R.id.add_edit_quest_add_start_date_popup_pick_date:
+                    pickStartDate();
+                    return true;
+                default:
+                    return false;
+            }
+        });
+
+        popupMenu.show();
+    }
+
+    private void pickStartDate() {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(),
+                (view, year, month, dayOfMonth) -> {
+                    viewModel.setStartDate(year, month, dayOfMonth);
+                },
+                Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.MONTH),
+                Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.show();
+    }
+
+    private void pickStartTime() {
+        TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
+                (view, hourOfDay, minute) -> viewModel.setStartTime(hourOfDay, minute),
+                Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
+                Calendar.getInstance().get(Calendar.MINUTE),
+                true);
+        timePickerDialog.show();
+    }
+
     private void showAddDateDuePopupMenu(View view) {
-        PopupMenu popupMenu = new PopupMenu(getContext(), view);
+        PopupMenu popupMenu = new PopupMenu(requireContext(), view);
         popupMenu.getMenuInflater().inflate(R.menu.add_edit_quest_add_date_due_popup_menu,
                 popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(item -> {
@@ -302,7 +410,7 @@ public class AddEditQuestFragment extends Fragment {
                     viewModel.setDateDueNextWeek();
                     return true;
                 case R.id.add_edit_quest_add_date_due_popup_pick_date:
-                    pickDate();
+                    pickDateDue();
                     return true;
                 default:
                     return false;
@@ -312,26 +420,28 @@ public class AddEditQuestFragment extends Fragment {
         popupMenu.show();
     }
 
-    private void pickDate() {
+    private void pickDateDue() {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(),
+                (view, year, month, dayOfMonth) -> {
+                    viewModel.setDateDue(year, month, dayOfMonth);
+                },
+                GregorianCalendar.getInstance().get(Calendar.YEAR),
+                GregorianCalendar.getInstance().get(Calendar.MONTH),
+                GregorianCalendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.show();
+    }
+
+    private void pickTimeDue() {
         TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
                 (view, hourOfDay, minute) -> viewModel.setDateDue(hourOfDay, minute),
                 Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
                 Calendar.getInstance().get(Calendar.MINUTE),
                 true);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
-                (view, year, month, dayOfMonth) -> {
-                    viewModel.setDateDue(year, month, dayOfMonth);
-                    timePickerDialog.show();
-                },
-                Calendar.getInstance().get(Calendar.YEAR),
-                Calendar.getInstance().get(Calendar.MONTH),
-                Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.show();
+        timePickerDialog.show();
     }
 
     private void showRepeatPopup(View view) {
-        PopupMenu popupMenu = new PopupMenu(getContext(), view);
+        PopupMenu popupMenu = new PopupMenu(requireContext(), view);
         popupMenu.getMenuInflater().inflate(R.menu.add_edit_quest_repeate_popup_menu,
                 popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(item -> {
@@ -364,7 +474,7 @@ public class AddEditQuestFragment extends Fragment {
     }
 
     private void showDifficultyPopupMenu(View view) {
-        PopupMenu popupMenu = new PopupMenu(getContext(), view);
+        PopupMenu popupMenu = new PopupMenu(requireContext(), view);
         Menu menu = popupMenu.getMenu();
 
         menu.add(Menu.NONE, Constants.VERY_EASY_POPUP_MENU_ITEM_ID,

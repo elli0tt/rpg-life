@@ -172,7 +172,7 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
             isCompletedCheckBox.setChecked(quest.isCompleted());
             nameTextView.setText(quest.getName());
             isImportantCheckBox.setChecked(quest.isImportant());
-            switch (quest.getDateDueState()) {
+            switch (quest.getDateDueCurrentState()) {
                 case NOT_SET:
                     dateDueTextView.setText(itemView.getContext()
                             .getString(R.string.quest_recycler_due_date_infinity));

@@ -7,8 +7,6 @@ public class IsCalendarEqualsTodayCalendarUseCase {
         Calendar todayCalendar = new GetTodayCalendarUseCase().invoke();
         return todayCalendar.get(Calendar.YEAR) == calendar.get(Calendar.YEAR) &&
                 todayCalendar.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) &&
-                todayCalendar.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH) &&
-                todayCalendar.get(Calendar.HOUR_OF_DAY) == calendar.get(Calendar.HOUR_OF_DAY) &&
-                todayCalendar.get(Calendar.MINUTE) == calendar.get(Calendar.MINUTE);
+                todayCalendar.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH);
     }
 }

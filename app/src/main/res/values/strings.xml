@@ -110,4 +110,13 @@
     <string name="add_edit_challenge_fail_confirm_message">All related to this challenge skills will lose half of experience, earned for this challenge</string>
     <string name="add_edit_challenge_fail_confrim_positive">Fail</string>
     <string name="add_edit_challenge_fail_confirm_negative">Cancel</string>
+    <string name="add_edit_quest_add_start_date">Add start date</string>
+    <string name="add_edit_quest_add_start_time">Add start time</string>
+    <string name="add_edit_quest_add_start_date_today_popup_title">Today</string>
+    <string name="add_edit_quest_add_start_date_tomorrow_popup_title">Tomorrow</string>
+    <string name="add_edit_quest_add_start_date_next_week_popup_title">Next week</string>
+    <string name="add_edit_quest_add_start_date_pick_date_popup_title">Pick date</string>
+
+    <string name="add_edit_quest_start_date_formatted">%1$02d.%2$02d.%3$04d</string>
+    <string name="add_edit_quest_add_time_due">Add time due</string>
 </resources>

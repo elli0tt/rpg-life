@@ -13,9 +13,11 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.elli0tt.rpg_life.R
+import com.elli0tt.rpg_life.presentation.add_edit_quest.AddEditQuestAddSkillToQuestSharedViewModel
 
 class AddSkillsToQuestFragment : Fragment() {
     private lateinit var viewModel: AddSkillsToQuestViewModel
+    private lateinit var sharedViewModel: AddEditQuestAddSkillToQuestSharedViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var addSkillsToQuestAdapter: AddSkillsToQuestAdapter
 
@@ -25,6 +27,7 @@ class AddSkillsToQuestFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         viewModel = ViewModelProvider(this).get(AddSkillsToQuestViewModel::class.java)
+        sharedViewModel = ViewModelProvider(requireActivity()).get(AddEditQuestAddSkillToQuestSharedViewModel::class.java)
         navController = NavHostFragment.findNavController(this)
         return inflater.inflate(R.layout.fragment_add_skills_to_quest, container, false)
     }
@@ -72,6 +75,7 @@ class AddSkillsToQuestFragment : Fragment() {
     }
 
     private fun subscribeToViewModel() {
+        sharedViewModel.relatedSkills = viewModel.skillsToShow
         viewModel.skillsToShow.observe(viewLifecycleOwner, Observer { allSkillsData ->
             addSkillsToQuestAdapter.submitList(allSkillsData)
         })
