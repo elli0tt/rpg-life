@@ -119,4 +119,5 @@
 
     <string name="add_edit_quest_start_date_formatted">%1$02d.%2$02d.%3$04d</string>
     <string name="add_edit_quest_add_time_due">Add time due</string>
+    <string name="add_edit_quest_add_to_google_calendar">Add to Google calendar</string>
 </resources>

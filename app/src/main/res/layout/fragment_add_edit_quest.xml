@@ -106,7 +106,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/add_quest_items_margin_top"
-                android:text="Add to calendar"
+                android:text="@string/add_edit_quest_add_to_google_calendar"
+                android:backgroundTint="@android:color/white"
+                android:textColor="@android:color/black"
                 app:layout_constraintTop_toBottomOf="@id/add_time_due_view"
                 app:layout_constraintStart_toStartOf="parent"/>
 
@@ -147,7 +149,7 @@
                 app:icon="@drawable/ic_plus_black_24dp"
                 app:iconTint="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/skills_recycler" />
+                app:layout_constraintTop_toBottomOf="@id/add_skills_button" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/add_skills_button"
@@ -161,23 +163,6 @@
                 app:iconTint="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/repeat_view" />
-
-            <TextView
-                android:id="@+id/skills_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/add_quest_items_margin_top"
-                android:text="@string/add_edit_quest_skills_label"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_skills_button" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/skills_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                app:layout_constraintTop_toBottomOf="@id/skills_text_view" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
