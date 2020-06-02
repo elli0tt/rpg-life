@@ -18,10 +18,12 @@ class Quest {
     var id = 0
     var name = ""
     var description = ""
+
     @TypeConverters(DifficultyConverter::class)
     var difficulty = Difficulty.NORMAL
     var parentQuestId = 0
     var isSubQuest = false
+
     @Ignore
     var rewards: List<Reward> = ArrayList()
     var isImportant = false
@@ -29,6 +31,7 @@ class Quest {
 
     @TypeConverters(CalendarConverter::class)
     var startDate: Calendar = Calendar.getInstance()
+
     @TypeConverters(CalendarConverter::class)
     var dateDue: Calendar = Calendar.getInstance()
 
@@ -43,8 +46,13 @@ class Quest {
 
     @TypeConverters(DateStateConverter::class)
     var startDateState = DateState.NOT_SET
+
     @TypeConverters(DateStateConverter::class)
     var dateDueState = DateState.NOT_SET
+
+    enum class ReminderState {
+        NOT_SET, PICK_CUSTOM_DATE
+    }
 
     /**
      * NOT_SET - dateDue wasn't set yet
@@ -154,6 +162,7 @@ class Quest {
 
     companion object {
         private const val COMPLETED_PERCENTAGE = 100
+
         @JvmStatic
         fun getDateDueFormatted(dateDue: Calendar): String {
             return String.format(Locale.getDefault(), "%02d.%02d.%04d %02d:%02d",

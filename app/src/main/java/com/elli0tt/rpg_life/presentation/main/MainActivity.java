@@ -1,6 +1,9 @@
 package com.elli0tt.rpg_life.presentation.main;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.WallpaperManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -20,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
 
     private ConstraintLayout mainLayout;
+
+    public static final String CHANNEL_ID = "channel 1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         });
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
         setupToolbar();
+        createNotificationChannel();
 
 //        WallpaperManager wallpaperManager = WallpaperManager.getInstance(this);
 //        mainLayout.setBackground(wallpaperManager.getDrawable());
@@ -54,6 +60,15 @@ public class MainActivity extends AppCompatActivity {
     private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
+    }
+
+    private void createNotificationChannel(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Channel 1",
+                    NotificationManager.IMPORTANCE_HIGH);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
 

@@ -43,6 +43,9 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private MutableLiveData<Quest.DateState> startDateState =
             new MutableLiveData<>(Quest.DateState.NOT_SET);
 
+    private MutableLiveData<Quest.ReminderState> reminderState =
+            new MutableLiveData<>(Quest.ReminderState.NOT_SET);
+
     private MutableLiveData<Integer> repeatTextResId =
             new MutableLiveData<>(R.string.add_edit_quest_repeat);
 
@@ -51,6 +54,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
     private Calendar startDate = Calendar.getInstance();
     private Calendar dateDue = Calendar.getInstance();
+    private Calendar reminderDate = Calendar.getInstance();
 
     private Quest currentQuest;
 
@@ -82,6 +86,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
     private DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG);
     private DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
+
 
     public AddEditQuestViewModel(@NonNull Application application) {
         super(application);
@@ -118,6 +123,10 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         return startDateState;
     }
 
+    LiveData<Quest.ReminderState> getReminderState() {
+        return reminderState;
+    }
+
     LiveData<Quest.RepeatState> getRepeatState() {
         return repeatState;
     }
@@ -136,6 +145,10 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
     int getQuestId() {
         return currentQuest.getId();
+    }
+
+    long getReminderTime(){
+        return reminderDate.getTimeInMillis();
     }
 
     void start(@Nullable Integer id, boolean isSubQuest, int parentQuestId) {
@@ -273,6 +286,17 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         return timeFormat.format(startDate.getTime());
     }
 
+    String getReminderDateFormatted() {
+        if (new IsCalendarEqualsTodayCalendarUseCase().invoke(reminderDate)) {
+            return TODAY + " " + timeFormat.format(reminderDate.getTime());
+        }
+        if (new IsCalendarEqualsTomorrowCalendarUseCase().invoke(reminderDate)) {
+            return TOMORROW + " " + timeFormat.format(reminderDate.getTime());
+        }
+
+        return dateFormat.format(reminderDate.getTime()) + " " + timeFormat.format(reminderDate.getTime());
+    }
+
     void setDateDue(int year, int month, int dayOfMonth) {
         dateDue.set(Calendar.YEAR, year);
         dateDue.set(Calendar.MONTH, month);
@@ -344,6 +368,17 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         startDateState.setValue(Quest.DateState.DATE_SET);
     }
 
+    void setReminderDate(int year, int month, int dayOfMonth) {
+        reminderDate.set(year, month, dayOfMonth);
+    }
+
+    void setReminderTime(int hourOfDay, int minutes) {
+        reminderDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        reminderDate.set(Calendar.MINUTE, minutes);
+        reminderDate.set(Calendar.SECOND, 0);
+        reminderState.setValue(Quest.ReminderState.PICK_CUSTOM_DATE);
+    }
+
     void setRepeatState(Quest.RepeatState repeatState) {
         this.repeatState.setValue(repeatState);
         repeatTextResId.setValue(getRepeatTextResId(repeatState));
@@ -405,7 +440,8 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         contentValues.put(CalendarContract.Events.DTSTART, startDate.getTimeInMillis());
         contentValues.put(CalendarContract.Events.DTEND, dateDue.getTimeInMillis());
         contentValues.put(CalendarContract.Events.CALENDAR_ID, 1);
-        contentValues.put(CalendarContract.Events.EVENT_TIMEZONE, Calendar.getInstance().getTimeZone().getID());
+        contentValues.put(CalendarContract.Events.EVENT_TIMEZONE,
+                Calendar.getInstance().getTimeZone().getID());
         return contentValues;
     }
 }

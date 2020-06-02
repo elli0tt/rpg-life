@@ -1,9 +1,12 @@
 package com.elli0tt.rpg_life.presentation.add_edit_quest;
 
-import android.Manifest;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
@@ -37,7 +40,6 @@ import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.presentation.utils.SoftKeyboardUtil;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import static android.Manifest.permission.WRITE_CALENDAR;
 import static android.content.pm.PackageManager.PERMISSION_DENIED;
@@ -61,6 +63,11 @@ public class AddEditQuestFragment extends Fragment {
     private String impossibleTitle;
 
     private static final int REQUEST_PERMISSIONS = 1000;
+
+    public static final String EXTRA_REMINDER_TITLE = "com.elli0tt.rpg_life.presentation" +
+            ".add_edit_quest_extra_reminder_title";
+    public static final String EXTRA_NOTIFICATION_ID = "com.elli0tt.rpg_life.presentation" +
+            ".add_edit_quest_extra_notification_id";
 
     @Nullable
     @Override
@@ -99,24 +106,7 @@ public class AddEditQuestFragment extends Fragment {
         }
 
         subscribeToViewModel();
-
-        binding.nameEditText.setOnFocusChangeListener(onEditTextsFocusChangeListener);
-        binding.descriptionEditText.setOnFocusChangeListener(onEditTextsFocusChangeListener);
-        binding.addDateDueView.setOnClickListener(onAddDateDueViewClickListener);
-        binding.addDateDueView.setOnRemoveClickListener(onRemoveDateDueViewClickListener);
-        binding.repeatView.setOnClickListener(onRepeatViewClickListener);
-        binding.repeatView.setOnRemoveClickListener(onRemoveRepeatViewClickListener);
-        binding.addSubquestButton.setOnClickListener(onAddSubQuestButtonClickListener);
-        binding.addSkillsButton.setOnClickListener(onAddSkillsButtonClickListener);
-        binding.difficultyView.setOnClickListener(onDifficultyViewClickListener);
-        binding.difficultyView.setOnRemoveClickListener(onRemoveDifficultyViewClickListener);
-        binding.addStartDateView.setOnClickListener(onAddStartDateViewClickListener);
-        binding.addStartDateView.setOnRemoveClickListener(onRemoveStartDateViewClickListener);
-        binding.addStartTimeView.setOnClickListener(onAddStartTimeViewClickListener);
-        binding.addStartTimeView.setOnRemoveClickListener(onRemoveStartTimeViewClickListener);
-        binding.addTimeDueView.setOnClickListener(onAddTimeDueViewClickListener);
-        binding.addTimeDueView.setOnRemoveClickListener(onRemoveTimeDueViewClickListener);
-        binding.addToCalendarButton.setOnClickListener(onAddToCalendarClickListener);
+        setListeners();
 
         if (viewModel.getIsNewQuest()) {
             binding.nameEditText.requestFocus();
@@ -167,6 +157,28 @@ public class AddEditQuestFragment extends Fragment {
     public void onStop() {
         super.onStop();
         viewModel.saveQuest(sharedViewModel.getRelatedSkills().getValue());
+    }
+
+    private void setListeners() {
+        binding.nameEditText.setOnFocusChangeListener(onEditTextsFocusChangeListener);
+        binding.descriptionEditText.setOnFocusChangeListener(onEditTextsFocusChangeListener);
+        binding.addDateDueView.setOnClickListener(onAddDateDueViewClickListener);
+        binding.addDateDueView.setOnRemoveClickListener(onRemoveDateDueViewClickListener);
+        binding.repeatView.setOnClickListener(onRepeatViewClickListener);
+        binding.repeatView.setOnRemoveClickListener(onRemoveRepeatViewClickListener);
+        binding.addSubquestButton.setOnClickListener(onAddSubQuestButtonClickListener);
+        binding.addSkillsButton.setOnClickListener(onAddSkillsButtonClickListener);
+        binding.difficultyView.setOnClickListener(onDifficultyViewClickListener);
+        binding.difficultyView.setOnRemoveClickListener(onRemoveDifficultyViewClickListener);
+        binding.addStartDateView.setOnClickListener(onAddStartDateViewClickListener);
+        binding.addStartDateView.setOnRemoveClickListener(onRemoveStartDateViewClickListener);
+        binding.addStartTimeView.setOnClickListener(onAddStartTimeViewClickListener);
+        binding.addStartTimeView.setOnRemoveClickListener(onRemoveStartTimeViewClickListener);
+        binding.addTimeDueView.setOnClickListener(onAddTimeDueViewClickListener);
+        binding.addTimeDueView.setOnRemoveClickListener(onRemoveTimeDueViewClickListener);
+        binding.addToCalendarButton.setOnClickListener(onAddToCalendarClickListener);
+        binding.addReminderView.setOnClickListener(onAddReminderViewClickListener);
+        binding.addReminderView.setOnRemoveClickListener(onRemoveReminderViewClickListener);
     }
 
     private void subscribeToViewModel() {
@@ -224,6 +236,20 @@ public class AddEditQuestFragment extends Fragment {
                     break;
             }
         });
+
+        viewModel.getReminderState().observe(getViewLifecycleOwner(), reminderState -> {
+            switch (reminderState) {
+                case NOT_SET:
+                    binding.addReminderView.setText(R.string.add_edit_quest_remind_me);
+                    binding.addReminderView.setRemoveIconVisibility(View.INVISIBLE);
+                    break;
+                case PICK_CUSTOM_DATE:
+                    binding.addReminderView.setText(viewModel.getReminderDateFormatted());
+                    binding.addReminderView.setRemoveIconVisibility(View.VISIBLE);
+                    break;
+            }
+        });
+
         viewModel.getRepeatTextResId().observe(getViewLifecycleOwner(),
                 textResId -> binding.repeatView.setText(textResId));
         viewModel.getRepeatState().observe(getViewLifecycleOwner(),
@@ -314,6 +340,30 @@ public class AddEditQuestFragment extends Fragment {
         }
     };
 
+    private DatePickerDialog.OnDateSetListener onStartDateSetListener =
+            (view, year, month, dayOfMonth) -> viewModel.setStartDate(year, month, dayOfMonth);
+
+    private TimePickerDialog.OnTimeSetListener onStartTimeSetListener =
+            (view, hourOfDay, minute) -> viewModel.setStartTime(hourOfDay, minute);
+
+    private DatePickerDialog.OnDateSetListener onDateDueSetListener =
+            (view, year, month, dayOfMonth) -> viewModel.setDateDue(year, month, dayOfMonth);
+
+    private TimePickerDialog.OnTimeSetListener onTimeDueSetListener =
+            (view, hourOfDay, minute) -> viewModel.setDateDue(hourOfDay, minute);
+
+    private TimePickerDialog.OnTimeSetListener onReminderTimeSetListener = (view, hourOfDay,
+                                                                            minute) -> {
+        viewModel.setReminderTime(hourOfDay, minute);
+        setReminderAlarm();
+    };
+
+    private DatePickerDialog.OnDateSetListener onReminderDateSetListener = (view, year, month,
+                                                                            dayOfMonth) -> {
+        viewModel.setReminderDate(year, month, dayOfMonth);
+        pickTime(onReminderTimeSetListener);
+    };
+
     private View.OnClickListener onAddSubQuestButtonClickListener =
             v -> navigateToAddSubQuestScreen();
 
@@ -344,7 +394,7 @@ public class AddEditQuestFragment extends Fragment {
 
     private View.OnClickListener onAddStartTimeViewClickListener = v -> {
         SoftKeyboardUtil.hideKeyboard(v, getActivity());
-        pickStartTime();
+        pickTime(onStartTimeSetListener);
     };
 
     private View.OnClickListener onRemoveStartTimeViewClickListener = v -> {
@@ -354,7 +404,7 @@ public class AddEditQuestFragment extends Fragment {
 
     private View.OnClickListener onAddTimeDueViewClickListener = v -> {
         SoftKeyboardUtil.hideKeyboard(v, getActivity());
-        pickTimeDue();
+        pickTime(onTimeDueSetListener);
     };
 
     private View.OnClickListener onRemoveTimeDueViewClickListener = v -> {
@@ -370,6 +420,26 @@ public class AddEditQuestFragment extends Fragment {
 
         Toast.makeText(requireContext(), "Added", Toast.LENGTH_SHORT).show();
     };
+
+    private View.OnClickListener onAddReminderViewClickListener = v -> {
+        pickDate(onReminderDateSetListener);
+    };
+
+    private View.OnClickListener onRemoveReminderViewClickListener = v -> {
+
+    };
+
+    private void setReminderAlarm() {
+        Intent intent = new Intent(requireContext(), QuestReminderBroadcastReceiver.class);
+        intent.putExtra(EXTRA_REMINDER_TITLE, viewModel.getName().getValue());
+        intent.putExtra(EXTRA_NOTIFICATION_ID, viewModel.getQuestId());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(requireContext(),
+                viewModel.getQuestId(), intent, 0);
+
+        AlarmManager alarmManager =
+                (AlarmManager) requireActivity().getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, viewModel.getReminderTime(), pendingIntent);
+    }
 
     private void showAddStartDatePopupMenu(View view) {
         PopupMenu popupMenu = new PopupMenu(requireContext(), view);
@@ -387,7 +457,7 @@ public class AddEditQuestFragment extends Fragment {
                     viewModel.setStartDateNextWeek();
                     return true;
                 case R.id.add_edit_quest_add_start_date_popup_pick_date:
-                    pickStartDate();
+                    pickDate(onStartDateSetListener);
                     return true;
                 default:
                     return false;
@@ -397,20 +467,17 @@ public class AddEditQuestFragment extends Fragment {
         popupMenu.show();
     }
 
-    private void pickStartDate() {
+    private void pickDate(DatePickerDialog.OnDateSetListener onDateSetListener) {
         DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(),
-                (view, year, month, dayOfMonth) -> {
-                    viewModel.setStartDate(year, month, dayOfMonth);
-                },
+                onDateSetListener,
                 Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show();
     }
 
-    private void pickStartTime() {
-        TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
-                (view, hourOfDay, minute) -> viewModel.setStartTime(hourOfDay, minute),
+    private void pickTime(TimePickerDialog.OnTimeSetListener onTimeSetListener) {
+        TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), onTimeSetListener,
                 Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
                 Calendar.getInstance().get(Calendar.MINUTE),
                 true);
@@ -433,34 +500,13 @@ public class AddEditQuestFragment extends Fragment {
                     viewModel.setDateDueNextWeek();
                     return true;
                 case R.id.add_edit_quest_add_date_due_popup_pick_date:
-                    pickDateDue();
+                    pickDate(onDateDueSetListener);
                     return true;
                 default:
                     return false;
             }
         });
-
         popupMenu.show();
-    }
-
-    private void pickDateDue() {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(),
-                (view, year, month, dayOfMonth) -> {
-                    viewModel.setDateDue(year, month, dayOfMonth);
-                },
-                GregorianCalendar.getInstance().get(Calendar.YEAR),
-                GregorianCalendar.getInstance().get(Calendar.MONTH),
-                GregorianCalendar.getInstance().get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.show();
-    }
-
-    private void pickTimeDue() {
-        TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
-                (view, hourOfDay, minute) -> viewModel.setDateDue(hourOfDay, minute),
-                Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
-                Calendar.getInstance().get(Calendar.MINUTE),
-                true);
-        timePickerDialog.show();
     }
 
     private void showRepeatPopup(View view) {
@@ -540,7 +586,8 @@ public class AddEditQuestFragment extends Fragment {
     private void checkPermissions() {
         if (ContextCompat.checkSelfPermission(requireContext(),
                 WRITE_CALENDAR) == PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(requireActivity(), new String[]{WRITE_CALENDAR}, REQUEST_PERMISSIONS);
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{WRITE_CALENDAR},
+                    REQUEST_PERMISSIONS);
         }
     }
 
@@ -548,9 +595,9 @@ public class AddEditQuestFragment extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode){
+        switch (requestCode) {
             case REQUEST_PERMISSIONS:
-                if (grantResults.length > 0 && grantResults[0] == PERMISSION_GRANTED){
+                if (grantResults.length > 0 && grantResults[0] == PERMISSION_GRANTED) {
                     Toast.makeText(requireContext(), "Granted", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(requireContext(), "Not Granted", Toast.LENGTH_SHORT).show();

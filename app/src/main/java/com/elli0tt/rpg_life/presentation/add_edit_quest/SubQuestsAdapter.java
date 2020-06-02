@@ -281,4 +281,3 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
         }
     }
 }
-
