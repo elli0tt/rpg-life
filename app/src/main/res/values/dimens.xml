@@ -12,4 +12,6 @@
     <dimen name="countdown_timer_number_picker_height">300dp</dimen>
     <dimen name="countdown_timer_number_picker_margin_end">32dp</dimen>
     <dimen name="countdown_timer_fabs_margin">32dp</dimen>
+    <dimen name="add_challenge_fab_translationY">100dp</dimen>
+    <dimen name="add_quest_fab_translationY">55dp</dimen>
 </resources>

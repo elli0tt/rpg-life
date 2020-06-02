@@ -19,13 +19,21 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class QuestsFragment : Fragment() {
     private lateinit var viewModel: QuestsViewModel
     private val questsAdapter = QuestsAdapter()
+
     private lateinit var navController: NavController
     private lateinit var addQuestFab: FloatingActionButton
     private lateinit var addChallengeFab: FloatingActionButton
+    private lateinit var mainFab: FloatingActionButton
     private lateinit var recyclerView: RecyclerView
+    private lateinit var fabMenuBackgroundView: View
+    private lateinit var addChallengeCardView: View
+    private lateinit var addQuestCardView: View
+
     private var actionMode: ActionMode? = null
     private var isToShowDevelopersOptions = false
     private var showCompletedMenuItem: MenuItem? = null
+
+    private var isFabMenuOpened = false
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -39,14 +47,34 @@ class QuestsFragment : Fragment() {
 
         addQuestFab = view.findViewById(R.id.add_quest_fab)
         addChallengeFab = view.findViewById(R.id.add_challenge_fab)
+        mainFab = view.findViewById(R.id.main_fab)
         recyclerView = view.findViewById(R.id.quests_recycler_view)
+        fabMenuBackgroundView = view.findViewById(R.id.fab_menu_background_view)
+        addChallengeCardView = view.findViewById(R.id.add_challenge_card_view)
+        addQuestCardView = view.findViewById(R.id.add_quest_card_view)
 
         subscribeToViewModel()
         setHasOptionsMenu(true)
         setupQuestsRecyclerView()
 
-        addQuestFab.setOnClickListener { navigateToAddQuestScreen() }
-        addChallengeFab.setOnClickListener { navigateToAddChallengeScreen() }
+        addQuestFab.setOnClickListener {
+            hideFabMenu()
+            navigateToAddQuestScreen()
+        }
+        addChallengeFab.setOnClickListener {
+            hideFabMenu()
+            navigateToAddChallengeScreen()
+        }
+        mainFab.setOnClickListener {
+            if (!isFabMenuOpened) {
+                showFabMenu()
+            } else {
+                hideFabMenu()
+            }
+        }
+        fabMenuBackgroundView.setOnClickListener {
+            hideFabMenu()
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -128,6 +156,36 @@ class QuestsFragment : Fragment() {
                         showCompletedMenuItem!!.setTitle((textResId)!!)
                     }
                 })
+    }
+
+    private fun showFabMenu() {
+        isFabMenuOpened = true
+        fabMenuBackgroundView.visibility = View.VISIBLE
+
+        mainFab.animate().rotation(135f)
+        fabMenuBackgroundView.animate().alpha(1f)
+        addChallengeFab.animate()
+                .translationY(-requireContext().resources.getDimension(R.dimen.add_challenge_fab_translationY))
+                .rotation(0f)
+        addQuestFab.animate()
+                .translationY(-requireContext().resources.getDimension(R.dimen.add_quest_fab_translationY))
+                .rotation(0f)
+        addQuestCardView.visibility = View.VISIBLE
+        addChallengeCardView.visibility = View.VISIBLE
+    }
+
+    private fun hideFabMenu() {
+        isFabMenuOpened = false
+        addQuestCardView.visibility = View.GONE
+        addChallengeCardView.visibility = View.GONE
+        mainFab.animate().rotation(0f)
+        fabMenuBackgroundView.animate().alpha(0f)
+        addChallengeFab.animate()
+                .translationY(0f)
+                .rotation(90f)
+        addQuestFab.animate()
+                .translationY(0f)
+                .rotation(90f)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
