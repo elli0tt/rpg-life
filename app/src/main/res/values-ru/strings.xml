@@ -120,4 +120,6 @@
     <string name="add_edit_quest_add_time_due">Добавить время окончания</string>
     <string name="add_edit_quest_add_to_google_calendar">Добавить в Google календарь</string>
     <string name="add_edit_quest_remind_me">Напомнить мне</string>
+    <string name="quests_challenge">Челлендж</string>
+    <string name="quests_quest">Квест</string>
 </resources>

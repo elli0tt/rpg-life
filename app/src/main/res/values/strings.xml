@@ -121,4 +121,6 @@
     <string name="add_edit_quest_add_time_due">Add time due</string>
     <string name="add_edit_quest_add_to_google_calendar">Add to Google calendar</string>
     <string name="add_edit_quest_remind_me">Remind me</string>
+    <string name="quests_challenge">Challenge</string>
+    <string name="quests_quest">Quest</string>
 </resources>

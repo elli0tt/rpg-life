@@ -39,7 +39,7 @@
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Challenge"/>
+            android:text="@string/quests_challenge"/>
     </androidx.cardview.widget.CardView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -70,7 +70,7 @@
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Quest"/>
+            android:text="@string/quests_quest"/>
     </androidx.cardview.widget.CardView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
