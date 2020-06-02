@@ -58,7 +58,7 @@
     <string name="add_edit_quest_repeat">Повтор</string>
     <string name="quest_recycler_due_date">До:</string>
     <string name="quest_recycler_due_date_infinity">До: ∞</string>
-    <string name="quest_toolbar_sort_by_difficulty">Сложность</string>
+    <string name="quest_toolbar_sort_by_difficulty">Сложности</string>
     <string name="quest_date_due_today">Сегодня</string>
     <string name="quest_date_due_tomorrow">Завтра</string>
     <string name="quest_date_due_next_week">Следующая неделя</string>
@@ -102,4 +102,22 @@
     <string name="statistics_toolbar_menu_skills">Навыки</string>
     <string name="statistics_toolbar_menu_skills_categories">Категории навыков</string>
     <string name="add_edit_skill_delete">Удалить</string>
+    <string name="add_edit_skill_corfirm_delete_title">Вы уверены</string>
+    <string name="add_eidt_skill_confirem_delete_message">%1$s будет удален навсегда</string>
+    <string name="add_edit_skill_confirm_positive_text">Удалить</string>
+    <string name="add_edit_skill_confirm_negative_text">Отмена</string>
+    <string name="add_edit_challege_fail_confirm_title">Вы уверены</string>
+    <string name="add_edit_challenge_fail_confirm_message">Все навыки, связанные с этим челледжем потеряют половину опыта, полученного за выполнение челленджа</string>
+    <string name="add_edit_challenge_fail_confrim_positive">Провалить</string>
+    <string name="add_edit_challenge_fail_confirm_negative">Отмена</string>
+    <string name="add_edit_quest_add_start_date">Добавить дату начала</string>
+    <string name="add_edit_quest_add_start_time">Добавить время начала</string>
+    <string name="add_edit_quest_add_start_date_today_popup_title">Сегодня</string>
+    <string name="add_edit_quest_add_start_date_tomorrow_popup_title">Завтра</string>
+    <string name="add_edit_quest_add_start_date_next_week_popup_title">Следующая неделя</string>
+    <string name="add_edit_quest_add_start_date_pick_date_popup_title">Выбрать дату</string>
+    <string name="add_edit_quest_start_date_formatted">%1$02d.%2$02d.%3$04d</string>
+    <string name="add_edit_quest_add_time_due">Добавить время окончания</string>
+    <string name="add_edit_quest_add_to_google_calendar">Добавить в Google календарь</string>
+    <string name="add_edit_quest_remind_me">Напомнить мне</string>
 </resources>
