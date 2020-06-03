@@ -1,6 +1,8 @@
 package com.elli0tt.rpg_life.presentation.quests;
 
 import android.app.Application;
+import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -9,6 +11,12 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.Transformations;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkInfo;
+import androidx.work.WorkManager;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
 
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl;
@@ -16,13 +24,14 @@ import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
-import com.elli0tt.rpg_life.domain.use_case.quests.FilterQuestsUseCase;
-import com.elli0tt.rpg_life.domain.use_case.quests.SortQuestsUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.CompleteQuestUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.FilterQuestsUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.PopulateWithSamplesUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.SetQuestImportantUseCase;
+import com.elli0tt.rpg_life.domain.use_case.quests.SortQuestsUseCase;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class QuestsViewModel extends AndroidViewModel {
     private LiveData<List<Quest>> allQuests;
@@ -44,8 +53,13 @@ public class QuestsViewModel extends AndroidViewModel {
     private QuestsRepository questsRepository;
     private SkillsRepository skillsRepository;
 
+    private WorkManager workManager;
+    private OneTimeWorkRequest workRequest;
+
     public QuestsViewModel(@NonNull Application application) {
         super(application);
+        workManager = WorkManager.getInstance(application);
+        updateInsertWorkRequest();
 
         questsRepository = new QuestsRepositoryImpl(application);
         skillsRepository = new SkillsRepositoryImpl(application);
@@ -120,6 +134,10 @@ public class QuestsViewModel extends AndroidViewModel {
         return isSelectionStarted;
     }
 
+    LiveData<WorkInfo> getWorkInfo() {
+        return workManager.getWorkInfoByIdLiveData(workRequest.getId());
+    }
+
     public void insert(List<Quest> questList) {
         questsRepository.insertQuests((Quest[]) questList.toArray());
     }
@@ -172,5 +190,14 @@ public class QuestsViewModel extends AndroidViewModel {
             isShowCompleted.setValue(!isShowCompleted.getValue());
             questsRepository.setShowCompleted(isShowCompleted.getValue());
         }
+    }
+
+    void insertEmptyQuest() {
+        Log.d("onChanged", "start");
+        workManager.enqueue(workRequest);
+    }
+
+    void updateInsertWorkRequest(){
+        workRequest = new OneTimeWorkRequest.Builder(InsertEmptyQuestWorker.class).build();
     }
 }

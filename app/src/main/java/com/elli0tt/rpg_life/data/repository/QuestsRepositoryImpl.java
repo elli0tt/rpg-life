@@ -1,6 +1,7 @@
 package com.elli0tt.rpg_life.data.repository;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import androidx.core.util.Pair;
@@ -23,11 +24,11 @@ public class QuestsRepositoryImpl implements QuestsRepository {
     private RelatedToQuestsSkillsDao relatedToQuestsSkillsDao;
     private QuestsSharedPrefUtils questsSharedPrefUtils;
 
-    public QuestsRepositoryImpl(Application application) {
-        AppRoomDatabase database = AppRoomDatabase.getDatabase(application);
+    public QuestsRepositoryImpl(Context context) {
+        AppRoomDatabase database = AppRoomDatabase.getDatabase(context);
         questsDao = database.getQuestDao();
         relatedToQuestsSkillsDao = database.getRelatedToQuestSkillsDao();
-        questsSharedPrefUtils = new QuestsSharedPrefUtils(application);
+        questsSharedPrefUtils = new QuestsSharedPrefUtils(context);
     }
 
     @Override
@@ -272,4 +273,8 @@ public class QuestsRepositoryImpl implements QuestsRepository {
         }
     }
 
+    @Override
+    public long insertEmptyQuestSync() {
+        return questsDao.insertQuests(new Quest("")).get(0);
+    }
 }

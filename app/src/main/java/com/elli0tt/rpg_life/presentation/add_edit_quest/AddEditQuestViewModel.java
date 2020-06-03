@@ -36,8 +36,6 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private MutableLiveData<Difficulty> difficulty =
             new MutableLiveData<>(Difficulty.NOT_SET);
 
-    private MutableLiveData<Integer> nameErrorMessageId = new MutableLiveData<>();
-
     private MutableLiveData<Quest.DateState> dateDueState =
             new MutableLiveData<>(Quest.DateState.NOT_SET);
     private MutableLiveData<Quest.DateState> startDateState =
@@ -87,7 +85,6 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG);
     private DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
 
-
     public AddEditQuestViewModel(@NonNull Application application) {
         super(application);
         questsRepository = new QuestsRepositoryImpl(application);
@@ -109,10 +106,6 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
     LiveData<Difficulty> getDifficulty() {
         return difficulty;
-    }
-
-    LiveData<Integer> getNameErrorMessageId() {
-        return nameErrorMessageId;
     }
 
     LiveData<Quest.DateState> getDateDueState() {
@@ -217,20 +210,8 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         }
     }
 
-    private boolean isNameValid() {
-        return name.getValue() != null && !name.getValue().isEmpty();
-    }
-
     void saveQuest(List<AddSkillData> relatedSkills) {
-        if (!isNameValid()) {
-            nameErrorMessageId.setValue(R.string.add_edit_quest_name_error_message);
-            return;
-        }
-
-        nameErrorMessageId.setValue(null);
-
-        Quest quest = new Quest(name.getValue());
-        quest.setName(name.getValue());
+        Quest quest = new Quest(name.getValue() == null ? "" : name.getValue());
         quest.setDescription(description.getValue());
         quest.setDifficulty(difficulty.getValue());
         quest.setDateDue(dateDue);

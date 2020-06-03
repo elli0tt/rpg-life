@@ -20,7 +20,7 @@ class Quest {
     var description = ""
 
     @TypeConverters(DifficultyConverter::class)
-    var difficulty = Difficulty.NORMAL
+    var difficulty = Difficulty.NOT_SET
     var parentQuestId = 0
     var isSubQuest = false
 

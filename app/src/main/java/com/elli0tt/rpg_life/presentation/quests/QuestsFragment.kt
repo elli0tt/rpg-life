@@ -1,7 +1,11 @@
 package com.elli0tt.rpg_life.presentation.quests
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
@@ -12,6 +16,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.WorkInfo
 import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.domain.model.Quest
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -59,7 +64,8 @@ class QuestsFragment : Fragment() {
 
         addQuestFab.setOnClickListener {
             hideFabMenu()
-            navigateToAddQuestScreen()
+
+            viewModel.insertEmptyQuest()
         }
         addChallengeFab.setOnClickListener {
             hideFabMenu()
@@ -131,10 +137,10 @@ class QuestsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if ((dy < 0) && !addQuestFab.isShown && !viewModel.isSelectionStarted.value!!) {
-                    addQuestFab.show()
+                if ((dy < 0) && !mainFab.isShown && !viewModel.isSelectionStarted.value!!) {
+                    mainFab.show()
                 } else if (dy > 0 && addQuestFab.isShown) {
-                    addQuestFab.hide()
+                    mainFab.hide()
                 }
             }
         })
@@ -145,22 +151,33 @@ class QuestsFragment : Fragment() {
         viewModel.quests.observe(viewLifecycleOwner, Observer { questList: List<Quest?>? -> questsAdapter.submitList(questList) })
         viewModel.isSelectionStarted.observe(viewLifecycleOwner, Observer { isSelectionStarted ->
             if (isSelectionStarted) {
-                addQuestFab.hide()
+                mainFab.hide()
             } else {
-                addQuestFab.show()
+                mainFab.show()
             }
         })
-        viewModel.showCompletedTextResId.observe(viewLifecycleOwner,
-                Observer { textResId: Int? ->
-                    if (showCompletedMenuItem != null) {
-                        showCompletedMenuItem!!.setTitle((textResId)!!)
-                    }
-                })
+        viewModel.showCompletedTextResId.observe(viewLifecycleOwner, Observer { textResId: Int? ->
+            if (showCompletedMenuItem != null) {
+                showCompletedMenuItem!!.setTitle((textResId)!!)
+            }
+        })
+        viewModel.workInfo.observe(viewLifecycleOwner, workInfoObserver)
+    }
+
+    private val workInfoObserver = object : Observer<WorkInfo>{
+        override fun onChanged(workInfo: WorkInfo?) {
+            if (workInfo != null && workInfo.state.isFinished){
+                navigateToEditQuestScreen(workInfo.outputData.getInt(Constants.KEY_QUEST_ID, 0))
+                viewModel.updateInsertWorkRequest()
+            }
+        }
     }
 
     private fun showFabMenu() {
         isFabMenuOpened = true
         fabMenuBackgroundView.visibility = View.VISIBLE
+        addQuestFab.show()
+        addChallengeFab.show()
 
         mainFab.animate().rotation(135f)
         fabMenuBackgroundView.animate().alpha(1f)
@@ -170,14 +187,17 @@ class QuestsFragment : Fragment() {
         addQuestFab.animate()
                 .translationY(-requireContext().resources.getDimension(R.dimen.add_quest_fab_translationY))
                 .rotation(0f)
-        addQuestCardView.visibility = View.VISIBLE
-        addChallengeCardView.visibility = View.VISIBLE
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator?) {
+                        super.onAnimationEnd(animation)
+                        addQuestCardView.visibility = View.VISIBLE
+                        addChallengeCardView.visibility = View.VISIBLE
+                    }
+                })
     }
 
     private fun hideFabMenu() {
         isFabMenuOpened = false
-        addQuestCardView.visibility = View.GONE
-        addChallengeCardView.visibility = View.GONE
         mainFab.animate().rotation(0f)
         fabMenuBackgroundView.animate().alpha(0f)
         addChallengeFab.animate()
@@ -186,6 +206,16 @@ class QuestsFragment : Fragment() {
         addQuestFab.animate()
                 .translationY(0f)
                 .rotation(90f)
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator?) {
+                        super.onAnimationEnd(animation)
+                        addQuestCardView.visibility = View.GONE
+                        addChallengeCardView.visibility = View.GONE
+                        addChallengeFab.hide()
+                        addQuestFab.hide()
+                        fabMenuBackgroundView.visibility = View.GONE
+                    }
+                })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

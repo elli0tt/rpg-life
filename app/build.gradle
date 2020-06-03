@@ -7,8 +7,8 @@ apply plugin: 'androidx.navigation.safeargs'
 android {
     compileSdkVersion 28
     defaultConfig {
-        //applicationId "com.elli0tt.rpg_life_debug" // debug
-        applicationId "com.elli0tt.rpg_life" // release
+        applicationId "com.elli0tt.rpg_life_debug" // debug
+        //applicationId "com.elli0tt.rpg_life" // release
 
         minSdkVersion 22
         targetSdkVersion 28
@@ -91,6 +91,9 @@ dependencies {
     implementation "ir.alirezaiyan:levelprogressbar:1.0.2"
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    implementation "androidx.work:work-runtime:2.3.4"
+    implementation "androidx.work:work-runtime-ktx:2.3.4"
 }
 repositories {
     mavenCentral()

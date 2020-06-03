@@ -182,13 +182,6 @@ public class AddEditQuestFragment extends Fragment {
     }
 
     private void subscribeToViewModel() {
-        viewModel.getNameErrorMessageId().observe(getViewLifecycleOwner(),
-                errorMessageId -> {
-                    if (errorMessageId != null) {
-                        binding.nameTextInput.setError(getString(errorMessageId));
-                    }
-                }
-        );
         viewModel.getDateDueState().observe(getViewLifecycleOwner(),
                 dateDueState -> {
                     switch (dateDueState) {
