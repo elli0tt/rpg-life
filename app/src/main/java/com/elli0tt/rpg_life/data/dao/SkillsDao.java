@@ -15,7 +15,7 @@ import java.util.List;
 public interface SkillsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertSkill(Skill... skills);
+    List<Long> insertSkill(Skill... skills);
 
     @Query("SELECT * FROM skills_table ORDER BY id")
     LiveData<List<Skill>> getAllSkills();

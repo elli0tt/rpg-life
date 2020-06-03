@@ -29,4 +29,6 @@ public interface SkillsRepository {
     void updateSkillCategoryById(int skillId, int categoryId);
 
     void deleteSkillsById(Integer... skillId);
+
+    long insertEmptySkill();
 }

@@ -61,16 +61,16 @@ public class SkillsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        AppCompatActivity activity = (AppCompatActivity)getActivity();
-        if (activity != null){
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        if (activity != null) {
             ActionBar supportActionBar = activity.getSupportActionBar();
-            if (supportActionBar != null){
+            if (supportActionBar != null) {
                 supportActionBar.setDisplayHomeAsUpEnabled(false);
             }
         }
     }
 
-    private View.OnClickListener onAddSkillFabClickListener = v -> navigateToAddSkillScreen();
+    private View.OnClickListener onAddSkillFabClickListener = v -> viewModel.insertEmptySkill();
 
     private View.OnClickListener onSortUpDownArrowsViewClickListener = view -> {
         viewModel.changeSortingDirection();
@@ -80,9 +80,8 @@ public class SkillsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,
                 false));
         skillsAdapter.setOnStartTimerFabClickListener(this::navigateToCountDownScreen);
-        skillsAdapter.setOnItemClickListener(position -> {
-            navigateToEditSkillScreen(viewModel.getSkillId(position));
-        });
+        skillsAdapter.setOnItemClickListener(position ->
+                navigateToEditSkillScreen(viewModel.getSkillId(position)));
         recyclerView.setAdapter(skillsAdapter);
     }
 
@@ -103,6 +102,14 @@ public class SkillsFragment extends Fragment {
                 case LEVEL_DESC:
                     sortUpDownArrowsView.setArrowDown();
                     break;
+            }
+        });
+
+        viewModel.getInsertEmptySkillWorkInfo().observe(getViewLifecycleOwner(), workInfo -> {
+            if (workInfo != null && workInfo.getState().isFinished()) {
+                navigateToEditSkillScreen(workInfo.getOutputData().getInt(Constants.KEY_SKILL_ID,
+                        0));
+                viewModel.updateInsertEmptySkillWorkRequest();
             }
         });
     }
@@ -147,6 +154,5 @@ public class SkillsFragment extends Fragment {
                 SkillsFragmentDirections.actionSkillsScreenToEditSkillScreen();
         action.setSkillId(skillId);
         navController.navigate(action);
-
     }
 }

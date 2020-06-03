@@ -1,6 +1,7 @@
 package com.elli0tt.rpg_life.data.repository;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.core.util.Pair;
 import androidx.lifecycle.LiveData;
@@ -18,10 +19,10 @@ public class SkillsRepositoryImpl implements SkillsRepository {
     private SkillsDao skillsDao;
     private SkillsSharedPrefUtils skillsSharedPrefUtils;
 
-    public SkillsRepositoryImpl(Application application) {
-        AppRoomDatabase database = AppRoomDatabase.getDatabase(application);
+    public SkillsRepositoryImpl(Context context) {
+        AppRoomDatabase database = AppRoomDatabase.getDatabase(context);
         skillsDao = database.getSkillsDao();
-        skillsSharedPrefUtils = new SkillsSharedPrefUtils(application);
+        skillsSharedPrefUtils = new SkillsSharedPrefUtils(context);
     }
 
     @Override
@@ -161,5 +162,10 @@ public class SkillsRepositoryImpl implements SkillsRepository {
             dao.deleteSkillsById(ids);
             return null;
         }
+    }
+
+    @Override
+    public long insertEmptySkill() {
+        return skillsDao.insertSkill(new Skill(0, "")).get(0);
     }
 }

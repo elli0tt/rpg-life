@@ -8,6 +8,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkInfo;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
 
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl;
@@ -29,9 +33,15 @@ public class SkillsViewModel extends AndroidViewModel {
 
     private SkillsRepository skillsRepository;
 
+    private WorkManager workManager;
+    private WorkRequest insertEmptySkillWorkRequest;
+
     public SkillsViewModel(@NonNull Application application) {
         super(application);
         skillsRepository = new SkillsRepositoryImpl(application);
+
+        workManager = WorkManager.getInstance(application);
+        updateInsertEmptySkillWorkRequest();
 
         sortingState.setValue(skillsRepository.getSkillsSortingState());
         allSkills = skillsRepository.getAllSkills();
@@ -60,6 +70,10 @@ public class SkillsViewModel extends AndroidViewModel {
 
     LiveData<Integer> getSortedByTextResId() {
         return sortedByTextResId;
+    }
+
+    LiveData<WorkInfo> getInsertEmptySkillWorkInfo(){
+        return workManager.getWorkInfoByIdLiveData(insertEmptySkillWorkRequest.getId());
     }
 
     void populateWithSamples() {
@@ -115,6 +129,15 @@ public class SkillsViewModel extends AndroidViewModel {
 
     int getSkillId(int position) {
         return skillsToShow.getValue().get(position).getId();
+    }
+
+    void insertEmptySkill() {
+        workManager.enqueue(insertEmptySkillWorkRequest);
+    }
+
+    void updateInsertEmptySkillWorkRequest() {
+        insertEmptySkillWorkRequest =
+                new OneTimeWorkRequest.Builder(InsertEmptySkillWorker.class).build();
     }
 
 }
