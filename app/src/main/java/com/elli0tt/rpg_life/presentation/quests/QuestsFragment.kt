@@ -3,9 +3,7 @@ package com.elli0tt.rpg_life.presentation.quests
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
@@ -16,7 +14,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.work.WorkInfo
 import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.domain.model.Quest
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -64,12 +61,11 @@ class QuestsFragment : Fragment() {
 
         addQuestFab.setOnClickListener {
             hideFabMenu()
-
             viewModel.insertEmptyQuest()
         }
         addChallengeFab.setOnClickListener {
             hideFabMenu()
-            navigateToAddChallengeScreen()
+            viewModel.insertEmptyChallenge()
         }
         mainFab.setOnClickListener {
             if (!isFabMenuOpened) {
@@ -161,16 +157,18 @@ class QuestsFragment : Fragment() {
                 showCompletedMenuItem!!.setTitle((textResId)!!)
             }
         })
-        viewModel.workInfo.observe(viewLifecycleOwner, workInfoObserver)
-    }
-
-    private val workInfoObserver = object : Observer<WorkInfo>{
-        override fun onChanged(workInfo: WorkInfo?) {
-            if (workInfo != null && workInfo.state.isFinished){
+        viewModel.insertEmptyQuestWorkInfo.observe(viewLifecycleOwner, Observer { workInfo ->
+            if (workInfo != null && workInfo.state.isFinished) {
                 navigateToEditQuestScreen(workInfo.outputData.getInt(Constants.KEY_QUEST_ID, 0))
-                viewModel.updateInsertWorkRequest()
+                viewModel.updateInsertEmptyQuestWorkRequest()
             }
-        }
+        })
+        viewModel.insertEmptyChallengeWorkInfo.observe(viewLifecycleOwner, Observer { workInfo ->
+            if (workInfo != null && workInfo.state.isFinished) {
+                navigateToEditChallengeScreen(workInfo.outputData.getInt(Constants.KEY_CHALLENGE_ID, 0))
+                viewModel.updateInsertEmptyChallengeWorkRequest()
+            }
+        })
     }
 
     private fun showFabMenu() {

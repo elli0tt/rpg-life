@@ -59,4 +59,6 @@ public interface QuestsRepository {
     void insertQuestWithRelatedSkills(Quest quest, int oldQuestId);
 
     long insertEmptyQuestSync();
+
+    long insertEmptyChallengeSync();
 }
