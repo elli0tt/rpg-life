@@ -7,13 +7,13 @@ apply plugin: 'androidx.navigation.safeargs'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.elli0tt.rpg_life_debug" // debug
-        //applicationId "com.elli0tt.rpg_life" // release
+        //applicationId "com.elli0tt.rpg_life_debug" // debug
+        applicationId "com.elli0tt.rpg_life" // release
 
         minSdkVersion 22
         targetSdkVersion 28
-        versionCode 17
-        versionName "1.1.7"
+        versionCode 18
+        versionName "1.1.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {
