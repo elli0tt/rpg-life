@@ -38,6 +38,7 @@ import com.elli0tt.rpg_life.databinding.FragmentAddEditQuestBinding;
 import com.elli0tt.rpg_life.domain.model.Difficulty;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.presentation.utils.SoftKeyboardUtil;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Calendar;
 
@@ -407,11 +408,6 @@ public class AddEditQuestFragment extends Fragment {
 
     private View.OnClickListener onAddToCalendarClickListener = v -> {
         checkPermissions();
-        ContentResolver contentResolver = requireActivity().getContentResolver();
-        Uri uri = contentResolver.insert(CalendarContract.Events.CONTENT_URI,
-                viewModel.getQuestContentValues());
-
-        Toast.makeText(requireContext(), "Added", Toast.LENGTH_SHORT).show();
     };
 
     private View.OnClickListener onAddReminderViewClickListener = v -> {
@@ -421,6 +417,14 @@ public class AddEditQuestFragment extends Fragment {
     private View.OnClickListener onRemoveReminderViewClickListener = v -> {
 
     };
+
+    private void addToGoogleCalendar() {
+        ContentResolver contentResolver = requireActivity().getContentResolver();
+        Uri uri = contentResolver.insert(CalendarContract.Events.CONTENT_URI,
+                viewModel.getQuestContentValues());
+
+        Snackbar.make(binding.getRoot(), "Added to Google calendar", Snackbar.LENGTH_SHORT).show();
+    }
 
     private void setReminderAlarm() {
         Intent intent = new Intent(requireContext(), QuestReminderBroadcastReceiver.class);
@@ -579,8 +583,10 @@ public class AddEditQuestFragment extends Fragment {
     private void checkPermissions() {
         if (ContextCompat.checkSelfPermission(requireContext(),
                 WRITE_CALENDAR) == PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(requireActivity(), new String[]{WRITE_CALENDAR},
+            requestPermissions(new String[]{WRITE_CALENDAR},
                     REQUEST_PERMISSIONS);
+        } else {
+            addToGoogleCalendar();
         }
     }
 
@@ -591,9 +597,10 @@ public class AddEditQuestFragment extends Fragment {
         switch (requestCode) {
             case REQUEST_PERMISSIONS:
                 if (grantResults.length > 0 && grantResults[0] == PERMISSION_GRANTED) {
-                    Toast.makeText(requireContext(), "Granted", Toast.LENGTH_SHORT).show();
+                    addToGoogleCalendar();
                 } else {
-                    Toast.makeText(requireContext(), "Not Granted", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(binding.getRoot(), "Can't add to Google calenar without " +
+                            "permission", Snackbar.LENGTH_SHORT).show();
                 }
                 break;
         }
