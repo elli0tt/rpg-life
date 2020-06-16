@@ -6,25 +6,22 @@
     android:background="?android:attr/colorBackground"
     android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/characteristics_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"/>
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/image_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/character_fab"
-        style="@style/Widget.MaterialComponents.FloatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_fab_margin"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_plus_black_24dp" />
+    <com.elli0tt.rpg_life.presentation.custom_view.CustomLevelProgressBar
+        android:id="@+id/level_progress_bar"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        app:spb_background_color="@color/colorAccent"
+        app:spb_is_enable="true"
+        app:spb_is_step_progress="true"
+        app:spb_level="level6"
+        app:spb_stroke_with="10"
+        app:spb_text_level_color="#fff"
+        app:spb_text_title_color="#040504"
+        app:spb_unprogress_color="#E6E6E6"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

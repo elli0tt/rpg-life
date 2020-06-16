@@ -123,4 +123,9 @@
     <string name="add_edit_quest_remind_me">Remind me</string>
     <string name="quests_challenge">Challenge</string>
     <string name="quests_quest">Quest</string>
+    <string name="add_edit_quest_write_calendar_permission_denied">Can\'t add to Google calendar without permission</string>
+    <string name="add_edit_quest_added_to_google_calendar">Added to Google calendar</string>
+
+    <string name="profile_image_file_name">profile image</string>
+    <string name="user_images_directory_name">user_images</string>
 </resources>

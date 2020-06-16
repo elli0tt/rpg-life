@@ -122,4 +122,7 @@
     <string name="add_edit_quest_remind_me">Напомнить мне</string>
     <string name="quests_challenge">Челлендж</string>
     <string name="quests_quest">Квест</string>
+    <string name="add_edit_quest_write_calendar_permission_denied">Невозможно добавить в Google календарь без разрешения</string>
+    <string name="add_edit_quest_added_to_google_calendar">Добавлен в Google календарь</string>
+    <string name="user_images_directory_name">user_images</string>
 </resources>

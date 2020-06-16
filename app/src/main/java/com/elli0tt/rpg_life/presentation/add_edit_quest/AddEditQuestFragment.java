@@ -16,14 +16,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -423,7 +421,7 @@ public class AddEditQuestFragment extends Fragment {
         Uri uri = contentResolver.insert(CalendarContract.Events.CONTENT_URI,
                 viewModel.getQuestContentValues());
 
-        Snackbar.make(binding.getRoot(), "Added to Google calendar", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(binding.getRoot(), R.string.add_edit_quest_added_to_google_calendar, Snackbar.LENGTH_SHORT).show();
     }
 
     private void setReminderAlarm() {
@@ -599,8 +597,9 @@ public class AddEditQuestFragment extends Fragment {
                 if (grantResults.length > 0 && grantResults[0] == PERMISSION_GRANTED) {
                     addToGoogleCalendar();
                 } else {
-                    Snackbar.make(binding.getRoot(), "Can't add to Google calenar without " +
-                            "permission", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(binding.getRoot(),
+                            R.string.add_edit_quest_write_calendar_permission_denied,
+                            Snackbar.LENGTH_SHORT).show();
                 }
                 break;
         }
