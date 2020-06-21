@@ -97,10 +97,6 @@ class Quest {
         this.isImportant = isImportant
     }
 
-//    constructor() { // do nothing
-//    }
-
-
     constructor(name: String) {
         this.name = name
     }
@@ -130,47 +126,7 @@ class Quest {
         //this.dateDueState = dateDueState;
     }
 
-    fun getDateDueCurrentState(): DateDueCurrentState {
-        if (dateDueState == DateState.NOT_SET) {
-            return DateDueCurrentState.NOT_SET
-        }
-        val currentDate = Calendar.getInstance()
-        if (areCalendarEquals(GetTodayCalendarUseCase().invoke(), dateDue)) {
-            return DateDueCurrentState.TODAY
-        }
-        if (areCalendarEquals(GetTomorrowCalendarUseCase().invoke(), dateDue)) {
-            return DateDueCurrentState.TOMORROW
-        }
-        return if (currentDate.after(dateDue)) {
-            DateDueCurrentState.AFTER_DATE_DUE
-        } else {
-            DateDueCurrentState.BEFORE_DATE_DUE
-        }
-    }
-
-    private fun areCalendarEquals(calendar1: Calendar, calendar2: Calendar): Boolean {
-        return calendar1[Calendar.YEAR] == calendar2[Calendar.YEAR]
-                && calendar1[Calendar.MONTH] == calendar2[Calendar.MONTH]
-                && calendar1[Calendar.DAY_OF_MONTH] == calendar2[Calendar.DAY_OF_MONTH]
-                && calendar1[Calendar.HOUR_OF_DAY] == calendar2[Calendar.HOUR_OF_DAY]
-                && calendar1[Calendar.MINUTE] == calendar2[Calendar.MINUTE]
-    }
-
     override fun toString(): String {
         return "name: $name"
-    }
-
-    companion object {
-        private const val COMPLETED_PERCENTAGE = 100
-
-        @JvmStatic
-        fun getDateDueFormatted(dateDue: Calendar): String {
-            return String.format(Locale.getDefault(), "%02d.%02d.%04d %02d:%02d",
-                    dateDue[Calendar.DAY_OF_MONTH],
-                    dateDue[Calendar.MONTH] + 1,
-                    dateDue[Calendar.YEAR],
-                    dateDue[Calendar.HOUR_OF_DAY],
-                    dateDue[Calendar.MINUTE])
-        }
     }
 }

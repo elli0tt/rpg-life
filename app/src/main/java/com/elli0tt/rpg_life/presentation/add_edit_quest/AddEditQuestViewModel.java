@@ -18,6 +18,7 @@ import com.elli0tt.rpg_life.domain.model.Difficulty;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetClosestWeekdayCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetNextWeekCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTodayCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTomorrowCalendarUseCase;
@@ -140,7 +141,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         return currentQuest.getId();
     }
 
-    long getReminderTime(){
+    long getReminderTime() {
         return reminderDate.getTimeInMillis();
     }
 
@@ -315,6 +316,11 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         dateDueState.setValue(Quest.DateState.DATE_SET);
     }
 
+    void setDateDueClosestWeekday(){
+        dateDue = new GetClosestWeekdayCalendarUseCase().invoke();
+        dateDueState.setValue(Quest.DateState.DATE_SET);
+    }
+
     void setStartDateToday() {
         startDate = new GetTodayCalendarUseCase().invoke();
         startDateState.setValue(Quest.DateState.DATE_SET);
@@ -363,10 +369,12 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     void setRepeatState(Quest.RepeatState repeatState) {
         this.repeatState.setValue(repeatState);
         repeatTextResId.setValue(getRepeatTextResId(repeatState));
-        if (dateDueState.getValue() != null
-                && dateDueState.getValue().equals(false)
-                && !repeatState.equals(Quest.RepeatState.NOT_SET)) {
-            setDateDueToday();
+        if (dateDueState.getValue() != null){
+            if (repeatState.equals(Quest.RepeatState.WEEKDAYS)){
+                setDateDueClosestWeekday();
+            } else if (!repeatState.equals(Quest.RepeatState.NOT_SET)){
+                setDateDueToday();
+            }
         }
     }
 

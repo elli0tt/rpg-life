@@ -1,7 +1,13 @@
 package com.elli0tt.rpg_life.presentation.add_edit_challenge
 
+import android.app.DatePickerDialog
+import android.app.DatePickerDialog.OnDateSetListener
+import android.app.TimePickerDialog
+import android.app.TimePickerDialog.OnTimeSetListener
 import android.os.Bundle
 import android.view.*
+import android.widget.DatePicker
+import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
@@ -14,8 +20,10 @@ import androidx.navigation.fragment.navArgs
 import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.databinding.FragmentAddEditChallengeBinding
 import com.elli0tt.rpg_life.domain.model.Difficulty
+import com.elli0tt.rpg_life.domain.model.Quest.DateState
 import com.elli0tt.rpg_life.presentation.add_edit_quest.Constants
 import com.elli0tt.rpg_life.presentation.utils.SoftKeyboardUtil
+import java.util.*
 
 class AddEditChallengeFragment : Fragment() {
 
@@ -53,6 +61,10 @@ class AddEditChallengeFragment : Fragment() {
         }
         binding.addSkillsButton.setOnClickListener { navigateToAddSkillsToQuestScreen() }
         binding.failButton.setOnClickListener { showFailChallengeConfirmDialog() }
+        binding.addDateDueView.setOnClickListener(onAddDateDueViewClickListener)
+        binding.addDateDueView.setOnRemoveClickListener(onRemoveDateDueViewClickListener)
+        binding.addTimeDueView.setOnClickListener(onAddTimeDueViewClickListener)
+        binding.addTimeDueView.setOnRemoveClickListener(onRemoveTimeDueViewClickListener)
 
         subscribeToViewModel()
     }
@@ -94,6 +106,31 @@ class AddEditChallengeFragment : Fragment() {
                 binding.difficultyView.setRemoveIconVisibility(View.VISIBLE)
             }
         })
+
+        viewModel.dateDueState.observe(viewLifecycleOwner,
+                Observer { dateDueState: DateState? ->
+                    when (dateDueState) {
+                        DateState.NOT_SET -> {
+                            binding.addDateDueView.setText(R.string.add_edit_quest_add_date_due)
+                            binding.addDateDueView.setRemoveIconVisibility(View.INVISIBLE)
+                            binding.addTimeDueView.visibility = View.GONE
+                            binding.addTimeDueView.setRemoveIconVisibility(View.INVISIBLE)
+                        }
+                        DateState.DATE_SET -> {
+                            binding.addDateDueView.setText(viewModel.getDateDueFormatted())
+                            binding.addDateDueView.setRemoveIconVisibility(View.VISIBLE)
+                            binding.addTimeDueView.visibility = View.VISIBLE
+                            binding.addTimeDueView.setText(R.string.add_edit_quest_add_time_due)
+                        }
+                        DateState.DATE_TIME_SET -> {
+                            binding.addDateDueView.setText(viewModel.getDateDueFormatted())
+                            binding.addDateDueView.setRemoveIconVisibility(View.VISIBLE)
+                            binding.addTimeDueView.visibility = View.VISIBLE
+                            binding.addTimeDueView.setText(viewModel.getTimeDueFormatted())
+                            binding.addTimeDueView.setRemoveIconVisibility(View.VISIBLE)
+                        }
+                    }
+                })
     }
 
     override fun onStart() {
@@ -161,5 +198,78 @@ class AddEditChallengeFragment : Fragment() {
         val action = AddEditChallengeFragmentDirections.actionAddEditChallengeScreenToAddSkillsToQuestScreen()
         action.questId = viewModel.challengeId
         navController.navigate(action)
+    }
+
+    private val onDateDueSetListener = OnDateSetListener { _: DatePicker?, year: Int, month: Int, dayOfMonth: Int ->
+        viewModel.setDateDue(year, month, dayOfMonth)
+    }
+
+    private val onTimeDueSetListener = OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int ->
+        viewModel.setDateDue(hourOfDay, minute)
+    }
+
+    private val onAddDateDueViewClickListener = View.OnClickListener { v: View? ->
+        SoftKeyboardUtil.hideKeyboard(v, activity)
+        showAddDateDuePopupMenu(v!!)
+    }
+
+    private val onRemoveDateDueViewClickListener = View.OnClickListener { v ->
+        SoftKeyboardUtil.hideKeyboard(v, activity)
+        viewModel.removeDateDue()
+    }
+
+    private val onAddTimeDueViewClickListener = View.OnClickListener { v: View? ->
+        SoftKeyboardUtil.hideKeyboard(v, activity)
+        pickTime(onTimeDueSetListener)
+    }
+
+    private val onRemoveTimeDueViewClickListener = View.OnClickListener { v: View? ->
+        SoftKeyboardUtil.hideKeyboard(v, activity)
+        viewModel.removeTimeDue()
+    }
+
+    private fun pickDate(onDateSetListener: OnDateSetListener) {
+        val datePickerDialog = DatePickerDialog(requireContext(),
+                onDateSetListener,
+                Calendar.getInstance()[Calendar.YEAR],
+                Calendar.getInstance()[Calendar.MONTH],
+                Calendar.getInstance()[Calendar.DAY_OF_MONTH])
+        datePickerDialog.show()
+    }
+
+    private fun pickTime(onTimeSetListener: OnTimeSetListener) {
+        val timePickerDialog = TimePickerDialog(context, onTimeSetListener,
+                Calendar.getInstance()[Calendar.HOUR_OF_DAY],
+                Calendar.getInstance()[Calendar.MINUTE],
+                true)
+        timePickerDialog.show()
+    }
+
+    private fun showAddDateDuePopupMenu(view: View) {
+        val popupMenu = PopupMenu(requireContext(), view)
+        popupMenu.menuInflater.inflate(R.menu.add_edit_quest_add_date_due_popup_menu,
+                popupMenu.menu)
+        popupMenu.setOnMenuItemClickListener { item: MenuItem ->
+            when (item.itemId) {
+                R.id.add_edit_quest_add_date_due_popup_today -> {
+                    viewModel.setDateDueToday()
+                    return@setOnMenuItemClickListener true
+                }
+                R.id.add_edit_quest_add_date_due_popup_tomorrow -> {
+                    viewModel.setDateDueTomorrow()
+                    return@setOnMenuItemClickListener true
+                }
+                R.id.add_edit_quest_add_date_due_popup_next_week -> {
+                    viewModel.setDateDueNextWeek()
+                    return@setOnMenuItemClickListener true
+                }
+                R.id.add_edit_quest_add_date_due_popup_pick_date -> {
+                    pickDate(onDateDueSetListener)
+                    return@setOnMenuItemClickListener true
+                }
+                else -> return@setOnMenuItemClickListener false
+            }
+        }
+        popupMenu.show()
     }
 }

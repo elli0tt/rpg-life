@@ -49,6 +49,8 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
     private OnItemLongClickListener onItemLongClickListener;
     private OnSelectionFinishedListener onSelectionFinishedListener;
 
+    private QuestsViewModel viewModel;
+
     QuestsAdapter() {
         super(DIFF_CALLBACK);
     }
@@ -94,6 +96,10 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         this.onSelectionFinishedListener = onSelectionFinishedListener;
     }
 
+    void setViewModel(QuestsViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
+
     @Override
     public void submitList(@Nullable List<Quest> list) {
         super.submitList(list != null ? new ArrayList<>(list) : null);
@@ -109,7 +115,8 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
                 onIsCompleteCheckBoxClickListener,
                 onIsImportantCheckBoxClickListener,
                 onItemClickListener,
-                onItemLongClickListener);
+                onItemLongClickListener,
+                viewModel);
     }
 
     @Override
@@ -191,7 +198,6 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         return selectedQuests;
     }
 
-
     static class QuestsViewHolder extends RecyclerView.ViewHolder {
         private CheckBox isCompletedCheckBox;
         private TextView nameTextView;
@@ -204,6 +210,8 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
 
         private ColorStateList defaultTextViewColor;
 
+        private QuestsViewModel viewModel;
+
         private int greenColorId;
         private int redColorId;
 
@@ -212,12 +220,14 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
                 final OnIsCompleteCheckBoxClickListener onIsCompleteCheckBoxClickListener,
                 final OnIsImportantCheckBoxClickListener onIsImportantCheckBoxClickListener,
                 final OnItemClickListener onItemClickListener,
-                final OnItemLongClickListener onItemLongClickListener) {
+                final OnItemLongClickListener onItemLongClickListener,
+                final QuestsViewModel viewModel) {
             super(itemView);
+            this.viewModel = viewModel;
 
             isCompletedCheckBox = itemView.findViewById(R.id.is_completed_check_box);
             nameTextView = itemView.findViewById(R.id.name);
-            difficultyTextView = itemView.findViewById(R.id.difficulty_value);
+            difficultyTextView = itemView.findViewById(R.id.difficulty);
             isImportantCheckBox = itemView.findViewById(R.id.is_important_check_box);
             dateDueTextView = itemView.findViewById(R.id.date_due_text_view);
             repeatImageView = itemView.findViewById(R.id.repeat_image_view);
@@ -226,9 +236,9 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
 
             defaultTextViewColor = dateDueTextView.getTextColors();
             greenColorId =
-                    itemView.getContext().getResources().getColor(R.color.colorQuestDateStateBeforeDateDue);
+                    itemView.getContext().getResources().getColor(R.color.colorBeforeDateDue);
             redColorId =
-                    itemView.getContext().getResources().getColor(R.color.colorQuestDateStateAfterDateDue);
+                    itemView.getContext().getResources().getColor(R.color.colorAfterDateDue);
 
             itemView.setOnClickListener(createOnItemClickListener(onItemClickListener));
             itemView.setOnLongClickListener(
@@ -240,33 +250,26 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         void bind(Quest quest, boolean isSelected) {
             isCompletedCheckBox.setChecked(quest.isCompleted());
             nameTextView.setText(quest.getName());
-            difficultyTextView.setText(getDifficultyStringValue(quest.getDifficulty()));
-            isImportantCheckBox.setChecked(quest.isImportant());
-            switch (quest.getDateDueCurrentState()) {
-                case NOT_SET:
-                    dateDueTextView.setText(itemView.getContext()
-                            .getString(R.string.quest_recycler_due_date_infinity));
-                    dateDueTextView.setTextColor(defaultTextViewColor);
-                    break;
-                case BEFORE_DATE_DUE:
-                    dateDueTextView.setText(itemView.getContext().getString(R.string.quest_recycler_due_date)
-                            + " " + Quest.getDateDueFormatted(quest.getDateDue()));
-                    dateDueTextView.setTextColor(greenColorId);
-                    break;
-                case AFTER_DATE_DUE:
-                    dateDueTextView.setText(itemView.getContext().getString(R.string.quest_recycler_due_date)
-                            + " " + Quest.getDateDueFormatted(quest.getDateDue()));
-                    dateDueTextView.setTextColor(redColorId);
-                    break;
-                case TODAY:
-                    dateDueTextView.setText(R.string.quest_date_due_today);
-                    dateDueTextView.setTextColor(greenColorId);
-                    break;
-                case TOMORROW:
-                    dateDueTextView.setText(R.string.quest_date_due_tomorrow);
-                    dateDueTextView.setTextColor(greenColorId);
-                    break;
+            if (quest.getDifficulty().equals(Difficulty.NOT_SET)) {
+                difficultyTextView.setVisibility(View.GONE);
+            } else {
+                difficultyTextView.setText(itemView.getContext().getString(R.string.quest_difficulty,
+                        getDifficultyStringValue(quest.getDifficulty())));
             }
+            isImportantCheckBox.setChecked(quest.isImportant());
+
+            if (quest.getDateDueState().equals(Quest.DateState.NOT_SET)) {
+                dateDueTextView.setVisibility(View.GONE);
+            } else {
+                dateDueTextView.setVisibility(View.VISIBLE);
+
+                dateDueTextView.setText(itemView.getContext().getString(R.string.quest_recycler_date_due,
+                        viewModel.getDateDueFormatted(quest.getDateDueState(),
+                                quest.getDateDue())));
+                dateDueTextView.setTextColor(itemView.getContext().getResources()
+                        .getColor(viewModel.getDateDueColor(quest.getDateDue())));
+            }
+
             repeatImageView.setImageTintList(defaultTextViewColor);
             hasSubquestsImageView.setImageTintList(defaultTextViewColor);
             if (quest.getRepeatState().equals(Quest.RepeatState.NOT_SET)) {
@@ -277,13 +280,12 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
 
             hasSubquestsImageView.setVisibility(quest.getHasSubquests() ? View.VISIBLE : View.GONE);
 
-            if (quest.isChallenge()){
+            if (quest.isChallenge()) {
                 dayNumberTextView.setVisibility(View.VISIBLE);
                 dayNumberTextView.setText(Integer.toString(quest.getDayNumber() + 1));
             } else {
                 dayNumberTextView.setVisibility(View.GONE);
             }
-
             itemView.setActivated(isSelected);
         }
 

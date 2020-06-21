@@ -106,11 +106,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/add_quest_items_margin_top"
-                android:text="@string/add_edit_quest_add_to_google_calendar"
                 android:backgroundTint="@android:color/white"
+                android:text="@string/add_edit_quest_add_to_google_calendar"
                 android:textColor="@android:color/black"
-                app:layout_constraintTop_toBottomOf="@id/add_time_due_view"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_time_due_view" />
 
             <com.elli0tt.rpg_life.presentation.custom_view.ButtonWithRemoveIcon
                 android:id="@+id/repeat_view"

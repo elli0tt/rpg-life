@@ -68,11 +68,11 @@ class CharacterFragment : Fragment() {
     }
 
     private fun pickImage() {
-
         CropImage.activity()
                 .setCropShape(CropImageView.CropShape.OVAL)
-                .setMinCropResultSize(levelProgressBar.radius * 2, levelProgressBar.radius * 2)
-                .setMaxCropResultSize(levelProgressBar.radius * 2, levelProgressBar.radius * 2)
+                .setFixAspectRatio(true)
+                .setMinCropResultSize(levelProgressBar.bitmapRadius.toInt() * 2, levelProgressBar.bitmapRadius.toInt() * 2)
+                //.setMaxCropResultSize(levelProgressBar.radius * 2, levelProgressBar.radius * 2)
                 .start(requireContext(), this)
 //        val pickImageIntent = Intent(Intent.ACTION_GET_CONTENT)
 //        pickImageIntent.type = "image/*"

@@ -34,6 +34,9 @@ public class CompleteQuestUseCase {
                     newQuest.setDayNumber(quest.getDayNumber());
                     newQuest.setChallenge(true);
                     newQuest.setTotalDaysCount(quest.getTotalDaysCount());
+                    newQuest.setDateDue(calculateNewDateDue(quest.getDateDue(),
+                            Quest.RepeatState.DAILY));
+                    newQuest.setDateDueState(quest.getDateDueState());
                     insertRelatedSkills(quest.getId());
                     questsRepository.insertQuestWithRelatedSkills(newQuest, quest.getId());
                 }
@@ -52,6 +55,7 @@ public class CompleteQuestUseCase {
                 newQuest.setRepeatState(quest.getRepeatState());
                 newQuest.setDateDue(calculateNewDateDue(quest.getDateDue(),
                         quest.getRepeatState()));
+                newQuest.setDateDueState(quest.getDateDueState());
                 newQuest.setImportant(quest.isImportant());
                 questsRepository.insertQuestWithRelatedSkills(newQuest, quest.getId());
             }

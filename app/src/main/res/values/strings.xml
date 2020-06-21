@@ -13,7 +13,7 @@
     <string name="delete_all">Delete all</string>
     <string name="add_quest_name_hint">Name</string>
     <string name="add_quest_toolbar_menu_confirm">Confirm</string>
-    <string name="quest_difficulty_label_text">Difficulty:</string>
+    <string name="quest_difficulty">Difficulty: %1$s</string>
 
     <string name="add_edit_quest_difficulty_very_easy">Very easy (+%1$d xp)</string>
     <string name="add_edit_quest_difficulty_easy">Easy (+%1$d xp)</string>
@@ -56,7 +56,7 @@
     <string name="quests_filtering_important">Important</string>
     <string name="add_edit_quest_add_date_due">Add date due</string>
     <string name="add_edit_quest_repeat">Repeat</string>
-    <string name="quest_recycler_due_date">Due:</string>
+    <string name="quest_recycler_date_due">Due: %1$s</string>
     <string name="quest_recycler_due_date_infinity">Due: ∞</string>
     <string name="quest_toolbar_sort_by_difficulty">Difficulty</string>
     <string name="quest_date_due_today">Today</string>
@@ -128,4 +128,6 @@
 
     <string name="profile_image_file_name">profile image</string>
     <string name="user_images_directory_name">user_images</string>
+    <string name="add_edit_challenge_add_date_due">Add date due</string>
+    <string name="add_edit_challenge_add_time_due">Add time due</string>
 </resources>

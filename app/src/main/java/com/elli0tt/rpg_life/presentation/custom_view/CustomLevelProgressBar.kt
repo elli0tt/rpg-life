@@ -26,7 +26,6 @@ import android.view.View
 import android.view.animation.DecelerateInterpolator
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
-import com.elli0tt.rpg_life.DataBinderMapperImpl
 import com.elli0tt.rpg_life.R
 import ir.alirezaiyan.progressbar.utils.getBoundRectF
 import ir.alirezaiyan.progressbar.utils.getColor
@@ -45,7 +44,6 @@ class CustomLevelProgressBar @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     companion object {
-
         const val DEFAULT_SPEED = 1F
         const val DEFAULT_TEXT_TITLE = "Level"
         const val DEFAULT_START_ANGLE = 120
@@ -59,7 +57,6 @@ class CustomLevelProgressBar @JvmOverloads constructor(
         const val DEFAULT_UNPROGRESS_COLOR = Color.GRAY
         const val DEFAULT_IS_ENABLE = true
         const val DEFAULT_IS_STEP_PROGRESS = false
-
     }
 
     private var continuousSwipeAngle = 0f
@@ -83,14 +80,16 @@ class CustomLevelProgressBar @JvmOverloads constructor(
     private var mSetupPending: Boolean = false
 
     private lateinit var bitmapShader: BitmapShader
-    private var bitmap: Bitmap? = null
+    var bitmap: Bitmap? = null
     private val mShaderMatrix = Matrix()
     private var bitmapWidth: Int = 0
     private var bitmapHeight: Int = 0
     private val drawableRect = RectF()
 
     var radius = 50
-    private set
+
+    val bitmapRadius
+        get() = radius - strokeWidth
 
     var strokeWidth = DEFAULT_STROKE_WiDTH.toFloat()
         set(value) {
@@ -108,7 +107,6 @@ class CustomLevelProgressBar @JvmOverloads constructor(
     private var textLevelPaint = Paint()
     private var textTitlePaint = Paint()
     private val backgroundPaint = Paint()
-
 
     init {
         context.theme.obtainStyledAttributes(
@@ -243,7 +241,6 @@ class CustomLevelProgressBar @JvmOverloads constructor(
         continuousStartAngle = DEFAULT_TOTAL_ANGLE - angle
 
         bitmap?.let {
-
             bitmapHeight = it.height
             bitmapWidth = it.width
 
@@ -254,9 +251,7 @@ class CustomLevelProgressBar @JvmOverloads constructor(
             drawableRect.set(borderRect)
 
             updateShaderMatrix()
-
         }
-
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -265,10 +260,9 @@ class CustomLevelProgressBar @JvmOverloads constructor(
         canvas.drawCircle(
                 borderRect.centerX(),
                 borderRect.centerY(),
-                radius - strokeWidth,
+                radius - 2 * strokeWidth,
                 backgroundPaint
         )
-
 
         //    step progress
         if (isStepProgress) {
@@ -294,12 +288,9 @@ class CustomLevelProgressBar @JvmOverloads constructor(
                 step += 30
             }
         } else {
-
-
             canvas.drawArc(borderRect, DEFAULT_START_ANGLE.toFloat(), angle, false, progressPaint)
 
             if (angle < DEFAULT_TOTAL_ANGLE) {
-
                 canvas.drawArc(
                         borderRect,
                         continuousSwipeAngle,
@@ -310,21 +301,16 @@ class CustomLevelProgressBar @JvmOverloads constructor(
             }
         }
 
-
         //levelTitle
         if (bitmap == null) {
-            canvas
-                    .drawText(
-                            speed.toInt().toString(),
-                            borderRect.centerX(),
-                            borderRect.centerY() + textOffset,
-                            textLevelPaint
-                    )
+            canvas.drawText(
+                    speed.toInt().toString(),
+                    borderRect.centerX(),
+                    borderRect.centerY() + textOffset,
+                    textLevelPaint
+            )
         }
-
-
     }
-
 
     /*Don't set background*/
     override fun setBackground(background: Drawable) {
@@ -346,7 +332,6 @@ class CustomLevelProgressBar @JvmOverloads constructor(
             super.setOnTouchListener(l)
         }
     }
-
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -385,9 +370,7 @@ class CustomLevelProgressBar @JvmOverloads constructor(
         radius = (min / 2.5).toInt()
 
         setMeasuredDimension(width, height)
-
     }
-
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
@@ -403,7 +386,6 @@ class CustomLevelProgressBar @JvmOverloads constructor(
         super.setPaddingRelative(start, top, end, bottom)
         setup()
     }
-
 
     private fun updateShaderMatrix() {
         val scale: Float
@@ -429,15 +411,12 @@ class CustomLevelProgressBar @JvmOverloads constructor(
         bitmapShader.setLocalMatrix(mShaderMatrix)
     }
 
-
     fun setProgressWithAnimation(progress: Float) {
         val objectAnimator = ObjectAnimator.ofFloat(this, "speed", progress)
         objectAnimator.duration = 1500
         objectAnimator.interpolator = DecelerateInterpolator()
         objectAnimator.start()
     }
-
-    //<editor-fold desc="Setter/Getter">
 
     fun setTypeface(typeface: Typeface) {
         textTitlePaint.typeface = typeface
@@ -457,7 +436,6 @@ class CustomLevelProgressBar @JvmOverloads constructor(
         setup()
         invalidate()
     }
-
 
     fun getTextTitle(): String? {
         return textTitle
@@ -496,7 +474,6 @@ class CustomLevelProgressBar @JvmOverloads constructor(
 
         this.textTitleColor = textTitleColor
         setup()
-
     }
 
     fun getBackgroundProgressColor(): Int {
@@ -521,7 +498,6 @@ class CustomLevelProgressBar @JvmOverloads constructor(
 
         this.unprogressColor = unprogressColor
         setup()
-
     }
 
     fun isEnable(): Boolean {
@@ -556,12 +532,9 @@ class CustomLevelProgressBar @JvmOverloads constructor(
         requestLayout()
     }
 
-    fun setImage(bitmap: Bitmap){
+    fun setImage(bitmap: Bitmap) {
         this.bitmap = bitmap
         setup()
         requestLayout()
     }
-
-    //</editor-fold>
-
 }

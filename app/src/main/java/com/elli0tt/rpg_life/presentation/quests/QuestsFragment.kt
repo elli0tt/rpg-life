@@ -107,28 +107,31 @@ class QuestsFragment : Fragment() {
 
     private fun setupQuestsRecyclerView() {
         recyclerView.adapter = questsAdapter
-        questsAdapter.setOnItemClickListener(onItemClickListener)
-        questsAdapter.setOnItemLongClickListener { position: Int ->
-            val activity: AppCompatActivity? = activity as AppCompatActivity?
-            if (activity != null) {
-                actionMode = activity.startSupportActionMode(
-                        ActionModeController(viewModel, questsAdapter))
+        questsAdapter.apply {
+            setOnItemClickListener(onItemClickListener)
+            setOnItemLongClickListener { position: Int ->
+                val activity: AppCompatActivity? = activity as AppCompatActivity?
+                if (activity != null) {
+                    actionMode = activity.startSupportActionMode(
+                            ActionModeController(viewModel, questsAdapter))
+                }
+                viewModel.startSelection()
+                questsAdapter.startSelection(position)
             }
-            viewModel.startSelection()
-            questsAdapter.startSelection(position)
-        }
-        questsAdapter.setOnSelectionFinishedListener {
-            if (actionMode != null) {
-                actionMode!!.finish()
-                actionMode = null
+            setOnSelectionFinishedListener {
+                if (actionMode != null) {
+                    actionMode!!.finish()
+                    actionMode = null
+                }
             }
-        }
 
-        questsAdapter.setOnIsCompleteCheckBoxClickListener { isCompleted: Boolean, position: Int ->
-            viewModel.completeQuest(position, isCompleted)
-        }
-        questsAdapter.setOnIsImportantCheckBoxClickListener { isImportant: Boolean, position: Int ->
-            viewModel.setQuestImportant(position, isImportant)
+            setOnIsCompleteCheckBoxClickListener { isCompleted: Boolean, position: Int ->
+                viewModel.completeQuest(position, isCompleted)
+            }
+            setOnIsImportantCheckBoxClickListener { isImportant: Boolean, position: Int ->
+                viewModel.setQuestImportant(position, isImportant)
+            }
+            setViewModel(viewModel)
         }
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -144,7 +147,9 @@ class QuestsFragment : Fragment() {
 
     private fun subscribeToViewModel() {
         viewModel = ViewModelProvider(this).get(QuestsViewModel::class.java)
-        viewModel.quests.observe(viewLifecycleOwner, Observer { questList: List<Quest?>? -> questsAdapter.submitList(questList) })
+        viewModel.quests.observe(viewLifecycleOwner, Observer { questList: List<Quest?>? ->
+            questsAdapter.submitList(questList)
+        })
         viewModel.isSelectionStarted.observe(viewLifecycleOwner, Observer { isSelectionStarted ->
             if (isSelectionStarted) {
                 mainFab.hide()

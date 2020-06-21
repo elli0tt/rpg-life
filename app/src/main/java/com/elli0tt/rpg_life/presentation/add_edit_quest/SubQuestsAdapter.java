@@ -156,9 +156,9 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
 
             defaultTextViewColor = dateDueTextView.getTextColors();
             greenColorId =
-                    itemView.getContext().getResources().getColor(R.color.colorQuestDateStateBeforeDateDue);
+                    itemView.getContext().getResources().getColor(R.color.colorBeforeDateDue);
             redColorId =
-                    itemView.getContext().getResources().getColor(R.color.colorQuestDateStateAfterDateDue);
+                    itemView.getContext().getResources().getColor(R.color.colorAfterDateDue);
 
             itemView.setOnClickListener(createOnItemClickListener(onItemClickListener));
             itemView.setOnLongClickListener(
@@ -172,31 +172,7 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
             isCompletedCheckBox.setChecked(quest.isCompleted());
             nameTextView.setText(quest.getName());
             isImportantCheckBox.setChecked(quest.isImportant());
-            switch (quest.getDateDueCurrentState()) {
-                case NOT_SET:
-                    dateDueTextView.setText(itemView.getContext()
-                            .getString(R.string.quest_recycler_due_date_infinity));
-                    dateDueTextView.setTextColor(defaultTextViewColor);
-                    break;
-                case BEFORE_DATE_DUE:
-                    dateDueTextView.setText(itemView.getContext().getString(R.string.quest_recycler_due_date)
-                            + " " + Quest.getDateDueFormatted(quest.getDateDue()));
-                    dateDueTextView.setTextColor(greenColorId);
-                    break;
-                case AFTER_DATE_DUE:
-                    dateDueTextView.setText(itemView.getContext().getString(R.string.quest_recycler_due_date)
-                            + " " + Quest.getDateDueFormatted(quest.getDateDue()));
-                    dateDueTextView.setTextColor(redColorId);
-                    break;
-                case TODAY:
-                    dateDueTextView.setText(R.string.quest_date_due_today);
-                    dateDueTextView.setTextColor(greenColorId);
-                    break;
-                case TOMORROW:
-                    dateDueTextView.setText(R.string.quest_date_due_tomorrow);
-                    dateDueTextView.setTextColor(greenColorId);
-                    break;
-            }
+
             repeatImageView.setImageTintList(defaultTextViewColor);
             if (quest.getRepeatState().equals(Quest.RepeatState.NOT_SET)) {
                 repeatImageView.setVisibility(View.INVISIBLE);

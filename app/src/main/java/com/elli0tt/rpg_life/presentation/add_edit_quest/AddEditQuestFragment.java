@@ -421,7 +421,8 @@ public class AddEditQuestFragment extends Fragment {
         Uri uri = contentResolver.insert(CalendarContract.Events.CONTENT_URI,
                 viewModel.getQuestContentValues());
 
-        Snackbar.make(binding.getRoot(), R.string.add_edit_quest_added_to_google_calendar, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(binding.getRoot(), R.string.add_edit_quest_added_to_google_calendar,
+                Snackbar.LENGTH_SHORT).show();
     }
 
     private void setReminderAlarm() {
@@ -458,7 +459,6 @@ public class AddEditQuestFragment extends Fragment {
                     return false;
             }
         });
-
         popupMenu.show();
     }
 

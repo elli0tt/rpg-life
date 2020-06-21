@@ -19,13 +19,18 @@ import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTodayCalendarUseCase;
+import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTomorrowCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.CompleteQuestUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.FilterQuestsUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.PopulateWithSamplesUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.SetQuestImportantUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.SortQuestsUseCase;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class QuestsViewModel extends AndroidViewModel {
     private LiveData<List<Quest>> allQuests;
@@ -51,11 +56,21 @@ public class QuestsViewModel extends AndroidViewModel {
     private OneTimeWorkRequest insertEmptyQuestWorkRequest;
     private OneTimeWorkRequest insertEmptyChallengeWorkRequest;
 
+    private final String today;
+    private final String tomorrow;
+
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM, yyyy", Locale.getDefault());
+    private SimpleDateFormat dateAndTimeFormat = new SimpleDateFormat("d MMM, yyyy HH:mm",
+            Locale.getDefault());
+
     public QuestsViewModel(@NonNull Application application) {
         super(application);
         workManager = WorkManager.getInstance(application);
         updateInsertEmptyQuestWorkRequest();
         updateInsertEmptyChallengeWorkRequest();
+
+        today = application.getString(R.string.quest_date_due_today);
+        tomorrow = application.getString(R.string.quest_date_due_tomorrow);
 
         questsRepository = new QuestsRepositoryImpl(application);
         skillsRepository = new SkillsRepositoryImpl(application);
@@ -134,7 +149,7 @@ public class QuestsViewModel extends AndroidViewModel {
         return workManager.getWorkInfoByIdLiveData(insertEmptyQuestWorkRequest.getId());
     }
 
-    LiveData<WorkInfo> getInsertEmptyChallengeWorkInfo(){
+    LiveData<WorkInfo> getInsertEmptyChallengeWorkInfo() {
         return workManager.getWorkInfoByIdLiveData(insertEmptyChallengeWorkRequest.getId());
     }
 
@@ -208,5 +223,24 @@ public class QuestsViewModel extends AndroidViewModel {
     void updateInsertEmptyChallengeWorkRequest() {
         insertEmptyChallengeWorkRequest =
                 new OneTimeWorkRequest.Builder(InsertEmptyChallengeWorker.class).build();
+    }
+
+    int getDateDueColor(Calendar dateDue) {
+        if (Calendar.getInstance().after(dateDue)) {
+            return R.color.colorAfterDateDue;
+        }
+        return R.color.colorBeforeDateDue;
+    }
+
+    String getDateDueFormatted(Quest.DateState dateDueState, Calendar dateDue) {
+        if (new IsCalendarEqualsTodayCalendarUseCase().invoke(dateDue)) {
+            return today;
+        } else if (new IsCalendarEqualsTomorrowCalendarUseCase().invoke(dateDue)) {
+            return tomorrow;
+        } else if (dateDueState.equals(Quest.DateState.DATE_SET)) {
+            return dateFormat.format(dateDue.getTime());
+        } else {
+            return dateAndTimeFormat.format(dateDue.getTime());
+        }
     }
 }

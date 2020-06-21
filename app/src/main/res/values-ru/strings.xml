@@ -56,7 +56,7 @@
     <string name="quests_filtering_important">Важные</string>
     <string name="add_edit_quest_add_date_due">Добавать дату окончания</string>
     <string name="add_edit_quest_repeat">Повтор</string>
-    <string name="quest_recycler_due_date">До:</string>
+    <string name="quest_recycler_date_due">До: %1$s</string>
     <string name="quest_recycler_due_date_infinity">До: ∞</string>
     <string name="quest_toolbar_sort_by_difficulty">Сложности</string>
     <string name="quest_date_due_today">Сегодня</string>
