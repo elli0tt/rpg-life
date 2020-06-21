@@ -275,12 +275,15 @@ public class QuestsRepositoryImpl implements QuestsRepository {
 
     @Override
     public long insertEmptyQuestSync() {
-        return questsDao.insertQuests(new Quest("")).get(0);
+        Quest quest = new Quest();
+        quest.setName("");
+        return questsDao.insertQuests(quest).get(0);
     }
 
     @Override
     public long insertEmptyChallengeSync() {
-        Quest challenge = new Quest("");
+        Quest challenge = new Quest();
+        challenge.setName("");
         challenge.setChallenge(true);
         return questsDao.insertQuests(challenge).get(0);
     }

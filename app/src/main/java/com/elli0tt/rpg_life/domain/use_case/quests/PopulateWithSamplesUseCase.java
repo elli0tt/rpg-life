@@ -12,7 +12,8 @@ public class PopulateWithSamplesUseCase {
     private Quest[] generateSampleQuestsList() {
         Quest[] result = new Quest[10];
         for (int i = 0; i < 10; ++i) {
-            result[i] = new Quest("Quest " + i);
+            result[i] = new Quest();
+            result[i].setName("Quest " + i);
         }
         return result;
     }

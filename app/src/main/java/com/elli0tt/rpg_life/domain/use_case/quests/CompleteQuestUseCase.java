@@ -28,7 +28,8 @@ public class CompleteQuestUseCase {
                 quest.setDayNumber(quest.getDayNumber() + 1);
                 questsRepository.updateQuests(quest);
                 if (quest.getDayNumber() < quest.getTotalDaysCount()) {
-                    Quest newQuest = new Quest(quest.getName());
+                    Quest newQuest = new Quest();
+                    newQuest.setName(quest.getName());
                     newQuest.setDifficulty(quest.getDifficulty());
                     newQuest.setCompleted(false);
                     newQuest.setDayNumber(quest.getDayNumber());
@@ -47,8 +48,8 @@ public class CompleteQuestUseCase {
             }
             questsRepository.updateQuests(quest);
             if (!quest.getRepeatState().equals(Quest.RepeatState.NOT_SET)) {
-                Quest newQuest = new Quest(quest.getName());
-                //newQuest.name = quest.name;
+                Quest newQuest = new Quest();
+                newQuest.setName(quest.getName());
                 newQuest.setDescription(quest.getDescription());
                 newQuest.setDifficulty(quest.getDifficulty());
                 newQuest.setCompleted(false);

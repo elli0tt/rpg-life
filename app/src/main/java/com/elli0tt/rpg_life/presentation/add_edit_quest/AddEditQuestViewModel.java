@@ -151,7 +151,8 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
         if (id == null) {
             //No need to populate, the quest is new
-            currentQuest = new Quest("");
+            currentQuest = new Quest();
+            currentQuest.setName("");
             mode = Mode.ADD;
             subQuests = new MutableLiveData<>();
             return;
@@ -212,9 +213,11 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     }
 
     void saveQuest(List<AddSkillData> relatedSkills) {
-        Quest quest = new Quest(name.getValue() == null ? "" : name.getValue());
-        quest.setDescription(description.getValue());
-        quest.setDifficulty(difficulty.getValue());
+        Quest quest = new Quest();
+        quest.setName(name.getValue() == null ? "" : name.getValue());
+        quest.setDescription(description.getValue() == null ? "" : description.getValue());
+        quest.setDifficulty(difficulty.getValue() == null ? Difficulty.NOT_SET :
+                difficulty.getValue());
         quest.setDateDue(dateDue);
         quest.setStartDate(startDate);
         quest.setDateDueState(dateDueState.getValue());
@@ -316,7 +319,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         dateDueState.setValue(Quest.DateState.DATE_SET);
     }
 
-    void setDateDueClosestWeekday(){
+    void setDateDueClosestWeekday() {
         dateDue = new GetClosestWeekdayCalendarUseCase().invoke();
         dateDueState.setValue(Quest.DateState.DATE_SET);
     }
@@ -369,10 +372,10 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     void setRepeatState(Quest.RepeatState repeatState) {
         this.repeatState.setValue(repeatState);
         repeatTextResId.setValue(getRepeatTextResId(repeatState));
-        if (dateDueState.getValue() != null){
-            if (repeatState.equals(Quest.RepeatState.WEEKDAYS)){
+        if (dateDueState.getValue() != null) {
+            if (repeatState.equals(Quest.RepeatState.WEEKDAYS)) {
                 setDateDueClosestWeekday();
-            } else if (!repeatState.equals(Quest.RepeatState.NOT_SET)){
+            } else if (!repeatState.equals(Quest.RepeatState.NOT_SET)) {
                 setDateDueToday();
             }
         }

@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
@@ -19,10 +20,16 @@ import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.model.RelatedToQuestSkills;
 import com.elli0tt.rpg_life.domain.model.Skill;
 import com.elli0tt.rpg_life.domain.model.SkillsCategory;
+import com.elli0tt.rpg_life.domain.model.room_type_converters.CalendarConverter;
+import com.elli0tt.rpg_life.domain.model.room_type_converters.DateStateConverter;
+import com.elli0tt.rpg_life.domain.model.room_type_converters.DifficultyConverter;
+import com.elli0tt.rpg_life.domain.model.room_type_converters.RepeatStateConverter;
 
 @Database(entities = {Characteristic.class, Quest.class, Skill.class, RelatedToQuestSkills.class,
         SkillsCategory.class}
         , version = 8, exportSchema = true)
+@TypeConverters({DifficultyConverter.class, CalendarConverter.class, DateStateConverter.class,
+        RepeatStateConverter.class})
 public abstract class AppRoomDatabase extends RoomDatabase {
 
     public abstract CharacteristicsDao getCharacteristicsDao();

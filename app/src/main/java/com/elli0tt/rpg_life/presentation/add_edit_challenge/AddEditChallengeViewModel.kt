@@ -76,7 +76,7 @@ class AddEditChallengeViewModel(application: Application) : AndroidViewModel(app
     }
 
     fun save() {
-        val challenge = Quest(name.value!!)
+        val challenge = Quest(name = name.value!!)
         challenge.difficulty = difficulty.value!!
         challenge.isChallenge = true
         challenge.totalDaysCount = totalDaysCount.value!!
