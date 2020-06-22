@@ -124,4 +124,8 @@
     <string name="add_edit_quest_write_calendar_permission_denied">Невозможно добавить в Google календарь без разрешения</string>
     <string name="add_edit_quest_added_to_google_calendar">Добавлен в Google календарь</string>
     <string name="user_images_directory_name">user_images</string>
+    <string name="quest_difficulty">Сложность: %1$s</string>
+    <string name="profile_image_file_name">profile image</string>
+    <string name="add_edit_challenge_add_date_due">Добавить дату окончания</string>
+    <string name="add_edit_challenge_add_time_due">Добавить время окончания</string>
 </resources>
