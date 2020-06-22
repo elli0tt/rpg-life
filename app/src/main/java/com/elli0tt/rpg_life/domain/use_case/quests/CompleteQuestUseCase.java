@@ -1,8 +1,11 @@
 package com.elli0tt.rpg_life.domain.use_case.quests;
 
+import androidx.annotation.NonNull;
+
 import com.elli0tt.rpg_life.domain.constants.Constants;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.model.RelatedToQuestSkills;
+import com.elli0tt.rpg_life.domain.model.Skill;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
 
@@ -136,7 +139,7 @@ public class CompleteQuestUseCase {
         }
     }
 
-    private void increaseRelatedSkillsXps(int questId, int xpIncrease) {
+    private void increaseRelatedSkillsXps(int questId, int questXpIncrease) {
         new Thread() {
             @Override
             public void run() {
@@ -144,8 +147,10 @@ public class CompleteQuestUseCase {
                 List<RelatedToQuestSkills> relatedSkills =
                         questsRepository.getRelatedSkills(questId);
                 for (RelatedToQuestSkills skill : relatedSkills) {
+                    Skill currentSkill = skillsRepository.getSkillById(skill.getSkillId());
                     skillsRepository.updateSkillTotalXpById(skill.getSkillId(),
-                            xpIncrease * skill.getXpPercentage() / 100);
+                            calculateSkillXpIncrease(currentSkill, questXpIncrease,
+                                    skill.getXpPercentage()));
                 }
             }
         }.start();
@@ -164,5 +169,10 @@ public class CompleteQuestUseCase {
                 }
             }
         }.start();
+    }
+
+    private long calculateSkillXpIncrease(@NonNull Skill skill, int questXpIncrease,
+                                          int xpPercentage) {
+        return (questXpIncrease + questXpIncrease * skill.getBonusForLevel() / 100) * xpPercentage / 100;
     }
 }

@@ -1,8 +1,6 @@
 package com.elli0tt.rpg_life.domain.model
 
 import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 import kotlin.math.sqrt
 
@@ -23,4 +21,7 @@ data class Skill @JvmOverloads constructor(
 
     val xpToNextLevel: Long
         get() = ((level + 1) * (level + 2)) / 2 * 1000 - (level * (level + 1)) / 2 * 1000
+
+    val bonusForLevel: Long
+        get() = level
 }
