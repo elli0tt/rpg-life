@@ -14,7 +14,6 @@
     <string name="delete_all">Удалить все</string>
     <string name="add_quest_name_hint">Название</string>
     <string name="add_quest_toolbar_menu_confirm">Подтвердить</string>
-    <string name="quest_difficulty_label_text">Сложность</string>
 
     <string name="add_edit_quest_difficulty_very_easy">Очень легкий (+%1$d xp)</string>
     <string name="add_edit_quest_difficulty_easy">Легкий (+%1$d xp)</string>

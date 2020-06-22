@@ -253,6 +253,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
             if (quest.getDifficulty().equals(Difficulty.NOT_SET)) {
                 difficultyTextView.setVisibility(View.GONE);
             } else {
+                difficultyTextView.setVisibility(View.VISIBLE);
                 difficultyTextView.setText(itemView.getContext().getString(R.string.quest_difficulty,
                         getDifficultyStringValue(quest.getDifficulty())));
             }

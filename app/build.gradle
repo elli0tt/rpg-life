@@ -12,8 +12,8 @@ android {
 
         minSdkVersion 22
         targetSdkVersion 28
-        versionCode 19
-        versionName "1.1.9"
+        versionCode 20
+        versionName "1.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {
@@ -95,7 +95,7 @@ dependencies {
     implementation "androidx.work:work-runtime:2.3.4"
     implementation "androidx.work:work-runtime-ktx:2.3.4"
 
-    api 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
 }
 repositories {
     mavenCentral()
