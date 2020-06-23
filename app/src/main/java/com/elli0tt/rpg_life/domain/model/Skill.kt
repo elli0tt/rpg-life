@@ -14,13 +14,13 @@ data class Skill @JvmOverloads constructor(
         var categoryId: Int = 0) {
 
     val level: Long
-        get() = ((-1 + sqrt((1 + 8 * (totalXp / 1000)).toDouble())).toLong()) / 2
+        get() = ((-1 + sqrt((1 + 8 * (totalXp / 500)).toDouble())).toLong()) / 2
 
     val xpLeftToNextLevel: Long
-        get() = ((level + 1) * (level + 2)) / 2 * 1000 - totalXp
+        get() = ((level + 1) * (level + 2)) / 2 * 500 - totalXp
 
     val xpToNextLevel: Long
-        get() = ((level + 1) * (level + 2)) / 2 * 1000 - (level * (level + 1)) / 2 * 1000
+        get() = ((level + 1) * (level + 2)) / 2 * 500 - (level * (level + 1)) / 2 * 500
 
     val bonusForLevel: Long
         get() = level
