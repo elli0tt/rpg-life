@@ -27,7 +27,6 @@ data class Quest @JvmOverloads constructor(@PrimaryKey(autoGenerate = true) var 
                  var isChallenge: Boolean = false,
                  var totalDaysCount: Int = 0,
                  var dayNumber: Int = 0) {
-
     /**
      * NOT_SET - hasn't been set yet
      * DATE_SET - only date is set

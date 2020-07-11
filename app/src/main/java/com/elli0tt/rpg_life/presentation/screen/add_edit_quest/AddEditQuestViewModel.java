@@ -29,13 +29,14 @@ import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTomorrowCalendarUs
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTodayCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTomorrowCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.CompleteQuestUseCase;
-import com.elli0tt.rpg_life.presentation.worker.InsertEmptyQuestWorker;
 import com.elli0tt.rpg_life.presentation.worker.InsertEmptySubQuestWorker;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class AddEditQuestViewModel extends AndroidViewModel {
     private MutableLiveData<String> name = new MutableLiveData<>();
@@ -81,8 +82,8 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
     private boolean isDataLoaded = false;
 
-    private final String TODAY;
-    private final String TOMORROW;
+    private final String today;
+    private final String tomorrow;
 
     private CompleteQuestUseCase completeQuestUseCase;
 
@@ -95,6 +96,9 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private WorkManager workManager;
     private OneTimeWorkRequest insertEmptyQuestWorkRequest;
 
+    private SimpleDateFormat dateAndTimeFormat = new SimpleDateFormat("d MMM, yyyy HH:mm",
+            Locale.getDefault());
+
     public AddEditQuestViewModel(@NonNull Application application) {
         super(application);
         workManager = WorkManager.getInstance(application);
@@ -105,8 +109,8 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
         completeQuestUseCase = new CompleteQuestUseCase(questsRepository, skillsRepository);
 
-        TODAY = application.getString(R.string.quest_date_due_today);
-        TOMORROW = application.getString(R.string.quest_date_due_tomorrow);
+        today = application.getString(R.string.quest_date_due_today);
+        tomorrow = application.getString(R.string.quest_date_due_tomorrow);
     }
 
     public MutableLiveData<String> getName() {
@@ -260,10 +264,10 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
     String getDateDueFormatted() {
         if (new IsCalendarEqualsTodayCalendarUseCase().invoke(dateDue)) {
-            return TODAY;
+            return today;
         }
         if (new IsCalendarEqualsTomorrowCalendarUseCase().invoke(dateDue)) {
-            return TOMORROW;
+            return tomorrow;
         }
         return dateFormat.format(dateDue.getTime());
     }
@@ -274,10 +278,10 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
     String getStartDateFormatted() {
         if (new IsCalendarEqualsTodayCalendarUseCase().invoke(startDate)) {
-            return TODAY;
+            return today;
         }
         if (new IsCalendarEqualsTomorrowCalendarUseCase().invoke(startDate)) {
-            return TOMORROW;
+            return tomorrow;
         }
 
         return dateFormat.format(startDate.getTime());
@@ -289,10 +293,10 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
     String getReminderDateFormatted() {
         if (new IsCalendarEqualsTodayCalendarUseCase().invoke(reminderDate)) {
-            return TODAY + " " + timeFormat.format(reminderDate.getTime());
+            return today + " " + timeFormat.format(reminderDate.getTime());
         }
         if (new IsCalendarEqualsTomorrowCalendarUseCase().invoke(reminderDate)) {
-            return TOMORROW + " " + timeFormat.format(reminderDate.getTime());
+            return tomorrow + " " + timeFormat.format(reminderDate.getTime());
         }
 
         return dateFormat.format(reminderDate.getTime()) + " " + timeFormat.format(reminderDate.getTime());
@@ -468,7 +472,26 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         workManager.enqueue(insertEmptyQuestWorkRequest);
     }
 
-    int getSubQuestId(int position){
+    int getSubQuestId(int position) {
         return subQuests.getValue().get(position).getId();
+    }
+
+    int getDateDueColor(Calendar dateDue) {
+        if (Calendar.getInstance().after(dateDue)) {
+            return R.color.colorAfterDateDue;
+        }
+        return R.color.colorBeforeDateDue;
+    }
+
+    String getDateDueFormatted(Quest.DateState dateDueState, Calendar dateDue) {
+        if (new IsCalendarEqualsTodayCalendarUseCase().invoke(dateDue)) {
+            return today;
+        } else if (new IsCalendarEqualsTomorrowCalendarUseCase().invoke(dateDue)) {
+            return tomorrow;
+        } else if (dateDueState.equals(Quest.DateState.DATE_SET)) {
+            return dateFormat.format(dateDue.getTime());
+        } else {
+            return dateAndTimeFormat.format(dateDue.getTime());
+        }
     }
 }
