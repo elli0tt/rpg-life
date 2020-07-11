@@ -51,6 +51,8 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
     private OnItemLongClickListener onItemLongClickListener;
     private OnRemoveButtonClickListener onRemoveButtonClickListener;
 
+    private AddEditQuestViewModel viewModel;
+
     SubQuestsAdapter() {
         super(DIFF_CALLBACK);
     }
@@ -94,6 +96,10 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
         this.onRemoveButtonClickListener = onRemoveButtonClickListener;
     }
 
+    void setViewModel(AddEditQuestViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
+
     @Override
     public void submitList(@Nullable List<Quest> list) {
         super.submitList(list != null ? new ArrayList<>(list) : null);
@@ -110,13 +116,14 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
                 onIsImportantCheckBoxClickListener,
                 onItemClickListener,
                 onItemLongClickListener,
-                onRemoveButtonClickListener);
+                onRemoveButtonClickListener,
+                viewModel);
     }
 
     @Override
     public void onBindViewHolder(@NonNull SubQuestsViewHolder holder, int position) {
         holder.setOnItemClickListener(onItemClickListener);
-        holder.bind(getItem(position));
+        holder.bind(getItem(position), false);
     }
 
     @Override
@@ -128,30 +135,40 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
     static class SubQuestsViewHolder extends RecyclerView.ViewHolder {
         private CheckBox isCompletedCheckBox;
         private TextView nameTextView;
+        private TextView difficultyTextView;
         private CheckBox isImportantCheckBox;
         private TextView dateDueTextView;
         private AppCompatImageView repeatImageView;
+        private AppCompatImageView hasSubquestsImageView;
+        private TextView dayNumberTextView;
         private Button removeButton;
 
         private ColorStateList defaultTextViewColor;
+
+        private AddEditQuestViewModel viewModel;
 
         private int greenColorId;
         private int redColorId;
 
         SubQuestsViewHolder(
                 @NonNull View itemView,
-                final OnIsCompleteCheckBoxClickListener onIsCompleteCheckBoxClickListener,
-                final OnIsImportantCheckBoxClickListener onIsImportantCheckBoxClickListener,
-                final OnItemClickListener onItemClickListener,
-                final OnItemLongClickListener onItemLongClickListener,
-                final OnRemoveButtonClickListener onRemoveButtonClickListener) {
+                final SubQuestsAdapter.OnIsCompleteCheckBoxClickListener onIsCompleteCheckBoxClickListener,
+                final SubQuestsAdapter.OnIsImportantCheckBoxClickListener onIsImportantCheckBoxClickListener,
+                final SubQuestsAdapter.OnItemClickListener onItemClickListener,
+                final SubQuestsAdapter.OnItemLongClickListener onItemLongClickListener,
+                final SubQuestsAdapter.OnRemoveButtonClickListener onRemoveButtonClickListener,
+                final AddEditQuestViewModel viewModel) {
             super(itemView);
+            this.viewModel = viewModel;
 
             isCompletedCheckBox = itemView.findViewById(R.id.is_completed_check_box);
             nameTextView = itemView.findViewById(R.id.name);
+            difficultyTextView = itemView.findViewById(R.id.difficulty);
             isImportantCheckBox = itemView.findViewById(R.id.is_important_check_box);
             dateDueTextView = itemView.findViewById(R.id.date_due_text_view);
             repeatImageView = itemView.findViewById(R.id.repeat_image_view);
+            hasSubquestsImageView = itemView.findViewById(R.id.has_subquests_image_view);
+            dayNumberTextView = itemView.findViewById(R.id.day_number_text_view);
             removeButton = itemView.findViewById(R.id.remove_image_view);
 
             defaultTextViewColor = dateDueTextView.getTextColors();
@@ -168,17 +185,47 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
             removeButton.setOnClickListener(createOnRemoveButtonClickListener(onRemoveButtonClickListener));
         }
 
-        void bind(Quest quest) {
+        void bind(Quest quest, boolean isSelected) {
             isCompletedCheckBox.setChecked(quest.isCompleted());
             nameTextView.setText(quest.getName());
+            if (quest.getDifficulty().equals(Difficulty.NOT_SET)) {
+                difficultyTextView.setVisibility(View.GONE);
+            } else {
+                difficultyTextView.setVisibility(View.VISIBLE);
+                difficultyTextView.setText(itemView.getContext().getString(R.string.quest_difficulty,
+                        getDifficultyStringValue(quest.getDifficulty())));
+            }
             isImportantCheckBox.setChecked(quest.isImportant());
 
+            if (quest.getDateDueState().equals(Quest.DateState.NOT_SET)) {
+                dateDueTextView.setVisibility(View.GONE);
+            } else {
+                dateDueTextView.setVisibility(View.VISIBLE);
+
+                dateDueTextView.setText(itemView.getContext().getString(R.string.quest_recycler_date_due,
+                        viewModel.getDateDueFormatted(quest.getDateDueState(),
+                                quest.getDateDue())));
+                dateDueTextView.setTextColor(itemView.getContext().getResources()
+                        .getColor(viewModel.getDateDueColor(quest.getDateDue())));
+            }
+
             repeatImageView.setImageTintList(defaultTextViewColor);
+            hasSubquestsImageView.setImageTintList(defaultTextViewColor);
             if (quest.getRepeatState().equals(Quest.RepeatState.NOT_SET)) {
-                repeatImageView.setVisibility(View.INVISIBLE);
+                repeatImageView.setVisibility(View.GONE);
             } else {
                 repeatImageView.setVisibility(View.VISIBLE);
             }
+
+            hasSubquestsImageView.setVisibility(quest.getHasSubquests() ? View.VISIBLE : View.GONE);
+
+            if (quest.isChallenge()) {
+                dayNumberTextView.setVisibility(View.VISIBLE);
+                dayNumberTextView.setText(Integer.toString(quest.getDayNumber() + 1));
+            } else {
+                dayNumberTextView.setVisibility(View.GONE);
+            }
+            itemView.setActivated(isSelected);
         }
 
         void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -188,24 +235,26 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
         private String getDifficultyStringValue(Difficulty difficultyLevel) {
             switch (difficultyLevel) {
                 case VERY_EASY:
-                    return itemView.getContext().getText(R.string.add_edit_quest_difficulty_very_easy).toString();
+                    return itemView.getContext().getString(R.string.quest_difficulty_very_easy);
                 case EASY:
-                    return itemView.getContext().getText(R.string.add_edit_quest_difficulty_easy).toString();
+                    return itemView.getContext().getString(R.string.quest_difficulty_easy);
                 case NORMAL:
-                    return itemView.getContext().getText(R.string.add_edit_quest_difficulty_normal).toString();
+                    return itemView.getContext().getString(R.string.quest_difficulty_normal);
                 case HARD:
-                    return itemView.getContext().getText(R.string.add_edit_quest_difficulty_hard).toString();
+                    return itemView.getContext().getString(R.string.quest_difficulty_hard);
                 case VERY_HARD:
-                    return itemView.getContext().getText(R.string.add_edit_quest_difficulty_very_hard).toString();
+                    return itemView.getContext().getString(R.string.quest_difficulty_very_hard);
                 case IMPOSSIBLE:
-                    return itemView.getContext().getText(R.string.add_edit_quest_difficulty_impossible).toString();
+                    return itemView.getContext().getString(R.string.quest_difficulty_impossible);
+                case NOT_SET:
+                    return itemView.getContext().getString(R.string.quest_difficulty_not_set);
                 default:
-                    return itemView.getContext().getText(R.string.add_edit_quest_difficulty_error).toString();
+                    return itemView.getContext().getString(R.string.quest_difficulty_error);
             }
         }
 
         private View.OnClickListener createOnIsCompletedClickListener(
-                final OnIsCompleteCheckBoxClickListener listener) {
+                final SubQuestsAdapter.OnIsCompleteCheckBoxClickListener listener) {
             return v -> {
                 int position = getAdapterPosition();
                 if (listener != null && position != RecyclerView.NO_POSITION) {
@@ -215,7 +264,7 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
         }
 
         private View.OnClickListener createOnIsImportantClickListener(
-                final OnIsImportantCheckBoxClickListener listener) {
+                final SubQuestsAdapter.OnIsImportantCheckBoxClickListener listener) {
             return v -> {
                 int position = getAdapterPosition();
                 if (listener != null && position != RecyclerView.NO_POSITION) {
@@ -225,7 +274,7 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
         }
 
         private View.OnClickListener createOnItemClickListener(
-                final OnItemClickListener listener) {
+                final SubQuestsAdapter.OnItemClickListener listener) {
             return v -> {
                 int position = getAdapterPosition();
                 if (listener != null && position != RecyclerView.NO_POSITION) {
@@ -236,7 +285,7 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
         }
 
         private View.OnLongClickListener createOnItemLongClickListener(
-                final OnItemLongClickListener listener) {
+                final SubQuestsAdapter.OnItemLongClickListener listener) {
             return v -> {
                 int position = getAdapterPosition();
                 if (listener != null && position != RecyclerView.NO_POSITION) {

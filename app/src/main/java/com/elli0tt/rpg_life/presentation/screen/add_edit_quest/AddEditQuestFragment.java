@@ -301,8 +301,8 @@ public class AddEditQuestFragment extends Fragment {
         subQuestsAdapter.setOnItemClickListener(position -> {
             navigateToEditSubQuestScreen(viewModel.getSubQuestId(position));
         });
-        binding.subquestsRecycler.addItemDecoration(new DividerItemDecoration(requireContext(),
-                DividerItemDecoration.VERTICAL));
+        subQuestsAdapter.setViewModel(viewModel);
+
         binding.subquestsRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
                 RecyclerView.VERTICAL, false));
         binding.subquestsRecycler.setAdapter(subQuestsAdapter);

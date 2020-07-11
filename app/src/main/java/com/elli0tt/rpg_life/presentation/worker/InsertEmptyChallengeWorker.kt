@@ -5,10 +5,10 @@ import androidx.work.Data
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl
-import com.elli0tt.rpg_life.presentation.screen.quests.Constants
 
 internal class InsertEmptyChallengeWorker(private val context: Context,
-                                      workerParams: WorkerParameters) : Worker(context, workerParams) {
+                                          workerParams: WorkerParameters
+) : Worker(context, workerParams) {
     override fun doWork(): Result {
         val questsRepository = QuestsRepositoryImpl(context)
         val id = questsRepository.insertEmptyChallengeSync().toInt()
