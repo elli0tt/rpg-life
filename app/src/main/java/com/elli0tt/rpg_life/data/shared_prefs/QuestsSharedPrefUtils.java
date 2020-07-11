@@ -5,8 +5,8 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 
-import com.elli0tt.rpg_life.presentation.quests.QuestsFilterState;
-import com.elli0tt.rpg_life.presentation.quests.QuestsSortingState;
+import com.elli0tt.rpg_life.presentation.screen.quests.QuestsFilterState;
+import com.elli0tt.rpg_life.presentation.screen.quests.QuestsSortingState;
 
 public class QuestsSharedPrefUtils {
     private SharedPreferences sharedPreferences;

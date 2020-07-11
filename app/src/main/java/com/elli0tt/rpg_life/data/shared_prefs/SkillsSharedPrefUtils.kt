@@ -2,7 +2,7 @@ package com.elli0tt.rpg_life.data.shared_prefs
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.elli0tt.rpg_life.presentation.skills.SkillsSortingState
+import com.elli0tt.rpg_life.presentation.screen.skills.SkillsSortingState
 
 class SkillsSharedPrefUtils(context: Context) {
     private val sharedPreferences: SharedPreferences

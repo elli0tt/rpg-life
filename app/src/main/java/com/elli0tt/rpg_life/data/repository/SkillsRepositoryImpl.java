@@ -1,6 +1,5 @@
 package com.elli0tt.rpg_life.data.repository;
 
-import android.app.Application;
 import android.content.Context;
 
 import androidx.core.util.Pair;
@@ -11,7 +10,7 @@ import com.elli0tt.rpg_life.data.database.room_database.AppRoomDatabase;
 import com.elli0tt.rpg_life.data.shared_prefs.SkillsSharedPrefUtils;
 import com.elli0tt.rpg_life.domain.model.Skill;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
-import com.elli0tt.rpg_life.presentation.skills.SkillsSortingState;
+import com.elli0tt.rpg_life.presentation.screen.skills.SkillsSortingState;
 
 import java.util.List;
 

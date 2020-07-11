@@ -1,6 +1,5 @@
 package com.elli0tt.rpg_life.data.repository;
 
-import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -14,8 +13,8 @@ import com.elli0tt.rpg_life.data.shared_prefs.QuestsSharedPrefUtils;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.model.RelatedToQuestSkills;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
-import com.elli0tt.rpg_life.presentation.quests.QuestsFilterState;
-import com.elli0tt.rpg_life.presentation.quests.QuestsSortingState;
+import com.elli0tt.rpg_life.presentation.screen.quests.QuestsFilterState;
+import com.elli0tt.rpg_life.presentation.screen.quests.QuestsSortingState;
 
 import java.util.List;
 
@@ -286,5 +285,14 @@ public class QuestsRepositoryImpl implements QuestsRepository {
         challenge.setName("");
         challenge.setChallenge(true);
         return questsDao.insertQuests(challenge).get(0);
+    }
+
+    @Override
+    public long insertEmptySubQuestSync(int parentQuestId) {
+        Quest subquest = new Quest();
+        subquest.setName("");
+        subquest.setSubQuest(true);
+        subquest.setParentQuestId(parentQuestId);
+        return questsDao.insertQuests(subquest).get(0);
     }
 }

@@ -4,7 +4,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.elli0tt.rpg_life.presentation.add_edit_challenge.AddEditChallengeViewModel" />
+            type="com.elli0tt.rpg_life.presentation.screen.add_edit_challenge.AddEditChallengeViewModel" />
     </data>
 
     <ScrollView

@@ -1,7 +1,7 @@
 package com.elli0tt.rpg_life.domain.use_case.quests;
 
 import com.elli0tt.rpg_life.domain.model.Quest;
-import com.elli0tt.rpg_life.presentation.quests.QuestsSortingState;
+import com.elli0tt.rpg_life.presentation.screen.quests.QuestsSortingState;
 
 import java.util.Collections;
 import java.util.List;

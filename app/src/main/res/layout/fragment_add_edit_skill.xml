@@ -4,7 +4,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.elli0tt.rpg_life.presentation.add_edit_skill.AddEditSkillViewModel" />
+            type="com.elli0tt.rpg_life.presentation.screen.add_edit_skill.AddEditSkillViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

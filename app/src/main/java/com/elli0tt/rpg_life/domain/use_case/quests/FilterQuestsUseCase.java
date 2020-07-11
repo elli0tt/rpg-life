@@ -3,7 +3,7 @@ package com.elli0tt.rpg_life.domain.use_case.quests;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTodayCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTomorrowCalendarUseCase;
-import com.elli0tt.rpg_life.presentation.quests.QuestsFilterState;
+import com.elli0tt.rpg_life.presentation.screen.quests.QuestsFilterState;
 
 import java.util.ArrayList;
 import java.util.List;

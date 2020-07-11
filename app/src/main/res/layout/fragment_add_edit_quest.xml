@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.elli0tt.rpg_life.presentation.add_edit_quest.AddEditQuestViewModel" />
+            type="com.elli0tt.rpg_life.presentation.screen.add_edit_quest.AddEditQuestViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -149,7 +149,7 @@
                 app:icon="@drawable/ic_plus_black_24dp"
                 app:iconTint="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_skills_button" />
+                app:layout_constraintTop_toBottomOf="@id/add_reminder_view" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/add_skills_button"

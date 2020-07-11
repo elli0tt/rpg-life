@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.elli0tt.rpg_life.data.shared_prefs.CountDownSharedPrefUtils;
 import com.elli0tt.rpg_life.domain.repository.CountDownTimerRepository;
-import com.elli0tt.rpg_life.presentation.countdown_timer.TimerState;
+import com.elli0tt.rpg_life.presentation.screen.countdown_timer.TimerState;
 
 public class CountDownTimerRepositoryImpl implements CountDownTimerRepository {
     private CountDownSharedPrefUtils countDownSharedPrefUtils;

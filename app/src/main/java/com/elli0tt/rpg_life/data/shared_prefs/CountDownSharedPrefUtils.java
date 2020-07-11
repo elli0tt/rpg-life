@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 
-import com.elli0tt.rpg_life.presentation.countdown_timer.TimerState;
+import com.elli0tt.rpg_life.presentation.screen.countdown_timer.TimerState;
 
 public class CountDownSharedPrefUtils {
 

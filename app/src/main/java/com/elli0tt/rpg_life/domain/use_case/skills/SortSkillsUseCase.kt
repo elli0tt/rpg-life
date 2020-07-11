@@ -1,7 +1,7 @@
 package com.elli0tt.rpg_life.domain.use_case.skills
 
 import com.elli0tt.rpg_life.domain.model.Skill
-import com.elli0tt.rpg_life.presentation.skills.SkillsSortingState
+import com.elli0tt.rpg_life.presentation.screen.skills.SkillsSortingState
 
 class SortSkillsUseCase {
     operator fun invoke(skills: List<Skill>, sortingState: SkillsSortingState): List<Skill> {
