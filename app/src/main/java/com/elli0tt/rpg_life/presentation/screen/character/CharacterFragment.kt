@@ -15,6 +15,7 @@ import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.presentation.custom_view.CustomLevelProgressBar
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
+import kotlinx.android.synthetic.main.fragment_character.*
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -54,6 +55,8 @@ class CharacterFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         loadProfileImageFromInternalStorage()
+
+        coinsTextView.text = getString(R.string.character_coins, viewModel.characterCoins.toString())
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -84,10 +87,10 @@ class CharacterFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        when(requestCode){
+        when (requestCode) {
             CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
                 val result = CropImage.getActivityResult(data)
-                if (resultCode == Activity.RESULT_OK){
+                if (resultCode == Activity.RESULT_OK) {
                     saveProfileImageToInternalStorage(result.uri)
                     loadProfileImageFromInternalStorage()
                 }
@@ -124,7 +127,7 @@ class CharacterFragment : Fragment() {
                         "/" +
                         getString(R.string.profile_image_file_name) +
                         ".jpeg")
-        if (path.exists()){
+        if (path.exists()) {
             levelProgressBar.setImage(BitmapFactory.decodeStream(FileInputStream(path)))
         }
     }

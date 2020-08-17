@@ -3,20 +3,22 @@ package com.elli0tt.rpg_life.presentation.screen.character
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.elli0tt.rpg_life.data.repository.CharacteristicsRepositoryImpl
+import com.elli0tt.rpg_life.data.repository.CharacterRepositoryImpl
 import com.elli0tt.rpg_life.domain.model.Characteristic
 import java.util.*
 
 class CharacteristicsViewModel(application: Application) : AndroidViewModel(application) {
-    private val characteristicsRepository: CharacteristicsRepositoryImpl = CharacteristicsRepositoryImpl(application)
+    private val characterRepository: CharacterRepositoryImpl = CharacterRepositoryImpl(application)
     private val allCharacteristics: LiveData<List<Characteristic>>
 
+    val characterCoins = characterRepository.characterCoins
+
     init {
-        allCharacteristics = characteristicsRepository.allCharacteristics
+        allCharacteristics = characterRepository.allCharacteristics
     }
 
-    fun insert(characteristic: Characteristic?) {
-        characteristicsRepository.insertCharacteristics(characteristic)
+    fun insert(characteristic: Characteristic) {
+        characterRepository.insertCharacteristics(characteristic)
     }
 
     private fun generateSampleCharacteristicsList(): List<Characteristic> {
@@ -33,6 +35,6 @@ class CharacteristicsViewModel(application: Application) : AndroidViewModel(appl
     }
 
     fun populateWithSamples() {
-        characteristicsRepository.insertCharacteristics(generateSampleCharacteristicsList())
+        characterRepository.insertCharacteristics(generateSampleCharacteristicsList())
     }
 }

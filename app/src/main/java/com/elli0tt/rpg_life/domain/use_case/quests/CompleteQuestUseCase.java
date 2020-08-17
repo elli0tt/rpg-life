@@ -6,6 +6,7 @@ import com.elli0tt.rpg_life.domain.constants.Constants;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.model.RelatedToQuestSkills;
 import com.elli0tt.rpg_life.domain.model.Skill;
+import com.elli0tt.rpg_life.domain.repository.CharacterRepository;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
 
@@ -15,17 +16,21 @@ import java.util.List;
 public class CompleteQuestUseCase {
     private QuestsRepository questsRepository;
     private SkillsRepository skillsRepository;
+    private CharacterRepository characterRepository;
 
     public CompleteQuestUseCase(QuestsRepository questsRepository,
-                                SkillsRepository skillsRepository) {
+                                SkillsRepository skillsRepository,
+                                CharacterRepository characterRepository) {
         this.questsRepository = questsRepository;
         this.skillsRepository = skillsRepository;
+        this.characterRepository = characterRepository;
     }
 
     public void invoke(Quest quest, boolean isCompleted) {
         quest.setCompleted(isCompleted);
         if (quest.isChallenge()) {
             if (isCompleted) {
+                increaseCharacterCoins(quest.getDifficulty().getCoins());
                 increaseRelatedSkillsXps(quest.getId(),
                         quest.getDifficulty().getXpIncrease() + 10 * quest.getDayNumber());
                 quest.setDayNumber(quest.getDayNumber() + 1);
@@ -48,6 +53,7 @@ public class CompleteQuestUseCase {
         } else {
             if (isCompleted) {
                 increaseRelatedSkillsXps(quest.getId(), quest.getDifficulty().getXpIncrease());
+                increaseCharacterCoins(quest.getDifficulty().getCoins());
             }
             questsRepository.updateQuests(quest);
             if (!quest.getRepeatState().equals(Quest.RepeatState.NOT_SET)) {
@@ -174,5 +180,9 @@ public class CompleteQuestUseCase {
     private long calculateSkillXpIncrease(@NonNull Skill skill, int questXpIncrease,
                                           int xpPercentage) {
         return (questXpIncrease + questXpIncrease * skill.getBonusForLevel() / 100) * xpPercentage / 100;
+    }
+
+    private void increaseCharacterCoins(int characterCoins) {
+        characterRepository.setCharacterCoins(characterRepository.getCharacterCoins() + characterCoins);
     }
 }

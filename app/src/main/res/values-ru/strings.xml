@@ -128,4 +128,5 @@
     <string name="profile_image_file_name">profile image</string>
     <string name="add_edit_challenge_add_date_due">Добавить дату окончания</string>
     <string name="add_edit_challenge_add_time_due">Добавить время окончания</string>
+    <string name="character_coins">Монеты: %1$s</string>
 </resources>

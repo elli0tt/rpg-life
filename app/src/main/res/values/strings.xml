@@ -130,4 +130,6 @@
     <string name="user_images_directory_name">user_images</string>
     <string name="add_edit_challenge_add_date_due">Add date due</string>
     <string name="add_edit_challenge_add_time_due">Add time due</string>
+
+    <string name="character_coins">Coins: %1$s</string>
 </resources>
