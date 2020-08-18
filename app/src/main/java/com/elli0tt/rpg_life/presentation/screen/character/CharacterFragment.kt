@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.elli0tt.rpg_life.R
@@ -23,7 +24,7 @@ import java.io.FileOutputStream
 class CharacterFragment : Fragment() {
 
     private lateinit var navController: NavController
-    private lateinit var viewModel: CharacteristicsViewModel
+    private lateinit var viewModel: CharacterViewModel
     private lateinit var levelProgressBar: CustomLevelProgressBar
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -33,21 +34,31 @@ class CharacterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(CharacteristicsViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(CharacterViewModel::class.java)
         navController = NavHostFragment.findNavController(this)
         levelProgressBar = view.findViewById(R.id.level_progress_bar)
-        levelProgressBar.setOnClickListener {
-            pickImage()
-        }
+
+        initViews()
         subscribeToViewModel()
         setHasOptionsMenu(true)
+    }
+
+    private fun initViews() {
+        setListeners()
     }
 
     fun navigateToAddCharacteristicFragment() {
         navController.navigate(R.id.action_character_screen_to_add_characteristic_fragment)
     }
 
-    private fun subscribeToViewModel() {}
+    private fun subscribeToViewModel() {
+        viewModel.characterCoins.observe(viewLifecycleOwner) {
+            coinsTextView.text = getString(R.string.character_coins, it.toString())
+        }
+
+    }
+
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.character_toolbar_menu, menu)
     }
@@ -55,8 +66,6 @@ class CharacterFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         loadProfileImageFromInternalStorage()
-
-        coinsTextView.text = getString(R.string.character_coins, viewModel.characterCoins.toString())
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -130,5 +139,23 @@ class CharacterFragment : Fragment() {
         if (path.exists()) {
             levelProgressBar.setImage(BitmapFactory.decodeStream(FileInputStream(path)))
         }
+    }
+
+    private fun setListeners() {
+        levelProgressBar.setOnClickListener(onLevelProgressBarClickListener)
+        increaseCoinsFab.setOnClickListener(onIncreaseCoinsFabClickListener)
+        decreaseCoinsFab.setOnClickListener(onDecreaseCoinsFabClickListener)
+    }
+
+    private val onLevelProgressBarClickListener = View.OnClickListener {
+        pickImage()
+    }
+
+    private val onIncreaseCoinsFabClickListener = View.OnClickListener {
+        viewModel.addOneCoin()
+    }
+
+    private val onDecreaseCoinsFabClickListener = View.OnClickListener {
+        viewModel.takeOneCoin()
     }
 }

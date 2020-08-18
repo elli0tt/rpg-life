@@ -3,15 +3,20 @@ package com.elli0tt.rpg_life.presentation.screen.character
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.elli0tt.rpg_life.data.repository.CharacterRepositoryImpl
 import com.elli0tt.rpg_life.domain.model.Characteristic
 import java.util.*
 
-class CharacteristicsViewModel(application: Application) : AndroidViewModel(application) {
+class CharacterViewModel(application: Application) : AndroidViewModel(application) {
     private val characterRepository: CharacterRepositoryImpl = CharacterRepositoryImpl(application)
     private val allCharacteristics: LiveData<List<Characteristic>>
 
-    val characterCoins = characterRepository.characterCoins
+    private var _characterCoins = MutableLiveData<Int>(characterRepository.characterCoins)
+    val characterCoins: LiveData<Int> = _characterCoins
+
+    private var _snackbarTextResId = MutableLiveData<Int>()
+    val snackbarTextResId: LiveData<Int> = _snackbarTextResId
 
     init {
         allCharacteristics = characterRepository.allCharacteristics
@@ -36,5 +41,15 @@ class CharacteristicsViewModel(application: Application) : AndroidViewModel(appl
 
     fun populateWithSamples() {
         characterRepository.insertCharacteristics(generateSampleCharacteristicsList())
+    }
+
+    fun addOneCoin() {
+        _characterCoins.value = (_characterCoins.value ?: 0) + 1
+        characterRepository.characterCoins = characterCoins.value ?: 0
+    }
+
+    fun takeOneCoin() {
+        _characterCoins.value = (_characterCoins.value ?: 0) - 1
+        characterRepository.characterCoins = characterCoins.value ?: 0
     }
 }
