@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData;
 import com.elli0tt.rpg_life.data.dao.QuestsDao;
 import com.elli0tt.rpg_life.data.dao.RelatedToQuestsSkillsDao;
 import com.elli0tt.rpg_life.data.database.room_database.AppRoomDatabase;
-import com.elli0tt.rpg_life.data.shared_prefs.QuestsSharedPrefUtils;
+import com.elli0tt.rpg_life.data.shared_prefs.SharedPreferencesUtils;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.model.RelatedToQuestSkills;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
@@ -21,13 +21,13 @@ import java.util.List;
 public class QuestsRepositoryImpl implements QuestsRepository {
     private QuestsDao questsDao;
     private RelatedToQuestsSkillsDao relatedToQuestsSkillsDao;
-    private QuestsSharedPrefUtils questsSharedPrefUtils;
+    private SharedPreferencesUtils sharedPreferencesUtils;
 
     public QuestsRepositoryImpl(Context context) {
         AppRoomDatabase database = AppRoomDatabase.getDatabase(context);
         questsDao = database.getQuestDao();
         relatedToQuestsSkillsDao = database.getRelatedToQuestSkillsDao();
-        questsSharedPrefUtils = new QuestsSharedPrefUtils(context);
+        sharedPreferencesUtils = new SharedPreferencesUtils(context);
     }
 
     @Override
@@ -153,32 +153,32 @@ public class QuestsRepositoryImpl implements QuestsRepository {
 
     @Override
     public QuestsFilterState getQuestsFilterState() {
-        return questsSharedPrefUtils.getQuestsFilterState();
+        return sharedPreferencesUtils.getQuestsFilterState();
     }
 
     @Override
     public void setQuestsFilterState(QuestsFilterState filterState) {
-        questsSharedPrefUtils.setQuestsFilterState(filterState);
+        sharedPreferencesUtils.setQuestsFilterState(filterState);
     }
 
     @Override
     public QuestsSortingState getQuestsSortingState() {
-        return questsSharedPrefUtils.getQuestsSortingState();
+        return sharedPreferencesUtils.getQuestsSortingState();
     }
 
     @Override
     public void setQuestsSoringState(QuestsSortingState sortingState) {
-        questsSharedPrefUtils.setQuestsSortingState(sortingState);
+        sharedPreferencesUtils.setQuestsSortingState(sortingState);
     }
 
     @Override
     public boolean isShowCompleted() {
-        return questsSharedPrefUtils.isShowCompeleted();
+        return sharedPreferencesUtils.isShowCompleted();
     }
 
     @Override
     public void setShowCompleted(boolean isShowCompleted) {
-        questsSharedPrefUtils.setShowCompleted(isShowCompleted);
+        sharedPreferencesUtils.setShowCompleted(isShowCompleted);
     }
 
     @Override
@@ -230,16 +230,6 @@ public class QuestsRepositoryImpl implements QuestsRepository {
                     relatedToQuestSkills[0].getSkillId());
             return null;
         }
-    }
-
-    @Override
-    public int getCurrentId() {
-        return questsSharedPrefUtils.getCurrentId();
-    }
-
-    @Override
-    public void setCurrentId(int id) {
-        questsSharedPrefUtils.setCurrentId(id);
     }
 
     @Override

@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import com.elli0tt.rpg_life.data.dao.SkillsDao;
 import com.elli0tt.rpg_life.data.database.room_database.AppRoomDatabase;
-import com.elli0tt.rpg_life.data.shared_prefs.SkillsSharedPrefUtils;
+import com.elli0tt.rpg_life.data.shared_prefs.SharedPreferencesUtils;
 import com.elli0tt.rpg_life.domain.model.Skill;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
 import com.elli0tt.rpg_life.presentation.screen.skills.SkillsSortingState;
@@ -16,12 +16,12 @@ import java.util.List;
 
 public class SkillsRepositoryImpl implements SkillsRepository {
     private SkillsDao skillsDao;
-    private SkillsSharedPrefUtils skillsSharedPrefUtils;
+    private SharedPreferencesUtils sharedPreferencesUtils;
 
     public SkillsRepositoryImpl(Context context) {
         AppRoomDatabase database = AppRoomDatabase.getDatabase(context);
         skillsDao = database.getSkillsDao();
-        skillsSharedPrefUtils = new SkillsSharedPrefUtils(context);
+        sharedPreferencesUtils = new SharedPreferencesUtils(context);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class SkillsRepositoryImpl implements SkillsRepository {
     }
 
     @Override
-    public void updateSkills(Skill... skills){
+    public void updateSkills(Skill... skills) {
         new UpdateAsyncTask(skillsDao).execute(skills);
     }
 
@@ -73,11 +73,12 @@ public class SkillsRepositoryImpl implements SkillsRepository {
     }
 
     @Override
-    public void updateSkillTotalXpById(int id, long xpIncrease){
+    public void updateSkillTotalXpById(int id, long xpIncrease) {
         new UpdateTotalXpByIdAsyncTask(skillsDao).execute(new Pair<>(id, xpIncrease));
     }
 
-    private static class UpdateTotalXpByIdAsyncTask extends android.os.AsyncTask<Pair<Integer, Long>, Void, Void> {
+    private static class UpdateTotalXpByIdAsyncTask extends android.os.AsyncTask<Pair<Integer,
+            Long>, Void, Void> {
         private SkillsDao dao;
 
         UpdateTotalXpByIdAsyncTask(SkillsDao dao) {
@@ -112,12 +113,12 @@ public class SkillsRepositoryImpl implements SkillsRepository {
 
     @Override
     public SkillsSortingState getSkillsSortingState() {
-        return skillsSharedPrefUtils.getQuestsSortingState();
+        return sharedPreferencesUtils.getSkillsSortingState();
     }
 
     @Override
     public void setSkillsSortingState(SkillsSortingState sortingState) {
-        skillsSharedPrefUtils.setQuestsSortingState(sortingState);
+        sharedPreferencesUtils.setSkillsSortingState(sortingState);
     }
 
     @Override
@@ -149,7 +150,8 @@ public class SkillsRepositoryImpl implements SkillsRepository {
         new DeleteSkillsByIdAsyncTask(skillsDao).execute(skillId);
     }
 
-    private static class DeleteSkillsByIdAsyncTask extends android.os.AsyncTask<Integer, Void, Void> {
+    private static class DeleteSkillsByIdAsyncTask extends android.os.AsyncTask<Integer, Void,
+            Void> {
         private SkillsDao dao;
 
         DeleteSkillsByIdAsyncTask(SkillsDao dao) {

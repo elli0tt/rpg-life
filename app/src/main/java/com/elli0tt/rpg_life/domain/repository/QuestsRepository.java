@@ -50,10 +50,6 @@ public interface QuestsRepository {
 
     void deleteRelatedSkill(int questId, int skillId);
 
-    int getCurrentId();
-
-    void setCurrentId(int id);
-
     int getRelatedSkillId(int questId);
 
     void insertQuestWithRelatedSkills(Quest quest, int oldQuestId);
