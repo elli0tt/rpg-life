@@ -106,9 +106,12 @@ public class QuestsRepositoryImpl implements QuestsRepository {
             this.dao = dao;
         }
 
+        @SafeVarargs
         @Override
-        protected Void doInBackground(Pair<Integer, Boolean>... value) {
-            dao.updateHasSubquestsById(value[0].first, value[0].second);
+        protected final Void doInBackground(Pair<Integer, Boolean>... value) {
+            if (value[0].first != null && value[0].second != null) {
+                dao.updateHasSubquestsById(value[0].first, value[0].second);
+            }
             return null;
         }
     }
@@ -252,12 +255,16 @@ public class QuestsRepositoryImpl implements QuestsRepository {
             this.relatedToQuestsSkillsDao = relatedToQuestsSkillsDao;
         }
 
+        @SafeVarargs
         @Override
-        protected Void doInBackground(Pair<Quest, Integer>... pairs) {
+        protected final Void doInBackground(Pair<Quest, Integer>... pairs) {
             List<Long> ids = questsDao.insertQuests(pairs[0].first);
-            for (long id : ids) {
-                relatedToQuestsSkillsDao.copyRelatedSkills(pairs[0].second, (int) id);
+            if (pairs[0].second != null) {
+                for (long id : ids) {
+                    relatedToQuestsSkillsDao.copyRelatedSkills(pairs[0].second, (int) id);
+                }
             }
+
             return null;
         }
     }

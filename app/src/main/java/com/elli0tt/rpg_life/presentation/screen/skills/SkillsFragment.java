@@ -72,9 +72,8 @@ public class SkillsFragment extends Fragment {
 
     private View.OnClickListener onAddSkillFabClickListener = v -> viewModel.insertEmptySkill();
 
-    private View.OnClickListener onSortUpDownArrowsViewClickListener = view -> {
-        viewModel.changeSortingDirection();
-    };
+    private View.OnClickListener onSortUpDownArrowsViewClickListener =
+            view -> viewModel.changeSortingDirection();
 
     private void setupRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,
@@ -88,9 +87,8 @@ public class SkillsFragment extends Fragment {
     private void subscribeToViewModel() {
         viewModel.getSkillsToShow().observe(getViewLifecycleOwner(), skillsAdapter::submitList);
 
-        viewModel.getSortedByTextResId().observe(getViewLifecycleOwner(), textResId -> {
-            sortUpDownArrowsView.setText(textResId);
-        });
+        viewModel.getSortedByTextResId().observe(getViewLifecycleOwner(),
+                textResId -> sortUpDownArrowsView.setText(textResId));
 
         viewModel.getSortingState().observe(getViewLifecycleOwner(), skillsSortingState -> {
             switch (skillsSortingState) {

@@ -1,6 +1,7 @@
 package com.elli0tt.rpg_life.presentation.screen.add_edit_quest;
 
 
+import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -147,9 +148,6 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
 
         private AddEditQuestViewModel viewModel;
 
-        private int greenColorId;
-        private int redColorId;
-
         SubQuestsViewHolder(
                 @NonNull View itemView,
                 final SubQuestsAdapter.OnIsCompleteCheckBoxClickListener onIsCompleteCheckBoxClickListener,
@@ -172,10 +170,6 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
             removeButton = itemView.findViewById(R.id.remove_image_view);
 
             defaultTextViewColor = dateDueTextView.getTextColors();
-            greenColorId =
-                    itemView.getContext().getResources().getColor(R.color.colorBeforeDateDue);
-            redColorId =
-                    itemView.getContext().getResources().getColor(R.color.colorAfterDateDue);
 
             itemView.setOnClickListener(createOnItemClickListener(onItemClickListener));
             itemView.setOnLongClickListener(
@@ -185,6 +179,7 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
             removeButton.setOnClickListener(createOnRemoveButtonClickListener(onRemoveButtonClickListener));
         }
 
+        @SuppressLint("SetTextI18n")
         void bind(Quest quest, boolean isSelected) {
             isCompletedCheckBox.setChecked(quest.isCompleted());
             nameTextView.setText(quest.getName());

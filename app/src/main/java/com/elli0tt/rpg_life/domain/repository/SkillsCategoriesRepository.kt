@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import com.elli0tt.rpg_life.domain.model.SkillsCategory
 
 interface SkillsCategoriesRepository {
-    suspend fun insertSkillCategory(skillCategory: SkillsCategory);
+    suspend fun insertSkillCategory(skillCategory: SkillsCategory)
 
     fun getAllSkillsCategories(): LiveData<List<SkillsCategory>>
 

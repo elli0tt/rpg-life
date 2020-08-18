@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">RPG Life (debug)</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_character">Character</string>
     <string name="nav_skills">Skills</string>
     <string name="nav_quests">Quests</string>
@@ -12,7 +10,6 @@
     <string name="characteristic_name_input_hint">Name</string>
     <string name="delete_all">Delete all</string>
     <string name="add_quest_name_hint">Name</string>
-    <string name="add_quest_toolbar_menu_confirm">Confirm</string>
     <string name="quest_difficulty">Difficulty: %1$s</string>
 
     <string name="add_edit_quest_difficulty_very_easy">Very easy (+%1$d xp)</string>
@@ -21,7 +18,6 @@
     <string name="add_edit_quest_difficulty_hard">Hard (+%1$d xp)</string>
     <string name="add_edit_quest_difficulty_very_hard">Very hard (+%1$d xp)</string>
     <string name="add_edit_quest_difficulty_impossible">Impossible (+%1$d xp)</string>
-    <string name="add_edit_quest_difficulty_error">Error: non-existent difficulty</string>
 
     <string name="quest_difficulty_very_easy">Very easy</string>
     <string name="quest_difficulty_easy">Easy</string>
@@ -32,7 +28,6 @@
     <string name="quest_difficulty_not_set">Not set</string>
     <string name="quest_difficulty_error">Error: non-existent difficulty</string>
 
-    <string name="add_quest_difficulty_text">Difficulty level:</string>
     <string name="add_quest_description_hint">Description</string>
     <string name="delete">Delete</string>
     <string name="populate_with_samples">Populate with samples</string>
@@ -41,14 +36,9 @@
     <string name="character_toolbar_menu_item_populate_with_samples">Populate with samples</string>
     <string name="quests_toolbar_menu_filter_title">Filter</string>
     <string name="quests_filtering_all">All</string>
-    <string name="quests_filtering_active">Active</string>
-    <string name="quests_filtering_completed">Completed</string>
     <string name="stopwatch_start">Start</string>
     <string name="stopwatch_pause">Pause</string>
     <string name="stopwatch_reset">Reset</string>
-    <string name="countdown_timer_start">Start</string>
-    <string name="countdown_timer_pause">Pause</string>
-    <string name="countdown_timer_reset">Reset</string>
     <string name="quests_toolbar_menu_sort_by">Sort by</string>
     <string name="quests_toolbar_sort_by_name">Name</string>
     <string name="quests_toolbar_sort_by_date_added">Date added</string>
@@ -57,13 +47,11 @@
     <string name="add_edit_quest_add_date_due">Add date due</string>
     <string name="add_edit_quest_repeat">Repeat</string>
     <string name="quest_recycler_date_due">Due: %1$s</string>
-    <string name="quest_recycler_due_date_infinity">Due: ∞</string>
     <string name="quest_toolbar_sort_by_difficulty">Difficulty</string>
     <string name="quest_date_due_today">Today</string>
     <string name="quest_date_due_tomorrow">Tomorrow</string>
     <string name="quest_date_due_next_week">Next week</string>
     <string name="quest_date_due_pick_a_date">Pick a date</string>
-    <string name="add_edit_quest_name_error_message">Field can\'t be empty</string>
     <string name="add_edit_quest_repeat_popup_daily">Daily</string>
     <string name="add_edit_quest_repeat_popup_weekdays">Weekdays</string>
     <string name="add_edit_quest_repeat_popup_weekends">Weekends</string>
@@ -78,8 +66,6 @@
     <string name="hide_completed">Hide completed</string>
     <string name="skills_level">Level:</string>
     <string name="add_skill">Add skill</string>
-    <string name="add_edit_quest_skills_label">Skills:</string>
-    <string name="add_edit_skill_confirm">Confirm</string>
     <string name="add_new_characterstic">Add new characteristic</string>
     <string name="timer_label">Timer</string>
     <string name="add_skill_label">Add skill</string>
@@ -93,7 +79,6 @@
     <string name="skills_sorted_by_name">Sorted by name</string>
     <string name="skills_sorted_by_level">Sorted by level</string>
 
-    <string name="skills_statistics_pie_chart_label">Skills</string>
     <string name="add_edit_challenge_total_days_count">Total days count:</string>
     <string name="add_skills_to_quest_xp_percent">%1$d %%</string>
     <string name="add_edit_challenge_fail_challenge">Fail challenge</string>
@@ -102,13 +87,13 @@
     <string name="statistics_toolbar_menu_skills">Skills</string>
     <string name="statistics_toolbar_menu_skills_categories">Skills categories</string>
     <string name="add_edit_skill_delete">Delete</string>
-    <string name="add_edit_skill_corfirm_delete_title">Are you sure</string>
-    <string name="add_eidt_skill_confirem_delete_message">%1$s will be permanently deleted</string>
+    <string name="add_edit_skill_confirm_delete_title">Are you sure</string>
+    <string name="add_edit_skill_confirm_delete_message">%1$s will be permanently deleted</string>
     <string name="add_edit_skill_confirm_positive_text">Delete</string>
     <string name="add_edit_skill_confirm_negative_text">Cancel</string>
-    <string name="add_edit_challege_fail_confirm_title">Are you sure</string>
+    <string name="add_edit_challenge_fail_confirm_title">Are you sure</string>
     <string name="add_edit_challenge_fail_confirm_message">All related to this challenge skills will lose half of experience, earned for this challenge</string>
-    <string name="add_edit_challenge_fail_confrim_positive">Fail</string>
+    <string name="add_edit_challenge_fail_confirm_positive">Fail</string>
     <string name="add_edit_challenge_fail_confirm_negative">Cancel</string>
     <string name="add_edit_quest_add_start_date">Add start date</string>
     <string name="add_edit_quest_add_start_time">Add start time</string>
@@ -117,7 +102,6 @@
     <string name="add_edit_quest_add_start_date_next_week_popup_title">Next week</string>
     <string name="add_edit_quest_add_start_date_pick_date_popup_title">Pick date</string>
 
-    <string name="add_edit_quest_start_date_formatted">%1$02d.%2$02d.%3$04d</string>
     <string name="add_edit_quest_add_time_due">Add time due</string>
     <string name="add_edit_quest_add_to_google_calendar">Add to Google calendar</string>
     <string name="add_edit_quest_remind_me">Remind me</string>

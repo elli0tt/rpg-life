@@ -7,11 +7,19 @@ import kotlin.math.sqrt
 @Entity(tableName = "skills_table")
 data class Skill @JvmOverloads constructor(
         @PrimaryKey(autoGenerate = true)
-        var id: Int = 0,
-        var name: String = "",
-        var timeSpentMillis: Long = 0,
-        var totalXp: Long = 0,
-        var categoryId: Int = 0) {
+        var id: Int = DEFAULT_ID,
+        var name: String = DEFAULT_NAME,
+        var timeSpentMillis: Long = DEFAULT_TIME_SPENT_MILLIS,
+        var totalXp: Long = DEFAULT_TOTAL_XP,
+        var categoryId: Int = DEFAULT_CATEGORY_ID) {
+
+    companion object {
+        const val DEFAULT_ID = 0
+        const val DEFAULT_NAME = ""
+        const val DEFAULT_TIME_SPENT_MILLIS = 0L
+        const val DEFAULT_TOTAL_XP = 0L
+        const val DEFAULT_CATEGORY_ID = 0
+    }
 
     val level: Long
         get() = ((-1 + sqrt((1 + 8 * (totalXp / 500)).toDouble())).toLong()) / 2

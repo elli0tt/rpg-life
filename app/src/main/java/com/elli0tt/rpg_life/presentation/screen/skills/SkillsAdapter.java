@@ -1,5 +1,6 @@
 package com.elli0tt.rpg_life.presentation.screen.skills;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,6 +100,7 @@ public class SkillsAdapter extends ListAdapter<Skill, SkillsAdapter.ViewHolder> 
             });
         }
 
+        @SuppressLint("SetTextI18n")
         void bind(@NonNull Skill skill) {
             nameTextView.setText(skill.getName());
             levelTextView.setText(Long.toString(skill.getLevel()));

@@ -14,7 +14,7 @@ class AddEditSkillsCategoryViewModel(application: Application) : AndroidViewMode
         ADD, EDIT
     }
 
-    var mode: Mode = Mode.ADD
+    private var mode: Mode = Mode.ADD
 
     var name: MutableLiveData<String> = MutableLiveData("")
 

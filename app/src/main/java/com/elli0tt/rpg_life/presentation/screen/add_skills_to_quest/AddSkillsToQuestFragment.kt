@@ -12,11 +12,9 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.elli0tt.rpg_life.R
-import com.elli0tt.rpg_life.presentation.screen.add_edit_quest.AddEditQuestAddSkillToQuestSharedViewModel
 
 class AddSkillsToQuestFragment : Fragment() {
     private lateinit var viewModel: AddSkillsToQuestViewModel
-    private lateinit var sharedViewModel: AddEditQuestAddSkillToQuestSharedViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var addSkillsToQuestAdapter: AddSkillsToQuestAdapter
 
@@ -26,7 +24,6 @@ class AddSkillsToQuestFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         viewModel = ViewModelProvider(this).get(AddSkillsToQuestViewModel::class.java)
-        sharedViewModel = ViewModelProvider(requireActivity()).get(AddEditQuestAddSkillToQuestSharedViewModel::class.java)
         navController = NavHostFragment.findNavController(this)
         return inflater.inflate(R.layout.fragment_add_skills_to_quest, container, false)
     }
@@ -54,7 +51,7 @@ class AddSkillsToQuestFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             android.R.id.home -> popUpToQuestsScreen()
         }
         return super.onOptionsItemSelected(item)
@@ -67,14 +64,13 @@ class AddSkillsToQuestFragment : Fragment() {
 
         addSkillsToQuestAdapter.onXpPercentageSeekBarTouchStopListener =
                 object : AddSkillsToQuestAdapter.OnXpPercentageSeekBarTouchStopListener {
-            override fun onTouchStop(position: Int,xpPercentage: Int) {
-                viewModel.onXpPercentageSeekBarTouchStop(position, xpPercentage)
-            }
-        }
+                    override fun onTouchStop(position: Int, xpPercentage: Int) {
+                        viewModel.onXpPercentageSeekBarTouchStop(position, xpPercentage)
+                    }
+                }
     }
 
     private fun subscribeToViewModel() {
-        sharedViewModel.relatedSkills = viewModel.skillsToShow
         viewModel.skillsToShow.observe(viewLifecycleOwner, Observer { allSkillsData ->
             addSkillsToQuestAdapter.submitList(allSkillsData)
         })
@@ -85,7 +81,7 @@ class AddSkillsToQuestFragment : Fragment() {
         viewModel.save()
     }
 
-    private fun popUpToQuestsScreen(){
+    private fun popUpToQuestsScreen() {
         val action = AddSkillsToQuestFragmentDirections.actionAddSkillsToQuestScreenToQuestsScreen()
         navController.navigate(action)
     }

@@ -15,6 +15,7 @@ import androidx.work.WorkRequest;
 
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl;
+import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.model.Skill;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
 import com.elli0tt.rpg_life.domain.use_case.skills.SortSkillsUseCase;
@@ -72,7 +73,7 @@ public class SkillsViewModel extends AndroidViewModel {
         return sortedByTextResId;
     }
 
-    LiveData<WorkInfo> getInsertEmptySkillWorkInfo(){
+    LiveData<WorkInfo> getInsertEmptySkillWorkInfo() {
         return workManager.getWorkInfoByIdLiveData(insertEmptySkillWorkRequest.getId());
     }
 
@@ -98,7 +99,11 @@ public class SkillsViewModel extends AndroidViewModel {
     }
 
     void changeSortingDirection() {
-        switch (sortingState.getValue()) {
+        SkillsSortingState skillsSortingState = sortingState.getValue();
+        if (skillsSortingState == null) {
+            skillsSortingState = SkillsSortingState.NAME_ASC;
+        }
+        switch (skillsSortingState) {
             case NAME_ASC:
                 setSortingState(SkillsSortingState.NAME_DESC);
                 break;
@@ -116,7 +121,11 @@ public class SkillsViewModel extends AndroidViewModel {
     }
 
     private int getSortedByTextResId(SkillsSortingState skillsSortingState) {
-        switch (sortingState.getValue()) {
+        SkillsSortingState sortingState = skillsSortingState;
+        if (sortingState == null) {
+            sortingState = SkillsSortingState.NAME_ASC;
+        }
+        switch (sortingState) {
             case NAME_ASC:
             case NAME_DESC:
                 return R.string.skills_sorted_by_name;
@@ -128,6 +137,9 @@ public class SkillsViewModel extends AndroidViewModel {
     }
 
     int getSkillId(int position) {
+        if (skillsToShow.getValue() == null) {
+            return Quest.DEFAULT_ID;
+        }
         return skillsToShow.getValue().get(position).getId();
     }
 

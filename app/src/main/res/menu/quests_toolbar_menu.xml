@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/quests_toolbar_menu_filter"
         android:icon="@drawable/ic_filter_list_white_24dp"
         android:title="@string/quests_toolbar_menu_filter_title"
         app:showAsAction="ifRoom">
@@ -29,7 +28,6 @@
     </item>
 
     <item
-        android:id="@+id/quests_toolbar_menu_sort_by"
         android:title="@string/quests_toolbar_menu_sort_by"
         app:showAsAction="never">
         <menu>

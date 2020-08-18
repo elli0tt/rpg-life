@@ -21,8 +21,8 @@ class GetAddSkillsDataUseCase(private val skillsRepository: SkillsRepository,
         this.questId = questId
         allSkills = skillsRepository.allSkills
 
-        relatedSkills = Transformations.switchMap(this.questId) { questId ->
-            questsRepository.getRelatedSkillsLiveData(questId)
+        relatedSkills = Transformations.switchMap(this.questId) { id ->
+            questsRepository.getRelatedSkillsLiveData(id)
         }
 
         addSkillData.addSource(allSkills) { allSkills ->

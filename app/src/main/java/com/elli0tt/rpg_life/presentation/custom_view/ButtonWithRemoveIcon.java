@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 
 import com.elli0tt.rpg_life.R;
 
@@ -37,15 +38,15 @@ public class ButtonWithRemoveIcon extends CardView {
 
         final TypedArray typedArray = context.obtainStyledAttributes(attrs,
                 R.styleable.ButtonWithRemoveIcon, defStyleAttr, 0);
-        mainIconImageView.setImageDrawable(context.getDrawable(
+        mainIconImageView.setImageDrawable(ContextCompat.getDrawable(context,
                 typedArray.getResourceId(R.styleable.ButtonWithRemoveIcon_icon, 0)));
         textView.setText(typedArray.getResourceId(R.styleable.ButtonWithRemoveIcon_text, 0));
-        if (typedArray.getBoolean(R.styleable.ButtonWithRemoveIcon_showRemoveIcon, false)){
+        if (typedArray.getBoolean(R.styleable.ButtonWithRemoveIcon_showRemoveIcon, false)) {
             removeButton.setVisibility(View.VISIBLE);
         } else {
             removeButton.setVisibility(View.INVISIBLE);
         }
-
+        typedArray.recycle();
     }
 
     public void setText(String text) {

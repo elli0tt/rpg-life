@@ -12,9 +12,9 @@ class Characteristic {
     var name: String = ""
     var value = 0
     var description: String = ""
+
     //Builder
     var imageResource = 0
-
 
 
     constructor(name: String, value: Int, description: String, imageResource: Int) {
@@ -25,8 +25,7 @@ class Characteristic {
     }
 
     @Ignore
-    constructor(name: String) : this(name, DEFAULT_VALUE, DEFAULT_DESCRIPTION, DEFAULT_IMAGE_RESOURCE) {
-    }
+    constructor(name: String) : this(name, DEFAULT_VALUE, DEFAULT_DESCRIPTION, DEFAULT_IMAGE_RESOURCE)
 
     companion object {
         private const val DEFAULT_DESCRIPTION = ""

@@ -85,9 +85,12 @@ public class SkillsRepositoryImpl implements SkillsRepository {
             this.dao = dao;
         }
 
+        @SafeVarargs
         @Override
-        protected Void doInBackground(Pair<Integer, Long>... params) {
-            dao.updateSkillTotalXpById(params[0].first, params[0].second);
+        protected final Void doInBackground(Pair<Integer, Long>... params) {
+            if (params[0].first != null && params[0].second != null) {
+                dao.updateSkillTotalXpById(params[0].first, params[0].second);
+            }
             return null;
         }
     }
@@ -138,9 +141,12 @@ public class SkillsRepositoryImpl implements SkillsRepository {
             this.dao = dao;
         }
 
+        @SafeVarargs
         @Override
-        protected Void doInBackground(Pair<Integer, Integer>... pairs) {
-            dao.updateSkillCategoryById(pairs[0].first, pairs[0].second);
+        protected final Void doInBackground(Pair<Integer, Integer>... pairs) {
+            if (pairs[0].first != null && pairs[0].second != null) {
+                dao.updateSkillCategoryById(pairs[0].first, pairs[0].second);
+            }
             return null;
         }
     }

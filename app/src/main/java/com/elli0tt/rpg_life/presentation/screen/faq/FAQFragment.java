@@ -55,7 +55,10 @@ public class FAQFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == DOWNLOAD_IMAGE_REQUEST_CODE && resultCode == RESULT_OK && data != null){
+        if (requestCode == DOWNLOAD_IMAGE_REQUEST_CODE &&
+                resultCode == RESULT_OK &&
+                data != null &&
+                data.getExtras() != null) {
             imageView.setImageBitmap(data.getExtras().getParcelable("data"));
         }
 

@@ -48,7 +48,7 @@ class AddEditSkillFragment : Fragment() {
     }
 
     private fun subscribeToViewModel() {
-        viewModel.skillsCategoryName.observe(viewLifecycleOwner){
+        viewModel.skillsCategoryName.observe(viewLifecycleOwner) {
             binding.addCategoryButtonWithIcon.setText(it)
         }
     }
@@ -95,12 +95,12 @@ class AddEditSkillFragment : Fragment() {
         navController.navigate(action)
     }
 
-    private fun showOnDeleteConfirmDialog(){
+    private fun showOnDeleteConfirmDialog() {
         AlertDialog.Builder(requireContext()).apply {
-            setTitle(getString(R.string.add_edit_skill_corfirm_delete_title))
-            setMessage(getString(R.string.add_eidt_skill_confirem_delete_message, viewModel.skillName))
+            setTitle(getString(R.string.add_edit_skill_confirm_delete_title))
+            setMessage(getString(R.string.add_edit_skill_confirm_delete_message, viewModel.skillName))
             setCancelable(true)
-            setPositiveButton(getString(R.string.add_edit_skill_confirm_positive_text)) { dialog, which ->
+            setPositiveButton(getString(R.string.add_edit_skill_confirm_positive_text)) { _, _ ->
                 viewModel.delete()
                 navController.popBackStack()
             }

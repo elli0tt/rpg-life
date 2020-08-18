@@ -13,7 +13,7 @@ internal class InsertEmptyQuestWorker(private val context: Context,
         val questsRepository = QuestsRepositoryImpl(context)
         val outputData = Data.Builder()
                 .putInt(Constants.KEY_QUEST_ID, questsRepository.insertEmptyQuestSync().toInt())
-                .build();
-        return Result.success(outputData);
+                .build()
+        return Result.success(outputData)
     }
 }

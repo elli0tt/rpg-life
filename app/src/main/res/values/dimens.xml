@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="toolbar_elevation">4dp</dimen>
-    <dimen name="nav_header_height">176dp</dimen>
     <dimen name="default_fab_margin">16dp</dimen>
-    <dimen name="characteristics_list_image_size">40dp</dimen>
-    <dimen name="characteristics_list_text_size">20sp</dimen>
-    <dimen name="characteristic_list_item_padding">4dp</dimen>
-    <dimen name="characteristics_list_items_margin">4dp</dimen>
-    <dimen name="characteristics_list_menu_dots_size">40dp</dimen>
     <dimen name="add_quest_items_margin_top">16dp</dimen>
     <dimen name="countdown_timer_number_picker_height">300dp</dimen>
     <dimen name="countdown_timer_number_picker_margin_end">32dp</dimen>

@@ -7,7 +7,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.Transformations;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
@@ -40,7 +39,7 @@ public class QuestsViewModel extends AndroidViewModel {
     private LiveData<List<Quest>> allQuests;
 
     private MutableLiveData<QuestsFilterState> currentFilterState = new MutableLiveData<>();
-    private MediatorLiveData questsToShow = new MediatorLiveData<>();
+    private MediatorLiveData<List<Quest>> questsToShow = new MediatorLiveData<>();
     private MutableLiveData<QuestsSortingState> currentSortingState = new MutableLiveData<>();
     private MutableLiveData<Boolean> isSelectionStarted = new MutableLiveData<>(false);
     private MutableLiveData<Boolean> isShowCompleted = new MutableLiveData<>();
@@ -92,7 +91,7 @@ public class QuestsViewModel extends AndroidViewModel {
 
         allQuests = questsRepository.getAllQuests();
 
-        questsToShow.addSource(allQuests, (Observer<List<Quest>>) quests -> {
+        questsToShow.addSource(allQuests, quests -> {
             if (quests != null
                     && currentSortingState.getValue() != null
                     && currentFilterState.getValue() != null
@@ -103,7 +102,7 @@ public class QuestsViewModel extends AndroidViewModel {
             }
         });
 
-        questsToShow.addSource(currentFilterState, (Observer<QuestsFilterState>) filterState -> {
+        questsToShow.addSource(currentFilterState, filterState -> {
             if (allQuests.getValue() != null
                     && currentSortingState.getValue() != null
                     && isShowCompleted.getValue() != null) {
@@ -114,14 +113,14 @@ public class QuestsViewModel extends AndroidViewModel {
         });
 
         questsToShow.addSource(currentSortingState,
-                (Observer<QuestsSortingState>) questsSortingState -> {
+                questsSortingState -> {
                     if (allQuests.getValue() != null) {
-                        questsToShow.setValue(sortQuestsUseCase.invoke((List<Quest>) questsToShow.getValue(),
+                        questsToShow.setValue(sortQuestsUseCase.invoke(questsToShow.getValue(),
                                 questsSortingState));
                     }
                 });
 
-        questsToShow.addSource(isShowCompleted, (Observer<Boolean>) isShowCompleted -> {
+        questsToShow.addSource(isShowCompleted, isShowCompleted -> {
             if (allQuests.getValue() != null
                     && currentFilterState.getValue() != null
                     && currentSortingState.getValue() != null) {

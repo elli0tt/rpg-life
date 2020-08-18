@@ -2,6 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.elli0tt.rpg_life.presentation.screen.add_edit_challenge.AddEditChallengeViewModel" />
@@ -81,29 +82,32 @@
                 android:id="@+id/total_days_count_label_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/add_edit_challenge_total_days_count"
                 android:layout_marginTop="16dp"
+                android:labelFor="@id/total_days_count_value_edit_text"
+                android:text="@string/add_edit_challenge_total_days_count"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_skills_button"/>
+                app:layout_constraintTop_toBottomOf="@id/add_skills_button" />
 
             <EditText
                 android:id="@+id/total_days_count_value_edit_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="3"
                 android:layout_marginStart="8dp"
+                android:ems="3"
+                android:importantForAutofill="no"
+                android:inputType="number"
                 android:text="@={`` + viewModel.totalDaysCount}"
                 app:layout_constraintBaseline_toBaselineOf="@id/total_days_count_label_text_view"
-                app:layout_constraintStart_toEndOf="@id/total_days_count_label_text_view"/>
+                app:layout_constraintStart_toEndOf="@id/total_days_count_label_text_view" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/fail_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/add_edit_challenge_fail_challenge"
                 android:backgroundTint="@android:color/holo_red_dark"
-                app:layout_constraintTop_toBottomOf="@id/total_days_count_label_text_view"/>
+                android:text="@string/add_edit_challenge_fail_challenge"
+                app:layout_constraintTop_toBottomOf="@id/total_days_count_label_text_view" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

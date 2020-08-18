@@ -32,7 +32,7 @@ class AddEditSkillViewModel(application: Application) : AndroidViewModel(applica
     val skillsRepository: SkillsRepository = SkillsRepositoryImpl(application)
     val skillsCategoriesRepository: SkillsCategoriesRepository = SkillsCategoriesRepositoryImpl(application)
 
-    val DEFAULT_SKILL_CATEGORY_TEXT: String = application.getString(R.string.add_edit_skill_add_category)
+    private val defaultSkillCategoryText: String = application.getString(R.string.add_edit_skill_add_category)
 
     fun start(skillId: Int) {
         if (skillId != 0) {
@@ -56,7 +56,7 @@ class AddEditSkillViewModel(application: Application) : AndroidViewModel(applica
 
     private fun onDataLoaded() {
         name.postValue(skill.name)
-        skillsCategoryName.postValue(skillCategory?.name ?: DEFAULT_SKILL_CATEGORY_TEXT)
+        skillsCategoryName.postValue(skillCategory?.name ?: defaultSkillCategoryText)
     }
 
     fun save() {

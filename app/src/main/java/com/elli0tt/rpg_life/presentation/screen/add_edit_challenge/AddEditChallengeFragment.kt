@@ -180,10 +180,10 @@ class AddEditChallengeFragment : Fragment() {
 
     private fun showFailChallengeConfirmDialog() {
         AlertDialog.Builder(requireContext()).apply {
-            setTitle(getString(R.string.add_edit_challege_fail_confirm_title))
+            setTitle(getString(R.string.add_edit_challenge_fail_confirm_title))
             setMessage(getString(R.string.add_edit_challenge_fail_confirm_message))
             setCancelable(true)
-            setPositiveButton(getString(R.string.add_edit_challenge_fail_confrim_positive)) { _, _ ->
+            setPositiveButton(getString(R.string.add_edit_challenge_fail_confirm_positive)) { _, _ ->
                 viewModel.failChallenge()
                 navController.popBackStack()
             }

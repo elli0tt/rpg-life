@@ -15,7 +15,7 @@ internal class InsertEmptySubQuestWorker(private val context: Context,
         val parentQuestId = inputData.getInt(Constants.KEY_PARENT_QUEST_ID, 0)
         val outputData = Data.Builder()
                 .putInt(Constants.KEY_QUEST_ID, questsRepository.insertEmptySubQuestSync(parentQuestId).toInt())
-                .build();
-        return Result.success(outputData);
+                .build()
+        return Result.success(outputData)
     }
 }

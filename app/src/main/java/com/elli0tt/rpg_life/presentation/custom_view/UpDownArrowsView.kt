@@ -2,7 +2,6 @@ package com.elli0tt.rpg_life.presentation.custom_view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout

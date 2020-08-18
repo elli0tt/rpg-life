@@ -2,31 +2,59 @@ package com.elli0tt.rpg_life.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
-import com.elli0tt.rpg_life.domain.model.room_type_converters.CalendarConverter
-import com.elli0tt.rpg_life.domain.model.room_type_converters.DateStateConverter
-import com.elli0tt.rpg_life.domain.model.room_type_converters.DifficultyConverter
-import com.elli0tt.rpg_life.domain.model.room_type_converters.RepeatStateConverter
 import java.util.*
 
 @Entity(tableName = "quest_table")
-data class Quest @JvmOverloads constructor(@PrimaryKey(autoGenerate = true) var id: Int = 0,
-                 var name: String = "",
-                 var description: String = "",
-                 var difficulty: Difficulty = Difficulty.NOT_SET,
-                 var parentQuestId: Int = 0,
-                 var isSubQuest: Boolean = false,
-                 var isImportant: Boolean = false,
-                 var isCompleted: Boolean = false,
-                 var startDate: Calendar = Calendar.getInstance(),
-                 var dateDue: Calendar = Calendar.getInstance(),
-                 var startDateState: DateState = DateState.NOT_SET,
-                 var dateDueState: DateState = DateState.NOT_SET,
-                 var repeatState: RepeatState = RepeatState.NOT_SET,
-                 var hasSubquests: Boolean = false,
-                 var isChallenge: Boolean = false,
-                 var totalDaysCount: Int = 0,
-                 var dayNumber: Int = 0) {
+data class Quest @JvmOverloads constructor(@PrimaryKey(autoGenerate = true) var id: Int = DEFAULT_ID,
+                                           var name: String = DEFAULT_NAME,
+                                           var description: String = DEFAULT_DESCRIPTION,
+                                           var difficulty: Difficulty = DEFAULT_DIFFICULTY,
+                                           var parentQuestId: Int = DEFAULT_PARENT_QUEST_ID,
+                                           var isSubQuest: Boolean = DEFAULT_IS_SUBQUEST,
+                                           var isImportant: Boolean = DEFAULT_IS_IMPORTANT,
+                                           var isCompleted: Boolean = DEFAULT_IS_COMPLETED,
+                                           var startDate: Calendar = DEFAULT_START_DATE,
+                                           var dateDue: Calendar = DEFAULT_DATE_DUE,
+                                           var startDateState: DateState = DEFAULT_START_DATE_STATE,
+                                           var dateDueState: DateState = DEFAULT_DATE_DUE_STATE,
+                                           var repeatState: RepeatState = DEFAULT_REPEAT_STATE,
+                                           var hasSubquests: Boolean = DEFAULT_HAS_SUBQUESTS,
+                                           var isChallenge: Boolean = DEFAULT_IS_CHALLENGE,
+                                           var totalDaysCount: Int = DEFAULT_TOTAL_DAYS_COUNT,
+                                           var dayNumber: Int = DEFAULT_DAY_NUMBER) {
+
+    companion object {
+        const val DEFAULT_ID = 0
+        const val DEFAULT_NAME = ""
+        const val DEFAULT_DESCRIPTION = ""
+
+        @JvmField
+        val DEFAULT_DIFFICULTY = Difficulty.NOT_SET
+        const val DEFAULT_PARENT_QUEST_ID = 0
+        const val DEFAULT_IS_SUBQUEST = false
+        const val DEFAULT_IS_IMPORTANT = false
+        const val DEFAULT_IS_COMPLETED = false
+
+        @JvmField
+        val DEFAULT_START_DATE: Calendar = Calendar.getInstance()
+
+        @JvmField
+        val DEFAULT_DATE_DUE: Calendar = Calendar.getInstance()
+
+        @JvmField
+        val DEFAULT_START_DATE_STATE = DateState.NOT_SET
+
+        @JvmField
+        val DEFAULT_DATE_DUE_STATE = DateState.NOT_SET
+
+        @JvmField
+        val DEFAULT_REPEAT_STATE = RepeatState.NOT_SET
+        const val DEFAULT_HAS_SUBQUESTS = false
+        const val DEFAULT_IS_CHALLENGE = false
+        const val DEFAULT_TOTAL_DAYS_COUNT = 0
+        const val DEFAULT_DAY_NUMBER = 0
+    }
+
     /**
      * NOT_SET - hasn't been set yet
      * DATE_SET - only date is set

@@ -50,6 +50,8 @@ class StatisticsViewModel(application: Application) : AndroidViewModel(applicati
             when (statisticsMode) {
                 StatisticsMode.SKILLS -> pieEntries.value = skillsPieEntries.value
                 StatisticsMode.SKILLS_CATEGORIES -> pieEntries.value = skillsCategoriesPieEntries.value
+                else -> { // do nothing
+                }
             }
         }
     }

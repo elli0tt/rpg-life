@@ -27,7 +27,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,7 +51,6 @@ public class AddEditQuestFragment extends Fragment {
     private NavController navController;
 
     private AddEditQuestViewModel viewModel;
-    private AddEditQuestAddSkillToQuestSharedViewModel sharedViewModel;
 
     private String veryEasyTitle;
     private String easyTitle;
@@ -74,8 +72,6 @@ public class AddEditQuestFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         viewModel = new ViewModelProvider(this).get(AddEditQuestViewModel.class);
-        sharedViewModel =
-                new ViewModelProvider(requireActivity()).get(AddEditQuestAddSkillToQuestSharedViewModel.class);
         binding = FragmentAddEditQuestBinding.inflate(inflater, container, false);
 
         binding.setViewModel(viewModel);
@@ -155,7 +151,7 @@ public class AddEditQuestFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        viewModel.saveQuest(sharedViewModel.getRelatedSkills().getValue());
+        viewModel.saveQuest();
     }
 
     private void setListeners() {
@@ -292,15 +288,12 @@ public class AddEditQuestFragment extends Fragment {
 
     private void setupSubQuestsRecycler() {
         subQuestsAdapter = new SubQuestsAdapter();
-        subQuestsAdapter.setOnIsCompleteCheckBoxClickListener((isCompleted, position) -> {
-            viewModel.completeSubQuest(position, isCompleted);
-        });
-        subQuestsAdapter.setOnRemoveButtonClickListener(position -> {
-            viewModel.removeSubQuest(position);
-        });
-        subQuestsAdapter.setOnItemClickListener(position -> {
-            navigateToEditSubQuestScreen(viewModel.getSubQuestId(position));
-        });
+        subQuestsAdapter.setOnIsCompleteCheckBoxClickListener((isCompleted, position) ->
+                viewModel.completeSubQuest(position, isCompleted));
+        subQuestsAdapter.setOnRemoveButtonClickListener(position ->
+                viewModel.removeSubQuest(position));
+        subQuestsAdapter.setOnItemClickListener(position ->
+                navigateToEditSubQuestScreen(viewModel.getSubQuestId(position)));
         subQuestsAdapter.setViewModel(viewModel);
 
         binding.subquestsRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
@@ -369,9 +362,8 @@ public class AddEditQuestFragment extends Fragment {
     private View.OnClickListener onAddSubQuestButtonClickListener =
             v -> viewModel.insertEmptyQuest();
 
-    private View.OnClickListener onAddSkillsButtonClickListener = v -> {
-        navigateToAddSkillsToQuestScreen();
-    };
+    private View.OnClickListener onAddSkillsButtonClickListener = v ->
+            navigateToAddSkillsToQuestScreen();
 
     private View.OnClickListener onDifficultyViewClickListener = v -> {
         SoftKeyboardUtil.hideKeyboard(v, getActivity());
@@ -414,13 +406,10 @@ public class AddEditQuestFragment extends Fragment {
         viewModel.removeTimeDue();
     };
 
-    private View.OnClickListener onAddToCalendarClickListener = v -> {
-        checkPermissions();
-    };
+    private View.OnClickListener onAddToCalendarClickListener = v -> checkPermissions();
 
-    private View.OnClickListener onAddReminderViewClickListener = v -> {
-        pickDate(onReminderDateSetListener);
-    };
+    private View.OnClickListener onAddReminderViewClickListener = v ->
+            pickDate(onReminderDateSetListener);
 
     private View.OnClickListener onRemoveReminderViewClickListener = v -> {
 
@@ -444,7 +433,9 @@ public class AddEditQuestFragment extends Fragment {
 
         AlarmManager alarmManager =
                 (AlarmManager) requireActivity().getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, viewModel.getReminderTime(), pendingIntent);
+        if (alarmManager != null) {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, viewModel.getReminderTime(), pendingIntent);
+        }
     }
 
     private void showAddStartDatePopupMenu(View view) {

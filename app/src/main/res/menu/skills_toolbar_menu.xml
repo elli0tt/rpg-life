@@ -12,7 +12,6 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/sort_by"
         android:title="@string/skill_toolbar_menu_sort_by"
         app:showAsAction="never">
         <menu>

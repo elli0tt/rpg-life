@@ -23,7 +23,7 @@ class GetSkillsCategoriesPieEntriesUseCase(skillsRepository: SkillsRepository,
             resultPieEntries.value = mapToPieEntries(skills.value, skillsCategories)
         }
 
-        return resultPieEntries;
+        return resultPieEntries
     }
 
     private fun mapToPieEntries(skills: List<Skill>?, skillsCategories: List<SkillsCategory>?): List<PieEntry> {
@@ -31,7 +31,7 @@ class GetSkillsCategoriesPieEntriesUseCase(skillsRepository: SkillsRepository,
         if (skills != null && skillsCategories != null) {
             val totalXpSum = skills.map { it.totalXp }.sum()
             for (category in skillsCategories) {
-                var categoryXp = skills
+                val categoryXp = skills
                         .filter { it.categoryId == category.id }
                         .map { it.totalXp }
                         .sum()

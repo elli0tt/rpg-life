@@ -24,7 +24,7 @@ class AddEditChallengeViewModel(application: Application) : AndroidViewModel(app
     var totalDaysCount = MutableLiveData(0)
     var dayNumber = MutableLiveData(0)
 
-    var isChallengeNew = true
+    private var isChallengeNew = true
 
     var challengeId = 0
 

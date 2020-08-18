@@ -27,8 +27,6 @@ public class CountDownViewModel extends AndroidViewModel {
     private MutableLiveData<Integer> minutes = new MutableLiveData<>(0);
     private MutableLiveData<Integer> seconds = new MutableLiveData<>(0);
 
-    private static final String ERROR_TIME = "-1:-1:-1";
-
     private ConvertMillisToSecondsUseCase convertMillisToSecondsUseCase;
     private ConvertSecondsToMillisUseCase convertSecondsToMillisUseCase;
     private ConvertToSecondsUseCase convertToSecondsUseCase;
@@ -78,33 +76,40 @@ public class CountDownViewModel extends AndroidViewModel {
     }
 
     long getTimeLeftMillis() {
-        return convertSecondsToMillisUseCase.invoke(timeLeftSeconds.getValue());
+        return convertSecondsToMillisUseCase.invoke(timeLeftSeconds.getValue() == null ? 0 :
+                timeLeftSeconds.getValue());
     }
 
     void updateTimeLeftSeconds() {
-        timeLeftSeconds.setValue(timeLeftSeconds.getValue() - 1);
+        timeLeftSeconds.setValue(timeLeftSeconds.getValue() == null ? 0 :
+                timeLeftSeconds.getValue() - 1);
     }
 
     String getTimeLeft() {
-        return getTimeFormattedUseCase.invoke(timeLeftSeconds.getValue());
+        return getTimeFormattedUseCase.invoke(timeLeftSeconds.getValue() == null ? 0 :
+                timeLeftSeconds.getValue());
     }
 
     void startTimer(long currentTimeMillis) {
         timerState.setValue(TimerState.RUNNING);
-        if (isTimerNew.getValue()) {
-            timerLengthSeconds = convertToSecondsUseCase.invoke(hours.getValue(), minutes.getValue()
-                    , seconds.getValue());
+        if (isTimerNew.getValue() != null && isTimerNew.getValue()) {
+            timerLengthSeconds = convertToSecondsUseCase.invoke(
+                    hours.getValue() == null ? 0 : hours.getValue(),
+                    minutes.getValue() == null ? 0 : minutes.getValue(),
+                    seconds.getValue() == null ? 0 : seconds.getValue());
             timeLeftSeconds.setValue(timerLengthSeconds);
             isTimerNew.setValue(false);
         }
         if (endTime != 0) {
             timeLeftSeconds.setValue(convertMillisToSecondsUseCase.invoke(endTime - currentTimeMillis));
         }
-        if (timeLeftSeconds.getValue() < 0) {
+        if ((timeLeftSeconds.getValue() == null ? 0 : timeLeftSeconds.getValue()) < 0) {
             timeLeftSeconds.setValue(0L);
         }
         endTime =
-                currentTimeMillis + convertSecondsToMillisUseCase.invoke(timeLeftSeconds.getValue());
+                currentTimeMillis + convertSecondsToMillisUseCase.invoke(
+                        timeLeftSeconds.getValue() == null ? 0 : timeLeftSeconds.getValue()
+                );
     }
 
     void pauseTimer() {
@@ -121,18 +126,22 @@ public class CountDownViewModel extends AndroidViewModel {
 
     void saveData() {
         countDownTimerRepository.setEndTime(endTime);
-        countDownTimerRepository.setIsTimerNew(isTimerNew.getValue());
-        countDownTimerRepository.setTimeLeftSeconds(timeLeftSeconds.getValue());
+        countDownTimerRepository.setIsTimerNew(isTimerNew.getValue() == null ? false :
+                isTimerNew.getValue());
+        countDownTimerRepository.setTimeLeftSeconds(timeLeftSeconds.getValue() == null ? 0 :
+                timeLeftSeconds.getValue());
         countDownTimerRepository.setTimerLengthSeconds(timerLengthSeconds);
         countDownTimerRepository.setTimerState(timerState.getValue());
     }
 
     boolean isNeedToEnableStartFab() {
-        return !(hours.getValue() == 0 && minutes.getValue() == 0 && seconds.getValue() == 0);
+        return !((hours.getValue() == null || hours.getValue() == 0) &&
+                (minutes.getValue() == null || minutes.getValue() == 0) &&
+                (seconds.getValue() == null || seconds.getValue() == 0));
     }
 
     int getProgress() {
-        return timeLeftSeconds.getValue().intValue();
+        return timeLeftSeconds.getValue() == null ? 0 : timeLeftSeconds.getValue().intValue();
     }
 
     int getMaxProgress() {

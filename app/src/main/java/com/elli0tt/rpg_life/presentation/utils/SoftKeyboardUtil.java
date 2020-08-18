@@ -10,7 +10,9 @@ public class SoftKeyboardUtil {
         if (activity != null) {
             InputMethodManager inputMethodManager =
                     (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            if (inputMethodManager != null) {
+                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
         }
     }
 
@@ -18,7 +20,9 @@ public class SoftKeyboardUtil {
         if (activity != null) {
             InputMethodManager inputMethodManager =
                     (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+            if (inputMethodManager != null) {
+                inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+            }
         }
     }
 }

@@ -9,9 +9,6 @@ import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.presentation.screen.main.MainActivity
 
 class QuestReminderBroadcastReceiver : BroadcastReceiver() {
-    companion object{
-        const val NOTIFICATION_ID = 1;
-    }
 
     override fun onReceive(context: Context?, intent: Intent?) {
         val builder = NotificationCompat.Builder(context!!, MainActivity.CHANNEL_ID)

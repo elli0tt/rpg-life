@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.elli0tt.rpg_life.presentation.custom_view;
+package com.elli0tt.rpg_life.presentation.custom_view
 
 import android.animation.ObjectAnimator
 import android.content.Context
@@ -80,18 +80,18 @@ class CustomLevelProgressBar @JvmOverloads constructor(
     private var mSetupPending: Boolean = false
 
     private lateinit var bitmapShader: BitmapShader
-    var bitmap: Bitmap? = null
+    private var bitmap: Bitmap? = null
     private val mShaderMatrix = Matrix()
     private var bitmapWidth: Int = 0
     private var bitmapHeight: Int = 0
     private val drawableRect = RectF()
 
-    var radius = 50
+    private var radius = 50
 
     val bitmapRadius
         get() = radius - strokeWidth
 
-    var strokeWidth = DEFAULT_STROKE_WiDTH.toFloat()
+    private var strokeWidth = DEFAULT_STROKE_WiDTH.toFloat()
         set(value) {
             if (value < radius / 3)
                 field = value

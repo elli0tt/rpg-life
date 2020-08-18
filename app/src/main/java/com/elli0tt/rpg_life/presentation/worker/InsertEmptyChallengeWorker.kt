@@ -14,7 +14,7 @@ internal class InsertEmptyChallengeWorker(private val context: Context,
         val id = questsRepository.insertEmptyChallengeSync().toInt()
         val outputData = Data.Builder()
                 .putInt(Constants.KEY_CHALLENGE_ID, id)
-                .build();
-        return Result.success(outputData);
+                .build()
+        return Result.success(outputData)
     }
 }

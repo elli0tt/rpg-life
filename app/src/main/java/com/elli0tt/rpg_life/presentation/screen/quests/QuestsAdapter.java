@@ -1,5 +1,6 @@
 package com.elli0tt.rpg_life.presentation.screen.quests;
 
+import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -212,9 +213,6 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
 
         private QuestsViewModel viewModel;
 
-        private int greenColorId;
-        private int redColorId;
-
         QuestsViewHolder(
                 @NonNull View itemView,
                 final OnIsCompleteCheckBoxClickListener onIsCompleteCheckBoxClickListener,
@@ -235,10 +233,6 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
             dayNumberTextView = itemView.findViewById(R.id.day_number_text_view);
 
             defaultTextViewColor = dateDueTextView.getTextColors();
-            greenColorId =
-                    itemView.getContext().getResources().getColor(R.color.colorBeforeDateDue);
-            redColorId =
-                    itemView.getContext().getResources().getColor(R.color.colorAfterDateDue);
 
             itemView.setOnClickListener(createOnItemClickListener(onItemClickListener));
             itemView.setOnLongClickListener(
@@ -247,6 +241,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
             isImportantCheckBox.setOnClickListener(createOnIsImportantClickListener(onIsImportantCheckBoxClickListener));
         }
 
+        @SuppressLint("SetTextI18n")
         void bind(Quest quest, boolean isSelected) {
             isCompletedCheckBox.setChecked(quest.isCompleted());
             nameTextView.setText(quest.getName());

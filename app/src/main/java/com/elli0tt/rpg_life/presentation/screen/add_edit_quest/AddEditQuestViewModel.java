@@ -18,7 +18,6 @@ import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.data.repository.CharacterRepositoryImpl;
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl;
 import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl;
-import com.elli0tt.rpg_life.domain.model.AddSkillData;
 import com.elli0tt.rpg_life.domain.model.Difficulty;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.repository.CharacterRepository;
@@ -237,7 +236,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         }
     }
 
-    void saveQuest(List<AddSkillData> relatedSkills) {
+    void saveQuest() {
         Quest quest = new Quest();
         quest.setName(name.getValue() == null ? "" : name.getValue());
         quest.setDescription(description.getValue() == null ? "" : description.getValue());
@@ -245,9 +244,12 @@ public class AddEditQuestViewModel extends AndroidViewModel {
                 difficulty.getValue());
         quest.setDateDue(dateDue);
         quest.setStartDate(startDate);
-        quest.setDateDueState(dateDueState.getValue());
-        quest.setStartDateState(startDateState.getValue());
-        quest.setRepeatState(repeatState.getValue());
+        quest.setDateDueState(dateDueState.getValue() == null ? Quest.DEFAULT_DATE_DUE_STATE :
+                dateDueState.getValue());
+        quest.setStartDateState(startDateState.getValue() == null ?
+                Quest.DEFAULT_START_DATE_STATE : startDateState.getValue());
+        quest.setRepeatState(repeatState.getValue() == null ? Quest.DEFAULT_REPEAT_STATE :
+                repeatState.getValue());
         quest.setSubQuest(isSubQuest);
         quest.setParentQuestId(parentQuestId);
 
@@ -478,6 +480,9 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     }
 
     int getSubQuestId(int position) {
+        if (subQuests.getValue() == null) {
+            return Quest.DEFAULT_ID;
+        }
         return subQuests.getValue().get(position).getId();
     }
 

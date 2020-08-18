@@ -2,7 +2,6 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/quest_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryLight">
@@ -33,7 +32,6 @@
         app:layout_anchorGravity="start|center">
 
         <TextView
-            android:id="@+id/add_challenge_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingHorizontal="6dp"
@@ -66,7 +64,6 @@
         app:layout_anchorGravity="start|center">
 
         <TextView
-            android:id="@+id/add_quest_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingHorizontal="6dp"

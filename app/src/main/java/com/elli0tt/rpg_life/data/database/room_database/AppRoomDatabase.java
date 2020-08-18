@@ -26,8 +26,7 @@ import com.elli0tt.rpg_life.domain.model.room_type_converters.DifficultyConverte
 import com.elli0tt.rpg_life.domain.model.room_type_converters.RepeatStateConverter;
 
 @Database(entities = {Characteristic.class, Quest.class, Skill.class, RelatedToQuestSkills.class,
-        SkillsCategory.class}
-        , version = 8, exportSchema = true)
+        SkillsCategory.class}, version = 8)
 @TypeConverters({DifficultyConverter.class, CalendarConverter.class, DateStateConverter.class,
         RepeatStateConverter.class})
 public abstract class AppRoomDatabase extends RoomDatabase {
@@ -150,9 +149,10 @@ public abstract class AppRoomDatabase extends RoomDatabase {
         }
     };
 
-    /**
-     * Drop old table and add new with necessary column example
+    /*
+      Drop old table and add new with necessary column example
      */
+
 //    public static final Migration MIGRATION_4_5 = new Migration(4, 5){
 //        @Override
 //        public void migrate(@NonNull SupportSQLiteDatabase database) {

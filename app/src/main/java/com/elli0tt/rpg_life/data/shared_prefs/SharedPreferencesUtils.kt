@@ -90,6 +90,4 @@ class SharedPreferencesUtils(context: Context) {
             return SkillsSortingState.values()[ordinal]
         }
         set(value) = sharedPreferences.edit().putInt(KEY_SKILLS_SORTING_STATE, value.ordinal).apply()
-
-
 }

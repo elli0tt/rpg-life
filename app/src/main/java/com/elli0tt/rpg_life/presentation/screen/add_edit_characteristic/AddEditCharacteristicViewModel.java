@@ -8,9 +8,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.elli0tt.rpg_life.data.repository.CharacterRepositoryImpl;
+import com.elli0tt.rpg_life.domain.repository.CharacterRepository;
 
 public class AddEditCharacteristicViewModel extends AndroidViewModel {
-    private CharacterRepositoryImpl repository;
+    private CharacterRepository repository;
 
     private MutableLiveData<String> name = new MutableLiveData<>();
 
@@ -19,11 +20,11 @@ public class AddEditCharacteristicViewModel extends AndroidViewModel {
         repository = new CharacterRepositoryImpl(application);
     }
 
-    public LiveData<String> getName(){
+    public LiveData<String> getName() {
         return name;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name.setValue(name);
     }
 }

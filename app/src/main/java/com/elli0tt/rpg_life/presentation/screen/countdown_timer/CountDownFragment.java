@@ -31,7 +31,6 @@ public class CountDownFragment extends Fragment {
     private boolean isStartFabEnabled = true;
 
     private static final String TIME_LEFT_TAG = "time left";
-    private static final String MAX_PROGRESS_TAG = "max progress";
 
     @Nullable
     @Override
@@ -98,7 +97,7 @@ public class CountDownFragment extends Fragment {
             binding.timeLeftTextView.setText(viewModel.getTimeLeft());
             binding.progressBar.setProgress(viewModel.getProgress());
             Log.d(TIME_LEFT_TAG,
-                    viewModel.getTimeLeft() + " " + Integer.toString(viewModel.getProgress()));
+                    viewModel.getTimeLeft() + " " + viewModel.getProgress());
         });
         viewModel.getTimerState().observe(getViewLifecycleOwner(), timerState -> updateButtons());
 
@@ -157,7 +156,11 @@ public class CountDownFragment extends Fragment {
             value -> String.format(Locale.getDefault(), "%02d", value);
 
     private void updateButtons() {
-        switch (viewModel.getTimerState().getValue()) {
+        TimerState timerState = viewModel.getTimerState().getValue();
+        if (timerState == null) {
+            timerState = TimerState.STOPPED;
+        }
+        switch (timerState) {
             case RUNNING:
                 binding.startFab.hide();
                 binding.pauseFab.show();
@@ -183,11 +186,11 @@ public class CountDownFragment extends Fragment {
     private void enableStartFab(boolean enabled) {
         binding.startFab.hide();
         if (enabled) {
-            binding.startFab.setImageDrawable(ContextCompat.getDrawable(getContext(),
+            binding.startFab.setImageDrawable(ContextCompat.getDrawable(requireContext(),
                     R.drawable.ic_play_arrow_white_24dp));
             isStartFabEnabled = true;
         } else {
-            binding.startFab.setImageDrawable(ContextCompat.getDrawable(getContext(),
+            binding.startFab.setImageDrawable(ContextCompat.getDrawable(requireContext(),
                     R.drawable.ic_play_arrow_gray_24dp));
             isStartFabEnabled = false;
         }
