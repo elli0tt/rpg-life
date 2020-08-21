@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#232F34</color>
     <color name="colorPrimaryLight">#4A6572</color>
     <color name="colorAccent">#F9AA33</color>
+    <color name="colorSurface">#344955</color>
+    <color name="colorSecondary">#F9AA33</color>
     <color name="colorAccentDark">#558b2f</color>
     <color name="colorBeforeDateDue">#64dd17</color>
     <color name="colorAfterDateDue">#d50000</color>
