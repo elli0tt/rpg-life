@@ -13,7 +13,6 @@ import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.elli0tt.rpg_life.R
-import com.elli0tt.rpg_life.presentation.custom_view.CustomLevelProgressBar
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.fragment_character.*
@@ -25,7 +24,6 @@ class CharacterFragment : Fragment() {
 
     private lateinit var navController: NavController
     private lateinit var viewModel: CharacterViewModel
-    private lateinit var levelProgressBar: CustomLevelProgressBar
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -36,7 +34,6 @@ class CharacterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(CharacterViewModel::class.java)
         navController = NavHostFragment.findNavController(this)
-        levelProgressBar = view.findViewById(R.id.level_progress_bar)
 
         initViews()
         subscribeToViewModel()
@@ -52,12 +49,11 @@ class CharacterFragment : Fragment() {
     }
 
     private fun subscribeToViewModel() {
-        viewModel.characterCoins.observe(viewLifecycleOwner) {
+        viewModel.userCoins.observe(viewLifecycleOwner) {
             coinsTextView.text = getString(R.string.character_coins, it.toString())
         }
 
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.character_toolbar_menu, menu)
@@ -82,7 +78,7 @@ class CharacterFragment : Fragment() {
         CropImage.activity()
                 .setCropShape(CropImageView.CropShape.OVAL)
                 .setFixAspectRatio(true)
-                .setMinCropResultSize(levelProgressBar.bitmapRadius.toInt() * 2, levelProgressBar.bitmapRadius.toInt() * 2)
+                .setMinCropResultSize(characterImageView.width, characterImageView.height)
                 //.setMaxCropResultSize(levelProgressBar.radius * 2, levelProgressBar.radius * 2)
                 .start(requireContext(), this)
 //        val pickImageIntent = Intent(Intent.ACTION_GET_CONTENT)
@@ -137,12 +133,12 @@ class CharacterFragment : Fragment() {
                         getString(R.string.profile_image_file_name) +
                         ".jpeg")
         if (path.exists()) {
-            levelProgressBar.setImage(BitmapFactory.decodeStream(FileInputStream(path)))
+            characterImageView.setImageBitmap(BitmapFactory.decodeStream(FileInputStream(path)))
         }
     }
 
     private fun setListeners() {
-        levelProgressBar.setOnClickListener(onLevelProgressBarClickListener)
+        characterImageView.setOnClickListener(onLevelProgressBarClickListener)
         increaseCoinsFab.setOnClickListener(onIncreaseCoinsFabClickListener)
         decreaseCoinsFab.setOnClickListener(onDecreaseCoinsFabClickListener)
     }

@@ -14,7 +14,18 @@
         <item name="colorControlNormal">@android:color/transparent</item>
         <item name="android:textSize">60sp</item>
         <item name="android:descendantFocusability">blocksDescendants</item>
+    </style>
 
+    <style name="UserTextView" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/colorTextWhite</item>
+    </style>
+
+    <style name="UserTextViewLarge" parent="UserTextView">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large</item>
+    </style>
+
+    <style name="UserTextViewMedium" parent="UserTextView">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
     </style>
 
 </resources>

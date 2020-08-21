@@ -6,9 +6,10 @@ import com.elli0tt.rpg_life.domain.constants.Constants;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.model.RelatedToQuestSkills;
 import com.elli0tt.rpg_life.domain.model.Skill;
-import com.elli0tt.rpg_life.domain.repository.CharacterRepository;
+import com.elli0tt.rpg_life.domain.model.User;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
+import com.elli0tt.rpg_life.domain.repository.UserRepository;
 
 import java.util.Calendar;
 import java.util.List;
@@ -16,14 +17,14 @@ import java.util.List;
 public class CompleteQuestUseCase {
     private QuestsRepository questsRepository;
     private SkillsRepository skillsRepository;
-    private CharacterRepository characterRepository;
+    private UserRepository userRepository;
 
     public CompleteQuestUseCase(QuestsRepository questsRepository,
                                 SkillsRepository skillsRepository,
-                                CharacterRepository characterRepository) {
+                                UserRepository userRepository) {
         this.questsRepository = questsRepository;
         this.skillsRepository = skillsRepository;
-        this.characterRepository = characterRepository;
+        this.userRepository = userRepository;
     }
 
     public void invoke(Quest quest, boolean isCompleted) {
@@ -183,6 +184,8 @@ public class CompleteQuestUseCase {
     }
 
     private void increaseCharacterCoins(int characterCoins) {
-        characterRepository.setCharacterCoins(characterRepository.getCharacterCoins() + characterCoins);
+        User user = userRepository.getUser();
+        user.setCoinsCount(user.getCoinsCount() + characterCoins);
+        userRepository.setUser(user);
     }
 }

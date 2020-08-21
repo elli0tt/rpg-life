@@ -2,8 +2,9 @@ package com.elli0tt.rpg_life.domain.repository
 
 import androidx.lifecycle.LiveData
 import com.elli0tt.rpg_life.domain.model.Characteristic
+import com.elli0tt.rpg_life.domain.model.User
 
-interface CharacterRepository {
+interface UserRepository {
     val allCharacteristics: LiveData<List<Characteristic>>
 
     fun insertCharacteristics(characteristic: Characteristic)
@@ -11,5 +12,5 @@ interface CharacterRepository {
     fun deleteCharacteristic()
     fun updateCharacteristic()
 
-    var characterCoins: Int
+    var user: User
 }

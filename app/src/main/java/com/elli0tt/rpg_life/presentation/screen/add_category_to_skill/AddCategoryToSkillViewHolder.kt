@@ -9,7 +9,7 @@ import com.elli0tt.rpg_life.domain.model.SkillsCategory
 class AddCategoryToSkillViewHolder(itemView: View,
                                    onItemClickListener: AddCategoryToSkillAdapter.OnItemClickListener)
     : RecyclerView.ViewHolder(itemView) {
-    private val nameTextView: TextView = itemView.findViewById(R.id.name_text_view)
+    private val nameTextView: TextView = itemView.findViewById(R.id.nameTextView)
 
     init{
         itemView.setOnClickListener {

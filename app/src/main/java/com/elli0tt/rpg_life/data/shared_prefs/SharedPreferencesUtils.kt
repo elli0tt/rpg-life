@@ -1,10 +1,12 @@
 package com.elli0tt.rpg_life.data.shared_prefs
 
 import android.content.Context
+import com.elli0tt.rpg_life.domain.model.User
 import com.elli0tt.rpg_life.presentation.screen.countdown_timer.TimerState
 import com.elli0tt.rpg_life.presentation.screen.quests.QuestsFilterState
 import com.elli0tt.rpg_life.presentation.screen.quests.QuestsSortingState
 import com.elli0tt.rpg_life.presentation.screen.skills.SkillsSortingState
+import com.google.gson.Gson
 
 class SharedPreferencesUtils(context: Context) {
 
@@ -14,7 +16,7 @@ class SharedPreferencesUtils(context: Context) {
     private companion object {
         const val SHARED_PREFERENCES_NAME = "com.elli0tt.rpg_life.data.shared_prefs.SharedPreferencesUtils"
 
-        const val KEY_CHARACTER_COINS = "KEY_CHARACTER_COINS"
+        const val KEY_USER = "KEY_USER"
         const val KEY_TIME_LEFT_SECONDS = "time left seconds"
         const val KEY_END_TIME = "end time"
         const val KEY_TIMER_STATE = "is timer running"
@@ -25,7 +27,7 @@ class SharedPreferencesUtils(context: Context) {
         const val KEY_SHOW_COMPLETED = "key show completed"
         const val KEY_SKILLS_SORTING_STATE = "key skills sorting state"
 
-        const val DEFAULT_CHARACTER_COINS = 0
+        val DEFAULT_USER: String = Gson().toJson(User())
         const val DEFAULT_TIME_LEFT_SECONDS = 60000L
         const val DEFAULT_END_TIME = 0L
         val DEFAULT_TIMER_STATE = TimerState.STOPPED
@@ -36,9 +38,11 @@ class SharedPreferencesUtils(context: Context) {
         const val DEFAULT_IS_SHOW_COMPLETED = false
     }
 
-    var characterCoins: Int
-        get() = sharedPreferences.getInt(KEY_CHARACTER_COINS, DEFAULT_CHARACTER_COINS)
-        set(value) = sharedPreferences.edit().putInt(KEY_CHARACTER_COINS, value).apply()
+    var user: User
+        get() =
+            Gson().fromJson(sharedPreferences.getString(KEY_USER, DEFAULT_USER), User::class.java)
+        set(value) =
+            sharedPreferences.edit().putString(KEY_USER, Gson().toJson(value)).apply()
 
     var timeLeftSeconds: Long
         get() = sharedPreferences.getLong(KEY_TIME_LEFT_SECONDS, DEFAULT_TIME_LEFT_SECONDS)

@@ -6,7 +6,7 @@
     android:layout_margin="16dp">
 
     <TextView
-        android:id="@+id/name_text_view"
+        android:id="@+id/nameTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="30sp"

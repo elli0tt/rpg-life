@@ -7,9 +7,10 @@ import com.elli0tt.rpg_life.data.dao.CharacteristicsDao
 import com.elli0tt.rpg_life.data.database.room_database.AppRoomDatabase
 import com.elli0tt.rpg_life.data.shared_prefs.SharedPreferencesUtils
 import com.elli0tt.rpg_life.domain.model.Characteristic
-import com.elli0tt.rpg_life.domain.repository.CharacterRepository
+import com.elli0tt.rpg_life.domain.model.User
+import com.elli0tt.rpg_life.domain.repository.UserRepository
 
-class CharacterRepositoryImpl(application: Application?) : CharacterRepository {
+class UserRepositoryImpl(application: Application?) : UserRepository {
 
     private val characteristicsDao: CharacteristicsDao
 
@@ -50,9 +51,9 @@ class CharacterRepositoryImpl(application: Application?) : CharacterRepository {
     override fun deleteCharacteristic() {}
     override fun updateCharacteristic() {}
 
-    override var characterCoins: Int
-        get() = sharedPreferencesUtils.characterCoins
+    override var user: User
+        get() = sharedPreferencesUtils.user
         set(value) {
-            sharedPreferencesUtils.characterCoins = value
+            sharedPreferencesUtils.user = value
         }
 }

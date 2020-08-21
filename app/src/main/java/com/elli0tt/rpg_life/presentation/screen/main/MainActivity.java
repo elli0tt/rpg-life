@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
 
     private ConstraintLayout mainLayout;
+    private Toolbar toolbar;
 
     public static final String CHANNEL_ID = "channel 1";
 
@@ -30,9 +31,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         mainLayout = findViewById(R.id.main_layout);
+
+        setupToolbar();
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
@@ -47,9 +49,14 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 bottomNavigationView.setVisibility(View.GONE);
             }
+
+            if (id == R.id.character_screen) {
+                toolbar.setVisibility(View.GONE);
+            } else {
+                toolbar.setVisibility(View.VISIBLE);
+            }
         });
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
-        setupToolbar();
         createNotificationChannel();
 
 //        WallpaperManager wallpaperManager = WallpaperManager.getInstance(this);
@@ -57,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupToolbar() {
-        Toolbar toolbar = findViewById(R.id.main_toolbar);
+        toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
     }
 

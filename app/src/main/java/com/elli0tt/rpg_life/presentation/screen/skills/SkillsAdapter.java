@@ -78,7 +78,7 @@ public class SkillsAdapter extends ListAdapter<Skill, SkillsAdapter.ViewHolder> 
                    final OnStartTimerFabClickListener onStartTimerFabClickListener,
                    final OnItemClickListener onItemClickListener) {
             super(itemView);
-            nameTextView = itemView.findViewById(R.id.name_text_view);
+            nameTextView = itemView.findViewById(R.id.nameTextView);
             startTimerImageView = itemView.findViewById(R.id.start_timer_image_view);
             levelTextView = itemView.findViewById(R.id.level_value_text_view);
             xpProgressBar = itemView.findViewById(R.id.xp_progress_bar);

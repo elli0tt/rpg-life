@@ -7,17 +7,17 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.elli0tt.rpg_life.data.repository.CharacterRepositoryImpl;
-import com.elli0tt.rpg_life.domain.repository.CharacterRepository;
+import com.elli0tt.rpg_life.data.repository.UserRepositoryImpl;
+import com.elli0tt.rpg_life.domain.repository.UserRepository;
 
 public class AddEditCharacteristicViewModel extends AndroidViewModel {
-    private CharacterRepository repository;
+    private UserRepository repository;
 
     private MutableLiveData<String> name = new MutableLiveData<>();
 
     public AddEditCharacteristicViewModel(@NonNull Application application) {
         super(application);
-        repository = new CharacterRepositoryImpl(application);
+        repository = new UserRepositoryImpl(application);
     }
 
     public LiveData<String> getName() {

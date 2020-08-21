@@ -4,26 +4,32 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.elli0tt.rpg_life.data.repository.CharacterRepositoryImpl
+import androidx.lifecycle.Transformations
+import com.elli0tt.rpg_life.data.repository.UserRepositoryImpl
 import com.elli0tt.rpg_life.domain.model.Characteristic
+import com.elli0tt.rpg_life.domain.model.User
 import java.util.*
 
 class CharacterViewModel(application: Application) : AndroidViewModel(application) {
-    private val characterRepository: CharacterRepositoryImpl = CharacterRepositoryImpl(application)
+    private val userRepository: UserRepositoryImpl = UserRepositoryImpl(application)
     private val allCharacteristics: LiveData<List<Characteristic>>
 
-    private var _characterCoins = MutableLiveData<Int>(characterRepository.characterCoins)
-    val characterCoins: LiveData<Int> = _characterCoins
+    private var _user = MutableLiveData(userRepository.user)
+    val user: LiveData<User> = _user
+
+    val userCoins: LiveData<Int> = Transformations.map(_user) {
+        it.coinsCount
+    }
 
     private var _snackbarTextResId = MutableLiveData<Int>()
     val snackbarTextResId: LiveData<Int> = _snackbarTextResId
 
     init {
-        allCharacteristics = characterRepository.allCharacteristics
+        allCharacteristics = userRepository.allCharacteristics
     }
 
     fun insert(characteristic: Characteristic) {
-        characterRepository.insertCharacteristics(characteristic)
+        userRepository.insertCharacteristics(characteristic)
     }
 
     private fun generateSampleCharacteristicsList(): List<Characteristic> {
@@ -40,16 +46,20 @@ class CharacterViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun populateWithSamples() {
-        characterRepository.insertCharacteristics(generateSampleCharacteristicsList())
+        userRepository.insertCharacteristics(generateSampleCharacteristicsList())
     }
 
     fun addOneCoin() {
-        _characterCoins.value = (_characterCoins.value ?: 0) + 1
-        characterRepository.characterCoins = characterCoins.value ?: 0
+        val newUser = _user.value!!
+        newUser.coinsCount = newUser.coinsCount + 1
+        _user.value = newUser
+        userRepository.user = user.value!!
     }
 
     fun takeOneCoin() {
-        _characterCoins.value = (_characterCoins.value ?: 0) - 1
-        characterRepository.characterCoins = characterCoins.value ?: 0
+        val newUser = _user.value!!
+        newUser.coinsCount = newUser.coinsCount - 1
+        _user.value = newUser
+        userRepository.user = user.value!!
     }
 }

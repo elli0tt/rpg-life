@@ -13,11 +13,11 @@ import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
 import com.elli0tt.rpg_life.R;
-import com.elli0tt.rpg_life.data.repository.CharacterRepositoryImpl;
+import com.elli0tt.rpg_life.data.repository.UserRepositoryImpl;
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl;
 import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl;
 import com.elli0tt.rpg_life.domain.model.Quest;
-import com.elli0tt.rpg_life.domain.repository.CharacterRepository;
+import com.elli0tt.rpg_life.domain.repository.UserRepository;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTodayCalendarUseCase;
@@ -54,7 +54,7 @@ public class QuestsViewModel extends AndroidViewModel {
 
     private QuestsRepository questsRepository;
     private SkillsRepository skillsRepository;
-    private CharacterRepository characterRepository;
+    private UserRepository userRepository;
 
     private WorkManager workManager;
     private OneTimeWorkRequest insertEmptyQuestWorkRequest;
@@ -78,11 +78,11 @@ public class QuestsViewModel extends AndroidViewModel {
 
         questsRepository = new QuestsRepositoryImpl(application);
         skillsRepository = new SkillsRepositoryImpl(application);
-        characterRepository = new CharacterRepositoryImpl(application);
+        userRepository = new UserRepositoryImpl(application);
 
         populateWithSamplesUseCase = new PopulateWithSamplesUseCase(questsRepository);
         completeQuestUseCase = new CompleteQuestUseCase(questsRepository, skillsRepository,
-                characterRepository);
+                userRepository);
         setQuestImportantUseCase = new SetQuestImportantUseCase(questsRepository);
 
         currentFilterState.setValue(questsRepository.getQuestsFilterState());

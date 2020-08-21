@@ -11,7 +11,7 @@ class AddSkillsToQuestViewHolder(itemView: View,
                                  onXpPercentageSeekBarTouchStopListener: AddSkillsToQuestAdapter.OnXpPercentageSeekBarTouchStopListener)
     : RecyclerView.ViewHolder(itemView) {
 
-    private val nameTextView: TextView = itemView.findViewById(R.id.name_text_view)
+    private val nameTextView: TextView = itemView.findViewById(R.id.nameTextView)
     private val xpPercentageSeekBar: SeekBar = itemView.findViewById(R.id.xp_percentage_seek_bar)
     private val xpValueTextView: TextView = itemView.findViewById(R.id.xp_text_view)
 

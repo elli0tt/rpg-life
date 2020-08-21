@@ -78,6 +78,7 @@ dependencies {
 
     //Circular progress bar
     implementation 'me.zhanghai.android.materialprogressbar:library:1.6.1'
+
     implementation 'androidx.preference:preference:1.1.1'
 
     implementation "androidx.core:core-ktx:1.3.1"
@@ -102,6 +103,10 @@ dependencies {
     //Dagger 2
     implementation "com.google.dagger:dagger:$rootProject.daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
+
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.sasank.roundedhorizontalprogress:roundedhorizontalprogress:1.0.1'
 }
 repositories {
     mavenCentral()

@@ -15,12 +15,12 @@ import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
 import com.elli0tt.rpg_life.R;
-import com.elli0tt.rpg_life.data.repository.CharacterRepositoryImpl;
+import com.elli0tt.rpg_life.data.repository.UserRepositoryImpl;
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl;
 import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl;
 import com.elli0tt.rpg_life.domain.model.Difficulty;
 import com.elli0tt.rpg_life.domain.model.Quest;
-import com.elli0tt.rpg_life.domain.repository.CharacterRepository;
+import com.elli0tt.rpg_life.domain.repository.UserRepository;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetClosestWeekdayCalendarUseCase;
@@ -90,7 +90,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
     private QuestsRepository questsRepository;
     private SkillsRepository skillsRepository;
-    private CharacterRepository characterRepository;
+    private UserRepository userRepository;
 
     private DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG);
     private DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
@@ -108,10 +108,10 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
         questsRepository = new QuestsRepositoryImpl(application);
         skillsRepository = new SkillsRepositoryImpl(application);
-        characterRepository = new CharacterRepositoryImpl(application);
+        userRepository = new UserRepositoryImpl(application);
 
         completeQuestUseCase = new CompleteQuestUseCase(questsRepository, skillsRepository,
-                characterRepository);
+                userRepository);
 
         today = application.getString(R.string.quest_date_due_today);
         tomorrow = application.getString(R.string.quest_date_due_tomorrow);
