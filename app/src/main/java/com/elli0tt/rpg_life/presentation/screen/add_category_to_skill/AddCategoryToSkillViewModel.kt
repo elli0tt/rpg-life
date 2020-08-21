@@ -13,7 +13,7 @@ class AddCategoryToSkillViewModel(application: Application) : AndroidViewModel(a
 
     val skillsCategoriesToShow = skillsCategoriesRepository.getAllSkillsCategories()
 
-    fun updateCategory(position: Int, skillId: Int){
+    fun updateCategory(position: Int, skillId: Int) {
         skillsRepository.updateSkillCategoryById(skillId, skillsCategoriesToShow.value?.get(position)!!.id)
     }
 }

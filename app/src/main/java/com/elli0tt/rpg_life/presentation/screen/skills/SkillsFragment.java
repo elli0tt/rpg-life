@@ -32,6 +32,9 @@ public class SkillsFragment extends Fragment {
 
     private NavController navController;
     private SkillsAdapter skillsAdapter = new SkillsAdapter();
+    private View.OnClickListener onAddSkillFabClickListener = v -> viewModel.insertEmptySkill();
+    private View.OnClickListener onSortUpDownArrowsViewClickListener =
+            view -> viewModel.changeSortingDirection();
 
     @Nullable
     @Override
@@ -69,11 +72,6 @@ public class SkillsFragment extends Fragment {
             }
         }
     }
-
-    private View.OnClickListener onAddSkillFabClickListener = v -> viewModel.insertEmptySkill();
-
-    private View.OnClickListener onSortUpDownArrowsViewClickListener =
-            view -> viewModel.changeSortingDirection();
 
     private void setupRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,

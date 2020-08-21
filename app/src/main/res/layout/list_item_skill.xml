@@ -14,7 +14,7 @@
         android:orientation="vertical"
         android:padding="8dp">
 
-        <TextView
+        <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/nameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:text="Skill 1" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/level_label_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/xp_progress_bar" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/level_value_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_timer_black_24dp" />
 
-        <TextView
+        <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/xp_left_to_next_level_value_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -21,28 +21,13 @@ public class CountDownTimerRepositoryImpl implements CountDownTimerRepository {
     }
 
     @Override
-    public long getEndTime() {
-        return sharedPreferencesUtils.getEndTime();
-    }
-
-    @Override
-    public TimerState getTimerState() {
-        return sharedPreferencesUtils.getTimerState();
-    }
-
-    @Override
-    public long getTimerLengthSeconds() {
-        return sharedPreferencesUtils.getTimerLengthSeconds();
-    }
-
-    @Override
-    public boolean getIsTimerNew() {
-        return sharedPreferencesUtils.isTimerNew();
-    }
-
-    @Override
     public void setTimeLeftSeconds(long timeLeftSeconds) {
         sharedPreferencesUtils.setTimeLeftSeconds(timeLeftSeconds);
+    }
+
+    @Override
+    public long getEndTime() {
+        return sharedPreferencesUtils.getEndTime();
     }
 
     @Override
@@ -51,13 +36,28 @@ public class CountDownTimerRepositoryImpl implements CountDownTimerRepository {
     }
 
     @Override
+    public TimerState getTimerState() {
+        return sharedPreferencesUtils.getTimerState();
+    }
+
+    @Override
     public void setTimerState(TimerState timerState) {
         sharedPreferencesUtils.setTimerState(timerState);
     }
 
     @Override
+    public long getTimerLengthSeconds() {
+        return sharedPreferencesUtils.getTimerLengthSeconds();
+    }
+
+    @Override
     public void setTimerLengthSeconds(long timerLengthSeconds) {
         sharedPreferencesUtils.setTimerLengthSeconds(timerLengthSeconds);
+    }
+
+    @Override
+    public boolean getIsTimerNew() {
+        return sharedPreferencesUtils.isTimerNew();
     }
 
     @Override

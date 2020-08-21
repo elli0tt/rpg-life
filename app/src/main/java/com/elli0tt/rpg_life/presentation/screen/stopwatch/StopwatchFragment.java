@@ -23,6 +23,28 @@ public class StopwatchFragment extends Fragment {
     private Chronometer chronometer;
 
     private long pauseOffSet;
+    private View.OnClickListener startButtonOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            chronometer.setBase(SystemClock.elapsedRealtime() - pauseOffSet);
+            chronometer.start();
+        }
+    };
+    private View.OnClickListener pauseButtonOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            chronometer.stop();
+            pauseOffSet = SystemClock.elapsedRealtime() - chronometer.getBase();
+        }
+    };
+    private View.OnClickListener resetButtonOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            chronometer.stop();
+            chronometer.setBase(SystemClock.elapsedRealtime());
+            pauseOffSet = 0;
+        }
+    };
 
     @Nullable
     @Override
@@ -45,31 +67,6 @@ public class StopwatchFragment extends Fragment {
         pauseButton.setOnClickListener(pauseButtonOnClickListener);
         resetButton.setOnClickListener(resetButtonOnClickListener);
     }
-
-    private View.OnClickListener startButtonOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            chronometer.setBase(SystemClock.elapsedRealtime() - pauseOffSet);
-            chronometer.start();
-        }
-    };
-
-    private View.OnClickListener pauseButtonOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            chronometer.stop();
-            pauseOffSet = SystemClock.elapsedRealtime() - chronometer.getBase();
-        }
-    };
-
-    private View.OnClickListener resetButtonOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            chronometer.stop();
-            chronometer.setBase(SystemClock.elapsedRealtime());
-            pauseOffSet = 0;
-        }
-    };
 
 
 }

@@ -5,6 +5,7 @@ import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
 
 public class PopulateWithSamplesUseCase {
     private QuestsRepository questsRepository;
+
     public PopulateWithSamplesUseCase(QuestsRepository repository) {
         questsRepository = repository;
     }
@@ -18,7 +19,7 @@ public class PopulateWithSamplesUseCase {
         return result;
     }
 
-    public void invoke(){
+    public void invoke() {
         questsRepository.insertQuests(generateSampleQuestsList());
     }
 

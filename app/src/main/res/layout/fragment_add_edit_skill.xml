@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="viewModel"
             type="com.elli0tt.rpg_life.presentation.screen.add_edit_skill.AddEditSkillViewModel" />
@@ -34,8 +36,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             app:icon="@drawable/ic_group_add_black_24dp"
-            app:text="@string/add_edit_skill_add_category"
-            app:layout_constraintTop_toBottomOf="@id/name_text_input"/>
+            app:layout_constraintTop_toBottomOf="@id/name_text_input"
+            app:text="@string/add_edit_skill_add_category" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

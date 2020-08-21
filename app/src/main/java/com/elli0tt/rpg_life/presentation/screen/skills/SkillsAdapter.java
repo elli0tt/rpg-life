@@ -18,29 +18,6 @@ import com.elli0tt.rpg_life.domain.model.Skill;
 
 public class SkillsAdapter extends ListAdapter<Skill, SkillsAdapter.ViewHolder> {
 
-    public interface OnStartTimerFabClickListener {
-        void onClick();
-    }
-
-    public interface OnItemClickListener{
-        void onClick(int position);
-    }
-
-    private OnStartTimerFabClickListener onStartTimerFabClickListener;
-    private OnItemClickListener onItemClickListener;
-
-    void setOnStartTimerFabClickListener(OnStartTimerFabClickListener listener) {
-        onStartTimerFabClickListener = listener;
-    }
-
-    void setOnItemClickListener(OnItemClickListener listener){
-        onItemClickListener = listener;
-    }
-
-    SkillsAdapter() {
-        super(DIFF_CALLBACK);
-    }
-
     private static final DiffUtil.ItemCallback<Skill> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<Skill>() {
                 @Override
@@ -53,11 +30,24 @@ public class SkillsAdapter extends ListAdapter<Skill, SkillsAdapter.ViewHolder> 
                     return oldItem.getName().equals(newItem.getName());
                 }
             };
+    private OnStartTimerFabClickListener onStartTimerFabClickListener;
+    private OnItemClickListener onItemClickListener;
+    SkillsAdapter() {
+        super(DIFF_CALLBACK);
+    }
+
+    void setOnStartTimerFabClickListener(OnStartTimerFabClickListener listener) {
+        onStartTimerFabClickListener = listener;
+    }
+
+    void setOnItemClickListener(OnItemClickListener listener) {
+        onItemClickListener = listener;
+    }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.skill_recycler_item,
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_skill,
                 parent, false);
         return new ViewHolder(view, onStartTimerFabClickListener, onItemClickListener);
     }
@@ -65,6 +55,14 @@ public class SkillsAdapter extends ListAdapter<Skill, SkillsAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bind(getItem(position));
+    }
+
+    public interface OnStartTimerFabClickListener {
+        void onClick();
+    }
+
+    public interface OnItemClickListener {
+        void onClick(int position);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -87,7 +85,7 @@ public class SkillsAdapter extends ListAdapter<Skill, SkillsAdapter.ViewHolder> 
 
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
-                if (onItemClickListener != null && position != RecyclerView.NO_POSITION){
+                if (onItemClickListener != null && position != RecyclerView.NO_POSITION) {
                     onItemClickListener.onClick(position);
                 }
             });

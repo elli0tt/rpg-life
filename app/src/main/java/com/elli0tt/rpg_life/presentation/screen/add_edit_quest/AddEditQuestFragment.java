@@ -44,27 +44,111 @@ import static android.content.pm.PackageManager.PERMISSION_DENIED;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 public class AddEditQuestFragment extends Fragment {
+    public static final String EXTRA_REMINDER_TITLE = "com.elli0tt.rpg_life.presentation" +
+            ".add_edit_quest_extra_reminder_title";
+    public static final String EXTRA_NOTIFICATION_ID = "com.elli0tt.rpg_life.presentation" +
+            ".add_edit_quest_extra_notification_id";
+    private static final int REQUEST_PERMISSIONS = 1000;
     private FragmentAddEditQuestBinding binding;
-
     private SubQuestsAdapter subQuestsAdapter;
-
     private NavController navController;
-
     private AddEditQuestViewModel viewModel;
-
     private String veryEasyTitle;
     private String easyTitle;
     private String normalTitle;
     private String hardTitle;
     private String veryHardTitle;
     private String impossibleTitle;
+    private View.OnFocusChangeListener onEditTextsFocusChangeListener = (view, hasFocus) -> {
+        if (hasFocus) {
+            SoftKeyboardUtil.showKeyboard(view, getActivity());
+        } else {
+            SoftKeyboardUtil.hideKeyboard(view, getActivity());
+        }
+    };
+    private View.OnClickListener onRemoveDateDueViewClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            SoftKeyboardUtil.hideKeyboard(v, getActivity());
+            viewModel.removeDateDue();
+        }
+    };
+    private View.OnClickListener onRepeatViewClickListener = v -> {
+        SoftKeyboardUtil.hideKeyboard(v, getActivity());
+        showRepeatPopup(v);
+    };
+    private View.OnClickListener onRemoveRepeatViewClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            SoftKeyboardUtil.hideKeyboard(v, getActivity());
+            viewModel.removeRepeat();
+        }
+    };
+    private DatePickerDialog.OnDateSetListener onStartDateSetListener =
+            (view, year, month, dayOfMonth) -> viewModel.setStartDate(year, month, dayOfMonth);
+    private TimePickerDialog.OnTimeSetListener onStartTimeSetListener =
+            (view, hourOfDay, minute) -> viewModel.setStartTime(hourOfDay, minute);
+    private DatePickerDialog.OnDateSetListener onDateDueSetListener =
+            (view, year, month, dayOfMonth) -> viewModel.setDateDue(year, month, dayOfMonth);
+    private View.OnClickListener onAddDateDueViewClickListener = v -> {
+        SoftKeyboardUtil.hideKeyboard(v, getActivity());
+        showAddDateDuePopupMenu(v);
+    };
+    private TimePickerDialog.OnTimeSetListener onTimeDueSetListener =
+            (view, hourOfDay, minute) -> viewModel.setDateDue(hourOfDay, minute);
+    private TimePickerDialog.OnTimeSetListener onReminderTimeSetListener = (view, hourOfDay,
+                                                                            minute) -> {
+        viewModel.setReminderTime(hourOfDay, minute);
+        setReminderAlarm();
+    };
+    private DatePickerDialog.OnDateSetListener onReminderDateSetListener = (view, year, month,
+                                                                            dayOfMonth) -> {
+        viewModel.setReminderDate(year, month, dayOfMonth);
+        pickTime(onReminderTimeSetListener);
+    };
+    private View.OnClickListener onAddSubQuestButtonClickListener =
+            v -> viewModel.insertEmptyQuest();
+    private View.OnClickListener onAddSkillsButtonClickListener = v ->
+            navigateToAddSkillsToQuestScreen();
+    private View.OnClickListener onDifficultyViewClickListener = v -> {
+        SoftKeyboardUtil.hideKeyboard(v, getActivity());
+        showDifficultyPopupMenu(v);
+    };
+    private View.OnClickListener onRemoveDifficultyViewClickListener = v -> {
+        SoftKeyboardUtil.hideKeyboard(v, getActivity());
+        binding.difficultyView.setText(R.string.add_difficulty);
+        viewModel.removeDifficulty();
+    };
+    private View.OnClickListener onAddStartDateViewClickListener = v -> {
+        SoftKeyboardUtil.hideKeyboard(v, getActivity());
+        showAddStartDatePopupMenu(v);
+    };
+    private View.OnClickListener onRemoveStartDateViewClickListener = v -> {
+        SoftKeyboardUtil.hideKeyboard(v, getActivity());
+        viewModel.removeStartDate();
+    };
+    private View.OnClickListener onAddStartTimeViewClickListener = v -> {
+        SoftKeyboardUtil.hideKeyboard(v, getActivity());
+        pickTime(onStartTimeSetListener);
+    };
+    private View.OnClickListener onRemoveStartTimeViewClickListener = v -> {
+        SoftKeyboardUtil.hideKeyboard(v, getActivity());
+        viewModel.removeStartTime();
+    };
+    private View.OnClickListener onAddTimeDueViewClickListener = v -> {
+        SoftKeyboardUtil.hideKeyboard(v, getActivity());
+        pickTime(onTimeDueSetListener);
+    };
+    private View.OnClickListener onRemoveTimeDueViewClickListener = v -> {
+        SoftKeyboardUtil.hideKeyboard(v, getActivity());
+        viewModel.removeTimeDue();
+    };
+    private View.OnClickListener onAddToCalendarClickListener = v -> checkPermissions();
+    private View.OnClickListener onAddReminderViewClickListener = v ->
+            pickDate(onReminderDateSetListener);
+    private View.OnClickListener onRemoveReminderViewClickListener = v -> {
 
-    private static final int REQUEST_PERMISSIONS = 1000;
-
-    public static final String EXTRA_REMINDER_TITLE = "com.elli0tt.rpg_life.presentation" +
-            ".add_edit_quest_extra_reminder_title";
-    public static final String EXTRA_NOTIFICATION_ID = "com.elli0tt.rpg_life.presentation" +
-            ".add_edit_quest_extra_notification_id";
+    };
 
     @Nullable
     @Override
@@ -300,120 +384,6 @@ public class AddEditQuestFragment extends Fragment {
                 RecyclerView.VERTICAL, false));
         binding.subquestsRecycler.setAdapter(subQuestsAdapter);
     }
-
-    private View.OnFocusChangeListener onEditTextsFocusChangeListener = (view, hasFocus) -> {
-        if (hasFocus) {
-            SoftKeyboardUtil.showKeyboard(view, getActivity());
-        } else {
-            SoftKeyboardUtil.hideKeyboard(view, getActivity());
-        }
-    };
-
-    private View.OnClickListener onAddDateDueViewClickListener = v -> {
-        SoftKeyboardUtil.hideKeyboard(v, getActivity());
-        showAddDateDuePopupMenu(v);
-    };
-
-    private View.OnClickListener onRemoveDateDueViewClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            SoftKeyboardUtil.hideKeyboard(v, getActivity());
-            viewModel.removeDateDue();
-        }
-    };
-
-    private View.OnClickListener onRepeatViewClickListener = v -> {
-        SoftKeyboardUtil.hideKeyboard(v, getActivity());
-        showRepeatPopup(v);
-    };
-
-    private View.OnClickListener onRemoveRepeatViewClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            SoftKeyboardUtil.hideKeyboard(v, getActivity());
-            viewModel.removeRepeat();
-        }
-    };
-
-    private DatePickerDialog.OnDateSetListener onStartDateSetListener =
-            (view, year, month, dayOfMonth) -> viewModel.setStartDate(year, month, dayOfMonth);
-
-    private TimePickerDialog.OnTimeSetListener onStartTimeSetListener =
-            (view, hourOfDay, minute) -> viewModel.setStartTime(hourOfDay, minute);
-
-    private DatePickerDialog.OnDateSetListener onDateDueSetListener =
-            (view, year, month, dayOfMonth) -> viewModel.setDateDue(year, month, dayOfMonth);
-
-    private TimePickerDialog.OnTimeSetListener onTimeDueSetListener =
-            (view, hourOfDay, minute) -> viewModel.setDateDue(hourOfDay, minute);
-
-    private TimePickerDialog.OnTimeSetListener onReminderTimeSetListener = (view, hourOfDay,
-                                                                            minute) -> {
-        viewModel.setReminderTime(hourOfDay, minute);
-        setReminderAlarm();
-    };
-
-    private DatePickerDialog.OnDateSetListener onReminderDateSetListener = (view, year, month,
-                                                                            dayOfMonth) -> {
-        viewModel.setReminderDate(year, month, dayOfMonth);
-        pickTime(onReminderTimeSetListener);
-    };
-
-    private View.OnClickListener onAddSubQuestButtonClickListener =
-            v -> viewModel.insertEmptyQuest();
-
-    private View.OnClickListener onAddSkillsButtonClickListener = v ->
-            navigateToAddSkillsToQuestScreen();
-
-    private View.OnClickListener onDifficultyViewClickListener = v -> {
-        SoftKeyboardUtil.hideKeyboard(v, getActivity());
-        showDifficultyPopupMenu(v);
-    };
-
-    private View.OnClickListener onRemoveDifficultyViewClickListener = v -> {
-        SoftKeyboardUtil.hideKeyboard(v, getActivity());
-        binding.difficultyView.setText(R.string.add_difficulty);
-        viewModel.removeDifficulty();
-    };
-
-    private View.OnClickListener onAddStartDateViewClickListener = v -> {
-        SoftKeyboardUtil.hideKeyboard(v, getActivity());
-        showAddStartDatePopupMenu(v);
-    };
-
-    private View.OnClickListener onRemoveStartDateViewClickListener = v -> {
-        SoftKeyboardUtil.hideKeyboard(v, getActivity());
-        viewModel.removeStartDate();
-    };
-
-    private View.OnClickListener onAddStartTimeViewClickListener = v -> {
-        SoftKeyboardUtil.hideKeyboard(v, getActivity());
-        pickTime(onStartTimeSetListener);
-    };
-
-    private View.OnClickListener onRemoveStartTimeViewClickListener = v -> {
-        SoftKeyboardUtil.hideKeyboard(v, getActivity());
-        viewModel.removeStartTime();
-    };
-
-    private View.OnClickListener onAddTimeDueViewClickListener = v -> {
-        SoftKeyboardUtil.hideKeyboard(v, getActivity());
-        pickTime(onTimeDueSetListener);
-    };
-
-    private View.OnClickListener onRemoveTimeDueViewClickListener = v -> {
-        SoftKeyboardUtil.hideKeyboard(v, getActivity());
-        viewModel.removeTimeDue();
-    };
-
-    private View.OnClickListener onAddToCalendarClickListener = v -> checkPermissions();
-
-    private View.OnClickListener onAddReminderViewClickListener = v ->
-            pickDate(onReminderDateSetListener);
-
-    private View.OnClickListener onRemoveReminderViewClickListener = v -> {
-
-    };
 
     private void addToGoogleCalendar() {
         ContentResolver contentResolver = requireActivity().getContentResolver();

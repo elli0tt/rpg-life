@@ -10,7 +10,7 @@ import com.elli0tt.rpg_life.domain.repository.SkillsCategoriesRepository
 import kotlinx.coroutines.launch
 
 class AddEditSkillsCategoryViewModel(application: Application) : AndroidViewModel(application) {
-    enum class Mode{
+    enum class Mode {
         ADD, EDIT
     }
 
@@ -22,8 +22,8 @@ class AddEditSkillsCategoryViewModel(application: Application) : AndroidViewMode
 
     private var categoryId: Int = 0
 
-    fun start(categoryId: Int){
-        if (categoryId != 0){
+    fun start(categoryId: Int) {
+        if (categoryId != 0) {
             this.categoryId = categoryId
             mode = Mode.EDIT
             viewModelScope.launch {
@@ -33,8 +33,8 @@ class AddEditSkillsCategoryViewModel(application: Application) : AndroidViewMode
         }
     }
 
-    fun save(){
-        when(mode){
+    fun save() {
+        when (mode) {
             Mode.ADD -> {
                 viewModelScope.launch {
                     val skillsCategory = SkillsCategory(name = name.value ?: "")

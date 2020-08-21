@@ -9,7 +9,7 @@ import com.elli0tt.rpg_life.domain.model.AddSkillData
 
 class AddSkillsToQuestAdapter : ListAdapter<AddSkillData, AddSkillsToQuestViewHolder>(DIFF_CALLBACK) {
 
-    interface OnXpPercentageSeekBarTouchStopListener{
+    interface OnXpPercentageSeekBarTouchStopListener {
         fun onTouchStop(position: Int, xpPercentage: Int)
     }
 
@@ -17,7 +17,7 @@ class AddSkillsToQuestAdapter : ListAdapter<AddSkillData, AddSkillsToQuestViewHo
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddSkillsToQuestViewHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.add_skills_to_quest_recycler_item, parent, false)
+                .inflate(R.layout.list_item_add_skills_to_quest, parent, false)
         return AddSkillsToQuestViewHolder(view, onXpPercentageSeekBarTouchStopListener)
     }
 

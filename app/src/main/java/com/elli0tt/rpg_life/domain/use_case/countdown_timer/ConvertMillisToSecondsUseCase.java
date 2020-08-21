@@ -4,7 +4,7 @@ import com.elli0tt.rpg_life.domain.constants.Constants;
 
 public class ConvertMillisToSecondsUseCase {
 
-    public long invoke(long millis){
+    public long invoke(long millis) {
         return millis / Constants.MILLISECONDS_IN_SECOND;
     }
 }

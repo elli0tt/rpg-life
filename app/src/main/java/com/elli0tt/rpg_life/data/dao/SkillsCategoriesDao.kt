@@ -22,5 +22,4 @@ interface SkillsCategoriesDao {
     fun getSkillCategoryByIdSync(skillCategoryId: Int): SkillsCategory
 
 
-
 }

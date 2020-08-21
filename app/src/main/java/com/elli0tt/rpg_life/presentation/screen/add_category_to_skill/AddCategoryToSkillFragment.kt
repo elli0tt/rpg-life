@@ -64,13 +64,13 @@ class AddCategoryToSkillFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.add_category -> navigateToAddSkillsCategoryScreen()
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun navigateToAddSkillsCategoryScreen(){
+    private fun navigateToAddSkillsCategoryScreen() {
         val action = AddCategoryToSkillFragmentDirections.actionAddCategoryToSkillScreenToAddEditSkillCategoryScreen()
         navController.navigate(action)
     }

@@ -7,7 +7,7 @@ import java.util.Calendar;
 public class CalendarConverter {
 
     @TypeConverter
-    public long fromCalendar(Calendar calendar){
+    public long fromCalendar(Calendar calendar) {
         if (calendar != null) {
             return calendar.getTimeInMillis();
         }
@@ -15,7 +15,7 @@ public class CalendarConverter {
     }
 
     @TypeConverter
-    public Calendar toCalendar(long timeInMillis){
+    public Calendar toCalendar(long timeInMillis) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(timeInMillis);
         return calendar;

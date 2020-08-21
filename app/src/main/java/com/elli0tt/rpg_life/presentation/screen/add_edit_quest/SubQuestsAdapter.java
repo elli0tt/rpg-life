@@ -26,38 +26,6 @@ import java.util.List;
 
 public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQuestsViewHolder> {
 
-    public interface OnItemClickListener {
-        void onItemClick(int position);
-    }
-
-    public interface OnItemLongClickListener {
-        void onLongClick(int position);
-    }
-
-    public interface OnIsCompleteCheckBoxClickListener {
-        void onClick(boolean isCompleted, int position);
-    }
-
-    public interface OnIsImportantCheckBoxClickListener {
-        void onClick(boolean isImportant, int position);
-    }
-
-    public interface OnRemoveButtonClickListener {
-        void onClick(int position);
-    }
-
-    private OnIsCompleteCheckBoxClickListener onIsCompleteCheckBoxClickListener;
-    private OnIsImportantCheckBoxClickListener onIsImportantCheckBoxClickListener;
-    private OnItemClickListener onItemClickListener;
-    private OnItemLongClickListener onItemLongClickListener;
-    private OnRemoveButtonClickListener onRemoveButtonClickListener;
-
-    private AddEditQuestViewModel viewModel;
-
-    SubQuestsAdapter() {
-        super(DIFF_CALLBACK);
-    }
-
     private static final DiffUtil.ItemCallback<Quest> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<Quest>() {
                 @Override
@@ -76,6 +44,15 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
                             oldItem.getDateDueState().equals(newItem.getDateDueState());
                 }
             };
+    private OnIsCompleteCheckBoxClickListener onIsCompleteCheckBoxClickListener;
+    private OnIsImportantCheckBoxClickListener onIsImportantCheckBoxClickListener;
+    private OnItemClickListener onItemClickListener;
+    private OnItemLongClickListener onItemLongClickListener;
+    private OnRemoveButtonClickListener onRemoveButtonClickListener;
+    private AddEditQuestViewModel viewModel;
+    SubQuestsAdapter() {
+        super(DIFF_CALLBACK);
+    }
 
     void setOnIsCompleteCheckBoxClickListener(OnIsCompleteCheckBoxClickListener listener) {
         onIsCompleteCheckBoxClickListener = listener;
@@ -110,7 +87,7 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
     @Override
     public SubQuestsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.subquest_recycler_item, parent, false);
+                .inflate(R.layout.list_item_subquest, parent, false);
         return new SubQuestsViewHolder(
                 view,
                 onIsCompleteCheckBoxClickListener,
@@ -132,6 +109,25 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
         return position;
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public interface OnItemLongClickListener {
+        void onLongClick(int position);
+    }
+
+    public interface OnIsCompleteCheckBoxClickListener {
+        void onClick(boolean isCompleted, int position);
+    }
+
+    public interface OnIsImportantCheckBoxClickListener {
+        void onClick(boolean isImportant, int position);
+    }
+
+    public interface OnRemoveButtonClickListener {
+        void onClick(int position);
+    }
 
     static class SubQuestsViewHolder extends RecyclerView.ViewHolder {
         private CheckBox isCompletedCheckBox;

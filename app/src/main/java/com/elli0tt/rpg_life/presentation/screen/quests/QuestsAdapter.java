@@ -24,38 +24,6 @@ import java.util.List;
 
 public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHolder> {
 
-    public interface OnItemClickListener {
-        void onItemClick(int position);
-    }
-
-    public interface OnItemLongClickListener {
-        void onLongClick(int position);
-    }
-
-    public interface OnIsCompleteCheckBoxClickListener {
-        void onClick(boolean isCompleted, int position);
-    }
-
-    public interface OnIsImportantCheckBoxClickListener {
-        void onClick(boolean isImportant, int position);
-    }
-
-    public interface OnSelectionFinishedListener {
-        void onSelectionFinished();
-    }
-
-    private OnIsCompleteCheckBoxClickListener onIsCompleteCheckBoxClickListener;
-    private OnIsImportantCheckBoxClickListener onIsImportantCheckBoxClickListener;
-    private OnItemClickListener onItemClickListener;
-    private OnItemLongClickListener onItemLongClickListener;
-    private OnSelectionFinishedListener onSelectionFinishedListener;
-
-    private QuestsViewModel viewModel;
-
-    QuestsAdapter() {
-        super(DIFF_CALLBACK);
-    }
-
     private static final DiffUtil.ItemCallback<Quest> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<Quest>() {
                 @Override
@@ -76,6 +44,27 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
                             oldItem.getHasSubquests() == newItem.getHasSubquests();
                 }
             };
+    private OnIsCompleteCheckBoxClickListener onIsCompleteCheckBoxClickListener;
+    private OnIsImportantCheckBoxClickListener onIsImportantCheckBoxClickListener;
+    private OnItemClickListener onItemClickListener;
+    private OnItemLongClickListener onItemLongClickListener;
+    private OnSelectionFinishedListener onSelectionFinishedListener;
+    private QuestsViewModel viewModel;
+    private List<Boolean> selectedPositions;
+    private OnItemClickListener saveLastOnItemClickListener;
+    private OnItemClickListener selectionOnItemClickListener = position -> {
+        selectedPositions.set(position, !selectedPositions.get(position));
+
+        if (isNothingSelected()) {
+            finishSelection();
+        } else {
+            notifyItemChanged(position);
+        }
+    };
+
+    QuestsAdapter() {
+        super(DIFF_CALLBACK);
+    }
 
     void setOnIsCompleteCheckBoxClickListener(OnIsCompleteCheckBoxClickListener listener) {
         onIsCompleteCheckBoxClickListener = listener;
@@ -110,7 +99,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
     @Override
     public QuestsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.quest_recycler_item, parent, false);
+                .inflate(R.layout.list_item_quest, parent, false);
         return new QuestsViewHolder(
                 view,
                 onIsCompleteCheckBoxClickListener,
@@ -130,21 +119,6 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
     public long getItemId(int position) {
         return position;
     }
-
-    private List<Boolean> selectedPositions;
-
-    private OnItemClickListener saveLastOnItemClickListener;
-
-    private OnItemClickListener selectionOnItemClickListener = position -> {
-        selectedPositions.set(position, !selectedPositions.get(position));
-
-        if (isNothingSelected()) {
-            finishSelection();
-        } else {
-            notifyItemChanged(position);
-        }
-    };
-
 
     void startSelection(int selectedPosition) {
         saveLastOnItemClickListener = onItemClickListener;
@@ -197,6 +171,26 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
             }
         }
         return selectedQuests;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public interface OnItemLongClickListener {
+        void onLongClick(int position);
+    }
+
+    public interface OnIsCompleteCheckBoxClickListener {
+        void onClick(boolean isCompleted, int position);
+    }
+
+    public interface OnIsImportantCheckBoxClickListener {
+        void onClick(boolean isImportant, int position);
+    }
+
+    public interface OnSelectionFinishedListener {
+        void onSelectionFinished();
     }
 
     static class QuestsViewHolder extends RecyclerView.ViewHolder {

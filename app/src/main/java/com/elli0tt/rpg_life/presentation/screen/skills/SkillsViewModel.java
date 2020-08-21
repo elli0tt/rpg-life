@@ -69,6 +69,11 @@ public class SkillsViewModel extends AndroidViewModel {
         return sortingState;
     }
 
+    void setSortingState(SkillsSortingState sortingState) {
+        this.sortingState.setValue(sortingState);
+        skillsRepository.setSkillsSortingState(sortingState);
+    }
+
     LiveData<Integer> getSortedByTextResId() {
         return sortedByTextResId;
     }
@@ -91,11 +96,6 @@ public class SkillsViewModel extends AndroidViewModel {
 
     void deleteAll() {
         skillsRepository.deleteAllSkills();
-    }
-
-    void setSortingState(SkillsSortingState sortingState) {
-        this.sortingState.setValue(sortingState);
-        skillsRepository.setSkillsSortingState(sortingState);
     }
 
     void changeSortingDirection() {

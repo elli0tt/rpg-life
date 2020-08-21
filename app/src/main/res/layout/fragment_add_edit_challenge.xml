@@ -78,7 +78,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/add_time_due_view" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/total_days_count_label_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/add_skills_button" />
 
-            <EditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/total_days_count_value_edit_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

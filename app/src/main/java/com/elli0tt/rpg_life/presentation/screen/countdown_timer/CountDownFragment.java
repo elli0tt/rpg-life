@@ -22,15 +22,37 @@ import java.util.Locale;
 
 public class CountDownFragment extends Fragment {
 
+    private static final String TIME_LEFT_TAG = "time left";
     private FragmentCountdownTimerBinding binding;
-
     private CountDownViewModel viewModel;
     private CountDownTimer timer;
-
     //Used to enable startTimerFab just 1 time - after it was disabled
     private boolean isStartFabEnabled = true;
-
-    private static final String TIME_LEFT_TAG = "time left";
+    private Observer<Integer> numberPickersValuesObserver = integer -> {
+        if (binding.numberPickersLayout.getVisibility() == View.VISIBLE &&
+                (isStartFabEnabled ^ viewModel.isNeedToEnableStartFab())) {
+            enableStartFab(viewModel.isNeedToEnableStartFab());
+        }
+    };
+    private View.OnClickListener startFabOnClickListener = v -> startTimer();
+    private View.OnClickListener pauseFabOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            timer.cancel();
+            viewModel.pauseTimer();
+        }
+    };
+    private View.OnClickListener stopFabOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (viewModel.getTimerState().getValue() == TimerState.RUNNING) {
+                timer.cancel();
+            }
+            viewModel.stopTimer();
+        }
+    };
+    private NumberPicker.Formatter numberPickersFormatter =
+            value -> String.format(Locale.getDefault(), "%02d", value);
 
     @Nullable
     @Override
@@ -107,15 +129,6 @@ public class CountDownFragment extends Fragment {
         viewModel.getSeconds().observe(getViewLifecycleOwner(), numberPickersValuesObserver);
     }
 
-    private Observer<Integer> numberPickersValuesObserver = integer -> {
-        if (binding.numberPickersLayout.getVisibility() == View.VISIBLE &&
-                (isStartFabEnabled ^ viewModel.isNeedToEnableStartFab())) {
-            enableStartFab(viewModel.isNeedToEnableStartFab());
-        }
-    };
-
-    private View.OnClickListener startFabOnClickListener = v -> startTimer();
-
     private void startTimer() {
         viewModel.startTimer(System.currentTimeMillis());
         binding.progressBar.setMax(viewModel.getMaxProgress());
@@ -133,27 +146,6 @@ public class CountDownFragment extends Fragment {
             }
         }.start();
     }
-
-    private View.OnClickListener pauseFabOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            timer.cancel();
-            viewModel.pauseTimer();
-        }
-    };
-
-    private View.OnClickListener stopFabOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (viewModel.getTimerState().getValue() == TimerState.RUNNING) {
-                timer.cancel();
-            }
-            viewModel.stopTimer();
-        }
-    };
-
-    private NumberPicker.Formatter numberPickersFormatter =
-            value -> String.format(Locale.getDefault(), "%02d", value);
 
     private void updateButtons() {
         TimerState timerState = viewModel.getTimerState().getValue();

@@ -18,13 +18,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String CHANNEL_ID = "channel 1";
     private NavController navController;
     private BottomNavigationView bottomNavigationView;
-
     private ConstraintLayout mainLayout;
     private Toolbar toolbar;
-
-    public static final String CHANNEL_ID = "channel 1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

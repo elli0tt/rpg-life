@@ -10,7 +10,7 @@
         android:id="@+id/quests_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/quest_recycler_item" />
+        tools:listitem="@layout/list_item_quest" />
 
     <View
         android:id="@+id/fab_menu_background_view"
@@ -20,7 +20,7 @@
         android:background="#66000000"
         android:visibility="gone" />
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/add_challenge_card_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
         app:layout_anchor="@id/add_challenge_fab"
         app:layout_anchorGravity="start|center">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingHorizontal="6dp"
@@ -39,7 +39,7 @@
             android:text="@string/quests_challenge"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textStyle="bold" />
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_challenge_fab"
@@ -52,7 +52,7 @@
         app:fabSize="mini"
         app:srcCompat="@drawable/ic_whatshot_black_24dp" />
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/add_quest_card_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
         app:layout_anchor="@id/add_quest_fab"
         app:layout_anchorGravity="start|center">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingHorizontal="6dp"
@@ -71,7 +71,7 @@
             android:text="@string/quests_quest"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textStyle="bold" />
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_quest_fab"
@@ -93,6 +93,4 @@
         android:layout_margin="@dimen/default_fab_margin"
         app:fabSize="normal"
         app:srcCompat="@drawable/ic_plus_black_24dp" />
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -34,7 +34,7 @@
                 android:paddingHorizontal="16dp"
                 android:paddingBottom="16dp">
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/nameTextView"
                     style="@style/UserTextViewLarge"
                     android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/classTextView"
                     style="@style/UserTextViewMedium"
                     android:layout_width="wrap_content"
@@ -81,7 +81,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/levelProgressBar" />
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/coinsTextView"
                     style="@style/UserTextViewMedium"
                     android:layout_width="wrap_content"
@@ -112,7 +112,7 @@
                     app:layout_constraintEnd_toStartOf="@id/increaseCoinsFab"
                     app:layout_constraintTop_toTopOf="@id/coinsTextView" />
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/completedQuestsTextView"
                     style="@style/UserTextViewMedium"
                     android:layout_width="wrap_content"

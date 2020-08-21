@@ -46,7 +46,7 @@ class AddEditSkillViewModel(application: Application) : AndroidViewModel(applica
             override fun run() {
                 super.run()
                 skill = skillsRepository.getSkillById(skillId)
-                if (skill.categoryId != 0){
+                if (skill.categoryId != 0) {
                     skillCategory = skillsCategoriesRepository.getSkillCategoryByIdSync(skill.categoryId)
                 }
                 onDataLoaded()
@@ -70,12 +70,14 @@ class AddEditSkillViewModel(application: Application) : AndroidViewModel(applica
                 skill.name = name.value ?: ""
                 skillsRepository.updateSkills(skill)
             }
-            Mode.DELETED -> {/** Do nothing*/}
+            Mode.DELETED -> {
+                /** Do nothing*/
+            }
         }
     }
 
-    fun delete(){
-        if (mode == Mode.EDIT){
+    fun delete() {
+        if (mode == Mode.EDIT) {
             skillsRepository.deleteSkillsById(skillId)
         }
         mode = Mode.DELETED

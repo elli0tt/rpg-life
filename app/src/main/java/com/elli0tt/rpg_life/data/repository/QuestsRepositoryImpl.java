@@ -60,37 +60,9 @@ public class QuestsRepositoryImpl implements QuestsRepository {
         new InsertQuestsAsyncTask(questsDao).execute(quests);
     }
 
-    private static class InsertQuestsAsyncTask extends android.os.AsyncTask<Quest, Void, Void> {
-        private QuestsDao dao;
-
-        InsertQuestsAsyncTask(QuestsDao dao) {
-            this.dao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(Quest... quests) {
-            dao.insertQuests(quests);
-            return null;
-        }
-    }
-
     @Override
     public void updateQuests(Quest... quests) {
         new UpdateQuestsAsyncTask(questsDao).execute(quests);
-    }
-
-    private static class UpdateQuestsAsyncTask extends android.os.AsyncTask<Quest, Void, Void> {
-        private QuestsDao dao;
-
-        UpdateQuestsAsyncTask(QuestsDao dao) {
-            this.dao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(Quest... quests) {
-            dao.updateQuests(quests);
-            return null;
-        }
     }
 
     @Override
@@ -98,60 +70,14 @@ public class QuestsRepositoryImpl implements QuestsRepository {
         new UpdateQuestHasSubquestByIdAsyncTask(questsDao).execute(new Pair<>(id, hasSubquests));
     }
 
-    private static class UpdateQuestHasSubquestByIdAsyncTask extends android.os.AsyncTask<Pair<Integer,
-            Boolean>, Void, Void> {
-        private QuestsDao dao;
-
-        UpdateQuestHasSubquestByIdAsyncTask(QuestsDao dao) {
-            this.dao = dao;
-        }
-
-        @SafeVarargs
-        @Override
-        protected final Void doInBackground(Pair<Integer, Boolean>... value) {
-            if (value[0].first != null && value[0].second != null) {
-                dao.updateHasSubquestsById(value[0].first, value[0].second);
-            }
-            return null;
-        }
-    }
-
     @Override
     public void deleteQuests(Quest... quests) {
         new DeleteQuestsAsyncTask(questsDao).execute(quests);
     }
 
-    private static class DeleteQuestsAsyncTask extends android.os.AsyncTask<Quest, Void, Void> {
-        private QuestsDao dao;
-
-        DeleteQuestsAsyncTask(QuestsDao dao) {
-            this.dao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(Quest... quests) {
-            dao.deleteQuests(quests);
-            return null;
-        }
-    }
-
     @Override
     public void deleteAllQuests() {
         new DeleteAllQuestsAsyncTask(questsDao).execute();
-    }
-
-    private static class DeleteAllQuestsAsyncTask extends android.os.AsyncTask<Void, Void, Void> {
-        private QuestsDao dao;
-
-        DeleteAllQuestsAsyncTask(QuestsDao dao) {
-            this.dao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            dao.deleteAllQuests();
-            return null;
-        }
     }
 
     @Override
@@ -199,40 +125,9 @@ public class QuestsRepositoryImpl implements QuestsRepository {
         new InsertRelatedSkillAsyncTask(relatedToQuestsSkillsDao).execute(new RelatedToQuestSkills(questId, skillId, xpPercentage));
     }
 
-    private static class InsertRelatedSkillAsyncTask extends AsyncTask<RelatedToQuestSkills, Void
-            , Void> {
-        private RelatedToQuestsSkillsDao dao;
-
-        InsertRelatedSkillAsyncTask(RelatedToQuestsSkillsDao dao) {
-            this.dao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(RelatedToQuestSkills... relatedToQuestSkills) {
-            dao.insertRelatedSkill(relatedToQuestSkills[0]);
-            return null;
-        }
-    }
-
     @Override
     public void deleteRelatedSkill(int questId, int skillId) {
         new DeleteRelatedSkillAsyncTask(relatedToQuestsSkillsDao).execute(new RelatedToQuestSkills(questId, skillId));
-    }
-
-    private static class DeleteRelatedSkillAsyncTask extends AsyncTask<RelatedToQuestSkills, Void
-            , Void> {
-        private RelatedToQuestsSkillsDao dao;
-
-        DeleteRelatedSkillAsyncTask(RelatedToQuestsSkillsDao dao) {
-            this.dao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(RelatedToQuestSkills... relatedToQuestSkills) {
-            dao.deleteRelatedSkill(relatedToQuestSkills[0].getQuestId(),
-                    relatedToQuestSkills[0].getSkillId());
-            return null;
-        }
     }
 
     @Override
@@ -243,30 +138,6 @@ public class QuestsRepositoryImpl implements QuestsRepository {
     @Override
     public void insertQuestWithRelatedSkills(Quest quest, int oldQuestId) {
         new InsertQuestWithRelatedSkillsAsyncTask(questsDao, relatedToQuestsSkillsDao).execute(new Pair<>(quest, oldQuestId));
-    }
-
-    private static class InsertQuestWithRelatedSkillsAsyncTask extends android.os.AsyncTask<Pair<Quest, Integer>, Void, Void> {
-        private QuestsDao questsDao;
-        private RelatedToQuestsSkillsDao relatedToQuestsSkillsDao;
-
-        InsertQuestWithRelatedSkillsAsyncTask(QuestsDao questsDao,
-                                              RelatedToQuestsSkillsDao relatedToQuestsSkillsDao) {
-            this.questsDao = questsDao;
-            this.relatedToQuestsSkillsDao = relatedToQuestsSkillsDao;
-        }
-
-        @SafeVarargs
-        @Override
-        protected final Void doInBackground(Pair<Quest, Integer>... pairs) {
-            List<Long> ids = questsDao.insertQuests(pairs[0].first);
-            if (pairs[0].second != null) {
-                for (long id : ids) {
-                    relatedToQuestsSkillsDao.copyRelatedSkills(pairs[0].second, (int) id);
-                }
-            }
-
-            return null;
-        }
     }
 
     @Override
@@ -291,5 +162,134 @@ public class QuestsRepositoryImpl implements QuestsRepository {
         subquest.setSubQuest(true);
         subquest.setParentQuestId(parentQuestId);
         return questsDao.insertQuests(subquest).get(0);
+    }
+
+    private static class InsertQuestsAsyncTask extends android.os.AsyncTask<Quest, Void, Void> {
+        private QuestsDao dao;
+
+        InsertQuestsAsyncTask(QuestsDao dao) {
+            this.dao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Quest... quests) {
+            dao.insertQuests(quests);
+            return null;
+        }
+    }
+
+    private static class UpdateQuestsAsyncTask extends android.os.AsyncTask<Quest, Void, Void> {
+        private QuestsDao dao;
+
+        UpdateQuestsAsyncTask(QuestsDao dao) {
+            this.dao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Quest... quests) {
+            dao.updateQuests(quests);
+            return null;
+        }
+    }
+
+    private static class UpdateQuestHasSubquestByIdAsyncTask extends android.os.AsyncTask<Pair<Integer,
+            Boolean>, Void, Void> {
+        private QuestsDao dao;
+
+        UpdateQuestHasSubquestByIdAsyncTask(QuestsDao dao) {
+            this.dao = dao;
+        }
+
+        @SafeVarargs
+        @Override
+        protected final Void doInBackground(Pair<Integer, Boolean>... value) {
+            if (value[0].first != null && value[0].second != null) {
+                dao.updateHasSubquestsById(value[0].first, value[0].second);
+            }
+            return null;
+        }
+    }
+
+    private static class DeleteQuestsAsyncTask extends android.os.AsyncTask<Quest, Void, Void> {
+        private QuestsDao dao;
+
+        DeleteQuestsAsyncTask(QuestsDao dao) {
+            this.dao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Quest... quests) {
+            dao.deleteQuests(quests);
+            return null;
+        }
+    }
+
+    private static class DeleteAllQuestsAsyncTask extends android.os.AsyncTask<Void, Void, Void> {
+        private QuestsDao dao;
+
+        DeleteAllQuestsAsyncTask(QuestsDao dao) {
+            this.dao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            dao.deleteAllQuests();
+            return null;
+        }
+    }
+
+    private static class InsertRelatedSkillAsyncTask extends AsyncTask<RelatedToQuestSkills, Void
+            , Void> {
+        private RelatedToQuestsSkillsDao dao;
+
+        InsertRelatedSkillAsyncTask(RelatedToQuestsSkillsDao dao) {
+            this.dao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(RelatedToQuestSkills... relatedToQuestSkills) {
+            dao.insertRelatedSkill(relatedToQuestSkills[0]);
+            return null;
+        }
+    }
+
+    private static class DeleteRelatedSkillAsyncTask extends AsyncTask<RelatedToQuestSkills, Void
+            , Void> {
+        private RelatedToQuestsSkillsDao dao;
+
+        DeleteRelatedSkillAsyncTask(RelatedToQuestsSkillsDao dao) {
+            this.dao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(RelatedToQuestSkills... relatedToQuestSkills) {
+            dao.deleteRelatedSkill(relatedToQuestSkills[0].getQuestId(),
+                    relatedToQuestSkills[0].getSkillId());
+            return null;
+        }
+    }
+
+    private static class InsertQuestWithRelatedSkillsAsyncTask extends android.os.AsyncTask<Pair<Quest, Integer>, Void, Void> {
+        private QuestsDao questsDao;
+        private RelatedToQuestsSkillsDao relatedToQuestsSkillsDao;
+
+        InsertQuestWithRelatedSkillsAsyncTask(QuestsDao questsDao,
+                                              RelatedToQuestsSkillsDao relatedToQuestsSkillsDao) {
+            this.questsDao = questsDao;
+            this.relatedToQuestsSkillsDao = relatedToQuestsSkillsDao;
+        }
+
+        @SafeVarargs
+        @Override
+        protected final Void doInBackground(Pair<Quest, Integer>... pairs) {
+            List<Long> ids = questsDao.insertQuests(pairs[0].first);
+            if (pairs[0].second != null) {
+                for (long id : ids) {
+                    relatedToQuestsSkillsDao.copyRelatedSkills(pairs[0].second, (int) id);
+                }
+            }
+
+            return null;
+        }
     }
 }

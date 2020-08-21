@@ -6,16 +6,16 @@ public class StopwatchViewModel extends ViewModel {
 
     private long pauseOffSet;
 
-    public void startChronometer(){
+    public void startChronometer() {
 
 
     }
 
-    public void pauseChronometer(){
+    public void pauseChronometer() {
 
     }
 
-    public void resetChronometer(){
+    public void resetChronometer() {
 
     }
 

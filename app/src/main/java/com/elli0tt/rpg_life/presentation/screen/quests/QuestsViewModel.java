@@ -13,13 +13,13 @@ import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
 import com.elli0tt.rpg_life.R;
-import com.elli0tt.rpg_life.data.repository.UserRepositoryImpl;
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl;
 import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl;
+import com.elli0tt.rpg_life.data.repository.UserRepositoryImpl;
 import com.elli0tt.rpg_life.domain.model.Quest;
-import com.elli0tt.rpg_life.domain.repository.UserRepository;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
+import com.elli0tt.rpg_life.domain.repository.UserRepository;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTodayCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.IsCalendarEqualsTomorrowCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.quests.CompleteQuestUseCase;
@@ -36,33 +36,26 @@ import java.util.List;
 import java.util.Locale;
 
 public class QuestsViewModel extends AndroidViewModel {
+    private final String today;
+    private final String tomorrow;
     private LiveData<List<Quest>> allQuests;
-
     private MutableLiveData<QuestsFilterState> currentFilterState = new MutableLiveData<>();
     private MediatorLiveData<List<Quest>> questsToShow = new MediatorLiveData<>();
     private MutableLiveData<QuestsSortingState> currentSortingState = new MutableLiveData<>();
     private MutableLiveData<Boolean> isSelectionStarted = new MutableLiveData<>(false);
     private MutableLiveData<Boolean> isShowCompleted = new MutableLiveData<>();
     private LiveData<Integer> showCompletedTextResId;
-
     private SortQuestsUseCase sortQuestsUseCase = new SortQuestsUseCase();
     private FilterQuestsUseCase filterQuestsUseCase = new FilterQuestsUseCase();
-
     private PopulateWithSamplesUseCase populateWithSamplesUseCase;
     private CompleteQuestUseCase completeQuestUseCase;
     private SetQuestImportantUseCase setQuestImportantUseCase;
-
     private QuestsRepository questsRepository;
     private SkillsRepository skillsRepository;
     private UserRepository userRepository;
-
     private WorkManager workManager;
     private OneTimeWorkRequest insertEmptyQuestWorkRequest;
     private OneTimeWorkRequest insertEmptyChallengeWorkRequest;
-
-    private final String today;
-    private final String tomorrow;
-
     private SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM, yyyy", Locale.getDefault());
     private SimpleDateFormat dateAndTimeFormat = new SimpleDateFormat("d MMM, yyyy HH:mm",
             Locale.getDefault());

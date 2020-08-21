@@ -19,10 +19,9 @@ import static android.app.Activity.RESULT_OK;
 
 public class FAQFragment extends Fragment {
 
+    private static final int DOWNLOAD_IMAGE_REQUEST_CODE = 1;
     private Button pictureButton;
     private AppCompatImageView imageView;
-
-    private static final int DOWNLOAD_IMAGE_REQUEST_CODE = 1;
 
     @Nullable
     @Override

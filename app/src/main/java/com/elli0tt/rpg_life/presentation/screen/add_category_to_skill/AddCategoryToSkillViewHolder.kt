@@ -11,9 +11,9 @@ class AddCategoryToSkillViewHolder(itemView: View,
     : RecyclerView.ViewHolder(itemView) {
     private val nameTextView: TextView = itemView.findViewById(R.id.nameTextView)
 
-    init{
+    init {
         itemView.setOnClickListener {
-            if (adapterPosition != RecyclerView.NO_POSITION){
+            if (adapterPosition != RecyclerView.NO_POSITION) {
                 onItemClickListener.onClick(adapterPosition)
             }
         }

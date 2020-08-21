@@ -46,7 +46,8 @@ public class SortQuestsUseCase {
             if (quest1.getDifficulty() == quest2.getDifficulty()) {
                 return quest1.getName().compareTo(quest2.getName());
             }
-            return Integer.compare(quest1.getDifficulty().ordinal(), quest2.getDifficulty().ordinal());
+            return Integer.compare(quest1.getDifficulty().ordinal(),
+                    quest2.getDifficulty().ordinal());
         });
         return quests;
     }

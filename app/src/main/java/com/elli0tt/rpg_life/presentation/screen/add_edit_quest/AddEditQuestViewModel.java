@@ -15,14 +15,14 @@ import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
 import com.elli0tt.rpg_life.R;
-import com.elli0tt.rpg_life.data.repository.UserRepositoryImpl;
 import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl;
 import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl;
+import com.elli0tt.rpg_life.data.repository.UserRepositoryImpl;
 import com.elli0tt.rpg_life.domain.model.Difficulty;
 import com.elli0tt.rpg_life.domain.model.Quest;
-import com.elli0tt.rpg_life.domain.repository.UserRepository;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
+import com.elli0tt.rpg_life.domain.repository.UserRepository;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetClosestWeekdayCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetNextWeekCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTodayCalendarUseCase;
@@ -40,64 +40,43 @@ import java.util.List;
 import java.util.Locale;
 
 public class AddEditQuestViewModel extends AndroidViewModel {
+    private final String today;
+    private final String tomorrow;
     private MutableLiveData<String> name = new MutableLiveData<>();
     private MutableLiveData<String> description = new MutableLiveData<>("");
     private MutableLiveData<Difficulty> difficulty =
             new MutableLiveData<>(Difficulty.NOT_SET);
-
     private MutableLiveData<Quest.DateState> dateDueState =
             new MutableLiveData<>(Quest.DateState.NOT_SET);
     private MutableLiveData<Quest.DateState> startDateState =
             new MutableLiveData<>(Quest.DateState.NOT_SET);
-
     private MutableLiveData<Quest.ReminderState> reminderState =
             new MutableLiveData<>(Quest.ReminderState.NOT_SET);
-
     private MutableLiveData<Integer> repeatTextResId =
             new MutableLiveData<>(R.string.add_edit_quest_repeat);
-
     private MutableLiveData<Quest.RepeatState> repeatState =
             new MutableLiveData<>(Quest.RepeatState.NOT_SET);
-
     private Calendar startDate = Calendar.getInstance();
     private Calendar dateDue = Calendar.getInstance();
     private Calendar reminderDate = Calendar.getInstance();
-
     private Quest currentQuest;
-
     private LiveData<List<Quest>> subQuests;
-
     private boolean isSubQuest;
     private int parentQuestId;
-
     /**
      * Id of quest to open in edit mode
      */
     private int id;
-
-    private enum Mode {
-        ADD, EDIT
-    }
-
     private Mode mode = Mode.EDIT;
-
     private boolean isDataLoaded = false;
-
-    private final String today;
-    private final String tomorrow;
-
     private CompleteQuestUseCase completeQuestUseCase;
-
     private QuestsRepository questsRepository;
     private SkillsRepository skillsRepository;
     private UserRepository userRepository;
-
     private DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG);
     private DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
-
     private WorkManager workManager;
     private OneTimeWorkRequest insertEmptyQuestWorkRequest;
-
     private SimpleDateFormat dateAndTimeFormat = new SimpleDateFormat("d MMM, yyyy HH:mm",
             Locale.getDefault());
 
@@ -143,6 +122,18 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
     LiveData<Quest.RepeatState> getRepeatState() {
         return repeatState;
+    }
+
+    void setRepeatState(Quest.RepeatState repeatState) {
+        this.repeatState.setValue(repeatState);
+        repeatTextResId.setValue(getRepeatTextResId(repeatState));
+        if (dateDueState.getValue() != null) {
+            if (repeatState.equals(Quest.RepeatState.WEEKDAYS)) {
+                setDateDueClosestWeekday();
+            } else if (!repeatState.equals(Quest.RepeatState.NOT_SET)) {
+                setDateDueToday();
+            }
+        }
     }
 
     LiveData<Integer> getRepeatTextResId() {
@@ -396,18 +387,6 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         reminderState.setValue(Quest.ReminderState.PICK_CUSTOM_DATE);
     }
 
-    void setRepeatState(Quest.RepeatState repeatState) {
-        this.repeatState.setValue(repeatState);
-        repeatTextResId.setValue(getRepeatTextResId(repeatState));
-        if (dateDueState.getValue() != null) {
-            if (repeatState.equals(Quest.RepeatState.WEEKDAYS)) {
-                setDateDueClosestWeekday();
-            } else if (!repeatState.equals(Quest.RepeatState.NOT_SET)) {
-                setDateDueToday();
-            }
-        }
-    }
-
     void removeRepeat() {
         setRepeatState(Quest.RepeatState.NOT_SET);
     }
@@ -503,5 +482,9 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         } else {
             return dateAndTimeFormat.format(dateDue.getTime());
         }
+    }
+
+    private enum Mode {
+        ADD, EDIT
     }
 }

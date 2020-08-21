@@ -3,6 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <SwitchPreferenceCompat
         android:title="@string/show_developers_options"
-        app:singleLineTitle="false"
-        app:key="developers_options" />
+        app:key="developers_options"
+        app:singleLineTitle="false" />
 </PreferenceScreen>

@@ -35,11 +35,11 @@ class UpDownArrowsView(context: Context, attributeSet: AttributeSet?)
         textView.setText(textResId)
     }
 
-    fun setArrowUp(){
+    fun setArrowUp() {
         arrowImageView.setImageDrawable(context.getDrawable(R.drawable.ic_keyboard_arrow_up_black_20dp))
     }
 
-    fun setArrowDown(){
+    fun setArrowDown() {
         arrowImageView.setImageDrawable(context.getDrawable(R.drawable.ic_keyboard_arrow_down_black_20dp))
     }
 }

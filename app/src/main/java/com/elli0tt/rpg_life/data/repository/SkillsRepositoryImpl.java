@@ -29,20 +29,6 @@ public class SkillsRepositoryImpl implements SkillsRepository {
         new InsertAsyncTask(skillsDao).execute(skills);
     }
 
-    private static class InsertAsyncTask extends android.os.AsyncTask<Skill, Void, Void> {
-        private SkillsDao dao;
-
-        InsertAsyncTask(SkillsDao dao) {
-            this.dao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(Skill... skills) {
-            dao.insertSkill(skills);
-            return null;
-        }
-    }
-
     @Override
     public LiveData<List<Skill>> getAllSkills() {
         return skillsDao.getAllSkills();
@@ -58,60 +44,14 @@ public class SkillsRepositoryImpl implements SkillsRepository {
         new UpdateAsyncTask(skillsDao).execute(skills);
     }
 
-    private static class UpdateAsyncTask extends android.os.AsyncTask<Skill, Void, Void> {
-        private SkillsDao dao;
-
-        UpdateAsyncTask(SkillsDao dao) {
-            this.dao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(Skill... skills) {
-            dao.updateSkill(skills);
-            return null;
-        }
-    }
-
     @Override
     public void updateSkillTotalXpById(int id, long xpIncrease) {
         new UpdateTotalXpByIdAsyncTask(skillsDao).execute(new Pair<>(id, xpIncrease));
     }
 
-    private static class UpdateTotalXpByIdAsyncTask extends android.os.AsyncTask<Pair<Integer,
-            Long>, Void, Void> {
-        private SkillsDao dao;
-
-        UpdateTotalXpByIdAsyncTask(SkillsDao dao) {
-            this.dao = dao;
-        }
-
-        @SafeVarargs
-        @Override
-        protected final Void doInBackground(Pair<Integer, Long>... params) {
-            if (params[0].first != null && params[0].second != null) {
-                dao.updateSkillTotalXpById(params[0].first, params[0].second);
-            }
-            return null;
-        }
-    }
-
     @Override
     public void deleteAllSkills() {
         new DeleteAllAsyncTask(skillsDao).execute();
-    }
-
-    private static class DeleteAllAsyncTask extends android.os.AsyncTask<Void, Void, Void> {
-        private SkillsDao dao;
-
-        DeleteAllAsyncTask(SkillsDao dao) {
-            this.dao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            dao.deleteAllSkills();
-            return null;
-        }
     }
 
     @Override
@@ -134,6 +74,76 @@ public class SkillsRepositoryImpl implements SkillsRepository {
         new UpdateSkillCategoryByIdAsyncTask(skillsDao).execute(new Pair<>(skillId, categoryId));
     }
 
+    @Override
+    public void deleteSkillsById(Integer... skillId) {
+        new DeleteSkillsByIdAsyncTask(skillsDao).execute(skillId);
+    }
+
+    @Override
+    public long insertEmptySkill() {
+        return skillsDao.insertSkill(new Skill(0, "")).get(0);
+    }
+
+    private static class InsertAsyncTask extends android.os.AsyncTask<Skill, Void, Void> {
+        private SkillsDao dao;
+
+        InsertAsyncTask(SkillsDao dao) {
+            this.dao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Skill... skills) {
+            dao.insertSkill(skills);
+            return null;
+        }
+    }
+
+    private static class UpdateAsyncTask extends android.os.AsyncTask<Skill, Void, Void> {
+        private SkillsDao dao;
+
+        UpdateAsyncTask(SkillsDao dao) {
+            this.dao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Skill... skills) {
+            dao.updateSkill(skills);
+            return null;
+        }
+    }
+
+    private static class UpdateTotalXpByIdAsyncTask extends android.os.AsyncTask<Pair<Integer,
+            Long>, Void, Void> {
+        private SkillsDao dao;
+
+        UpdateTotalXpByIdAsyncTask(SkillsDao dao) {
+            this.dao = dao;
+        }
+
+        @SafeVarargs
+        @Override
+        protected final Void doInBackground(Pair<Integer, Long>... params) {
+            if (params[0].first != null && params[0].second != null) {
+                dao.updateSkillTotalXpById(params[0].first, params[0].second);
+            }
+            return null;
+        }
+    }
+
+    private static class DeleteAllAsyncTask extends android.os.AsyncTask<Void, Void, Void> {
+        private SkillsDao dao;
+
+        DeleteAllAsyncTask(SkillsDao dao) {
+            this.dao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            dao.deleteAllSkills();
+            return null;
+        }
+    }
+
     private static class UpdateSkillCategoryByIdAsyncTask extends android.os.AsyncTask<Pair<Integer, Integer>, Void, Void> {
         private SkillsDao dao;
 
@@ -151,11 +161,6 @@ public class SkillsRepositoryImpl implements SkillsRepository {
         }
     }
 
-    @Override
-    public void deleteSkillsById(Integer... skillId) {
-        new DeleteSkillsByIdAsyncTask(skillsDao).execute(skillId);
-    }
-
     private static class DeleteSkillsByIdAsyncTask extends android.os.AsyncTask<Integer, Void,
             Void> {
         private SkillsDao dao;
@@ -169,10 +174,5 @@ public class SkillsRepositoryImpl implements SkillsRepository {
             dao.deleteSkillsById(ids);
             return null;
         }
-    }
-
-    @Override
-    public long insertEmptySkill() {
-        return skillsDao.insertSkill(new Skill(0, "")).get(0);
     }
 }

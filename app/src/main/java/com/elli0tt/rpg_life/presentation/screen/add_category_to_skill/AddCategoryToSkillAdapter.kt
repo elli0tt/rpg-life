@@ -9,7 +9,7 @@ import com.elli0tt.rpg_life.domain.model.SkillsCategory
 
 class AddCategoryToSkillAdapter : ListAdapter<SkillsCategory, AddCategoryToSkillViewHolder>(DIFF_CALLBACK) {
 
-    interface OnItemClickListener{
+    interface OnItemClickListener {
         fun onClick(position: Int)
     }
 
@@ -17,7 +17,7 @@ class AddCategoryToSkillAdapter : ListAdapter<SkillsCategory, AddCategoryToSkill
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddCategoryToSkillViewHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.add_category_to_skill_recycler_item, parent, false)
+                .inflate(R.layout.list_item_add_category_to_skill, parent, false)
         return AddCategoryToSkillViewHolder(view, onItemClickListener)
     }
 
