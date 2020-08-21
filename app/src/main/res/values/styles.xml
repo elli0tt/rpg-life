@@ -7,7 +7,6 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorSecondary">@color/colorSecondary</item>
-        <item name="colorSurface">@color/colorSurface</item>
         <item name="windowActionModeOverlay">true</item>
     </style>
 
