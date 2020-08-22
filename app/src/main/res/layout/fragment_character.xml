@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="120dp"
+            android:elevation="8dp"
             app:cardBackgroundColor="@color/colorPrimary"
             app:cardCornerRadius="16dp"
             app:layout_constraintTop_toTopOf="parent">
@@ -59,14 +60,15 @@
                 <com.sasank.roundedhorizontalprogress.RoundedHorizontalProgressBar
                     android:id="@+id/levelProgressBar"
                     style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="10dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
                     android:indeterminate="false"
                     android:progress="40"
                     app:backgroundColor="#fff8e1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/levelTextView"
+                    app:layout_constraintEnd_toStartOf="@id/showXpToNextLevelImageButton"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/classTextView"
                     app:progressColor="@color/colorSecondary" />
 
@@ -76,10 +78,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Level 50"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/levelProgressBar" />
+                    app:layout_constraintTop_toBottomOf="@id/levelProgressBar"
+                    tools:text="Level 50" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/showXpToNextLevelImageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_help_white_24"
+                    app:layout_constraintBottom_toBottomOf="@id/levelProgressBar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/levelProgressBar" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/coinsTextView"
@@ -118,9 +130,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Completed quests: 100"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/coinsTextView" />
+                    app:layout_constraintTop_toBottomOf="@id/coinsTextView"
+                    tools:text="Completed quests: 100" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/earnedCoinsTextView"
+                    style="@style/UserTextViewMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/completedQuestsTextView"
+                    tools:text="Earned coins: 1000" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>

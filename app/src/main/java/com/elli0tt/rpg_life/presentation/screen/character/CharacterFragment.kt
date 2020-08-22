@@ -49,8 +49,21 @@ class CharacterFragment : Fragment() {
     }
 
     private fun subscribeToViewModel() {
-        viewModel.userCoins.observe(viewLifecycleOwner) {
-            coinsTextView.text = getString(R.string.character_coins, it.toString())
+        viewModel.apply {
+            user.observe(viewLifecycleOwner) {
+                coinsTextView.text = getString(R.string.character_coins, it.coinsCount.toString())
+                levelTextView.text = getString(R.string.character_level, it.level.toString())
+                levelProgressBar.max = it.xpToNextLevel
+                levelProgressBar.progress = it.xpToNextLevel - it.xpLeftToNextLevel
+                completedQuestsTextView.text = getString(
+                        R.string.character_completed_quests,
+                        it.completedQuestsCount.toString()
+                )
+                earnedCoinsTextView.text = getString(
+                        R.string.character_earned_coins,
+                        it.earnedCoinsCount.toString()
+                )
+            }
         }
 
     }

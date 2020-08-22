@@ -14,7 +14,7 @@
         android:orientation="vertical"
         android:padding="8dp">
 
-        <com.google.android.material.checkbox.MaterialCheckBox
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/nameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_timer_black_24dp" />
 
-        <com.google.android.material.radiobutton.MaterialRadioButton
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/xp_left_to_next_level_value_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

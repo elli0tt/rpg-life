@@ -31,7 +31,7 @@ public class CompleteQuestUseCase {
         quest.setCompleted(isCompleted);
         if (quest.isChallenge()) {
             if (isCompleted) {
-                increaseCharacterCoins(quest.getDifficulty().getCoins());
+                updateUser(quest.getDifficulty().getCoins(), quest.getDifficulty().getXpIncrease());
                 increaseRelatedSkillsXps(quest.getId(),
                         quest.getDifficulty().getXpIncrease() + 10 * quest.getDayNumber());
                 quest.setDayNumber(quest.getDayNumber() + 1);
@@ -54,7 +54,7 @@ public class CompleteQuestUseCase {
         } else {
             if (isCompleted) {
                 increaseRelatedSkillsXps(quest.getId(), quest.getDifficulty().getXpIncrease());
-                increaseCharacterCoins(quest.getDifficulty().getCoins());
+                updateUser(quest.getDifficulty().getCoins(), quest.getDifficulty().getXpIncrease());
             }
             questsRepository.updateQuests(quest);
             if (!quest.getRepeatState().equals(Quest.RepeatState.NOT_SET)) {
@@ -183,9 +183,12 @@ public class CompleteQuestUseCase {
         return (questXpIncrease + questXpIncrease * skill.getBonusForLevel() / 100) * xpPercentage / 100;
     }
 
-    private void increaseCharacterCoins(int characterCoins) {
+    private void updateUser(int characterCoins, int xp) {
         User user = userRepository.getUser();
         user.setCoinsCount(user.getCoinsCount() + characterCoins);
+        user.setTotalXp(user.getTotalXp() + xp);
+        user.setCompletedQuestsCount(user.getCompletedQuestsCount() + 1);
+        user.setEarnedCoinsCount(user.getEarnedCoinsCount() + characterCoins);
         userRepository.setUser(user);
     }
 }

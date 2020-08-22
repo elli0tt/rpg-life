@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import com.elli0tt.rpg_life.data.repository.UserRepositoryImpl
 import com.elli0tt.rpg_life.domain.model.Characteristic
 import com.elli0tt.rpg_life.domain.model.User
@@ -16,10 +15,6 @@ class CharacterViewModel(application: Application) : AndroidViewModel(applicatio
 
     private var _user = MutableLiveData(userRepository.user)
     val user: LiveData<User> = _user
-
-    val userCoins: LiveData<Int> = Transformations.map(_user) {
-        it.coinsCount
-    }
 
     private var _snackbarTextResId = MutableLiveData<Int>()
     val snackbarTextResId: LiveData<Int> = _snackbarTextResId

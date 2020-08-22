@@ -156,8 +156,8 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
             this.viewModel = viewModel;
 
             isCompletedCheckBox = itemView.findViewById(R.id.is_completed_check_box);
-            nameTextView = itemView.findViewById(R.id.name);
-            difficultyTextView = itemView.findViewById(R.id.difficulty);
+            nameTextView = itemView.findViewById(R.id.name_text_view);
+            difficultyTextView = itemView.findViewById(R.id.difficulty_text_view);
             isImportantCheckBox = itemView.findViewById(R.id.is_important_check_box);
             dateDueTextView = itemView.findViewById(R.id.date_due_text_view);
             repeatImageView = itemView.findViewById(R.id.repeat_image_view);

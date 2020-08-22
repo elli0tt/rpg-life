@@ -16,8 +16,12 @@
         <item name="android:descendantFocusability">blocksDescendants</item>
     </style>
 
-    <style name="UserTextView" parent="Widget.AppCompat.TextView">
+    <style name="TextView" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/colorTextWhite</item>
+    </style>
+
+    <style name="UserTextView" parent="TextView">
+
     </style>
 
     <style name="UserTextViewLarge" parent="UserTextView">
@@ -26,6 +30,18 @@
 
     <style name="UserTextViewMedium" parent="UserTextView">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+    </style>
+
+    <style name="QuestsTextViewLarge" parent="TextView">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large</item>
+    </style>
+
+    <style name="QuestsTextViewMedium" parent="TextView">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+    </style>
+
+    <style name="QuestsTextViewSmall" parent="TextView">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
     </style>
 
 </resources>

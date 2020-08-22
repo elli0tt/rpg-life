@@ -116,4 +116,7 @@
     <string name="add_edit_challenge_add_time_due">Add time due</string>
 
     <string name="character_coins">Coins: %1$s</string>
+    <string name="character_level">Level %1$s</string>
+    <string name="character_completed_quests">Completed quests: %1$s</string>
+    <string name="character_earned_coins">Earned coins: %1$s</string>
 </resources>

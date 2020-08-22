@@ -113,4 +113,6 @@
     <string name="add_edit_challenge_add_date_due">Добавить дату окончания</string>
     <string name="add_edit_challenge_add_time_due">Добавить время окончания</string>
     <string name="character_coins">Монеты: %1$s</string>
+    <string name="character_completed_quests">Completed quests: %1$s</string>
+    <string name="character_earned_coins">Earned coins: %1$s</string>
 </resources>
