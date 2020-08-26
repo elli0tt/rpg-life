@@ -89,6 +89,7 @@ public class QuestsViewModel extends AndroidViewModel {
                     && currentSortingState.getValue() != null
                     && currentFilterState.getValue() != null
                     && isShowCompleted.getValue() != null) {
+
                 questsToShow.setValue(sortQuestsUseCase.invoke(filterQuestsUseCase.invoke(quests,
                         currentFilterState.getValue(), isShowCompleted.getValue()),
                         currentSortingState.getValue()));
