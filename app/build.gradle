@@ -107,6 +107,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.sasank.roundedhorizontalprogress:roundedhorizontalprogress:1.0.1'
+    implementation 'com.github.jd-alexander:LikeButton:0.2.3'
 }
 repositories {
     mavenCentral()

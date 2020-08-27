@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
@@ -9,30 +8,30 @@
     android:elevation="8dp"
     app:cardCornerRadius="8dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/constraint_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/quests_list_item_background"
-        android:padding="4dp">
-        <!--        android:background="@drawable/quests_list_item_background"-->
-        <!--android:background="?android:attr/selectableItemBackground">-->
+        android:background="@drawable/quests_list_item_background">
+
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/is_completed_check_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+            android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/name_text_view"
-            style="@style/QuestsTextViewLarge"
+            style="@style/QuestsTextViewMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
             app:layout_constraintBottom_toTopOf="@id/difficulty_text_view"
-            app:layout_constraintEnd_toStartOf="@id/is_important_check_box"
+            app:layout_constraintEnd_toStartOf="@id/is_important_like_button"
             app:layout_constraintStart_toEndOf="@+id/is_completed_check_box"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Read book" />
@@ -42,19 +41,19 @@
             style="@style/QuestsTextViewSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+            android:layout_marginVertical="4dp"
+            android:layout_marginTop="4dp"
             android:textColor="@color/colorSecondary"
-            app:layout_constraintBottom_toTopOf="@id/date_due_text_view"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/is_completed_check_box"
             app:layout_constraintTop_toBottomOf="@id/name_text_view"
-            tools:text="Normal" />
+            tools:text="Impossible" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/day_number_text_view"
             style="@style/QuestsTextViewSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
             app:layout_constraintStart_toEndOf="@id/difficulty_text_view"
             app:layout_constraintTop_toBottomOf="@id/name_text_view"
             tools:text="128"
@@ -63,48 +62,50 @@
         <!--Star style for checkBox. It's a bit inconvenient way because I haven't found out how to change -->
         <!--the color of this particular checkbox. I save this line for if I would like to use it later.-->
         <!--style="?android:attr/starStyle"-->
-        <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/is_important_check_box"
+        <com.like.LikeButton
+            android:id="@+id/is_important_like_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
-            android:button="@drawable/is_important_checkbox"
+            app:anim_scale_factor="2"
+            app:icon_size="25dp"
+            app:is_enabled="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:like_drawable="@drawable/ic_round_star_25_orange"
+            app:unlike_drawable="@drawable/ic_round_star_25_grey" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/date_due_text_view"
             style="@style/QuestsTextViewSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+            android:layout_marginVertical="4dp"
+            android:layout_marginStart="@dimen/list_item_quest_start_start_margin_small"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/is_completed_check_box"
-            app:layout_constraintTop_toBottomOf="@id/difficulty_text_view"
-            tools:text="Due: 12.12.2000"
-            tools:visibility="gone" />
+            app:layout_constraintStart_toEndOf="@id/difficulty_text_view"
+            app:layout_constraintTop_toBottomOf="@id/name_text_view"
+            tools:text="31 Aug, 2020" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/repeat_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="@dimen/list_item_quest_start_start_margin_small"
+            app:layout_constraintBottom_toBottomOf="@id/date_due_text_view"
             app:layout_constraintStart_toEndOf="@id/date_due_text_view"
-            app:layout_constraintTop_toBottomOf="@id/difficulty_text_view"
-            app:srcCompat="@drawable/ic_repeat_white_18dp"
-            tools:visibility="gone" />
+            app:layout_constraintTop_toTopOf="@id/date_due_text_view"
+            app:srcCompat="@drawable/ic_round_repeat_16_white" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/has_subquests_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="@dimen/list_item_quest_start_start_margin_small"
+            app:layout_constraintBottom_toBottomOf="@id/date_due_text_view"
             app:layout_constraintStart_toEndOf="@id/repeat_image_view"
-            app:layout_constraintTop_toBottomOf="@id/difficulty_text_view"
-            app:srcCompat="@drawable/ic_subquests_black_18dp"
-            tools:visibility="gone" />
+            app:layout_constraintTop_toTopOf="@id/date_due_text_view"
+            app:srcCompat="@drawable/ic_subquests_white_18dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.cardview.widget.CardView>

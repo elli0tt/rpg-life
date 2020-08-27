@@ -32,7 +32,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@id/is_important_check_box"
+            app:layout_constraintEnd_toStartOf="@id/is_important_like_button"
             app:layout_constraintStart_toEndOf="@+id/is_completed_check_box"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Read book" />
@@ -59,7 +59,7 @@
         <!--the color of this particular checkbox. I save this line for if I would like to use it later.-->
         <!--style="?android:attr/starStyle"-->
         <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/is_important_check_box"
+            android:id="@+id/is_important_like_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
@@ -96,7 +96,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/repeat_image_view"
             app:layout_constraintTop_toBottomOf="@id/difficulty_text_view"
-            app:srcCompat="@drawable/ic_subquests_black_18dp" />
+            app:srcCompat="@drawable/ic_subquests_white_18dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/remove_image_view"
