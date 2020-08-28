@@ -19,6 +19,7 @@ import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.domain.model.Quest
 import com.elli0tt.rpg_life.presentation.custom.recycler_divider.TopAndBottomItemsSpaceItemDecoration
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.view_fab_menu_card.view.*
 
 class QuestsFragment : Fragment() {
     private lateinit var viewModel: QuestsViewModel
@@ -48,7 +49,28 @@ class QuestsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = NavHostFragment.findNavController(this)
+        viewModel = ViewModelProvider(this).get(QuestsViewModel::class.java)
 
+        initViews(view)
+        subscribeToViewModel()
+        setHasOptionsMenu(true)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+    }
+
+    private fun initViews(view: View) {
+        findViews(view)
+        initQuestsRecyclerView()
+        setListeners()
+
+        addQuestCardView.titleTextView.text = getString(R.string.quests_quest)
+        addChallengeCardView.titleTextView.text = getString(R.string.quests_challenge)
+    }
+
+    private fun findViews(view: View) {
         addQuestFab = view.findViewById(R.id.add_quest_fab)
         addChallengeFab = view.findViewById(R.id.add_challenge_fab)
         mainFab = view.findViewById(R.id.main_fab)
@@ -56,11 +78,9 @@ class QuestsFragment : Fragment() {
         fabMenuBackgroundView = view.findViewById(R.id.fab_menu_background_view)
         addChallengeCardView = view.findViewById(R.id.add_challenge_card_view)
         addQuestCardView = view.findViewById(R.id.add_quest_card_view)
+    }
 
-        subscribeToViewModel()
-        setHasOptionsMenu(true)
-        setupQuestsRecyclerView()
-
+    private fun setListeners() {
         addQuestFab.setOnClickListener {
             hideFabMenu()
             viewModel.insertEmptyQuest()
@@ -82,11 +102,6 @@ class QuestsFragment : Fragment() {
         }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
-    }
-
     override fun onResume() {
         super.onResume()
         questsAdapter.notifyDataSetChanged()
@@ -106,7 +121,7 @@ class QuestsFragment : Fragment() {
         }
     }
 
-    private fun setupQuestsRecyclerView() {
+    private fun initQuestsRecyclerView() {
         recyclerView.adapter = questsAdapter
         questsAdapter.apply {
             setOnItemClickListener(onItemClickListener)
@@ -151,7 +166,6 @@ class QuestsFragment : Fragment() {
     }
 
     private fun subscribeToViewModel() {
-        viewModel = ViewModelProvider(this).get(QuestsViewModel::class.java)
         viewModel.quests.observe(viewLifecycleOwner, Observer { questList: List<Quest?>? ->
             questsAdapter.submitList(questList)
         })
