@@ -141,9 +141,9 @@ class QuestsFragment : Fragment() {
                         resources.getDimension(R.dimen.quests_bottom_item_bottom_margin).toInt()))
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if ((dy < 0) && !mainFab.isShown && !viewModel.isSelectionStarted.value!!) {
+                if (dy < 0 && !mainFab.isShown && !viewModel.isSelectionStarted.value!!) {
                     mainFab.show()
-                } else if (dy > 0 && addQuestFab.isShown) {
+                } else if (dy > 0 && mainFab.isShown) {
                     mainFab.hide()
                 }
             }

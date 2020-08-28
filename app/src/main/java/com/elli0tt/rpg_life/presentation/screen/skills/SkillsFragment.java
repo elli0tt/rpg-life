@@ -80,6 +80,17 @@ public class SkillsFragment extends Fragment {
         skillsAdapter.setOnItemClickListener(position ->
                 navigateToEditSkillScreen(viewModel.getSkillId(position)));
         recyclerView.setAdapter(skillsAdapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy < 0 && !addSkillFab.isShown()) {
+                    addSkillFab.show();
+                } else if (dy > 0 && addSkillFab.isShown()) {
+                    addSkillFab.hide();
+                }
+            }
+        });
     }
 
     private void subscribeToViewModel() {
