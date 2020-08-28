@@ -30,7 +30,7 @@
                 android:text="@={viewModel.name}" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.elli0tt.rpg_life.presentation.custom_view.ButtonWithRemoveIcon
+        <com.elli0tt.rpg_life.presentation.custom.view.ButtonWithRemoveIcon
             android:id="@+id/add_category_button_with_icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package com.elli0tt.rpg_life.presentation.custom_view;
+package com.elli0tt.rpg_life.presentation.custom.recycler_divider;
 
 import android.content.Context;
 import android.content.res.TypedArray;

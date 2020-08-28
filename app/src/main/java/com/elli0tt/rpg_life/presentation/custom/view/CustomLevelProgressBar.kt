@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.elli0tt.rpg_life.presentation.custom_view
+package com.elli0tt.rpg_life.presentation.custom.view
 
 import android.animation.ObjectAnimator
 import android.content.Context

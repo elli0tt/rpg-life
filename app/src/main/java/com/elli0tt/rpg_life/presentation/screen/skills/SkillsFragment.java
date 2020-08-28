@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.elli0tt.rpg_life.R;
-import com.elli0tt.rpg_life.presentation.custom_view.UpDownArrowsView;
+import com.elli0tt.rpg_life.presentation.custom.view.UpDownArrowsView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class SkillsFragment extends Fragment {

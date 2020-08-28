@@ -9,4 +9,6 @@
     <dimen name="add_challenge_fab_translationY">100dp</dimen>
     <dimen name="add_quest_fab_translationY">55dp</dimen>
     <dimen name="list_item_quest_start_start_margin_small">4dp</dimen>
+    <dimen name="quests_top_item_top_margin">4dp</dimen>
+    <dimen name="quests_bottom_item_bottom_margin">8dp</dimen>
 </resources>

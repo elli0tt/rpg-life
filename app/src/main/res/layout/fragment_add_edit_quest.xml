@@ -56,7 +56,7 @@
                     android:text="@={viewModel.description}" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.elli0tt.rpg_life.presentation.custom_view.ButtonWithRemoveIcon
+            <com.elli0tt.rpg_life.presentation.custom.view.ButtonWithRemoveIcon
                 android:id="@+id/difficulty_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
                 app:layout_constraintTop_toBottomOf="@id/description_text_input"
                 app:text="@string/add_difficulty" />
 
-            <com.elli0tt.rpg_life.presentation.custom_view.ButtonWithRemoveIcon
+            <com.elli0tt.rpg_life.presentation.custom.view.ButtonWithRemoveIcon
                 android:id="@+id/add_start_date_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
                 app:layout_constraintTop_toBottomOf="@id/difficulty_view"
                 app:text="@string/add_edit_quest_add_start_date" />
 
-            <com.elli0tt.rpg_life.presentation.custom_view.ButtonWithRemoveIcon
+            <com.elli0tt.rpg_life.presentation.custom.view.ButtonWithRemoveIcon
                 android:id="@+id/add_start_time_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
                 app:layout_constraintTop_toBottomOf="@id/add_start_date_view"
                 app:text="@string/add_edit_quest_add_start_time" />
 
-            <com.elli0tt.rpg_life.presentation.custom_view.ButtonWithRemoveIcon
+            <com.elli0tt.rpg_life.presentation.custom.view.ButtonWithRemoveIcon
                 android:id="@+id/add_date_due_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
                 app:layout_constraintTop_toBottomOf="@id/add_start_time_view"
                 app:text="@string/add_edit_quest_add_date_due" />
 
-            <com.elli0tt.rpg_life.presentation.custom_view.ButtonWithRemoveIcon
+            <com.elli0tt.rpg_life.presentation.custom.view.ButtonWithRemoveIcon
                 android:id="@+id/add_time_due_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -112,7 +112,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/add_time_due_view" />
 
-            <com.elli0tt.rpg_life.presentation.custom_view.ButtonWithRemoveIcon
+            <com.elli0tt.rpg_life.presentation.custom.view.ButtonWithRemoveIcon
                 android:id="@+id/repeat_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -164,7 +164,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/repeat_view" />
 
-            <com.elli0tt.rpg_life.presentation.custom_view.ButtonWithRemoveIcon
+            <com.elli0tt.rpg_life.presentation.custom.view.ButtonWithRemoveIcon
                 android:id="@+id/add_reminder_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

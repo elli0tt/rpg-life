@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.elli0tt.rpg_life.presentation.custom_view.UpDownArrowsView
+        <com.elli0tt.rpg_life.presentation.custom.view.UpDownArrowsView
             android:id="@+id/sort_up_down_arrows_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

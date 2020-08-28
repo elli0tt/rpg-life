@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.domain.model.Quest
+import com.elli0tt.rpg_life.presentation.custom.recycler_divider.TopAndBottomItemsSpaceItemDecoration
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class QuestsFragment : Fragment() {
@@ -65,7 +67,8 @@ class QuestsFragment : Fragment() {
         }
         addChallengeFab.setOnClickListener {
             hideFabMenu()
-            viewModel.insertEmptyChallenge()
+            Toast.makeText(context, "Challenges are being revised, don't use them now", Toast.LENGTH_LONG).show()
+            //viewModel.insertEmptyChallenge()
         }
         mainFab.setOnClickListener {
             if (!isFabMenuOpened) {
@@ -132,6 +135,10 @@ class QuestsFragment : Fragment() {
             setViewModel(viewModel)
         }
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        recyclerView.addItemDecoration(
+                TopAndBottomItemsSpaceItemDecoration(
+                        resources.getDimension(R.dimen.quests_top_item_top_margin).toInt(),
+                        resources.getDimension(R.dimen.quests_bottom_item_bottom_margin).toInt()))
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if ((dy < 0) && !mainFab.isShown && !viewModel.isSelectionStarted.value!!) {

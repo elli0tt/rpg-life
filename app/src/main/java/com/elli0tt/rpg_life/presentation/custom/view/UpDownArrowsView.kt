@@ -1,4 +1,4 @@
-package com.elli0tt.rpg_life.presentation.custom_view
+package com.elli0tt.rpg_life.presentation.custom.view
 
 import android.content.Context
 import android.util.AttributeSet

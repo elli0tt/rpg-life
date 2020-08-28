@@ -24,7 +24,7 @@ public interface QuestsDao {
     @Query("SELECT * FROM quest_table WHERE id IN (:ids) ORDER BY name")
     List<Quest> getQuestsById(List<Integer> ids);
 
-    @Query("SELECT * FROM quest_table WHERE isSubQuest = 0")
+    @Query("SELECT * FROM quest_table WHERE isSubQuest = 0 AND isChallenge = 0")
     LiveData<List<Quest>> getAllQuests();
 
     @Query("SELECT * FROM quest_table WHERE parentQuestId = :parentQuestId ORDER BY id")
