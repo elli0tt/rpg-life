@@ -43,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/add_quest_items_margin_top"
-                app:icon="@drawable/ic_difficulty_black_24dp"
+                app:icon="@drawable/ic_round_gavel_white_24"
                 app:layout_constraintTop_toBottomOf="@id/name_text_input"
                 app:text="@string/add_difficulty" />
 
@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/add_quest_items_margin_top"
-                app:icon="@drawable/ic_today_black_24dp"
+                app:icon="@drawable/ic_round_today_white_24"
                 app:layout_constraintTop_toBottomOf="@id/difficulty_view"
                 app:text="@string/add_edit_challenge_add_date_due" />
 
@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/add_quest_items_margin_top"
-                app:icon="@drawable/ic_today_black_24dp"
+                app:icon="@drawable/ic_round_today_white_24"
                 app:layout_constraintTop_toBottomOf="@id/add_date_due_view"
                 app:text="@string/add_edit_challenge_add_time_due" />
 
@@ -73,7 +73,7 @@
                 android:backgroundTint="@android:color/white"
                 android:text="@string/add_skill"
                 android:textColor="@android:color/black"
-                app:icon="@drawable/ic_plus_black_24dp"
+                app:icon="@drawable/ic_round_add_white_24"
                 app:iconTint="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/add_time_due_view" />

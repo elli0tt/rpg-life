@@ -10,7 +10,7 @@
         android:id="@+id/quests_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/inc_quest_full" />
+        tools:listitem="@layout/list_item_quest" />
 
     <View
         android:id="@+id/fab_menu_background_view"
@@ -50,7 +50,8 @@
         android:layout_margin="23dp"
         android:visibility="gone"
         app:fabSize="mini"
-        app:srcCompat="@drawable/ic_whatshot_black_24dp" />
+        app:srcCompat="@drawable/ic_round_whatshot_white_24"
+        app:tint="@color/colorTextWhite" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/add_quest_card_view"
@@ -82,7 +83,8 @@
         android:layout_margin="23dp"
         android:visibility="gone"
         app:fabSize="mini"
-        app:srcCompat="@drawable/ic_check_circle_black_24dp" />
+        app:srcCompat="@drawable/ic_round_check_circle_white_24"
+        app:tint="@color/colorTextWhite" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/main_fab"
@@ -92,5 +94,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/default_fab_margin"
         app:fabSize="normal"
-        app:srcCompat="@drawable/ic_plus_black_24dp" />
+        app:srcCompat="@drawable/ic_round_add_white_24"
+        app:tint="@color/colorTextWhite" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

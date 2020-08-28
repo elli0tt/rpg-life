@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.elli0tt.rpg_life.R
 
 class UpDownArrowsView(context: Context, attributeSet: AttributeSet?)
@@ -36,10 +37,10 @@ class UpDownArrowsView(context: Context, attributeSet: AttributeSet?)
     }
 
     fun setArrowUp() {
-        arrowImageView.setImageDrawable(context.getDrawable(R.drawable.ic_keyboard_arrow_up_black_20dp))
+        arrowImageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_round_keyboard_arrow_up_white_24))
     }
 
     fun setArrowDown() {
-        arrowImageView.setImageDrawable(context.getDrawable(R.drawable.ic_keyboard_arrow_down_black_20dp))
+        arrowImageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_round_keyboard_arrow_down_white_24))
     }
 }

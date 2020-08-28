@@ -13,7 +13,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:backgroundTint="@android:color/white"
-        android:src="@drawable/ic_keyboard_arrow_up_black_20dp"
+        android:src="@drawable/ic_round_keyboard_arrow_up_white_24"
         app:iconTint="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/text_view"
@@ -42,6 +42,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_clear_black_24dp" />
+        app:srcCompat="@drawable/ic_round_clear_white_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

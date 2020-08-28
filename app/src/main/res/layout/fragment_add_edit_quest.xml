@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/add_quest_items_margin_top"
-                app:icon="@drawable/ic_difficulty_black_24dp"
+                app:icon="@drawable/ic_round_gavel_white_24"
                 app:layout_constraintTop_toBottomOf="@id/description_text_input"
                 app:text="@string/add_difficulty" />
 
@@ -70,7 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/add_quest_items_margin_top"
-                app:icon="@drawable/ic_today_black_24dp"
+                app:icon="@drawable/ic_round_today_white_24"
                 app:layout_constraintTop_toBottomOf="@id/difficulty_view"
                 app:text="@string/add_edit_quest_add_start_date" />
 
@@ -79,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/add_quest_items_margin_top"
-                app:icon="@drawable/ic_today_black_24dp"
+                app:icon="@drawable/ic_round_today_white_24"
                 app:layout_constraintTop_toBottomOf="@id/add_start_date_view"
                 app:text="@string/add_edit_quest_add_start_time" />
 
@@ -88,7 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/add_quest_items_margin_top"
-                app:icon="@drawable/ic_today_black_24dp"
+                app:icon="@drawable/ic_round_today_white_24"
                 app:layout_constraintTop_toBottomOf="@id/add_start_time_view"
                 app:text="@string/add_edit_quest_add_date_due" />
 
@@ -97,7 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/add_quest_items_margin_top"
-                app:icon="@drawable/ic_today_black_24dp"
+                app:icon="@drawable/ic_round_today_white_24"
                 app:layout_constraintTop_toBottomOf="@id/add_date_due_view"
                 app:text="@string/add_edit_quest_add_time_due" />
 
@@ -117,7 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/add_quest_items_margin_top"
-                app:icon="@drawable/ic_repeat_black_24dp"
+                app:icon="@drawable/ic_round_repeat_white_24"
                 app:layout_constraintTop_toBottomOf="@id/add_to_calendar_button"
                 app:text="@string/add_edit_quest_repeat" />
 
@@ -146,7 +146,7 @@
                 android:backgroundTint="@android:color/white"
                 android:text="@string/add_edit_quest_add_subquest"
                 android:textColor="@android:color/black"
-                app:icon="@drawable/ic_plus_black_24dp"
+                app:icon="@drawable/ic_round_add_white_24"
                 app:iconTint="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/add_reminder_view" />
@@ -159,7 +159,7 @@
                 android:backgroundTint="@android:color/white"
                 android:text="@string/add_skill"
                 android:textColor="@android:color/black"
-                app:icon="@drawable/ic_plus_black_24dp"
+                app:icon="@drawable/ic_round_add_white_24"
                 app:iconTint="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/repeat_view" />
@@ -169,7 +169,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/add_quest_items_margin_top"
-                app:icon="@drawable/ic_notifications_black_24dp"
+                app:icon="@drawable/ic_round_notifications_white_24"
                 app:layout_constraintTop_toBottomOf="@id/add_skills_button"
                 app:text="@string/add_edit_quest_remind_me" />
 

@@ -88,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/ic_help_white_24"
+                    android:src="@drawable/ic_round_help_outline_white_24"
                     app:layout_constraintBottom_toBottomOf="@id/levelProgressBar"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/levelProgressBar" />
@@ -107,22 +107,24 @@
                     android:id="@+id/increaseCoinsFab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_plus_white_24dp"
+                    android:src="@drawable/ic_round_add_white_24"
                     app:fabSize="mini"
                     app:layout_constraintBottom_toBottomOf="@id/coinsTextView"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/coinsTextView" />
+                    app:layout_constraintTop_toTopOf="@id/coinsTextView"
+                    app:tint="@color/colorTextWhite" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/decreaseCoinsFab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
-                    android:src="@drawable/ic_baseline_remove_white_24"
+                    android:src="@drawable/ic_round_remove_white_24"
                     app:fabSize="mini"
                     app:layout_constraintBottom_toBottomOf="@id/coinsTextView"
                     app:layout_constraintEnd_toStartOf="@id/increaseCoinsFab"
-                    app:layout_constraintTop_toTopOf="@id/coinsTextView" />
+                    app:layout_constraintTop_toTopOf="@id/coinsTextView"
+                    app:tint="@color/colorTextWhite" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/completedQuestsTextView"

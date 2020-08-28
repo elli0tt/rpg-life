@@ -179,11 +179,11 @@ public class CountDownFragment extends Fragment {
         binding.startFab.hide();
         if (enabled) {
             binding.startFab.setImageDrawable(ContextCompat.getDrawable(requireContext(),
-                    R.drawable.ic_play_arrow_white_24dp));
+                    R.drawable.ic_round_play_arrow_white_24));
             isStartFabEnabled = true;
         } else {
             binding.startFab.setImageDrawable(ContextCompat.getDrawable(requireContext(),
-                    R.drawable.ic_play_arrow_gray_24dp));
+                    R.drawable.ic_round_play_arrow_grey_24));
             isStartFabEnabled = false;
         }
         binding.startFab.show();

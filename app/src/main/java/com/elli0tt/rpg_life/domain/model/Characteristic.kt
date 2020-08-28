@@ -30,6 +30,6 @@ class Characteristic {
     companion object {
         private const val DEFAULT_DESCRIPTION = ""
         private const val DEFAULT_VALUE = 0
-        private const val DEFAULT_IMAGE_RESOURCE = R.drawable.ic_endurance
+        private const val DEFAULT_IMAGE_RESOURCE = R.drawable.ic_round_directions_run_white_24
     }
 }

@@ -2,22 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/character_screen"
-        android:icon="@drawable/ic_profile"
+        android:icon="@drawable/ic_round_account_circle_white_24"
         android:title="@string/nav_character" />
     <item
         android:id="@+id/skills_screen"
-        android:icon="@drawable/ic_skills"
+        android:icon="@drawable/ic_round_accessibility_white_24"
         android:title="@string/nav_skills" />
     <item
         android:id="@+id/quests_screen"
-        android:icon="@drawable/ic_quests"
+        android:icon="@drawable/ic_round_import_contacts_white_24"
         android:title="@string/nav_quests" />
     <item
         android:id="@+id/statistics_screen"
-        android:icon="@drawable/ic_statistics"
+        android:icon="@drawable/ic_round_timeline_white_24"
         android:title="@string/nav_statistics" />
     <item
         android:id="@+id/settings_screen"
-        android:icon="@drawable/ic_settings"
+        android:icon="@drawable/ic_round_settings_white_24"
         android:title="@string/nav_settings" />
 </menu>

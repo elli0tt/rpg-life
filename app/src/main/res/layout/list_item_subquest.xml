@@ -86,7 +86,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/date_due_text_view"
             app:layout_constraintTop_toBottomOf="@id/difficulty_text_view"
-            app:srcCompat="@drawable/ic_repeat_white_18dp" />
+            app:srcCompat="@drawable/ic_round_repeat_white_16" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/has_subquests_image_view"
@@ -96,7 +96,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/repeat_image_view"
             app:layout_constraintTop_toBottomOf="@id/difficulty_text_view"
-            app:srcCompat="@drawable/ic_subquests_white_18dp" />
+            app:srcCompat="@drawable/ic_round_list_white_18" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/remove_image_view"
@@ -104,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/white"
-            app:icon="@drawable/ic_clear_black_24dp"
+            app:icon="@drawable/ic_round_clear_white_24"
             app:iconGravity="textStart"
             app:iconTint="@android:color/black"
             app:layout_constraintBottom_toBottomOf="parent"

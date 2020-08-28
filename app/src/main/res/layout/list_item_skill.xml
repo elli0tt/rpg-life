@@ -59,7 +59,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_timer_black_24dp" />
+            app:srcCompat="@drawable/ic_round_timer_white_24" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/xp_left_to_next_level_value_text_view"

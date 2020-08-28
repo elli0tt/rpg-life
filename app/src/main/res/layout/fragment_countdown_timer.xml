@@ -87,7 +87,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/number_pickers_layout"
-            app:srcCompat="@drawable/ic_play_arrow_white_24dp" />
+            app:srcCompat="@drawable/ic_round_play_arrow_white_24" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/pause_fab"
@@ -98,7 +98,7 @@
             android:visibility="invisible"
             app:layout_constraintStart_toEndOf="@id/start_fab"
             app:layout_constraintTop_toBottomOf="@id/number_pickers_layout"
-            app:srcCompat="@drawable/ic_pause_white_24dp"
+            app:srcCompat="@drawable/ic_round_pause_round_24"
             tools:visibility="visible" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -110,7 +110,7 @@
             android:visibility="invisible"
             app:layout_constraintEnd_toStartOf="@id/start_fab"
             app:layout_constraintTop_toBottomOf="@id/number_pickers_layout"
-            app:srcCompat="@drawable/ic_stop_white_24dp"
+            app:srcCompat="@drawable/ic_round_stop_white_24"
             tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

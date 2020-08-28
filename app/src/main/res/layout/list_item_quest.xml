@@ -95,7 +95,7 @@
             app:layout_constraintBottom_toBottomOf="@id/date_due_text_view"
             app:layout_constraintStart_toEndOf="@id/date_due_text_view"
             app:layout_constraintTop_toTopOf="@id/date_due_text_view"
-            app:srcCompat="@drawable/ic_round_repeat_16_white" />
+            app:srcCompat="@drawable/ic_round_repeat_white_16" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/has_subquests_image_view"
@@ -105,7 +105,7 @@
             app:layout_constraintBottom_toBottomOf="@id/date_due_text_view"
             app:layout_constraintStart_toEndOf="@id/repeat_image_view"
             app:layout_constraintTop_toTopOf="@id/date_due_text_view"
-            app:srcCompat="@drawable/ic_subquests_white_18dp" />
+            app:srcCompat="@drawable/ic_round_list_white_18" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
