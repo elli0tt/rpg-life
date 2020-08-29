@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat;
 import com.elli0tt.rpg_life.R;
 
 public class ButtonWithRemoveIcon extends CardView {
-    private Button removeButton;
+    private AppCompatImageButton removeButton;
     private TextView textView;
     private AppCompatImageView mainIconImageView;
 
@@ -30,7 +30,7 @@ public class ButtonWithRemoveIcon extends CardView {
     public ButtonWithRemoveIcon(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        inflate(context, R.layout.button_with_remove_icon, this);
+        inflate(context, R.layout.view_button_with_remove_icon, this);
 
         removeButton = findViewById(R.id.remove_icon_remove_button);
         textView = findViewById(R.id.remove_icon_text_view);

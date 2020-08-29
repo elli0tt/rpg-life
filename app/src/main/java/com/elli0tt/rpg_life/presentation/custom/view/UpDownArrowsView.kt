@@ -17,7 +17,7 @@ class UpDownArrowsView(context: Context, attributeSet: AttributeSet?)
     var onViewClickListener: OnClickListener? = null
 
     init {
-        inflate(context, R.layout.up_down_arrows_view, this)
+        inflate(context, R.layout.view_up_down_arrows, this)
 
         arrowImageView = findViewById(R.id.arrow_icon_image_view)
         textView = findViewById(R.id.text_view)

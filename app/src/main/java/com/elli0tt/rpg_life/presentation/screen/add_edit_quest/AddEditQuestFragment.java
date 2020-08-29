@@ -49,22 +49,25 @@ public class AddEditQuestFragment extends Fragment {
     public static final String EXTRA_NOTIFICATION_ID = "com.elli0tt.rpg_life.presentation" +
             ".add_edit_quest_extra_notification_id";
     private static final int REQUEST_PERMISSIONS = 1000;
+
     private FragmentAddEditQuestBinding binding;
     private SubQuestsAdapter subQuestsAdapter;
     private NavController navController;
     private AddEditQuestViewModel viewModel;
+
     private String veryEasyTitle;
     private String easyTitle;
     private String normalTitle;
     private String hardTitle;
     private String veryHardTitle;
     private String impossibleTitle;
+
     private View.OnFocusChangeListener onEditTextsFocusChangeListener = (view, hasFocus) -> {
-        if (hasFocus) {
-            SoftKeyboardUtil.showKeyboard(view, getActivity());
-        } else {
-            SoftKeyboardUtil.hideKeyboard(view, getActivity());
-        }
+//        if (hasFocus) {
+//            SoftKeyboardUtil.showKeyboard(view, getActivity());
+//        } else {
+//            SoftKeyboardUtil.hideKeyboard(view, getActivity());
+//        }
     };
     private View.OnClickListener onRemoveDateDueViewClickListener = new View.OnClickListener() {
         @Override
@@ -172,6 +175,7 @@ public class AddEditQuestFragment extends Fragment {
 
         setupSubQuestsRecycler();
         setHasOptionsMenu(true);
+        binding.nameEditText.clearFocus();
 
         if (getArguments() != null) {
             viewModel.start(AddEditQuestFragmentArgs.fromBundle(getArguments()).getQuestId(),
@@ -180,27 +184,21 @@ public class AddEditQuestFragment extends Fragment {
             //TODO: DELETE WHEN TREE SUBQUESTS ARE IMPLEMENTED
             if (AddEditQuestFragmentArgs.fromBundle(getArguments()).getIsSubQuest()) {
                 binding.addSubquestButton.setVisibility(View.INVISIBLE);
-                view.findViewById(R.id.subquests_text_view).setVisibility(View.INVISIBLE);
             }
         }
 
         subscribeToViewModel();
         setListeners();
-
-        if (viewModel.getIsNewQuest()) {
-            binding.nameEditText.requestFocus();
-        }
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        if (activity != null) {
-            ActionBar supportActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-            if (supportActionBar != null) {
-                supportActionBar.setDisplayHomeAsUpEnabled(true);
-            }
+        AppCompatActivity activity = (AppCompatActivity) requireActivity();
+        activity.setSupportActionBar(binding.toolbar);
+        ActionBar supportActionBar = activity.getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
         }
 
         veryEasyTitle = getString(R.string.add_edit_quest_difficulty_very_easy,
@@ -240,7 +238,7 @@ public class AddEditQuestFragment extends Fragment {
 
     private void setListeners() {
         binding.nameEditText.setOnFocusChangeListener(onEditTextsFocusChangeListener);
-        binding.descriptionEditText.setOnFocusChangeListener(onEditTextsFocusChangeListener);
+//        binding.descriptionEditText.setOnFocusChangeListener(onEditTextsFocusChangeListener);
         binding.addDateDueView.setOnClickListener(onAddDateDueViewClickListener);
         binding.addDateDueView.setOnRemoveClickListener(onRemoveDateDueViewClickListener);
         binding.repeatView.setOnClickListener(onRepeatViewClickListener);
@@ -367,6 +365,10 @@ public class AddEditQuestFragment extends Fragment {
                 navigateToEditSubQuestScreen(workInfo.getOutputData().getInt(com.elli0tt.rpg_life.presentation.worker.Constants.KEY_QUEST_ID, 0));
                 viewModel.updateInsertEmptyQuestWorkRequest();
             }
+        });
+
+        viewModel.getName().observe(getViewLifecycleOwner(), name -> {
+            binding.nameEditText.clearFocus();
         });
     }
 

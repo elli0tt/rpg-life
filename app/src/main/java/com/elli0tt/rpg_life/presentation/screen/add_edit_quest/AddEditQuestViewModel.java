@@ -43,9 +43,8 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private final String today;
     private final String tomorrow;
     private MutableLiveData<String> name = new MutableLiveData<>();
-    private MutableLiveData<String> description = new MutableLiveData<>("");
-    private MutableLiveData<Difficulty> difficulty =
-            new MutableLiveData<>(Difficulty.NOT_SET);
+    //    private MutableLiveData<String> description = new MutableLiveData<>("");
+    private MutableLiveData<Difficulty> difficulty = new MutableLiveData<>(Difficulty.NOT_SET);
     private MutableLiveData<Quest.DateState> dateDueState =
             new MutableLiveData<>(Quest.DateState.NOT_SET);
     private MutableLiveData<Quest.DateState> startDateState =
@@ -56,6 +55,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
             new MutableLiveData<>(R.string.add_edit_quest_repeat);
     private MutableLiveData<Quest.RepeatState> repeatState =
             new MutableLiveData<>(Quest.RepeatState.NOT_SET);
+
     private Calendar startDate = Calendar.getInstance();
     private Calendar dateDue = Calendar.getInstance();
     private Calendar reminderDate = Calendar.getInstance();
@@ -100,9 +100,9 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         return name;
     }
 
-    public MutableLiveData<String> getDescription() {
-        return description;
-    }
+//    public MutableLiveData<String> getDescription() {
+//        return description;
+//    }
 
     LiveData<Difficulty> getDifficulty() {
         return difficulty;
@@ -195,7 +195,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
     private void onDataLoaded(@NonNull Quest quest) {
         name.postValue(quest.getName());
-        description.postValue(quest.getDescription());
+//        description.postValue(quest.getDescription());
         difficulty.postValue(quest.getDifficulty());
         dateDueState.postValue(quest.getDateDueState());
         startDateState.postValue(quest.getStartDateState());
@@ -230,7 +230,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     void saveQuest() {
         Quest quest = new Quest();
         quest.setName(name.getValue() == null ? "" : name.getValue());
-        quest.setDescription(description.getValue() == null ? "" : description.getValue());
+//        quest.setDescription(description.getValue() == null ? "" : description.getValue());
         quest.setDifficulty(difficulty.getValue() == null ? Difficulty.NOT_SET :
                 difficulty.getValue());
         quest.setDateDue(dateDue);

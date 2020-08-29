@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 bottomNavigationView.setVisibility(View.GONE);
             }
 
-            if (id == R.id.character_screen) {
+            if (id == R.id.character_screen || id == R.id.add_edit_quest_screen) {
                 toolbar.setVisibility(View.GONE);
             } else {
                 toolbar.setVisibility(View.VISIBLE);
