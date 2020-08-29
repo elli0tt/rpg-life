@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="windowActionModeOverlay">true</item>
+        <item name="preferenceCategoryStyle">@style/SettingsPreferenceTitleTextAppearance</item>
     </style>
 
     <style name="NumberPickerTheme" parent="Theme.AppCompat.Light">
@@ -42,6 +43,10 @@
 
     <style name="QuestsTextViewSmall" parent="TextView">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
+    </style>
+
+    <style name="SettingsPreferenceTitleTextAppearance" parent="Preference.Category">
+        <item name="android:textColor">@color/colorTextWhite</item>
     </style>
 
 </resources>
