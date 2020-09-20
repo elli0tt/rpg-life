@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:padding="8dp"
+    tools:background="@color/colorPrimaryLight">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/nameTextView"
@@ -12,28 +13,33 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/colorTextWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Android" />
 
-    <androidx.appcompat.widget.AppCompatSeekBar
+    <com.google.android.material.slider.Slider
         android:id="@+id/xp_percentage_seek_bar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
-        android:max="100"
+        android:valueFrom="0.0"
+        android:valueTo="100.0"
         app:layout_constraintEnd_toStartOf="@id/xp_text_view"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/nameTextView" />
+        app:layout_constraintTop_toBottomOf="@id/nameTextView"
+        app:thumbColor="@color/colorSecondary" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/xp_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
+        android:textColor="@color/colorTextWhite"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/nameTextView" />
+        app:layout_constraintTop_toBottomOf="@id/nameTextView"
+        tools:text="100 %" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

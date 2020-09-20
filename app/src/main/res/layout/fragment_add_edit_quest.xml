@@ -40,6 +40,7 @@
                 android:hint="@string/add_quest_name_hint"
                 android:textColor="@color/colorTextWhite"
                 android:textColorHint="#8A8888"
+                android:text="@={viewModel.name}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/toolbar" />
