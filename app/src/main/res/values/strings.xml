@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RPG Life (debug) </string>
+    <string name="app_name">RPG Life </string>
     <string name="nav_character">Character</string>
     <string name="nav_skills">Skills</string>
     <string name="nav_quests">Quests</string>

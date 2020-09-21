@@ -7,7 +7,7 @@
     <color name="colorSurface">#344955</color>
     <color name="colorSecondary">#F9AA33</color>
     <color name="colorAccentDark">#558b2f</color>
-    <color name="colorBeforeDateDue">#64dd17</color>
+    <color name="colorLightGreen">#64dd17</color>
     <color name="colorAfterDateDue">#C9081B</color>
     <color name="colorTextWhite">#FFFFFF</color>
 </resources>

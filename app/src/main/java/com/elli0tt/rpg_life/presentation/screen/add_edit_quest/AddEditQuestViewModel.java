@@ -469,7 +469,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         if (Calendar.getInstance().after(dateDue)) {
             return R.color.colorAfterDateDue;
         }
-        return R.color.colorBeforeDateDue;
+        return R.color.colorLightGreen;
     }
 
     String getDateDueFormatted(Quest.DateState dateDueState, Calendar dateDue) {

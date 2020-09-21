@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/quests_screen">
+    app:startDestination="@id/rewards_shop_screen">
 
     <fragment
         android:id="@+id/character_screen"
@@ -236,6 +236,10 @@
             android:defaultValue="0"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/rewards_shop_screen"
+        android:name="com.elli0tt.rpg_life.presentation.screen.rewards_shop.RewardsShopFragment"
+        android:label="RewardsShopFragment" />
 
 
 </navigation>
