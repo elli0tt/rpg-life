@@ -1,4 +1,4 @@
-package com.elli0tt.rpg_life.presentation.screen.add_edit_quest;
+package com.elli0tt.rpg_life.presentation.adapter.subquests;
 
 
 import android.annotation.SuppressLint;
@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.domain.model.Difficulty;
 import com.elli0tt.rpg_life.domain.model.Quest;
+import com.elli0tt.rpg_life.presentation.screen.add_edit_quest.AddEditQuestViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +51,7 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
     private OnItemLongClickListener onItemLongClickListener;
     private OnRemoveButtonClickListener onRemoveButtonClickListener;
     private AddEditQuestViewModel viewModel;
+
     SubQuestsAdapter() {
         super(DIFF_CALLBACK);
     }

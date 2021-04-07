@@ -1,4 +1,4 @@
-package com.elli0tt.rpg_life.presentation.screen.add_category_to_skill
+package com.elli0tt.rpg_life.presentation.adapter.add_category_to_skill
 
 import android.view.View
 import android.widget.TextView

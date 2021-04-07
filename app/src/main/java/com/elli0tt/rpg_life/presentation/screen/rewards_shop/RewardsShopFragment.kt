@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.elli0tt.rpg_life.R
+import com.elli0tt.rpg_life.presentation.adapter.rewards_shop.RewardsShopAdapter
 import kotlinx.android.synthetic.main.fragment_rewards_shop.*
 
 class RewardsShopFragment : Fragment(R.layout.fragment_rewards_shop) {

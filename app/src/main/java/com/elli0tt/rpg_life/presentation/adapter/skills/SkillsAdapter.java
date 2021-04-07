@@ -1,4 +1,4 @@
-package com.elli0tt.rpg_life.presentation.screen.skills;
+package com.elli0tt.rpg_life.presentation.adapter.skills;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;

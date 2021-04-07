@@ -1,4 +1,4 @@
-package com.elli0tt.rpg_life.presentation.screen.add_skills_to_quest
+package com.elli0tt.rpg_life.presentation.adapter.add_skill_to_quest
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

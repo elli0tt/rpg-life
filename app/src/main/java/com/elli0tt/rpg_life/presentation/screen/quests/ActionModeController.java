@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import androidx.appcompat.view.ActionMode;
 
 import com.elli0tt.rpg_life.R;
+import com.elli0tt.rpg_life.presentation.adapter.quests.QuestsAdapter;
 
 public class ActionModeController implements ActionMode.Callback {
 

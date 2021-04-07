@@ -1,4 +1,4 @@
-package com.elli0tt.rpg_life.presentation.screen.rewards_shop
+package com.elli0tt.rpg_life.presentation.adapter.rewards_shop
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

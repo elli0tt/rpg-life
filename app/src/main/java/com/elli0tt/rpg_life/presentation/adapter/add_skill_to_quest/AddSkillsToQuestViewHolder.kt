@@ -1,10 +1,11 @@
-package com.elli0tt.rpg_life.presentation.screen.add_skills_to_quest
+package com.elli0tt.rpg_life.presentation.adapter.add_skill_to_quest
 
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.domain.model.AddSkillData
+import com.elli0tt.rpg_life.presentation.adapter.add_skill_to_quest.AddSkillsToQuestAdapter
 import com.google.android.material.slider.Slider
 
 class AddSkillsToQuestViewHolder(itemView: View,
@@ -49,8 +50,5 @@ class AddSkillsToQuestViewHolder(itemView: View,
         xpPercentageSlider.value = skill.xpPercentage.toFloat()
         xpValueTextView.text = itemView.context.getString(R.string.add_skills_to_quest_xp_percent,
                 xpPercentageSlider.value.toInt())
-
     }
-
-
 }

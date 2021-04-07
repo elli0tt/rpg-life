@@ -465,14 +465,14 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         return subQuests.getValue().get(position).getId();
     }
 
-    int getDateDueColor(Calendar dateDue) {
+    public int getDateDueColor(Calendar dateDue) {
         if (Calendar.getInstance().after(dateDue)) {
             return R.color.colorAfterDateDue;
         }
         return R.color.colorLightGreen;
     }
 
-    String getDateDueFormatted(Quest.DateState dateDueState, Calendar dateDue) {
+    public String getDateDueFormatted(Quest.DateState dateDueState, Calendar dateDue) {
         if (new IsCalendarEqualsTodayCalendarUseCase().invoke(dateDue)) {
             return today;
         } else if (new IsCalendarEqualsTomorrowCalendarUseCase().invoke(dateDue)) {

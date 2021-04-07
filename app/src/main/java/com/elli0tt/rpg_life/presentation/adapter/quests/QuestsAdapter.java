@@ -1,4 +1,4 @@
-package com.elli0tt.rpg_life.presentation.screen.quests;
+package com.elli0tt.rpg_life.presentation.adapter.quests;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.domain.model.Difficulty;
 import com.elli0tt.rpg_life.domain.model.Quest;
+import com.elli0tt.rpg_life.presentation.screen.quests.QuestsViewModel;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 

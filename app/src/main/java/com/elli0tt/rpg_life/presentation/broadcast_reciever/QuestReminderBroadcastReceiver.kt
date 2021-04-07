@@ -1,4 +1,4 @@
-package com.elli0tt.rpg_life.presentation.screen.add_edit_quest
+package com.elli0tt.rpg_life.presentation.broadcast_reciever
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.elli0tt.rpg_life.R
+import com.elli0tt.rpg_life.presentation.screen.add_edit_quest.AddEditQuestFragment
 import com.elli0tt.rpg_life.presentation.screen.main.MainActivity
 
 class QuestReminderBroadcastReceiver : BroadcastReceiver() {
