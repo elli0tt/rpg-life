@@ -7,9 +7,12 @@ import com.elli0tt.rpg_life.domain.model.SkillsCategory
 import com.elli0tt.rpg_life.domain.repository.SkillsCategoriesRepository
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository
 import com.github.mikephil.charting.data.PieEntry
+import javax.inject.Inject
 
-class GetSkillsCategoriesPieEntriesUseCase(skillsRepository: SkillsRepository,
-                                           skillsCategoriesRepository: SkillsCategoriesRepository) {
+class GetSkillsCategoriesPieEntriesUseCase @Inject constructor(
+        skillsRepository: SkillsRepository,
+        skillsCategoriesRepository: SkillsCategoriesRepository
+) {
     private val resultPieEntries: MediatorLiveData<List<PieEntry>> = MediatorLiveData()
     private val skills = skillsRepository.allSkills
     private val skillsCategories = skillsCategoriesRepository.getAllSkillsCategories()
@@ -26,7 +29,10 @@ class GetSkillsCategoriesPieEntriesUseCase(skillsRepository: SkillsRepository,
         return resultPieEntries
     }
 
-    private fun mapToPieEntries(skills: List<Skill>?, skillsCategories: List<SkillsCategory>?): List<PieEntry> {
+    private fun mapToPieEntries(
+            skills: List<Skill>?,
+            skillsCategories: List<SkillsCategory>?
+    ): List<PieEntry> {
         val result = ArrayList<PieEntry>()
         if (skills != null && skillsCategories != null) {
             val totalXpSum = skills.map { it.totalXp }.sum()

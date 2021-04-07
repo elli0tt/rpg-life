@@ -3,9 +3,12 @@ package com.elli0tt.rpg_life.domain.use_case.quests;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
 
-public class PopulateWithSamplesUseCase {
-    private QuestsRepository questsRepository;
+import javax.inject.Inject;
 
+public class PopulateWithSamplesUseCase {
+    private final QuestsRepository questsRepository;
+
+    @Inject
     public PopulateWithSamplesUseCase(QuestsRepository repository) {
         questsRepository = repository;
     }

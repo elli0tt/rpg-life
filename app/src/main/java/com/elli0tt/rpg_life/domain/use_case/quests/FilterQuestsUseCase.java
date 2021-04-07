@@ -8,11 +8,20 @@ import com.elli0tt.rpg_life.presentation.screen.quests.QuestsFilterState;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class FilterQuestsUseCase {
-    private IsCalendarEqualsTodayCalendarUseCase isCalendarEqualsTodayCalendarUseCase =
-            new IsCalendarEqualsTodayCalendarUseCase();
-    private IsCalendarEqualsTomorrowCalendarUseCase isCalendarEqualsTomorrowCalendarUseCase =
-            new IsCalendarEqualsTomorrowCalendarUseCase();
+    private final IsCalendarEqualsTodayCalendarUseCase isCalendarEqualsTodayCalendarUseCase;
+    private final IsCalendarEqualsTomorrowCalendarUseCase isCalendarEqualsTomorrowCalendarUseCase;
+
+    @Inject
+    public FilterQuestsUseCase(
+            IsCalendarEqualsTodayCalendarUseCase isCalendarEqualsTodayCalendarUseCase,
+            IsCalendarEqualsTomorrowCalendarUseCase isCalendarEqualsTomorrowCalendarUseCase
+    ) {
+        this.isCalendarEqualsTodayCalendarUseCase = isCalendarEqualsTodayCalendarUseCase;
+        this.isCalendarEqualsTomorrowCalendarUseCase = isCalendarEqualsTomorrowCalendarUseCase;
+    }
 
     public List<Quest> invoke(List<Quest> quests, QuestsFilterState filterState,
                               boolean isShowCompleted) {

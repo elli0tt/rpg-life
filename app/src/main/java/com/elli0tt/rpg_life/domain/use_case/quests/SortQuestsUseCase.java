@@ -6,7 +6,15 @@ import com.elli0tt.rpg_life.presentation.screen.quests.QuestsSortingState;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class SortQuestsUseCase {
+
+    @Inject
+    public SortQuestsUseCase() {
+        //do nothing
+    }
+
     public List<Quest> invoke(List<Quest> quests, QuestsSortingState sortingState) {
         switch (sortingState) {
             case NAME:

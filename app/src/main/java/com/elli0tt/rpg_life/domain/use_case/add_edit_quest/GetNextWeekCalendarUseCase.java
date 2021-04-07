@@ -4,7 +4,15 @@ import com.elli0tt.rpg_life.domain.constants.Constants;
 
 import java.util.Calendar;
 
+import javax.inject.Inject;
+
 public class GetNextWeekCalendarUseCase {
+
+    @Inject
+    public GetNextWeekCalendarUseCase(){
+        // do nothing
+    }
+
     public Calendar invoke() {
         Calendar calendar = Calendar.getInstance();
 

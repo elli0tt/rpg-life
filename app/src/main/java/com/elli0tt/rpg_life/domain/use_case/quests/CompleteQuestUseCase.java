@@ -14,11 +14,14 @@ import com.elli0tt.rpg_life.domain.repository.UserRepository;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class CompleteQuestUseCase {
     private QuestsRepository questsRepository;
     private SkillsRepository skillsRepository;
     private UserRepository userRepository;
 
+    @Inject
     public CompleteQuestUseCase(QuestsRepository questsRepository,
                                 SkillsRepository skillsRepository,
                                 UserRepository userRepository) {

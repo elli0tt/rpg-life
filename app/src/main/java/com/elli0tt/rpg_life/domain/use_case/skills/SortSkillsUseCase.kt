@@ -2,8 +2,9 @@ package com.elli0tt.rpg_life.domain.use_case.skills
 
 import com.elli0tt.rpg_life.domain.model.Skill
 import com.elli0tt.rpg_life.presentation.screen.skills.SkillsSortingState
+import javax.inject.Inject
 
-class SortSkillsUseCase {
+class SortSkillsUseCase @Inject constructor() {
     operator fun invoke(skills: List<Skill>, sortingState: SkillsSortingState): List<Skill> {
         return when (sortingState) {
             SkillsSortingState.NAME_ASC -> sortByNameAsc(skills)
@@ -14,19 +15,19 @@ class SortSkillsUseCase {
     }
 
     private fun sortByNameAsc(skills: List<Skill>): List<Skill> {
-        return skills.sortedWith(Comparator { skill1, skill2 ->
+        return skills.sortedWith { skill1, skill2 ->
             skill1.name.compareTo(skill2.name)
-        })
+        }
     }
 
     private fun sortByNameDesc(skills: List<Skill>): List<Skill> {
-        return skills.sortedWith(Comparator { skill1, skill2 ->
+        return skills.sortedWith { skill1, skill2 ->
             skill2.name.compareTo(skill1.name)
-        })
+        }
     }
 
     private fun sortByLevelAsc(skills: List<Skill>): List<Skill> {
-        return skills.sortedWith(Comparator { skill1, skill2 ->
+        return skills.sortedWith { skill1, skill2 ->
             when {
                 skill1.level != skill2.level -> {
                     skill1.level.compareTo(skill2.level)
@@ -38,11 +39,11 @@ class SortSkillsUseCase {
                     skill1.name.compareTo(skill2.name)
                 }
             }
-        })
+        }
     }
 
     private fun sortByLevelDesc(skills: List<Skill>): List<Skill> {
-        return skills.sortedWith(Comparator { skill1, skill2 ->
+        return skills.sortedWith { skill1, skill2 ->
             when {
                 skill1.level != skill2.level -> {
                     skill2.level.compareTo(skill1.level)
@@ -54,6 +55,6 @@ class SortSkillsUseCase {
                     skill1.name.compareTo(skill2.name)
                 }
             }
-        })
+        }
     }
 }

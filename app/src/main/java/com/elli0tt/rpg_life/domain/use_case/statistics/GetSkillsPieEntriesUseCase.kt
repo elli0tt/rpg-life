@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository
 import com.github.mikephil.charting.data.PieEntry
+import javax.inject.Inject
 
-class GetSkillsPieEntriesUseCase(private val skillsRepository: SkillsRepository) {
+class GetSkillsPieEntriesUseCase @Inject constructor(private val skillsRepository: SkillsRepository) {
     fun invoke(): LiveData<List<PieEntry>> {
         return Transformations.map(skillsRepository.allSkills) { skills ->
             val result = ArrayList<PieEntry>(skills.size)

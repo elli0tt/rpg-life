@@ -2,8 +2,9 @@ package com.elli0tt.rpg_life.domain.use_case.add_edit_quest
 
 import com.elli0tt.rpg_life.domain.constants.Constants
 import java.util.*
+import javax.inject.Inject
 
-class GetClosestWeekdayCalendarUseCase {
+class GetClosestWeekdayCalendarUseCase @Inject constructor() {
     fun invoke(): Calendar {
         val calendar = Calendar.getInstance()
         when (calendar[Calendar.DAY_OF_WEEK]) {

@@ -8,9 +8,10 @@ import com.elli0tt.rpg_life.domain.model.RelatedToQuestSkills
 import com.elli0tt.rpg_life.domain.model.Skill
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository
+import javax.inject.Inject
 
-class GetAddSkillsDataUseCase(private val skillsRepository: SkillsRepository,
-                              private val questsRepository: QuestsRepository) {
+class GetAddSkillsDataUseCase @Inject constructor(private val skillsRepository: SkillsRepository,
+                                                  private val questsRepository: QuestsRepository) {
 
     private val addSkillData = MediatorLiveData<List<AddSkillData>>()
     private lateinit var allSkills: LiveData<List<Skill>>
@@ -35,7 +36,10 @@ class GetAddSkillsDataUseCase(private val skillsRepository: SkillsRepository,
         return addSkillData
     }
 
-    private fun mapToAddSkillData(allSkills: List<Skill>?, relatedSkills: List<RelatedToQuestSkills>?): MutableList<AddSkillData> {
+    private fun mapToAddSkillData(
+            allSkills: List<Skill>?,
+            relatedSkills: List<RelatedToQuestSkills>?
+    ): MutableList<AddSkillData> {
         val resultList = ArrayList<AddSkillData>(allSkills?.size ?: 0)
         if (relatedSkills != null && allSkills != null) {
             for (skill in allSkills) {
