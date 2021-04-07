@@ -1,4 +1,4 @@
-package com.elli0tt.rpg_life.di.modules.app
+package com.elli0tt.rpg_life.di.modules
 
 import dagger.Module
 

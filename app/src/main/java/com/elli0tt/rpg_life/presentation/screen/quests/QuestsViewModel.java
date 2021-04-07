@@ -46,7 +46,9 @@ public class QuestsViewModel extends AndroidViewModel {
     private MutableLiveData<Boolean> isShowCompleted = new MutableLiveData<>();
     private LiveData<Integer> showCompletedTextResId;
     private SortQuestsUseCase sortQuestsUseCase = new SortQuestsUseCase();
-    private FilterQuestsUseCase filterQuestsUseCase = new FilterQuestsUseCase();
+    private FilterQuestsUseCase filterQuestsUseCase =
+            new FilterQuestsUseCase(new IsCalendarEqualsTodayCalendarUseCase(),
+                    new IsCalendarEqualsTomorrowCalendarUseCase());
     private PopulateWithSamplesUseCase populateWithSamplesUseCase;
     private CompleteQuestUseCase completeQuestUseCase;
     private SetQuestImportantUseCase setQuestImportantUseCase;
