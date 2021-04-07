@@ -14,10 +14,13 @@ import com.elli0tt.rpg_life.presentation.screen.skills.SkillsSortingState;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class SkillsRepositoryImpl implements SkillsRepository {
     private SkillsDao skillsDao;
     private SharedPreferencesUtils sharedPreferencesUtils;
 
+    @Inject
     public SkillsRepositoryImpl(Context context) {
         AppRoomDatabase database = AppRoomDatabase.getDatabase(context);
         skillsDao = database.getSkillsDao();

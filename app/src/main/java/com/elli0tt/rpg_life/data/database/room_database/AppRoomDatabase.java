@@ -42,6 +42,7 @@ public abstract class AppRoomDatabase extends RoomDatabase {
                     "null");
         }
     };
+
     private static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
@@ -49,6 +50,7 @@ public abstract class AppRoomDatabase extends RoomDatabase {
                     "integer default 100 not null");
         }
     };
+
     private static final Migration MIGRATION_3_4 = new Migration(3, 4) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
@@ -56,6 +58,7 @@ public abstract class AppRoomDatabase extends RoomDatabase {
                     "PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL)");
         }
     };
+
     private static final Migration MIGRATION_4_5 = new Migration(4, 5) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
@@ -63,12 +66,14 @@ public abstract class AppRoomDatabase extends RoomDatabase {
                     "NOT NULL");
         }
     };
+
     private static final Migration MIGRATION_5_6 = new Migration(5, 6) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE quest_table ADD COLUMN startDate INTEGER");
         }
     };
+
     private static final Migration MIGRATION_6_7 = new Migration(6, 7) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
@@ -76,6 +81,7 @@ public abstract class AppRoomDatabase extends RoomDatabase {
                     " NOT NULL");
         }
     };
+
     private static final Migration MIGRATION_7_8 = new Migration(7, 8) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
@@ -114,6 +120,7 @@ public abstract class AppRoomDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE quest_table_new RENAME TO quest_table");
         }
     };
+
     private static volatile AppRoomDatabase INSTANCE;
 
     public static AppRoomDatabase getDatabase(final Context context) {

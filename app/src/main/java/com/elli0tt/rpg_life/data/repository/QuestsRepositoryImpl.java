@@ -18,11 +18,14 @@ import com.elli0tt.rpg_life.presentation.screen.quests.QuestsSortingState;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class QuestsRepositoryImpl implements QuestsRepository {
     private QuestsDao questsDao;
     private RelatedToQuestsSkillsDao relatedToQuestsSkillsDao;
     private SharedPreferencesUtils sharedPreferencesUtils;
 
+    @Inject
     public QuestsRepositoryImpl(Context context) {
         AppRoomDatabase database = AppRoomDatabase.getDatabase(context);
         questsDao = database.getQuestDao();

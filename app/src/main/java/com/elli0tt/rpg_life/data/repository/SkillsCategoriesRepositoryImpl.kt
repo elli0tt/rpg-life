@@ -5,8 +5,9 @@ import androidx.lifecycle.LiveData
 import com.elli0tt.rpg_life.data.database.room_database.AppRoomDatabase
 import com.elli0tt.rpg_life.domain.model.SkillsCategory
 import com.elli0tt.rpg_life.domain.repository.SkillsCategoriesRepository
+import javax.inject.Inject
 
-class SkillsCategoriesRepositoryImpl(application: Application) : SkillsCategoriesRepository {
+class SkillsCategoriesRepositoryImpl @Inject constructor(application: Application) : SkillsCategoriesRepository {
 
     private val skillsCategoriesDao = AppRoomDatabase.getDatabase(application).skillsCategoriesDao
 

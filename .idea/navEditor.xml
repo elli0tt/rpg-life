@@ -230,13 +230,13 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="rewardsShopFragment">
+                  <entry key="rewards_shop_screen">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="53" />
-                            <option name="y" value="-398" />
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
                           </Point>
                         </option>
                       </LayoutPositions>

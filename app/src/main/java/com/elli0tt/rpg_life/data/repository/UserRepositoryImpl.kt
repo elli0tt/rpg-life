@@ -9,8 +9,9 @@ import com.elli0tt.rpg_life.data.shared_prefs.SharedPreferencesUtils
 import com.elli0tt.rpg_life.domain.model.Characteristic
 import com.elli0tt.rpg_life.domain.model.User
 import com.elli0tt.rpg_life.domain.repository.UserRepository
+import javax.inject.Inject
 
-class UserRepositoryImpl(application: Application?) : UserRepository {
+class UserRepositoryImpl @Inject constructor(application: Application?) : UserRepository {
 
     private val characteristicsDao: CharacteristicsDao
 
