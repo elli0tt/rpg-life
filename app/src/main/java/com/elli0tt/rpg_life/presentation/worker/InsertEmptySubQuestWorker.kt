@@ -12,9 +12,9 @@ internal class InsertEmptySubQuestWorker(private val context: Context,
     override fun doWork(): Result {
         val questsRepository = QuestsRepositoryImpl(context)
 
-        val parentQuestId = inputData.getInt(Constants.KEY_PARENT_QUEST_ID, 0)
+        val parentQuestId = inputData.getInt(WorkerConstants.KEY_PARENT_QUEST_ID, 0)
         val outputData = Data.Builder()
-                .putInt(Constants.KEY_QUEST_ID, questsRepository.insertEmptySubQuestSync(parentQuestId).toInt())
+                .putInt(WorkerConstants.KEY_QUEST_ID, questsRepository.insertEmptySubQuestSync(parentQuestId).toInt())
                 .build()
         return Result.success(outputData)
     }

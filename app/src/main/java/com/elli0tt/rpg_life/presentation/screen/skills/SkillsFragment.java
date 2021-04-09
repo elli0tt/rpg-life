@@ -115,7 +115,7 @@ public class SkillsFragment extends Fragment {
 
         viewModel.getInsertEmptySkillWorkInfo().observe(getViewLifecycleOwner(), workInfo -> {
             if (workInfo != null && workInfo.getState().isFinished()) {
-                navigateToEditSkillScreen(workInfo.getOutputData().getInt(Constants.KEY_SKILL_ID,
+                navigateToEditSkillScreen(workInfo.getOutputData().getInt(SkillsConstants.KEY_SKILL_ID,
                         0));
                 viewModel.updateInsertEmptySkillWorkRequest();
             }

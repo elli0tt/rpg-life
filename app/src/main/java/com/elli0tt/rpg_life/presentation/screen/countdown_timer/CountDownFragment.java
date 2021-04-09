@@ -75,9 +75,9 @@ public class CountDownFragment extends Fragment {
         binding.pauseFab.setOnClickListener(pauseFabOnClickListener);
         binding.stopFab.setOnClickListener(stopFabOnClickListener);
 
-        binding.hoursNumberPicker.setMaxValue(Constants.HOURS_NUMBER_PICKER_MAX);
-        binding.minutesNumberPicker.setMaxValue(Constants.MINUTES_NUMBER_PICKER_MAX);
-        binding.secondsNumberPicker.setMaxValue(Constants.SECONDS_NUMBER_PICKER_MAX);
+        binding.hoursNumberPicker.setMaxValue(CountDownTimerConstants.HOURS_NUMBER_PICKER_MAX);
+        binding.minutesNumberPicker.setMaxValue(CountDownTimerConstants.MINUTES_NUMBER_PICKER_MAX);
+        binding.secondsNumberPicker.setMaxValue(CountDownTimerConstants.SECONDS_NUMBER_PICKER_MAX);
 
         binding.hoursNumberPicker.setFormatter(numberPickersFormatter);
         binding.minutesNumberPicker.setFormatter(numberPickersFormatter);
@@ -132,7 +132,7 @@ public class CountDownFragment extends Fragment {
     private void startTimer() {
         viewModel.startTimer(System.currentTimeMillis());
         binding.progressBar.setMax(viewModel.getMaxProgress());
-        timer = new CountDownTimer(viewModel.getTimeLeftMillis(), Constants.COUNT_DOWN_INTERVAL) {
+        timer = new CountDownTimer(viewModel.getTimeLeftMillis(), CountDownTimerConstants.COUNT_DOWN_INTERVAL) {
             @Override
             public void onTick(long millisUntilFinished) {
                 viewModel.updateTimeLeftSeconds();

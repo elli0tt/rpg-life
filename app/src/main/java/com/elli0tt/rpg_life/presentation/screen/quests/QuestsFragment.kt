@@ -184,13 +184,13 @@ class QuestsFragment : Fragment() {
         })
         viewModel.insertEmptyQuestWorkInfo.observe(viewLifecycleOwner, Observer { workInfo ->
             if (workInfo != null && workInfo.state.isFinished) {
-                navigateToEditQuestScreen(workInfo.outputData.getInt(com.elli0tt.rpg_life.presentation.worker.Constants.KEY_QUEST_ID, 0))
+                navigateToEditQuestScreen(workInfo.outputData.getInt(com.elli0tt.rpg_life.presentation.worker.WorkerConstants.KEY_QUEST_ID, 0))
                 viewModel.updateInsertEmptyQuestWorkRequest()
             }
         })
         viewModel.insertEmptyChallengeWorkInfo.observe(viewLifecycleOwner, Observer { workInfo ->
             if (workInfo != null && workInfo.state.isFinished) {
-                navigateToEditChallengeScreen(workInfo.outputData.getInt(com.elli0tt.rpg_life.presentation.worker.Constants.KEY_CHALLENGE_ID, 0))
+                navigateToEditChallengeScreen(workInfo.outputData.getInt(com.elli0tt.rpg_life.presentation.worker.WorkerConstants.KEY_CHALLENGE_ID, 0))
                 viewModel.updateInsertEmptyChallengeWorkRequest()
             }
         })

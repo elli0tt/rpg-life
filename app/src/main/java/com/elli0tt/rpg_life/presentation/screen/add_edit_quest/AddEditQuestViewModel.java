@@ -407,22 +407,22 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
     void changeDifficulty(int popUpMenuItemId) {
         switch (popUpMenuItemId) {
-            case Constants.VERY_EASY_POPUP_MENU_ITEM_ID:
+            case DifficultyPopupMenuIds.VERY_EASY_POPUP_MENU_ITEM_ID:
                 difficulty.setValue(Difficulty.VERY_EASY);
                 break;
-            case Constants.EASY_POPUP_MENU_ITEM_ID:
+            case DifficultyPopupMenuIds.EASY_POPUP_MENU_ITEM_ID:
                 difficulty.setValue(Difficulty.EASY);
                 break;
-            case Constants.NORMAL_POPUP_MENU_ITEM_ID:
+            case DifficultyPopupMenuIds.NORMAL_POPUP_MENU_ITEM_ID:
                 difficulty.setValue(Difficulty.NORMAL);
                 break;
-            case Constants.HARD_POPUP_MENU_ITEM_ID:
+            case DifficultyPopupMenuIds.HARD_POPUP_MENU_ITEM_ID:
                 difficulty.setValue(Difficulty.HARD);
                 break;
-            case Constants.VERY_HARD_POPUP_MENU_ITEM_ID:
+            case DifficultyPopupMenuIds.VERY_HARD_POPUP_MENU_ITEM_ID:
                 difficulty.setValue(Difficulty.VERY_HARD);
                 break;
-            case Constants.IMPOSSIBLE_POPUP_MENU_ITEM_ID:
+            case DifficultyPopupMenuIds.IMPOSSIBLE_POPUP_MENU_ITEM_ID:
                 difficulty.setValue(Difficulty.IMPOSSIBLE);
                 break;
         }
@@ -445,7 +445,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
 
     void updateInsertEmptyQuestWorkRequest() {
         Data inputData = new Data.Builder()
-                .putInt(com.elli0tt.rpg_life.presentation.worker.Constants.KEY_PARENT_QUEST_ID,
+                .putInt(com.elli0tt.rpg_life.presentation.worker.WorkerConstants.KEY_PARENT_QUEST_ID,
                         parentQuestId)
                 .build();
         insertEmptyQuestWorkRequest =

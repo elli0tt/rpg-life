@@ -2,10 +2,6 @@ package com.elli0tt.rpg_life.data.shared_prefs
 
 import android.content.Context
 import com.elli0tt.rpg_life.domain.model.User
-import com.elli0tt.rpg_life.presentation.screen.countdown_timer.TimerState
-import com.elli0tt.rpg_life.presentation.screen.quests.QuestsFilterState
-import com.elli0tt.rpg_life.presentation.screen.quests.QuestsSortingState
-import com.elli0tt.rpg_life.presentation.screen.skills.SkillsSortingState
 import com.google.gson.Gson
 
 class SharedPreferencesUtils(context: Context) {

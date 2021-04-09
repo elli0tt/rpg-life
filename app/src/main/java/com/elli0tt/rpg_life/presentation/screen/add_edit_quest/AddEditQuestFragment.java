@@ -364,7 +364,7 @@ public class AddEditQuestFragment extends Fragment {
 
         viewModel.getInsertEmptyQuestWorkInfo().observe(getViewLifecycleOwner(), workInfo -> {
             if (workInfo != null && workInfo.getState().isFinished()) {
-                navigateToEditSubQuestScreen(workInfo.getOutputData().getInt(com.elli0tt.rpg_life.presentation.worker.Constants.KEY_QUEST_ID, 0));
+                navigateToEditSubQuestScreen(workInfo.getOutputData().getInt(com.elli0tt.rpg_life.presentation.worker.WorkerConstants.KEY_QUEST_ID, 0));
                 viewModel.updateInsertEmptyQuestWorkRequest();
             }
         });
@@ -516,18 +516,20 @@ public class AddEditQuestFragment extends Fragment {
         PopupMenu popupMenu = new PopupMenu(requireContext(), view);
         Menu menu = popupMenu.getMenu();
 
-        menu.add(Menu.NONE, Constants.VERY_EASY_POPUP_MENU_ITEM_ID,
-                Constants.VERY_EASY_POPUP_MENU_ITEM_ORDER, veryEasyTitle);
-        menu.add(Menu.NONE, Constants.EASY_POPUP_MENU_ITEM_ID, Constants.EASY_POPUP_MENU_ITEM_ORDER,
+        menu.add(Menu.NONE, DifficultyPopupMenuIds.VERY_EASY_POPUP_MENU_ITEM_ID,
+                DifficultyPopupMenuIds.VERY_EASY_POPUP_MENU_ITEM_ORDER, veryEasyTitle);
+        menu.add(Menu.NONE, DifficultyPopupMenuIds.EASY_POPUP_MENU_ITEM_ID,
+                DifficultyPopupMenuIds.EASY_POPUP_MENU_ITEM_ORDER,
                 easyTitle);
-        menu.add(Menu.NONE, Constants.NORMAL_POPUP_MENU_ITEM_ID,
-                Constants.NORMAL_POPUP_MENU_ITEM_ORDER, normalTitle);
-        menu.add(Menu.NONE, Constants.HARD_POPUP_MENU_ITEM_ID, Constants.HARD_POPUP_MENU_ITEM_ORDER,
+        menu.add(Menu.NONE, DifficultyPopupMenuIds.NORMAL_POPUP_MENU_ITEM_ID,
+                DifficultyPopupMenuIds.NORMAL_POPUP_MENU_ITEM_ORDER, normalTitle);
+        menu.add(Menu.NONE, DifficultyPopupMenuIds.HARD_POPUP_MENU_ITEM_ID,
+                DifficultyPopupMenuIds.HARD_POPUP_MENU_ITEM_ORDER,
                 hardTitle);
-        menu.add(Menu.NONE, Constants.VERY_HARD_POPUP_MENU_ITEM_ID,
-                Constants.VERY_HARD_POPUP_MENU_ITEM_ORDER, veryHardTitle);
-        menu.add(Menu.NONE, Constants.IMPOSSIBLE_POPUP_MENU_ITEM_ID,
-                Constants.IMPOSSIBLE_POPUP_MENU_ITEM_ORDER, impossibleTitle);
+        menu.add(Menu.NONE, DifficultyPopupMenuIds.VERY_HARD_POPUP_MENU_ITEM_ID,
+                DifficultyPopupMenuIds.VERY_HARD_POPUP_MENU_ITEM_ORDER, veryHardTitle);
+        menu.add(Menu.NONE, DifficultyPopupMenuIds.IMPOSSIBLE_POPUP_MENU_ITEM_ID,
+                DifficultyPopupMenuIds.IMPOSSIBLE_POPUP_MENU_ITEM_ORDER, impossibleTitle);
 
         popupMenu.setOnMenuItemClickListener(item -> {
             binding.difficultyView.setText(item.getTitle().toString());

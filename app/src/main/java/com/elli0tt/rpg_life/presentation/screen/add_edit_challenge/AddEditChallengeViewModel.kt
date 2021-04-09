@@ -14,7 +14,7 @@ import com.elli0tt.rpg_life.domain.repository.QuestsRepository
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.*
 import com.elli0tt.rpg_life.domain.use_case.quests.FailChallengeUseCase
-import com.elli0tt.rpg_life.presentation.screen.add_edit_quest.Constants
+import com.elli0tt.rpg_life.presentation.screen.add_edit_quest.DifficultyPopupMenuIds
 import java.text.DateFormat
 import java.util.*
 
@@ -94,12 +94,12 @@ class AddEditChallengeViewModel(application: Application) : AndroidViewModel(app
 
     fun changeDifficulty(popUpMenuItemId: Int) {
         when (popUpMenuItemId) {
-            Constants.VERY_EASY_POPUP_MENU_ITEM_ID -> difficulty.setValue(Difficulty.VERY_EASY)
-            Constants.EASY_POPUP_MENU_ITEM_ID -> difficulty.setValue(Difficulty.EASY)
-            Constants.NORMAL_POPUP_MENU_ITEM_ID -> difficulty.setValue(Difficulty.NORMAL)
-            Constants.HARD_POPUP_MENU_ITEM_ID -> difficulty.setValue(Difficulty.HARD)
-            Constants.VERY_HARD_POPUP_MENU_ITEM_ID -> difficulty.setValue(Difficulty.VERY_HARD)
-            Constants.IMPOSSIBLE_POPUP_MENU_ITEM_ID -> difficulty.setValue(Difficulty.IMPOSSIBLE)
+            DifficultyPopupMenuIds.VERY_EASY_POPUP_MENU_ITEM_ID -> difficulty.setValue(Difficulty.VERY_EASY)
+            DifficultyPopupMenuIds.EASY_POPUP_MENU_ITEM_ID -> difficulty.setValue(Difficulty.EASY)
+            DifficultyPopupMenuIds.NORMAL_POPUP_MENU_ITEM_ID -> difficulty.setValue(Difficulty.NORMAL)
+            DifficultyPopupMenuIds.HARD_POPUP_MENU_ITEM_ID -> difficulty.setValue(Difficulty.HARD)
+            DifficultyPopupMenuIds.VERY_HARD_POPUP_MENU_ITEM_ID -> difficulty.setValue(Difficulty.VERY_HARD)
+            DifficultyPopupMenuIds.IMPOSSIBLE_POPUP_MENU_ITEM_ID -> difficulty.setValue(Difficulty.IMPOSSIBLE)
         }
     }
 

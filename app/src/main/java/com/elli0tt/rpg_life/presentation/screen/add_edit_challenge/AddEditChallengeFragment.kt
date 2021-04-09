@@ -21,7 +21,7 @@ import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.databinding.FragmentAddEditChallengeBinding
 import com.elli0tt.rpg_life.domain.model.Difficulty
 import com.elli0tt.rpg_life.domain.model.Quest.DateState
-import com.elli0tt.rpg_life.presentation.screen.add_edit_quest.Constants
+import com.elli0tt.rpg_life.presentation.screen.add_edit_quest.DifficultyPopupMenuIds
 import com.elli0tt.rpg_life.presentation.utils.SoftKeyboardUtil
 import java.util.*
 
@@ -158,18 +158,18 @@ class AddEditChallengeFragment : Fragment() {
     private fun showDifficultyPopupMenu(view: View) {
         val popupMenu = PopupMenu(requireContext(), view)
         val menu = popupMenu.menu
-        menu.add(Menu.NONE, Constants.VERY_EASY_POPUP_MENU_ITEM_ID,
-                Constants.VERY_EASY_POPUP_MENU_ITEM_ORDER, veryEasyTitle)
-        menu.add(Menu.NONE, Constants.EASY_POPUP_MENU_ITEM_ID, Constants.EASY_POPUP_MENU_ITEM_ORDER,
+        menu.add(Menu.NONE, DifficultyPopupMenuIds.VERY_EASY_POPUP_MENU_ITEM_ID,
+                DifficultyPopupMenuIds.VERY_EASY_POPUP_MENU_ITEM_ORDER, veryEasyTitle)
+        menu.add(Menu.NONE, DifficultyPopupMenuIds.EASY_POPUP_MENU_ITEM_ID, DifficultyPopupMenuIds.EASY_POPUP_MENU_ITEM_ORDER,
                 easyTitle)
-        menu.add(Menu.NONE, Constants.NORMAL_POPUP_MENU_ITEM_ID,
-                Constants.NORMAL_POPUP_MENU_ITEM_ORDER, normalTitle)
-        menu.add(Menu.NONE, Constants.HARD_POPUP_MENU_ITEM_ID, Constants.HARD_POPUP_MENU_ITEM_ORDER,
+        menu.add(Menu.NONE, DifficultyPopupMenuIds.NORMAL_POPUP_MENU_ITEM_ID,
+                DifficultyPopupMenuIds.NORMAL_POPUP_MENU_ITEM_ORDER, normalTitle)
+        menu.add(Menu.NONE, DifficultyPopupMenuIds.HARD_POPUP_MENU_ITEM_ID, DifficultyPopupMenuIds.HARD_POPUP_MENU_ITEM_ORDER,
                 hardTitle)
-        menu.add(Menu.NONE, Constants.VERY_HARD_POPUP_MENU_ITEM_ID,
-                Constants.VERY_HARD_POPUP_MENU_ITEM_ORDER, veryHardTitle)
-        menu.add(Menu.NONE, Constants.IMPOSSIBLE_POPUP_MENU_ITEM_ID,
-                Constants.IMPOSSIBLE_POPUP_MENU_ITEM_ORDER, impossibleTitle)
+        menu.add(Menu.NONE, DifficultyPopupMenuIds.VERY_HARD_POPUP_MENU_ITEM_ID,
+                DifficultyPopupMenuIds.VERY_HARD_POPUP_MENU_ITEM_ORDER, veryHardTitle)
+        menu.add(Menu.NONE, DifficultyPopupMenuIds.IMPOSSIBLE_POPUP_MENU_ITEM_ID,
+                DifficultyPopupMenuIds.IMPOSSIBLE_POPUP_MENU_ITEM_ORDER, impossibleTitle)
         popupMenu.setOnMenuItemClickListener { item: MenuItem ->
             binding.difficultyView.setText(item.title.toString())
             viewModel.changeDifficulty(item.itemId)

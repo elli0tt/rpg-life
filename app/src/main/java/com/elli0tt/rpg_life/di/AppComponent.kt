@@ -14,6 +14,6 @@ interface AppComponent {
 
     @Component.Factory
     interface Factory {
-        fun create()
+        fun create(): AppComponent
     }
 }

@@ -4,8 +4,6 @@ import androidx.lifecycle.LiveData;
 
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.model.RelatedToQuestSkills;
-import com.elli0tt.rpg_life.presentation.screen.quests.QuestsFilterState;
-import com.elli0tt.rpg_life.presentation.screen.quests.QuestsSortingState;
 
 import java.util.List;
 

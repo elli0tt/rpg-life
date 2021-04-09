@@ -52,11 +52,11 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
     private OnRemoveButtonClickListener onRemoveButtonClickListener;
     private AddEditQuestViewModel viewModel;
 
-    SubQuestsAdapter() {
+    public SubQuestsAdapter() {
         super(DIFF_CALLBACK);
     }
 
-    void setOnIsCompleteCheckBoxClickListener(OnIsCompleteCheckBoxClickListener listener) {
+    public void setOnIsCompleteCheckBoxClickListener(OnIsCompleteCheckBoxClickListener listener) {
         onIsCompleteCheckBoxClickListener = listener;
     }
 
@@ -64,7 +64,7 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
         onIsImportantCheckBoxClickListener = listener;
     }
 
-    void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 
@@ -72,11 +72,11 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
         this.onItemLongClickListener = onItemLongClickListener;
     }
 
-    void setOnRemoveButtonClickListener(OnRemoveButtonClickListener onRemoveButtonClickListener) {
+    public void setOnRemoveButtonClickListener(OnRemoveButtonClickListener onRemoveButtonClickListener) {
         this.onRemoveButtonClickListener = onRemoveButtonClickListener;
     }
 
-    void setViewModel(AddEditQuestViewModel viewModel) {
+    public void setViewModel(AddEditQuestViewModel viewModel) {
         this.viewModel = viewModel;
     }
 
