@@ -40,28 +40,28 @@ import java.util.Locale;
 public class QuestsViewModel extends AndroidViewModel {
     private final String today;
     private final String tomorrow;
-    private LiveData<List<Quest>> allQuests;
-    private MutableLiveData<QuestsFilterState> currentFilterState = new MutableLiveData<>();
-    private MediatorLiveData<List<Quest>> questsToShow = new MediatorLiveData<>();
-    private MutableLiveData<QuestsSortingState> currentSortingState = new MutableLiveData<>();
-    private MutableLiveData<Boolean> isSelectionStarted = new MutableLiveData<>(false);
-    private MutableLiveData<Boolean> isShowCompleted = new MutableLiveData<>();
-    private LiveData<Integer> showCompletedTextResId;
-    private SortQuestsUseCase sortQuestsUseCase = new SortQuestsUseCase();
-    private FilterQuestsUseCase filterQuestsUseCase =
+    private final LiveData<List<Quest>> allQuests;
+    private final MutableLiveData<QuestsFilterState> currentFilterState = new MutableLiveData<>();
+    private final MediatorLiveData<List<Quest>> questsToShow = new MediatorLiveData<>();
+    private final MutableLiveData<QuestsSortingState> currentSortingState = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isSelectionStarted = new MutableLiveData<>(false);
+    private final MutableLiveData<Boolean> isShowCompleted = new MutableLiveData<>();
+    private final LiveData<Integer> showCompletedTextResId;
+    private final SortQuestsUseCase sortQuestsUseCase = new SortQuestsUseCase();
+    private final FilterQuestsUseCase filterQuestsUseCase =
             new FilterQuestsUseCase(new IsCalendarEqualsTodayCalendarUseCase(),
                     new IsCalendarEqualsTomorrowCalendarUseCase());
-    private PopulateWithSamplesUseCase populateWithSamplesUseCase;
-    private CompleteQuestUseCase completeQuestUseCase;
-    private SetQuestImportantUseCase setQuestImportantUseCase;
-    private QuestsRepository questsRepository;
-    private SkillsRepository skillsRepository;
-    private UserRepository userRepository;
-    private WorkManager workManager;
+    private final PopulateWithSamplesUseCase populateWithSamplesUseCase;
+    private final CompleteQuestUseCase completeQuestUseCase;
+    private final SetQuestImportantUseCase setQuestImportantUseCase;
+    private final QuestsRepository questsRepository;
+    private final SkillsRepository skillsRepository;
+    private final UserRepository userRepository;
+    private final WorkManager workManager;
     private OneTimeWorkRequest insertEmptyQuestWorkRequest;
     private OneTimeWorkRequest insertEmptyChallengeWorkRequest;
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM, yyyy", Locale.getDefault());
-    private SimpleDateFormat dateAndTimeFormat = new SimpleDateFormat("d MMM, yyyy HH:mm",
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM, yyyy", Locale.getDefault());
+    private final SimpleDateFormat dateAndTimeFormat = new SimpleDateFormat("d MMM, yyyy HH:mm",
             Locale.getDefault());
 
     public QuestsViewModel(@NonNull Application application) {

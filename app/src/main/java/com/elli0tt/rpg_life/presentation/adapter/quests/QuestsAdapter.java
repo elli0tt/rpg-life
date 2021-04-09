@@ -82,7 +82,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
     private QuestsViewModel viewModel;
     private List<Boolean> selectedPositions;
     private OnItemClickListener saveLastOnItemClickListener;
-    private OnItemClickListener selectionOnItemClickListener = position -> {
+    private final OnItemClickListener selectionOnItemClickListener = position -> {
         selectedPositions.set(position, !selectedPositions.get(position));
 
         if (isNothingSelected()) {
@@ -214,7 +214,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         private TextView dayNumberTextView;
         private ConstraintLayout constraintLayout;
 
-        private QuestsViewModel viewModel;
+        private final QuestsViewModel viewModel;
 
         private ConstraintSet constraintSet;
 

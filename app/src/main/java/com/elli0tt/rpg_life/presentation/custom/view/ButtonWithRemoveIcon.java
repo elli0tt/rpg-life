@@ -15,9 +15,9 @@ import androidx.core.content.ContextCompat;
 import com.elli0tt.rpg_life.R;
 
 public class ButtonWithRemoveIcon extends CardView {
-    private AppCompatImageButton removeButton;
-    private TextView textView;
-    private AppCompatImageView mainIconImageView;
+    private final AppCompatImageButton removeButton;
+    private final TextView textView;
+    private final AppCompatImageView mainIconImageView;
 
     public ButtonWithRemoveIcon(Context context) {
         this(context, null);

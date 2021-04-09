@@ -23,21 +23,21 @@ public class StopwatchFragment extends Fragment {
     private Chronometer chronometer;
 
     private long pauseOffSet;
-    private View.OnClickListener startButtonOnClickListener = new View.OnClickListener() {
+    private final View.OnClickListener startButtonOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             chronometer.setBase(SystemClock.elapsedRealtime() - pauseOffSet);
             chronometer.start();
         }
     };
-    private View.OnClickListener pauseButtonOnClickListener = new View.OnClickListener() {
+    private final View.OnClickListener pauseButtonOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             chronometer.stop();
             pauseOffSet = SystemClock.elapsedRealtime() - chronometer.getBase();
         }
     };
-    private View.OnClickListener resetButtonOnClickListener = new View.OnClickListener() {
+    private final View.OnClickListener resetButtonOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             chronometer.stop();
@@ -57,16 +57,21 @@ public class StopwatchFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        initViews(view);
+        setListeners();
+    }
+
+    private void initViews(@NonNull View view) {
         startButton = view.findViewById(R.id.button_start_pause);
         pauseButton = view.findViewById(R.id.button_pause);
         resetButton = view.findViewById(R.id.button_reset);
 
         chronometer = view.findViewById(R.id.chronometer);
+    }
 
+    private void setListeners() {
         startButton.setOnClickListener(startButtonOnClickListener);
         pauseButton.setOnClickListener(pauseButtonOnClickListener);
         resetButton.setOnClickListener(resetButtonOnClickListener);
     }
-
-
 }

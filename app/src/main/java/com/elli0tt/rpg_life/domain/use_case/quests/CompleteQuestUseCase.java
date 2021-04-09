@@ -17,9 +17,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class CompleteQuestUseCase {
-    private QuestsRepository questsRepository;
-    private SkillsRepository skillsRepository;
-    private UserRepository userRepository;
+    private final QuestsRepository questsRepository;
+    private final SkillsRepository skillsRepository;
+    private final UserRepository userRepository;
 
     @Inject
     public CompleteQuestUseCase(QuestsRepository questsRepository,

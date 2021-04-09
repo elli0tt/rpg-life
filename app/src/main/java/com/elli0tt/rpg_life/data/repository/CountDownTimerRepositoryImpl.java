@@ -11,7 +11,7 @@ import com.elli0tt.rpg_life.domain.repository.CountDownTimerRepository;
 import javax.inject.Inject;
 
 public class CountDownTimerRepositoryImpl implements CountDownTimerRepository {
-    private SharedPreferencesUtils sharedPreferencesUtils;
+    private final SharedPreferencesUtils sharedPreferencesUtils;
 
     @Inject
     public CountDownTimerRepositoryImpl(@NonNull Context context) {

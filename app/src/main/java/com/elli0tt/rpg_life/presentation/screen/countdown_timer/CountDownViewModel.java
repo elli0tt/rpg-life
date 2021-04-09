@@ -17,23 +17,23 @@ import com.elli0tt.rpg_life.domain.use_case.countdown_timer.GetTimeFormattedUseC
 
 public class CountDownViewModel extends AndroidViewModel {
 
-    private MutableLiveData<TimerState> timerState = new MutableLiveData<>();
-    private MutableLiveData<Long> timeLeftSeconds = new MutableLiveData<>();
-    private MutableLiveData<Boolean> isTimerNew = new MutableLiveData<>(true);
+    private final MutableLiveData<TimerState> timerState = new MutableLiveData<>();
+    private final MutableLiveData<Long> timeLeftSeconds = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isTimerNew = new MutableLiveData<>(true);
     private long endTime;
     private long timerLengthSeconds;
 
     //NumberPickers current values
-    private MutableLiveData<Integer> hours = new MutableLiveData<>(0);
-    private MutableLiveData<Integer> minutes = new MutableLiveData<>(0);
-    private MutableLiveData<Integer> seconds = new MutableLiveData<>(0);
+    private final MutableLiveData<Integer> hours = new MutableLiveData<>(0);
+    private final MutableLiveData<Integer> minutes = new MutableLiveData<>(0);
+    private final MutableLiveData<Integer> seconds = new MutableLiveData<>(0);
 
-    private ConvertMillisToSecondsUseCase convertMillisToSecondsUseCase;
-    private ConvertSecondsToMillisUseCase convertSecondsToMillisUseCase;
-    private ConvertToSecondsUseCase convertToSecondsUseCase;
-    private GetTimeFormattedUseCase getTimeFormattedUseCase;
+    private final ConvertMillisToSecondsUseCase convertMillisToSecondsUseCase;
+    private final ConvertSecondsToMillisUseCase convertSecondsToMillisUseCase;
+    private final ConvertToSecondsUseCase convertToSecondsUseCase;
+    private final GetTimeFormattedUseCase getTimeFormattedUseCase;
 
-    private CountDownTimerRepository countDownTimerRepository;
+    private final CountDownTimerRepository countDownTimerRepository;
 
     public CountDownViewModel(@NonNull Application application) {
         super(application);

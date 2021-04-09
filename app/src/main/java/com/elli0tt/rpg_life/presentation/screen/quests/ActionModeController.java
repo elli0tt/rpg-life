@@ -11,8 +11,8 @@ import com.elli0tt.rpg_life.presentation.adapter.quests.QuestsAdapter;
 
 public class ActionModeController implements ActionMode.Callback {
 
-    private QuestsViewModel viewModel;
-    private QuestsAdapter adapter;
+    private final QuestsViewModel viewModel;
+    private final QuestsAdapter adapter;
 
     ActionModeController(QuestsViewModel viewModel, QuestsAdapter adapter) {
         this.viewModel = viewModel;

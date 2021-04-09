@@ -17,8 +17,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class SkillsRepositoryImpl implements SkillsRepository {
-    private SkillsDao skillsDao;
-    private SharedPreferencesUtils sharedPreferencesUtils;
+    private final SkillsDao skillsDao;
+    private final SharedPreferencesUtils sharedPreferencesUtils;
 
     @Inject
     public SkillsRepositoryImpl(Context context) {
@@ -88,7 +88,7 @@ public class SkillsRepositoryImpl implements SkillsRepository {
     }
 
     private static class InsertAsyncTask extends android.os.AsyncTask<Skill, Void, Void> {
-        private SkillsDao dao;
+        private final SkillsDao dao;
 
         InsertAsyncTask(SkillsDao dao) {
             this.dao = dao;
@@ -102,7 +102,7 @@ public class SkillsRepositoryImpl implements SkillsRepository {
     }
 
     private static class UpdateAsyncTask extends android.os.AsyncTask<Skill, Void, Void> {
-        private SkillsDao dao;
+        private final SkillsDao dao;
 
         UpdateAsyncTask(SkillsDao dao) {
             this.dao = dao;
@@ -117,7 +117,7 @@ public class SkillsRepositoryImpl implements SkillsRepository {
 
     private static class UpdateTotalXpByIdAsyncTask extends android.os.AsyncTask<Pair<Integer,
             Long>, Void, Void> {
-        private SkillsDao dao;
+        private final SkillsDao dao;
 
         UpdateTotalXpByIdAsyncTask(SkillsDao dao) {
             this.dao = dao;
@@ -134,7 +134,7 @@ public class SkillsRepositoryImpl implements SkillsRepository {
     }
 
     private static class DeleteAllAsyncTask extends android.os.AsyncTask<Void, Void, Void> {
-        private SkillsDao dao;
+        private final SkillsDao dao;
 
         DeleteAllAsyncTask(SkillsDao dao) {
             this.dao = dao;
@@ -148,7 +148,7 @@ public class SkillsRepositoryImpl implements SkillsRepository {
     }
 
     private static class UpdateSkillCategoryByIdAsyncTask extends android.os.AsyncTask<Pair<Integer, Integer>, Void, Void> {
-        private SkillsDao dao;
+        private final SkillsDao dao;
 
         UpdateSkillCategoryByIdAsyncTask(SkillsDao dao) {
             this.dao = dao;
@@ -166,7 +166,7 @@ public class SkillsRepositoryImpl implements SkillsRepository {
 
     private static class DeleteSkillsByIdAsyncTask extends android.os.AsyncTask<Integer, Void,
             Void> {
-        private SkillsDao dao;
+        private final SkillsDao dao;
 
         DeleteSkillsByIdAsyncTask(SkillsDao dao) {
             this.dao = dao;

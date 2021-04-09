@@ -11,9 +11,9 @@ import com.elli0tt.rpg_life.data.repository.UserRepositoryImpl;
 import com.elli0tt.rpg_life.domain.repository.UserRepository;
 
 public class AddEditCharacteristicViewModel extends AndroidViewModel {
-    private UserRepository repository;
+    private final UserRepository repository;
 
-    private MutableLiveData<String> name = new MutableLiveData<>();
+    private final MutableLiveData<String> name = new MutableLiveData<>();
 
     public AddEditCharacteristicViewModel(@NonNull Application application) {
         super(application);

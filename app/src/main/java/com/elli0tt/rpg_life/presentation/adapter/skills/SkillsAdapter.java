@@ -68,11 +68,11 @@ public class SkillsAdapter extends ListAdapter<Skill, SkillsAdapter.ViewHolder> 
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView nameTextView;
-        private AppCompatImageView startTimerImageView;
-        private TextView levelTextView;
-        private ProgressBar xpProgressBar;
-        private TextView xpLeftToNextLevelTextView;
+        private final TextView nameTextView;
+        private final AppCompatImageView startTimerImageView;
+        private final TextView levelTextView;
+        private final ProgressBar xpProgressBar;
+        private final TextView xpLeftToNextLevelTextView;
 
         ViewHolder(@NonNull View itemView,
                    final OnStartTimerFabClickListener onStartTimerFabClickListener,

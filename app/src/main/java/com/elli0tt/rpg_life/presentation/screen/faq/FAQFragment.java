@@ -34,9 +34,16 @@ public class FAQFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        initViews(view);
+        setListeners();
+    }
+
+    private void initViews(@NonNull View view) {
         pictureButton = view.findViewById(R.id.picture_button);
         imageView = view.findViewById(R.id.image_view);
+    }
 
+    private void setListeners() {
         pictureButton.setOnClickListener(v -> {
             Intent downloadImageIntent = new Intent(Intent.ACTION_PICK,
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI);

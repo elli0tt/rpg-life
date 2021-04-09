@@ -2,7 +2,6 @@ package com.elli0tt.rpg_life.presentation.screen.countdown_timer;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,22 +29,22 @@ public class CountDownFragment extends Fragment {
     private CountDownViewModel viewModel;
     private CountDownTimer timer;
     //Used to enable startTimerFab just 1 time - after it was disabled
-    private boolean isStartFabEnabled = true;
-    private Observer<Integer> numberPickersValuesObserver = integer -> {
+    private final boolean isStartFabEnabled = true;
+    private final Observer<Integer> numberPickersValuesObserver = integer -> {
         if (binding.numberPickersLayout.getVisibility() == View.VISIBLE &&
                 (isStartFabEnabled ^ viewModel.isNeedToEnableStartFab())) {
             enableStartFab(viewModel.isNeedToEnableStartFab());
         }
     };
-    private View.OnClickListener startFabOnClickListener = v -> startTimer();
-    private View.OnClickListener pauseFabOnClickListener = new View.OnClickListener() {
+    private final View.OnClickListener startFabOnClickListener = v -> startTimer();
+    private final View.OnClickListener pauseFabOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             timer.cancel();
             viewModel.pauseTimer();
         }
     };
-    private View.OnClickListener stopFabOnClickListener = new View.OnClickListener() {
+    private final View.OnClickListener stopFabOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if (viewModel.getTimerState().getValue() == TimerState.RUNNING) {
@@ -54,7 +53,7 @@ public class CountDownFragment extends Fragment {
             viewModel.stopTimer();
         }
     };
-    private NumberPicker.Formatter numberPickersFormatter =
+    private final NumberPicker.Formatter numberPickersFormatter =
             value -> String.format(Locale.getDefault(), "%02d", value);
 
     @Nullable

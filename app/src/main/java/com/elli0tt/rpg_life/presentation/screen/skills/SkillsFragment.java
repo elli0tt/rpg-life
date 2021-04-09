@@ -33,9 +33,9 @@ public class SkillsFragment extends Fragment {
     private UpDownArrowsView sortUpDownArrowsView;
 
     private NavController navController;
-    private SkillsAdapter skillsAdapter = new SkillsAdapter();
-    private View.OnClickListener onAddSkillFabClickListener = v -> viewModel.insertEmptySkill();
-    private View.OnClickListener onSortUpDownArrowsViewClickListener =
+    private final SkillsAdapter skillsAdapter = new SkillsAdapter();
+    private final View.OnClickListener onAddSkillFabClickListener = v -> viewModel.insertEmptySkill();
+    private final View.OnClickListener onSortUpDownArrowsViewClickListener =
             view -> viewModel.changeSortingDirection();
 
     @Nullable
@@ -55,6 +55,7 @@ public class SkillsFragment extends Fragment {
         addSkillFab = view.findViewById(R.id.add_skill_fab);
         sortUpDownArrowsView = view.findViewById(R.id.sort_up_down_arrows_view);
 
+        setupToolbar();
         setupRecyclerView();
         subscribeToViewModel();
         setHasOptionsMenu(true);
@@ -63,9 +64,7 @@ public class SkillsFragment extends Fragment {
         sortUpDownArrowsView.setOnViewClickListener(onSortUpDownArrowsViewClickListener);
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    private void setupToolbar() {
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         if (activity != null) {
             ActionBar supportActionBar = activity.getSupportActionBar();

@@ -26,17 +26,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SkillsViewModel extends AndroidViewModel {
-    private LiveData<List<Skill>> allSkills;
-    private MutableLiveData<SkillsSortingState> sortingState = new MutableLiveData<>();
-    private MediatorLiveData<List<Skill>> skillsToShow = new MediatorLiveData<>();
-    private LiveData<Integer> sortedByTextResId = Transformations.map(sortingState,
+    private final LiveData<List<Skill>> allSkills;
+    private final MutableLiveData<SkillsSortingState> sortingState = new MutableLiveData<>();
+    private final MediatorLiveData<List<Skill>> skillsToShow = new MediatorLiveData<>();
+    private final LiveData<Integer> sortedByTextResId = Transformations.map(sortingState,
             this::getSortedByTextResId);
 
-    private SortSkillsUseCase sortSkillsUseCase = new SortSkillsUseCase();
+    private final SortSkillsUseCase sortSkillsUseCase = new SortSkillsUseCase();
 
-    private SkillsRepository skillsRepository;
+    private final SkillsRepository skillsRepository;
 
-    private WorkManager workManager;
+    private final WorkManager workManager;
     private WorkRequest insertEmptySkillWorkRequest;
 
     public SkillsViewModel(@NonNull Application application) {

@@ -8,7 +8,6 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
@@ -21,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     public static final String CHANNEL_ID = "channel 1";
     private NavController navController;
     private BottomNavigationView bottomNavigationView;
-    private ConstraintLayout mainLayout;
     private Toolbar toolbar;
 
     @Override
@@ -30,10 +28,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
-        mainLayout = findViewById(R.id.main_layout);
 
         setupToolbar();
 
+        setupNavigation();
+        createNotificationChannel();
+    }
+
+    private void setupNavigation() {
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             int id = destination.getId();
@@ -55,10 +57,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
-        createNotificationChannel();
-
-//        WallpaperManager wallpaperManager = WallpaperManager.getInstance(this);
-//        mainLayout.setBackground(wallpaperManager.getDrawable());
     }
 
     private void setupToolbar() {

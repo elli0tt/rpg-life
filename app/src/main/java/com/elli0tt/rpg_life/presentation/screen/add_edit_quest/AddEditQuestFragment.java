@@ -65,94 +65,96 @@ public class AddEditQuestFragment extends Fragment {
     private String veryHardTitle;
     private String impossibleTitle;
 
-    private View.OnFocusChangeListener onEditTextsFocusChangeListener = (view, hasFocus) -> {
+    private final View.OnFocusChangeListener onEditTextsFocusChangeListener = (view, hasFocus) -> {
 //        if (hasFocus) {
 //            SoftKeyboardUtil.showKeyboard(view, getActivity());
 //        } else {
 //            SoftKeyboardUtil.hideKeyboard(view, getActivity());
 //        }
     };
-    private View.OnClickListener onRemoveDateDueViewClickListener = new View.OnClickListener() {
+    private final View.OnClickListener onRemoveDateDueViewClickListener =
+            new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             SoftKeyboardUtil.hideKeyboard(v, getActivity());
             viewModel.removeDateDue();
         }
     };
-    private View.OnClickListener onRepeatViewClickListener = v -> {
+    private final View.OnClickListener onRepeatViewClickListener = v -> {
         SoftKeyboardUtil.hideKeyboard(v, getActivity());
         showRepeatPopup(v);
     };
-    private View.OnClickListener onRemoveRepeatViewClickListener = new View.OnClickListener() {
+    private final View.OnClickListener onRemoveRepeatViewClickListener =
+            new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             SoftKeyboardUtil.hideKeyboard(v, getActivity());
             viewModel.removeRepeat();
         }
     };
-    private DatePickerDialog.OnDateSetListener onStartDateSetListener =
+    private final DatePickerDialog.OnDateSetListener onStartDateSetListener =
             (view, year, month, dayOfMonth) -> viewModel.setStartDate(year, month, dayOfMonth);
-    private TimePickerDialog.OnTimeSetListener onStartTimeSetListener =
+    private final TimePickerDialog.OnTimeSetListener onStartTimeSetListener =
             (view, hourOfDay, minute) -> viewModel.setStartTime(hourOfDay, minute);
-    private DatePickerDialog.OnDateSetListener onDateDueSetListener =
+    private final DatePickerDialog.OnDateSetListener onDateDueSetListener =
             (view, year, month, dayOfMonth) -> viewModel.setDateDue(year, month, dayOfMonth);
-    private View.OnClickListener onAddDateDueViewClickListener = v -> {
+    private final View.OnClickListener onAddDateDueViewClickListener = v -> {
         SoftKeyboardUtil.hideKeyboard(v, getActivity());
         showAddDateDuePopupMenu(v);
     };
-    private TimePickerDialog.OnTimeSetListener onTimeDueSetListener =
+    private final TimePickerDialog.OnTimeSetListener onTimeDueSetListener =
             (view, hourOfDay, minute) -> viewModel.setDateDue(hourOfDay, minute);
-    private TimePickerDialog.OnTimeSetListener onReminderTimeSetListener = (view, hourOfDay,
-                                                                            minute) -> {
+    private final TimePickerDialog.OnTimeSetListener onReminderTimeSetListener = (view, hourOfDay,
+                                                                                  minute) -> {
         viewModel.setReminderTime(hourOfDay, minute);
         setReminderAlarm();
     };
-    private DatePickerDialog.OnDateSetListener onReminderDateSetListener = (view, year, month,
-                                                                            dayOfMonth) -> {
+    private final DatePickerDialog.OnDateSetListener onReminderDateSetListener = (view, year, month,
+                                                                                  dayOfMonth) -> {
         viewModel.setReminderDate(year, month, dayOfMonth);
         pickTime(onReminderTimeSetListener);
     };
-    private View.OnClickListener onAddSubQuestButtonClickListener =
+    private final View.OnClickListener onAddSubQuestButtonClickListener =
             v -> viewModel.insertEmptyQuest();
-    private View.OnClickListener onAddSkillsButtonClickListener = v ->
+    private final View.OnClickListener onAddSkillsButtonClickListener = v ->
             navigateToAddSkillsToQuestScreen();
-    private View.OnClickListener onDifficultyViewClickListener = v -> {
+    private final View.OnClickListener onDifficultyViewClickListener = v -> {
         SoftKeyboardUtil.hideKeyboard(v, getActivity());
         showDifficultyPopupMenu(v);
     };
-    private View.OnClickListener onRemoveDifficultyViewClickListener = v -> {
+    private final View.OnClickListener onRemoveDifficultyViewClickListener = v -> {
         SoftKeyboardUtil.hideKeyboard(v, getActivity());
         binding.difficultyView.setText(R.string.add_difficulty);
         viewModel.removeDifficulty();
     };
-    private View.OnClickListener onAddStartDateViewClickListener = v -> {
+    private final View.OnClickListener onAddStartDateViewClickListener = v -> {
         SoftKeyboardUtil.hideKeyboard(v, getActivity());
         showAddStartDatePopupMenu(v);
     };
-    private View.OnClickListener onRemoveStartDateViewClickListener = v -> {
+    private final View.OnClickListener onRemoveStartDateViewClickListener = v -> {
         SoftKeyboardUtil.hideKeyboard(v, getActivity());
         viewModel.removeStartDate();
     };
-    private View.OnClickListener onAddStartTimeViewClickListener = v -> {
+    private final View.OnClickListener onAddStartTimeViewClickListener = v -> {
         SoftKeyboardUtil.hideKeyboard(v, getActivity());
         pickTime(onStartTimeSetListener);
     };
-    private View.OnClickListener onRemoveStartTimeViewClickListener = v -> {
+    private final View.OnClickListener onRemoveStartTimeViewClickListener = v -> {
         SoftKeyboardUtil.hideKeyboard(v, getActivity());
         viewModel.removeStartTime();
     };
-    private View.OnClickListener onAddTimeDueViewClickListener = v -> {
+    private final View.OnClickListener onAddTimeDueViewClickListener = v -> {
         SoftKeyboardUtil.hideKeyboard(v, getActivity());
         pickTime(onTimeDueSetListener);
     };
-    private View.OnClickListener onRemoveTimeDueViewClickListener = v -> {
+    private final View.OnClickListener onRemoveTimeDueViewClickListener = v -> {
         SoftKeyboardUtil.hideKeyboard(v, getActivity());
         viewModel.removeTimeDue();
     };
-    private View.OnClickListener onAddToCalendarClickListener = v -> checkPermissions();
-    private View.OnClickListener onAddReminderViewClickListener = v ->
+    private final View.OnClickListener onAddToCalendarClickListener = v -> checkPermissions();
+    private final View.OnClickListener onAddReminderViewClickListener = v ->
             pickDate(onReminderDateSetListener);
-    private View.OnClickListener onRemoveReminderViewClickListener = v -> {
+    private final View.OnClickListener onRemoveReminderViewClickListener = v -> {
 
     };
 
@@ -190,32 +192,11 @@ public class AddEditQuestFragment extends Fragment {
             }
         }
 
+        setupToolbar();
+        initDifficultyToolbars();
+
         subscribeToViewModel();
         setListeners();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        AppCompatActivity activity = (AppCompatActivity) requireActivity();
-        activity.setSupportActionBar(binding.toolbar);
-        ActionBar supportActionBar = activity.getSupportActionBar();
-        if (supportActionBar != null) {
-            supportActionBar.setDisplayHomeAsUpEnabled(true);
-        }
-
-        veryEasyTitle = getString(R.string.add_edit_quest_difficulty_very_easy,
-                Difficulty.VERY_EASY.getXpIncrease());
-        easyTitle = getString(R.string.add_edit_quest_difficulty_easy,
-                Difficulty.EASY.getXpIncrease());
-        normalTitle = getString(R.string.add_edit_quest_difficulty_normal,
-                Difficulty.NORMAL.getXpIncrease());
-        hardTitle = getString(R.string.add_edit_quest_difficulty_hard,
-                Difficulty.HARD.getXpIncrease());
-        veryHardTitle = getString(R.string.add_edit_quest_difficulty_very_hard,
-                Difficulty.VERY_HARD.getXpIncrease());
-        impossibleTitle = getString(R.string.add_edit_quest_difficulty_impossible,
-                Difficulty.IMPOSSIBLE.getXpIncrease());
     }
 
     @Override
@@ -236,6 +217,30 @@ public class AddEditQuestFragment extends Fragment {
     public void onStop() {
         super.onStop();
         viewModel.saveQuest();
+    }
+
+    private void setupToolbar() {
+        AppCompatActivity activity = (AppCompatActivity) requireActivity();
+        activity.setSupportActionBar(binding.toolbar);
+        ActionBar supportActionBar = activity.getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    private void initDifficultyToolbars() {
+        veryEasyTitle = getString(R.string.add_edit_quest_difficulty_very_easy,
+                Difficulty.VERY_EASY.getXpIncrease());
+        easyTitle = getString(R.string.add_edit_quest_difficulty_easy,
+                Difficulty.EASY.getXpIncrease());
+        normalTitle = getString(R.string.add_edit_quest_difficulty_normal,
+                Difficulty.NORMAL.getXpIncrease());
+        hardTitle = getString(R.string.add_edit_quest_difficulty_hard,
+                Difficulty.HARD.getXpIncrease());
+        veryHardTitle = getString(R.string.add_edit_quest_difficulty_very_hard,
+                Difficulty.VERY_HARD.getXpIncrease());
+        impossibleTitle = getString(R.string.add_edit_quest_difficulty_impossible,
+                Difficulty.IMPOSSIBLE.getXpIncrease());
     }
 
     private void setListeners() {
@@ -358,9 +363,8 @@ public class AddEditQuestFragment extends Fragment {
             }
         });
 
-        viewModel.getName().observe(getViewLifecycleOwner(), name -> {
-            binding.nameEditText.clearFocus();
-        });
+        viewModel.getName().observe(getViewLifecycleOwner(),
+                name -> binding.nameEditText.clearFocus());
     }
 
     private void setupSubQuestsRecycler() {

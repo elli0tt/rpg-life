@@ -21,9 +21,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class QuestsRepositoryImpl implements QuestsRepository {
-    private QuestsDao questsDao;
-    private RelatedToQuestsSkillsDao relatedToQuestsSkillsDao;
-    private SharedPreferencesUtils sharedPreferencesUtils;
+    private final QuestsDao questsDao;
+    private final RelatedToQuestsSkillsDao relatedToQuestsSkillsDao;
+    private final SharedPreferencesUtils sharedPreferencesUtils;
 
     @Inject
     public QuestsRepositoryImpl(Context context) {
@@ -168,7 +168,7 @@ public class QuestsRepositoryImpl implements QuestsRepository {
     }
 
     private static class InsertQuestsAsyncTask extends android.os.AsyncTask<Quest, Void, Void> {
-        private QuestsDao dao;
+        private final QuestsDao dao;
 
         InsertQuestsAsyncTask(QuestsDao dao) {
             this.dao = dao;
@@ -182,7 +182,7 @@ public class QuestsRepositoryImpl implements QuestsRepository {
     }
 
     private static class UpdateQuestsAsyncTask extends android.os.AsyncTask<Quest, Void, Void> {
-        private QuestsDao dao;
+        private final QuestsDao dao;
 
         UpdateQuestsAsyncTask(QuestsDao dao) {
             this.dao = dao;
@@ -197,7 +197,7 @@ public class QuestsRepositoryImpl implements QuestsRepository {
 
     private static class UpdateQuestHasSubquestByIdAsyncTask extends android.os.AsyncTask<Pair<Integer,
             Boolean>, Void, Void> {
-        private QuestsDao dao;
+        private final QuestsDao dao;
 
         UpdateQuestHasSubquestByIdAsyncTask(QuestsDao dao) {
             this.dao = dao;
@@ -214,7 +214,7 @@ public class QuestsRepositoryImpl implements QuestsRepository {
     }
 
     private static class DeleteQuestsAsyncTask extends android.os.AsyncTask<Quest, Void, Void> {
-        private QuestsDao dao;
+        private final QuestsDao dao;
 
         DeleteQuestsAsyncTask(QuestsDao dao) {
             this.dao = dao;
@@ -228,7 +228,7 @@ public class QuestsRepositoryImpl implements QuestsRepository {
     }
 
     private static class DeleteAllQuestsAsyncTask extends android.os.AsyncTask<Void, Void, Void> {
-        private QuestsDao dao;
+        private final QuestsDao dao;
 
         DeleteAllQuestsAsyncTask(QuestsDao dao) {
             this.dao = dao;
@@ -243,7 +243,7 @@ public class QuestsRepositoryImpl implements QuestsRepository {
 
     private static class InsertRelatedSkillAsyncTask extends AsyncTask<RelatedToQuestSkills, Void
             , Void> {
-        private RelatedToQuestsSkillsDao dao;
+        private final RelatedToQuestsSkillsDao dao;
 
         InsertRelatedSkillAsyncTask(RelatedToQuestsSkillsDao dao) {
             this.dao = dao;
@@ -258,7 +258,7 @@ public class QuestsRepositoryImpl implements QuestsRepository {
 
     private static class DeleteRelatedSkillAsyncTask extends AsyncTask<RelatedToQuestSkills, Void
             , Void> {
-        private RelatedToQuestsSkillsDao dao;
+        private final RelatedToQuestsSkillsDao dao;
 
         DeleteRelatedSkillAsyncTask(RelatedToQuestsSkillsDao dao) {
             this.dao = dao;
@@ -273,8 +273,8 @@ public class QuestsRepositoryImpl implements QuestsRepository {
     }
 
     private static class InsertQuestWithRelatedSkillsAsyncTask extends android.os.AsyncTask<Pair<Quest, Integer>, Void, Void> {
-        private QuestsDao questsDao;
-        private RelatedToQuestsSkillsDao relatedToQuestsSkillsDao;
+        private final QuestsDao questsDao;
+        private final RelatedToQuestsSkillsDao relatedToQuestsSkillsDao;
 
         InsertQuestWithRelatedSkillsAsyncTask(QuestsDao questsDao,
                                               RelatedToQuestsSkillsDao relatedToQuestsSkillsDao) {

@@ -132,19 +132,19 @@ public class SubQuestsAdapter extends ListAdapter<Quest, SubQuestsAdapter.SubQue
     }
 
     static class SubQuestsViewHolder extends RecyclerView.ViewHolder {
-        private CheckBox isCompletedCheckBox;
-        private TextView nameTextView;
-        private TextView difficultyTextView;
-        private CheckBox isImportantCheckBox;
-        private TextView dateDueTextView;
-        private AppCompatImageView repeatImageView;
-        private AppCompatImageView hasSubquestsImageView;
-        private TextView dayNumberTextView;
-        private Button removeButton;
+        private final CheckBox isCompletedCheckBox;
+        private final TextView nameTextView;
+        private final TextView difficultyTextView;
+        private final CheckBox isImportantCheckBox;
+        private final TextView dateDueTextView;
+        private final AppCompatImageView repeatImageView;
+        private final AppCompatImageView hasSubquestsImageView;
+        private final TextView dayNumberTextView;
+        private final Button removeButton;
 
-        private ColorStateList defaultTextViewColor;
+        private final ColorStateList defaultTextViewColor;
 
-        private AddEditQuestViewModel viewModel;
+        private final AddEditQuestViewModel viewModel;
 
         SubQuestsViewHolder(
                 @NonNull View itemView,
