@@ -29,6 +29,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHolder> {
 
@@ -345,7 +346,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         private void bindDayNumber(int dayNumber, boolean isChallenge) {
             if (isChallenge) {
                 dayNumberTextView.setVisibility(View.VISIBLE);
-                dayNumberTextView.setText(Integer.toString(dayNumber + 1));
+                dayNumberTextView.setText(String.format(Locale.getDefault(), "%d", dayNumber + 1));
             } else {
                 dayNumberTextView.setVisibility(View.GONE);
             }

@@ -28,7 +28,6 @@
     <string name="quest_difficulty_not_set">Not set</string>
     <string name="quest_difficulty_error">Error: non-existent difficulty</string>
 
-    <string name="add_quest_description_hint">Description</string>
     <string name="delete">Delete</string>
     <string name="populate_with_samples">Populate with samples</string>
     <string name="quest_toolbar_menu_select_all_text">Select all</string>
@@ -59,7 +58,6 @@
     <string name="add_edit_quest_repeat_popup_monthly">Monthly</string>
     <string name="add_edit_quest_repeat_popup_yearly">Yearly</string>
     <string name="add_edit_quest_repeat_popup_custom">Custom</string>
-    <string name="add_edit_quest_subquests">Subquests:</string>
     <string name="add_edit_quest_add_subquest">Add subquest</string>
     <string name="show_developers_options">Show developers options</string>
     <string name="show_completed">Show completed</string>
@@ -119,4 +117,14 @@
     <string name="character_level">Level %1$s</string>
     <string name="character_completed_quests">Completed quests: %1$s</string>
     <string name="character_earned_coins">Earned coins: %1$s</string>
+    <string name="character_increase_coins_fab_content_description">Add one coin</string>
+    <string name="character_decrease_coins_fab_content_description">Take one coin</string>
+    <string name="countdown_timer_start_fab_content_description">Start countdown timer</string>
+    <string name="countdown_timer_pause_fab_content_description">Pause countdown timer</string>
+    <string name="countdown_timer_stop_fab_content_description">Stop countdown timer</string>
+    <string name="quests_add_challenge_fab_content_description">Create new challenge</string>
+    <string name="quests_add_quest_fab_content_description">Create new quest</string>
+    <string name="quests_main_fab_content_description">Open adding quest or challenge buttons menu</string>
+    <string name="skills_add_skill_fab_content_description">Create new skill</string>
+    <string name="rewards_shop_toolbar_title">Rewards shop</string>
 </resources>

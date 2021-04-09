@@ -27,7 +27,6 @@
     <string name="quest_difficulty_impossible">Невозможный</string>
     <string name="quest_difficulty_error">Ошибка: такой сложности не существует</string>
 
-    <string name="add_quest_description_hint">Описание</string>
     <string name="delete">Удалить</string>
     <string name="populate_with_samples">Добавить сэмплы</string>
     <string name="quest_toolbar_menu_select_all_text">Выделить все</string>
@@ -58,7 +57,6 @@
     <string name="add_edit_quest_repeat_popup_monthly">Ежемесячно</string>
     <string name="add_edit_quest_repeat_popup_yearly">Ежегодно</string>
     <string name="add_edit_quest_repeat_popup_custom">Настроить</string>
-    <string name="add_edit_quest_subquests">Сабкветы:</string>
     <string name="add_edit_quest_add_subquest">Добавить сабквест</string>
     <string name="show_developers_options">Показать опции для разработчка</string>
     <string name="show_completed">Показать завершенные</string>
@@ -115,4 +113,15 @@
     <string name="character_coins">Монеты: %1$s</string>
     <string name="character_completed_quests">Completed quests: %1$s</string>
     <string name="character_earned_coins">Earned coins: %1$s</string>
+    <string name="character_level">Уровень %1$s</string>
+    <string name="character_increase_coins_fab_content_description">Добавить одну монету</string>
+    <string name="character_decrease_coins_fab_content_description">Забрать одну монету</string>
+    <string name="countdown_timer_start_fab_content_description">Запустить секундомер</string>
+    <string name="countdown_timer_pause_fab_content_description">Поставить секундомер на паузу</string>
+    <string name="countdown_timer_stop_fab_content_description">Остановить секундомер</string>
+    <string name="quests_add_challenge_fab_content_description">Создать новый челлендж</string>
+    <string name="quests_add_quest_fab_content_description">Создать новый квест</string>
+    <string name="quests_main_fab_content_description">Открыть меня создания квестов и челленджей</string>
+    <string name="skills_add_skill_fab_content_description">Создать новый навык</string>
+    <string name="rewards_shop_toolbar_title">Магазин наград</string>
 </resources>

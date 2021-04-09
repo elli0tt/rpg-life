@@ -1,5 +1,6 @@
 package com.elli0tt.rpg_life.presentation.screen.add_edit_quest;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
@@ -225,9 +226,8 @@ public class AddEditQuestFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                navController.popBackStack();
+        if (item.getItemId() == android.R.id.home) {
+            navController.popBackStack();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -309,18 +309,7 @@ public class AddEditQuestFragment extends Fragment {
             }
         });
 
-        viewModel.getReminderState().observe(getViewLifecycleOwner(), reminderState -> {
-            switch (reminderState) {
-                case NOT_SET:
-                    binding.addReminderView.setText(R.string.add_edit_quest_remind_me);
-                    binding.addReminderView.setRemoveIconVisibility(View.INVISIBLE);
-                    break;
-                case PICK_CUSTOM_DATE:
-                    binding.addReminderView.setText(viewModel.getReminderDateFormatted());
-                    binding.addReminderView.setRemoveIconVisibility(View.VISIBLE);
-                    break;
-            }
-        });
+        viewModel.getReminderState().observe(getViewLifecycleOwner(), this::onChanged);
 
         viewModel.getRepeatTextResId().observe(getViewLifecycleOwner(),
                 textResId -> binding.repeatView.setText(textResId));
@@ -389,6 +378,7 @@ public class AddEditQuestFragment extends Fragment {
         binding.subquestsRecycler.setAdapter(subQuestsAdapter);
     }
 
+    @SuppressLint("MissingPermission")
     private void addToGoogleCalendar() {
         ContentResolver contentResolver = requireActivity().getContentResolver();
         Uri uri = contentResolver.insert(CalendarContract.Events.CONTENT_URI,
@@ -417,22 +407,19 @@ public class AddEditQuestFragment extends Fragment {
         popupMenu.getMenuInflater().inflate(R.menu.add_edit_quest_add_start_date_popup_menu,
                 popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.add_edit_quest_add_start_date_popup_today:
-                    viewModel.setStartDateToday();
-                    return true;
-                case R.id.add_edit_quest_add_start_date_popup_tomorrow:
-                    viewModel.setStartDateTomorrow();
-                    return true;
-                case R.id.add_edit_quest_add_start_date_popup_next_week:
-                    viewModel.setStartDateNextWeek();
-                    return true;
-                case R.id.add_edit_quest_add_start_date_popup_pick_date:
-                    pickDate(onStartDateSetListener);
-                    return true;
-                default:
-                    return false;
+            int itemId = item.getItemId();
+            if (itemId == R.id.add_edit_quest_add_start_date_popup_today) {
+                viewModel.setStartDateToday();
+            } else if (itemId == R.id.add_edit_quest_add_start_date_popup_tomorrow) {
+                viewModel.setStartDateTomorrow();
+            } else if (itemId == R.id.add_edit_quest_add_start_date_popup_next_week) {
+                viewModel.setStartDateNextWeek();
+            } else if (itemId == R.id.add_edit_quest_add_start_date_popup_pick_date) {
+                pickDate(onStartDateSetListener);
+            } else {
+                return false;
             }
+            return true;
         });
         popupMenu.show();
     }
@@ -459,22 +446,20 @@ public class AddEditQuestFragment extends Fragment {
         popupMenu.getMenuInflater().inflate(R.menu.add_edit_quest_add_date_due_popup_menu,
                 popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.add_edit_quest_add_date_due_popup_today:
-                    viewModel.setDateDueToday();
-                    return true;
-                case R.id.add_edit_quest_add_date_due_popup_tomorrow:
-                    viewModel.setDateDueTomorrow();
-                    return true;
-                case R.id.add_edit_quest_add_date_due_popup_next_week:
-                    viewModel.setDateDueNextWeek();
-                    return true;
-                case R.id.add_edit_quest_add_date_due_popup_pick_date:
-                    pickDate(onDateDueSetListener);
-                    return true;
-                default:
-                    return false;
+            int itemId = item.getItemId();
+            if (itemId == R.id.add_edit_quest_add_date_due_popup_today) {
+                viewModel.setDateDueToday();
+            } else if (itemId == R.id.add_edit_quest_add_date_due_popup_tomorrow) {
+                viewModel.setDateDueTomorrow();
+            } else if (itemId == R.id.add_edit_quest_add_date_due_popup_next_week) {
+                viewModel.setDateDueNextWeek();
+            } else if (itemId == R.id.add_edit_quest_add_date_due_popup_pick_date) {
+                pickDate(onDateDueSetListener);
+            } else {
+                return false;
             }
+
+            return true;
         });
         popupMenu.show();
     }
@@ -484,30 +469,26 @@ public class AddEditQuestFragment extends Fragment {
         popupMenu.getMenuInflater().inflate(R.menu.add_edit_quest_repeate_popup_menu,
                 popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.add_edit_quest_repeat_popup_daily:
-                    viewModel.setRepeatState(Quest.RepeatState.DAILY);
-                    return true;
-                case R.id.add_edit_quest_repeat_popup_weekdays:
-                    viewModel.setRepeatState(Quest.RepeatState.WEEKDAYS);
-                    return true;
-                case R.id.add_edit_quest_repeat_popup_weekends:
-                    viewModel.setRepeatState(Quest.RepeatState.WEEKENDS);
-                    return true;
-                case R.id.add_edit_quest_repeat_popup_weekly:
-                    viewModel.setRepeatState(Quest.RepeatState.WEEKLY);
-                    return true;
-                case R.id.add_edit_quest_repeat_popup_monthly:
-                    viewModel.setRepeatState(Quest.RepeatState.MONTHLY);
-                    return true;
-                case R.id.add_edit_quest_repeat_popup_yearly:
-                    viewModel.setRepeatState(Quest.RepeatState.YEARLY);
-                    return true;
-                case R.id.add_edit_quest_repeat_popup_custom:
-
-                    return true;
+            int itemId = item.getItemId();
+            if (itemId == R.id.add_edit_quest_repeat_popup_daily) {
+                viewModel.setRepeatState(Quest.RepeatState.DAILY);
+            } else if (itemId == R.id.add_edit_quest_repeat_popup_weekdays) {
+                viewModel.setRepeatState(Quest.RepeatState.WEEKDAYS);
+            } else if (itemId == R.id.add_edit_quest_repeat_popup_weekends) {
+                viewModel.setRepeatState(Quest.RepeatState.WEEKENDS);
+            } else if (itemId == R.id.add_edit_quest_repeat_popup_weekly) {
+                viewModel.setRepeatState(Quest.RepeatState.WEEKLY);
+            } else if (itemId == R.id.add_edit_quest_repeat_popup_monthly) {
+                viewModel.setRepeatState(Quest.RepeatState.MONTHLY);
+            } else if (itemId == R.id.add_edit_quest_repeat_popup_yearly) {
+                viewModel.setRepeatState(Quest.RepeatState.YEARLY);
+            } else if (itemId == R.id.add_edit_quest_repeat_popup_custom) {
+                //TODO create custom repeat popup action
+            } else {
+                return false;
             }
-            return false;
+
+            return true;
         });
         popupMenu.show();
     }
@@ -588,6 +569,16 @@ public class AddEditQuestFragment extends Fragment {
                             Snackbar.LENGTH_SHORT).show();
                 }
                 break;
+        }
+    }
+
+    private void onChanged(Quest.ReminderState reminderState) {
+        if (reminderState == Quest.ReminderState.NOT_SET) {
+            binding.addReminderView.setText(R.string.add_edit_quest_remind_me);
+            binding.addReminderView.setRemoveIconVisibility(View.INVISIBLE);
+        } else if (reminderState == Quest.ReminderState.PICK_CUSTOM_DATE) {
+            binding.addReminderView.setText(viewModel.getReminderDateFormatted());
+            binding.addReminderView.setRemoveIconVisibility(View.VISIBLE);
         }
     }
 }

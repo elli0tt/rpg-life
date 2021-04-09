@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimaryLight">
+    android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/quests_recycler_view"
@@ -37,6 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="23dp"
+        android:contentDescription="@string/quests_add_challenge_fab_content_description"
         android:visibility="gone"
         app:fabSize="mini"
         app:srcCompat="@drawable/ic_round_whatshot_white_24"
@@ -52,7 +52,6 @@
         app:layout_anchor="@id/add_quest_fab"
         app:layout_anchorGravity="start|center" />
 
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_quest_fab"
         style="@style/Widget.MaterialComponents.FloatingActionButton"
@@ -60,6 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="23dp"
+        android:contentDescription="@string/quests_add_quest_fab_content_description"
         android:visibility="gone"
         app:fabSize="mini"
         app:srcCompat="@drawable/ic_round_check_circle_white_24"
@@ -72,6 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/default_fab_margin"
+        android:contentDescription="@string/quests_main_fab_content_description"
         app:fabSize="normal"
         app:srcCompat="@drawable/ic_round_add_white_24"
         app:tint="@color/colorTextWhite" />

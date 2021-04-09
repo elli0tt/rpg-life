@@ -21,6 +21,8 @@ import com.elli0tt.rpg_life.domain.model.TimerState;
 
 import java.util.Locale;
 
+import timber.log.Timber;
+
 public class CountDownFragment extends Fragment {
 
     private static final String TIME_LEFT_TAG = "time left";
@@ -119,8 +121,7 @@ public class CountDownFragment extends Fragment {
         viewModel.getTimeLeftSeconds().observe(getViewLifecycleOwner(), aLong -> {
             binding.timeLeftTextView.setText(viewModel.getTimeLeft());
             binding.progressBar.setProgress(viewModel.getProgress());
-            Log.d(TIME_LEFT_TAG,
-                    viewModel.getTimeLeft() + " " + viewModel.getProgress());
+            Timber.tag(TIME_LEFT_TAG).d(viewModel.getTimeLeft() + " " + viewModel.getProgress());
         });
         viewModel.getTimerState().observe(getViewLifecycleOwner(), timerState -> updateButtons());
 

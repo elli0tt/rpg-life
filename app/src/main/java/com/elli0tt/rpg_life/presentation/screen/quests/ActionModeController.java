@@ -33,14 +33,13 @@ public class ActionModeController implements ActionMode.Callback {
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.quest_selection_toolbar_menu_select_all:
-                selectAll();
-                return true;
-
-            case R.id.quest_selection_toolbar_menu_delete:
-                deleteSelected();
-                return true;
+        int itemId = item.getItemId();
+        if (itemId == R.id.quest_selection_toolbar_menu_select_all) {
+            selectAll();
+            return true;
+        } else if (itemId == R.id.quest_selection_toolbar_menu_delete) {
+            deleteSelected();
+            return true;
         }
         return false;
     }

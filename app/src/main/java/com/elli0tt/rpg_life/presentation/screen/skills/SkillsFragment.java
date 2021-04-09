@@ -130,22 +130,19 @@ public class SkillsFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.delete_all:
-                viewModel.deleteAll();
-                return true;
-            case R.id.populate_with_samples:
-                viewModel.populateWithSamples();
-                return true;
-            case R.id.sort_by_name:
-                viewModel.setSortingState(SkillsSortingState.NAME_ASC);
-                return true;
-            case R.id.sort_by_level:
-                viewModel.setSortingState(SkillsSortingState.LEVEL_ASC);
-                return true;
-            default:
-                return false;
+        int itemId = item.getItemId();
+        if (itemId == R.id.delete_all) {
+            viewModel.deleteAll();
+        } else if (itemId == R.id.populate_with_samples) {
+            viewModel.populateWithSamples();
+        } else if (itemId == R.id.sort_by_name) {
+            viewModel.setSortingState(SkillsSortingState.NAME_ASC);
+        } else if (itemId == R.id.sort_by_level) {
+            viewModel.setSortingState(SkillsSortingState.LEVEL_ASC);
+        } else {
+            return false;
         }
+        return true;
     }
 
     private void navigateToCountDownScreen() {
