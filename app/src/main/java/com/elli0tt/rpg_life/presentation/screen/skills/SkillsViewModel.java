@@ -17,6 +17,7 @@ import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.model.Skill;
+import com.elli0tt.rpg_life.domain.model.SkillsSortingState;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
 import com.elli0tt.rpg_life.domain.use_case.skills.SortSkillsUseCase;
 import com.elli0tt.rpg_life.presentation.worker.InsertEmptySkillWorker;

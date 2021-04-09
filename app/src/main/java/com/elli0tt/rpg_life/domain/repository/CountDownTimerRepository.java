@@ -1,5 +1,7 @@
 package com.elli0tt.rpg_life.domain.repository;
 
+import com.elli0tt.rpg_life.domain.model.TimerState;
+
 public interface CountDownTimerRepository {
     long getTimeLeftSeconds();
 

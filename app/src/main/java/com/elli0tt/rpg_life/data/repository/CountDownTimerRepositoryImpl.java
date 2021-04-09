@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import com.elli0tt.rpg_life.data.shared_prefs.SharedPreferencesUtils;
+import com.elli0tt.rpg_life.domain.model.TimerState;
 import com.elli0tt.rpg_life.domain.repository.CountDownTimerRepository;
 
 import javax.inject.Inject;

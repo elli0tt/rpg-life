@@ -91,31 +91,31 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         }
     };
 
-    QuestsAdapter() {
+    public QuestsAdapter() {
         super(DIFF_CALLBACK);
     }
 
-    void setOnIsCompleteCheckBoxClickListener(OnIsCompleteCheckBoxClickListener listener) {
+    public void setOnIsCompleteCheckBoxClickListener(OnIsCompleteCheckBoxClickListener listener) {
         onIsCompleteCheckBoxClickListener = listener;
     }
 
-    void setOnIsImportantCheckBoxClickListener(OnIsImportantCheckBoxClickListener listener) {
+    public void setOnIsImportantCheckBoxClickListener(OnIsImportantCheckBoxClickListener listener) {
         onIsImportantCheckBoxClickListener = listener;
     }
 
-    void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 
-    void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
         this.onItemLongClickListener = onItemLongClickListener;
     }
 
-    void setOnSelectionFinishedListener(OnSelectionFinishedListener onSelectionFinishedListener) {
+    public void setOnSelectionFinishedListener(OnSelectionFinishedListener onSelectionFinishedListener) {
         this.onSelectionFinishedListener = onSelectionFinishedListener;
     }
 
-    void setViewModel(QuestsViewModel viewModel) {
+    public void setViewModel(QuestsViewModel viewModel) {
         this.viewModel = viewModel;
     }
 
@@ -149,7 +149,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         return position;
     }
 
-    void startSelection(int selectedPosition) {
+    public void startSelection(int selectedPosition) {
         saveLastOnItemClickListener = onItemClickListener;
         onItemClickListener = selectionOnItemClickListener;
 
@@ -162,7 +162,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         notifyDataSetChanged();
     }
 
-    void finishSelection() {
+    public void finishSelection() {
         if (onSelectionFinishedListener != null) {
             onSelectionFinishedListener.onSelectionFinished();
         }
@@ -185,14 +185,14 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         return true;
     }
 
-    void selectAll() {
+    public void selectAll() {
         for (int i = 0; i < selectedPositions.size(); ++i) {
             selectedPositions.set(i, true);
         }
         notifyDataSetChanged();
     }
 
-    List<Quest> getSelectedQuests() {
+    public List<Quest> getSelectedQuests() {
         List<Quest> selectedQuests = new ArrayList<>();
         for (int i = 0; i < selectedPositions.size(); ++i) {
             if (selectedPositions.get(i)) {

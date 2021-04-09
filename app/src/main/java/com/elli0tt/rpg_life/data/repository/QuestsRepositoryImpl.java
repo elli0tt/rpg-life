@@ -11,6 +11,8 @@ import com.elli0tt.rpg_life.data.dao.RelatedToQuestsSkillsDao;
 import com.elli0tt.rpg_life.data.database.room_database.AppRoomDatabase;
 import com.elli0tt.rpg_life.data.shared_prefs.SharedPreferencesUtils;
 import com.elli0tt.rpg_life.domain.model.Quest;
+import com.elli0tt.rpg_life.domain.model.QuestsFilterState;
+import com.elli0tt.rpg_life.domain.model.QuestsSortingState;
 import com.elli0tt.rpg_life.domain.model.RelatedToQuestSkills;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
 

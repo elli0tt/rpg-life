@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.elli0tt.rpg_life.data.repository.CountDownTimerRepositoryImpl;
+import com.elli0tt.rpg_life.domain.model.TimerState;
 import com.elli0tt.rpg_life.domain.repository.CountDownTimerRepository;
 import com.elli0tt.rpg_life.domain.use_case.countdown_timer.ConvertMillisToSecondsUseCase;
 import com.elli0tt.rpg_life.domain.use_case.countdown_timer.ConvertSecondsToMillisUseCase;

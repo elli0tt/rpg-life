@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.elli0tt.rpg_life.R;
+import com.elli0tt.rpg_life.domain.model.SkillsSortingState;
 import com.elli0tt.rpg_life.presentation.adapter.skills.SkillsAdapter;
 import com.elli0tt.rpg_life.presentation.custom.view.UpDownArrowsView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

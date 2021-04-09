@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.databinding.FragmentCountdownTimerBinding;
+import com.elli0tt.rpg_life.domain.model.TimerState;
 
 import java.util.Locale;
 

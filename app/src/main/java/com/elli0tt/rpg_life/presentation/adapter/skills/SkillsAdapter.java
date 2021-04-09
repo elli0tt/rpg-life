@@ -30,17 +30,19 @@ public class SkillsAdapter extends ListAdapter<Skill, SkillsAdapter.ViewHolder> 
                     return oldItem.getName().equals(newItem.getName());
                 }
             };
+
     private OnStartTimerFabClickListener onStartTimerFabClickListener;
     private OnItemClickListener onItemClickListener;
-    SkillsAdapter() {
+
+    public SkillsAdapter() {
         super(DIFF_CALLBACK);
     }
 
-    void setOnStartTimerFabClickListener(OnStartTimerFabClickListener listener) {
+    public void setOnStartTimerFabClickListener(OnStartTimerFabClickListener listener) {
         onStartTimerFabClickListener = listener;
     }
 
-    void setOnItemClickListener(OnItemClickListener listener) {
+    public void setOnItemClickListener(OnItemClickListener listener) {
         onItemClickListener = listener;
     }
 

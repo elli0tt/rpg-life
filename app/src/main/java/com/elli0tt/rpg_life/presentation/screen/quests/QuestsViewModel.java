@@ -17,6 +17,8 @@ import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl;
 import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl;
 import com.elli0tt.rpg_life.data.repository.UserRepositoryImpl;
 import com.elli0tt.rpg_life.domain.model.Quest;
+import com.elli0tt.rpg_life.domain.model.QuestsFilterState;
+import com.elli0tt.rpg_life.domain.model.QuestsSortingState;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
 import com.elli0tt.rpg_life.domain.repository.UserRepository;

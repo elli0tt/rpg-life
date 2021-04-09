@@ -1,6 +1,7 @@
 package com.elli0tt.rpg_life.domain.use_case.skills
 
 import com.elli0tt.rpg_life.domain.model.Skill
+import com.elli0tt.rpg_life.domain.model.SkillsSortingState
 import javax.inject.Inject
 
 class SortSkillsUseCase @Inject constructor() {

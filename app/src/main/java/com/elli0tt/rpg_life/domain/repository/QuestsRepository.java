@@ -3,6 +3,8 @@ package com.elli0tt.rpg_life.domain.repository;
 import androidx.lifecycle.LiveData;
 
 import com.elli0tt.rpg_life.domain.model.Quest;
+import com.elli0tt.rpg_life.domain.model.QuestsFilterState;
+import com.elli0tt.rpg_life.domain.model.QuestsSortingState;
 import com.elli0tt.rpg_life.domain.model.RelatedToQuestSkills;
 
 import java.util.List;
