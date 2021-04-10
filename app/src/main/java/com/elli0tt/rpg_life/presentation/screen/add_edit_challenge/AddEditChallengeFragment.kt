@@ -20,11 +20,16 @@ import com.elli0tt.rpg_life.databinding.FragmentAddEditChallengeBinding
 import com.elli0tt.rpg_life.domain.model.Difficulty
 import com.elli0tt.rpg_life.domain.model.Quest.DateState
 import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment
+import com.elli0tt.rpg_life.presentation.extensions.injectViewModel
 import com.elli0tt.rpg_life.presentation.screen.add_edit_quest.DifficultyPopupMenuIds
 import com.elli0tt.rpg_life.presentation.utils.SoftKeyboardUtil
 import java.util.*
+import javax.inject.Inject
 
 class AddEditChallengeFragment : BaseFragment() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: AddEditChallengeViewModel
     private lateinit var binding: FragmentAddEditChallengeBinding
@@ -53,6 +58,31 @@ class AddEditChallengeFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initDagger()
+
+        initViews()
+        initDifficultyTitlesString()
+        subscribeToViewModel()
+    }
+
+    private fun initDagger() {
+        val component = appComponent.addEditChallengeComponent().create()
+        component.inject(this)
+
+        viewModel = injectViewModel(viewModelFactory)
+    }
+
+    private fun initViews() {
+        initToolbar()
+        setListeners()
+    }
+
+    private fun initToolbar() {
+        setHasOptionsMenu(true)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    private fun setListeners() {
         binding.difficultyView.setOnClickListener { showDifficultyPopupMenu(it) }
         binding.difficultyView.setOnRemoveClickListener {
             viewModel.removeDifficulty()
@@ -64,16 +94,9 @@ class AddEditChallengeFragment : BaseFragment() {
         binding.addDateDueView.setOnRemoveClickListener(onRemoveDateDueViewClickListener)
         binding.addTimeDueView.setOnClickListener(onAddTimeDueViewClickListener)
         binding.addTimeDueView.setOnRemoveClickListener(onRemoveTimeDueViewClickListener)
-
-        subscribeToViewModel()
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        setHasOptionsMenu(true)
-        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
+    private fun initDifficultyTitlesString() {
         veryEasyTitle = getString(R.string.add_edit_quest_difficulty_very_easy,
                 Difficulty.VERY_EASY.xpIncrease)
         easyTitle = getString(R.string.add_edit_quest_difficulty_easy,
@@ -133,7 +156,11 @@ class AddEditChallengeFragment : BaseFragment() {
 
     override fun onStart() {
         super.onStart()
-        viewModel.start(args.challengeId)
+        viewModel.start(
+                challengeId = args.challengeId,
+                today = getString(R.string.quest_date_due_today),
+                tomorrow = getString(R.string.quest_date_due_tomorrow)
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

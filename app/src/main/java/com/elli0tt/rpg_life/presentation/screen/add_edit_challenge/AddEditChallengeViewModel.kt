@@ -1,12 +1,8 @@
 package com.elli0tt.rpg_life.presentation.screen.add_edit_challenge
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.elli0tt.rpg_life.R
-import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl
-import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl
+import androidx.lifecycle.ViewModel
 import com.elli0tt.rpg_life.domain.model.Difficulty
 import com.elli0tt.rpg_life.domain.model.Quest
 import com.elli0tt.rpg_life.domain.model.Quest.DateState
@@ -18,7 +14,12 @@ import com.elli0tt.rpg_life.presentation.screen.add_edit_quest.DifficultyPopupMe
 import java.text.DateFormat
 import java.util.*
 
-class AddEditChallengeViewModel(application: Application) : AndroidViewModel(application) {
+class AddEditChallengeViewModel(
+        val questsRepository: QuestsRepository,
+        val skillsRepository: SkillsRepository,
+        private val failChallengeUseCase: FailChallengeUseCase
+) : ViewModel() {
+
     var name = MutableLiveData("")
     var difficulty = MutableLiveData(Difficulty.NOT_SET)
     var totalDaysCount = MutableLiveData(0)
@@ -36,19 +37,13 @@ class AddEditChallengeViewModel(application: Application) : AndroidViewModel(app
     private val dateFormat = DateFormat.getDateInstance(DateFormat.LONG)
     private val timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT)
 
-    private val failChallengeUseCase: FailChallengeUseCase
+    private lateinit var today: String
+    private lateinit var tomorrow: String
 
-    val questsRepository: QuestsRepository = QuestsRepositoryImpl(application)
-    val skillsRepository: SkillsRepository = SkillsRepositoryImpl(application)
+    fun start(challengeId: Int, today: String, tomorrow: String) {
+        this.today = today
+        this.tomorrow = tomorrow
 
-    private val today: String = application.getString(R.string.quest_date_due_today)
-    private val tomorrow: String = application.getString(R.string.quest_date_due_tomorrow)
-
-    init {
-        failChallengeUseCase = FailChallengeUseCase(skillsRepository, questsRepository)
-    }
-
-    fun start(challengeId: Int) {
         if (challengeId != 0) {
             this.challengeId = challengeId
             loadChallenge(challengeId)
