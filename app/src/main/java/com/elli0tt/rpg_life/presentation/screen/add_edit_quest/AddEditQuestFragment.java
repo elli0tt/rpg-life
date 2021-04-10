@@ -8,7 +8,6 @@ import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.view.LayoutInflater;
@@ -36,7 +35,7 @@ import com.elli0tt.rpg_life.databinding.FragmentAddEditQuestBinding;
 import com.elli0tt.rpg_life.domain.model.Difficulty;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.presentation.adapter.subquests.SubQuestsAdapter;
-import com.elli0tt.rpg_life.presentation.broadcast_reciever.QuestReminderBroadcastReceiver;
+import com.elli0tt.rpg_life.presentation.broadcast_receiver.QuestReminderBroadcastReceiver;
 import com.elli0tt.rpg_life.presentation.utils.SoftKeyboardUtil;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -76,6 +75,20 @@ public class AddEditQuestFragment extends Fragment {
     private SubQuestsAdapter subQuestsAdapter;
     private NavController navController;
     private AddEditQuestViewModel viewModel;
+    private final TimePickerDialog.OnTimeSetListener onStartTimeSetListener =
+            (view, hourOfDay, minute) -> viewModel.setStartTime(hourOfDay, minute);
+    private final TimePickerDialog.OnTimeSetListener onTimeDueSetListener =
+            (view, hourOfDay, minute) -> viewModel.setDateDue(hourOfDay, minute);
+    private final TimePickerDialog.OnTimeSetListener onReminderTimeSetListener = (view, hourOfDay,
+                                                                                  minute) -> {
+        viewModel.setReminderTime(hourOfDay, minute);
+        setReminderAlarm();
+    };
+    private final DatePickerDialog.OnDateSetListener onReminderDateSetListener = (view, year, month,
+                                                                                  dayOfMonth) -> {
+        viewModel.setReminderDate(year, month, dayOfMonth);
+        pickTime(onReminderTimeSetListener);
+    };
     private final View.OnClickListener onRemoveDateDueViewClickListener =
             new View.OnClickListener() {
                 @Override
@@ -98,26 +111,13 @@ public class AddEditQuestFragment extends Fragment {
             };
     private final DatePickerDialog.OnDateSetListener onStartDateSetListener =
             (view, year, month, dayOfMonth) -> viewModel.setStartDate(year, month, dayOfMonth);
-    private final TimePickerDialog.OnTimeSetListener onStartTimeSetListener =
-            (view, hourOfDay, minute) -> viewModel.setStartTime(hourOfDay, minute);
     private final DatePickerDialog.OnDateSetListener onDateDueSetListener =
             (view, year, month, dayOfMonth) -> viewModel.setDateDue(year, month, dayOfMonth);
     private final View.OnClickListener onAddDateDueViewClickListener = v -> {
         SoftKeyboardUtil.hideKeyboard(v, getActivity());
         showAddDateDuePopupMenu(v);
     };
-    private final TimePickerDialog.OnTimeSetListener onTimeDueSetListener =
-            (view, hourOfDay, minute) -> viewModel.setDateDue(hourOfDay, minute);
-    private final TimePickerDialog.OnTimeSetListener onReminderTimeSetListener = (view, hourOfDay,
-                                                                                  minute) -> {
-        viewModel.setReminderTime(hourOfDay, minute);
-        setReminderAlarm();
-    };
-    private final DatePickerDialog.OnDateSetListener onReminderDateSetListener = (view, year, month,
-                                                                                  dayOfMonth) -> {
-        viewModel.setReminderDate(year, month, dayOfMonth);
-        pickTime(onReminderTimeSetListener);
-    };
+
     private final View.OnClickListener onAddSubQuestButtonClickListener =
             v -> viewModel.insertEmptyQuest();
     private final View.OnClickListener onAddSkillsButtonClickListener = v ->
@@ -382,7 +382,7 @@ public class AddEditQuestFragment extends Fragment {
     @SuppressLint("MissingPermission")
     private void addToGoogleCalendar() {
         ContentResolver contentResolver = requireActivity().getContentResolver();
-        Uri uri = contentResolver.insert(CalendarContract.Events.CONTENT_URI,
+        contentResolver.insert(CalendarContract.Events.CONTENT_URI,
                 viewModel.getQuestContentValues());
 
         Snackbar.make(binding.getRoot(), R.string.add_edit_quest_added_to_google_calendar,

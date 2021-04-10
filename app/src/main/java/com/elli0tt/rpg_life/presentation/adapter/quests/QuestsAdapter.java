@@ -70,6 +70,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
             notifyItemChanged(position);
         }
     };
+
     public QuestsAdapter() {
         super(DIFF_CALLBACK);
     }

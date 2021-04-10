@@ -63,7 +63,7 @@
     <string name="hide_completed">Скрыть завешенные</string>
     <string name="skills_level">Уровень:</string>
     <string name="add_skill">Добавить навык</string>
-    <string name="add_new_characterstic">Добавть новую характеристику</string>
+    <string name="add_new_characteristic">Добавть новую характеристику</string>
     <string name="timer_label">Таймер</string>
     <string name="add_skill_label">Добавить навык</string>
     <string name="add_difficulty">Выбрать сложность</string>

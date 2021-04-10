@@ -1,4 +1,4 @@
-package com.elli0tt.rpg_life.presentation.broadcast_reciever
+package com.elli0tt.rpg_life.presentation.broadcast_receiver
 
 import android.content.BroadcastReceiver
 import android.content.Context
