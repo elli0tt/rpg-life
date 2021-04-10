@@ -1,15 +1,17 @@
 package com.elli0tt.rpg_life.presentation.screen.add_edit_skill_category
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.elli0tt.rpg_life.data.repository.SkillsCategoriesRepositoryImpl
 import com.elli0tt.rpg_life.domain.model.SkillsCategory
 import com.elli0tt.rpg_life.domain.repository.SkillsCategoriesRepository
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AddEditSkillsCategoryViewModel(application: Application) : AndroidViewModel(application) {
+class AddEditSkillsCategoryViewModel @Inject constructor(
+        private val skillsCategoryRepository: SkillsCategoriesRepository
+) : ViewModel() {
+
     enum class Mode {
         ADD, EDIT
     }
@@ -17,8 +19,6 @@ class AddEditSkillsCategoryViewModel(application: Application) : AndroidViewMode
     private var mode: Mode = Mode.ADD
 
     var name: MutableLiveData<String> = MutableLiveData("")
-
-    private val skillsCategoryRepository: SkillsCategoriesRepository = SkillsCategoriesRepositoryImpl(application)
 
     private var categoryId: Int = 0
 

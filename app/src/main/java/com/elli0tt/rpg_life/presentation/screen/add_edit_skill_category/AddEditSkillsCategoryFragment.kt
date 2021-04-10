@@ -8,8 +8,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.elli0tt.rpg_life.databinding.FragmentAddEditSkillCategoryBinding
 import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment
+import com.elli0tt.rpg_life.presentation.extensions.injectViewModel
+import javax.inject.Inject
 
 class AddEditSkillsCategoryFragment : BaseFragment() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: AddEditSkillsCategoryViewModel
     private lateinit var binding: FragmentAddEditSkillCategoryBinding
@@ -17,16 +22,12 @@ class AddEditSkillsCategoryFragment : BaseFragment() {
     private val args: AddEditSkillsCategoryFragmentArgs by navArgs()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        viewModel = ViewModelProvider(this).get(AddEditSkillsCategoryViewModel::class.java)
+        initDagger()
 
         binding = FragmentAddEditSkillCategoryBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
 
         return binding.root
-    }
-
-    private fun subscribeToViewModel() {
-
     }
 
     override fun onStart() {
@@ -37,5 +38,12 @@ class AddEditSkillsCategoryFragment : BaseFragment() {
     override fun onStop() {
         super.onStop()
         viewModel.save()
+    }
+
+    private fun initDagger() {
+        val component = appComponent.addEditSkillCategoryComponentFactory().create()
+        component.inject(this)
+
+        viewModel = injectViewModel(viewModelFactory)
     }
 }
