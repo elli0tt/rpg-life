@@ -1,19 +1,18 @@
 package com.elli0tt.rpg_life.presentation.screen.add_skills_to_quest
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl
-import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl
+import androidx.lifecycle.ViewModel
 import com.elli0tt.rpg_life.domain.model.AddSkillData
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository
-import com.elli0tt.rpg_life.domain.repository.SkillsRepository
 import com.elli0tt.rpg_life.domain.use_case.skills.GetAddSkillsDataUseCase
+import javax.inject.Inject
 
-class AddSkillsToQuestViewModel(application: Application) : AndroidViewModel(application) {
-    private val getAddSkillsDataUseCase: GetAddSkillsDataUseCase
+class AddSkillsToQuestViewModel @Inject constructor(
+        private val getAddSkillsDataUseCase: GetAddSkillsDataUseCase,
+        private val questsRepository: QuestsRepository
+) : ViewModel() {
 
     private val skillsFromDB: LiveData<List<AddSkillData>>
         get() = getAddSkillsDataUseCase.invoke(questId)
@@ -22,16 +21,10 @@ class AddSkillsToQuestViewModel(application: Application) : AndroidViewModel(app
 
     private var questId: MutableLiveData<Int> = MutableLiveData(0)
 
-    private val skillsRepository: SkillsRepository = SkillsRepositoryImpl(application)
-    private val questsRepository: QuestsRepository = QuestsRepositoryImpl(application)
-
     init {
-        getAddSkillsDataUseCase = GetAddSkillsDataUseCase(skillsRepository, questsRepository)
-
         skillsToShow.addSource(skillsFromDB) {
             skillsToShow.value = it as MutableList<AddSkillData>?
         }
-
     }
 
     fun start(questId: Int) {

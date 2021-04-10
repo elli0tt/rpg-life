@@ -15,12 +15,16 @@ import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.presentation.adapter.add_category_to_skill.AddCategoryToSkillAdapter
 import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment
 import com.elli0tt.rpg_life.presentation.extensions.injectViewModel
+import com.elli0tt.rpg_life.presentation.screen.add_category_to_skill.di.AddCategoryToSkillComponent
+import timber.log.Timber
 import javax.inject.Inject
 
 class AddCategoryToSkillFragment : BaseFragment(R.layout.fragment_add_category_to_skill) {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private lateinit var addCategoryToSkillComponent: AddCategoryToSkillComponent
 
     private lateinit var viewModel: AddCategoryToSkillViewModel
 
@@ -47,8 +51,8 @@ class AddCategoryToSkillFragment : BaseFragment(R.layout.fragment_add_category_t
     }
 
     private fun initDagger() {
-        val component = appComponent.addCategoryToSkillComponentFactory().create()
-        component.inject(this)
+        addCategoryToSkillComponent = appComponent.addCategoryToSkillComponentFactory().create()
+        addCategoryToSkillComponent.inject(this)
 
         viewModel = injectViewModel(viewModelFactory)
     }

@@ -60,6 +60,8 @@ public class AddEditQuestFragment extends BaseFragment {
     @Inject
     public ViewModelProvider.Factory viewModelFactory;
 
+    private AddEditQuestComponent addEditQuestComponent;
+
     private final View.OnFocusChangeListener onEditTextsFocusChangeListener = (view, hasFocus) -> {
 //        if (hasFocus) {
 //            SoftKeyboardUtil.showKeyboard(view, getActivity());
@@ -236,8 +238,8 @@ public class AddEditQuestFragment extends BaseFragment {
     }
 
     private void initDagger() {
-        AddEditQuestComponent component = getAppComponent().addEditQuestComponentFactory().create();
-        component.inject(this);
+        addEditQuestComponent = getAppComponent().addEditQuestComponentFactory().create();
+        addEditQuestComponent.inject(this);
     }
 
     private void setupToolbar() {

@@ -21,6 +21,7 @@ import com.elli0tt.rpg_life.domain.model.Difficulty
 import com.elli0tt.rpg_life.domain.model.Quest.DateState
 import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment
 import com.elli0tt.rpg_life.presentation.extensions.injectViewModel
+import com.elli0tt.rpg_life.presentation.screen.add_edit_challenge.di.AddEditChallengeComponent
 import com.elli0tt.rpg_life.presentation.screen.add_edit_quest.DifficultyPopupMenuIds
 import com.elli0tt.rpg_life.presentation.utils.SoftKeyboardUtil
 import java.util.*
@@ -30,6 +31,8 @@ class AddEditChallengeFragment : BaseFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private lateinit var addEditChallengeComponent: AddEditChallengeComponent
 
     private lateinit var viewModel: AddEditChallengeViewModel
     private lateinit var binding: FragmentAddEditChallengeBinding
@@ -66,8 +69,8 @@ class AddEditChallengeFragment : BaseFragment() {
     }
 
     private fun initDagger() {
-        val component = appComponent.addEditChallengeComponentFactory().create()
-        component.inject(this)
+        addEditChallengeComponent = appComponent.addEditChallengeComponentFactory().create()
+        addEditChallengeComponent.inject(this)
 
         viewModel = injectViewModel(viewModelFactory)
     }

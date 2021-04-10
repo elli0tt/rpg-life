@@ -7,8 +7,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 
-@Module(subcomponents = [AddEditSkillCategoryComponent::class])
-abstract class AddEditSkillCategoryModule {
+@Module(subcomponents = [AddEditSkillsCategoryComponent::class])
+abstract class AddEditSkillsCategoryModule {
 
     @Binds
     @IntoMap

@@ -13,6 +13,7 @@ import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.databinding.FragmentAddEditSkillBinding
 import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment
 import com.elli0tt.rpg_life.presentation.extensions.injectViewModel
+import com.elli0tt.rpg_life.presentation.screen.add_edit_skill.di.AddEditSkillComponent
 import com.elli0tt.rpg_life.presentation.utils.SoftKeyboardUtil
 import javax.inject.Inject
 
@@ -20,6 +21,8 @@ class AddEditSkillFragment : BaseFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private lateinit var addEditSkillComponent: AddEditSkillComponent
 
     private lateinit var viewModel: AddEditSkillViewModel
     private lateinit var navController: NavController
@@ -61,8 +64,8 @@ class AddEditSkillFragment : BaseFragment() {
     }
 
     private fun initDagger() {
-        val component = appComponent.addEditSkillComponentFactory().create()
-        component.inject(this)
+        addEditSkillComponent = appComponent.addEditSkillComponentFactory().create()
+        addEditSkillComponent.inject(this)
 
         viewModel = injectViewModel(viewModelFactory)
     }
