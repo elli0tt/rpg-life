@@ -1,5 +1,6 @@
 package com.elli0tt.rpg_life.presentation.screen.add_edit_challenge.di
 
+import androidx.lifecycle.ViewModel
 import com.elli0tt.rpg_life.presentation.core.viewmodel.ViewModelKey
 import com.elli0tt.rpg_life.presentation.screen.add_edit_challenge.AddEditChallengeViewModel
 import dagger.Binds
@@ -12,5 +13,5 @@ abstract class AddEditChallengeModule {
     @Binds
     @IntoMap
     @ViewModelKey(AddEditChallengeViewModel::class)
-    abstract fun bindAddEditChallengeViewModel(viewModel: AddEditChallengeViewModel): AddEditChallengeViewModel
+    abstract fun bindAddEditChallengeViewModel(viewModel: AddEditChallengeViewModel): ViewModel
 }

@@ -13,8 +13,9 @@ import com.elli0tt.rpg_life.domain.use_case.quests.FailChallengeUseCase
 import com.elli0tt.rpg_life.presentation.screen.add_edit_quest.DifficultyPopupMenuIds
 import java.text.DateFormat
 import java.util.*
+import javax.inject.Inject
 
-class AddEditChallengeViewModel(
+class AddEditChallengeViewModel @Inject constructor(
         val questsRepository: QuestsRepository,
         val skillsRepository: SkillsRepository,
         private val failChallengeUseCase: FailChallengeUseCase

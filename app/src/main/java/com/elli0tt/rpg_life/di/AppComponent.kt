@@ -8,6 +8,8 @@ import com.elli0tt.rpg_life.presentation.screen.add_category_to_skill.di.AddCate
 import com.elli0tt.rpg_life.presentation.screen.add_category_to_skill.di.AddCategoryToSkillModule
 import com.elli0tt.rpg_life.presentation.screen.add_edit_challenge.di.AddEditChallengeComponent
 import com.elli0tt.rpg_life.presentation.screen.add_edit_challenge.di.AddEditChallengeModule
+import com.elli0tt.rpg_life.presentation.screen.add_edit_characteristic.di.AddEditCharacteristicComponent
+import com.elli0tt.rpg_life.presentation.screen.add_edit_characteristic.di.AddEditCharacteristicModule
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -19,6 +21,7 @@ import javax.inject.Singleton
     ViewModelModule::class,
     AddCategoryToSkillModule::class,
     AddEditChallengeModule::class,
+    AddEditCharacteristicModule::class
 ])
 interface AppComponent {
 
@@ -29,4 +32,5 @@ interface AppComponent {
 
     fun addCategoryToSkillComponent(): AddCategoryToSkillComponent.Factory
     fun addEditChallengeComponent(): AddEditChallengeComponent.Factory
+    fun addEditCharacteristicComponent(): AddEditCharacteristicComponent.Factory
 }

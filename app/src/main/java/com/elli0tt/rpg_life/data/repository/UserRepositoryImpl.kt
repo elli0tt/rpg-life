@@ -1,6 +1,6 @@
 package com.elli0tt.rpg_life.data.repository
 
-import android.app.Application
+import android.content.Context
 import android.os.AsyncTask
 import androidx.lifecycle.LiveData
 import com.elli0tt.rpg_life.data.dao.CharacteristicsDao
@@ -11,14 +11,14 @@ import com.elli0tt.rpg_life.domain.model.User
 import com.elli0tt.rpg_life.domain.repository.UserRepository
 import javax.inject.Inject
 
-class UserRepositoryImpl @Inject constructor(application: Application?) : UserRepository {
+class UserRepositoryImpl @Inject constructor(context: Context) : UserRepository {
 
     private val characteristicsDao: CharacteristicsDao
 
-    private val sharedPreferencesUtils = SharedPreferencesUtils(application!!.applicationContext)
+    private val sharedPreferencesUtils = SharedPreferencesUtils(context)
 
     init {
-        val database = AppRoomDatabase.getDatabase(application)
+        val database = AppRoomDatabase.getDatabase(context)
         characteristicsDao = database.characteristicsDao
     }
 
@@ -49,8 +49,13 @@ class UserRepositoryImpl @Inject constructor(application: Application?) : UserRe
 
     }
 
-    override fun deleteCharacteristic() {}
-    override fun updateCharacteristic() {}
+    override fun deleteCharacteristic() {
+        //do nothing
+    }
+
+    override fun updateCharacteristic() {
+        //do nothing
+    }
 
     override var user: User
         get() = sharedPreferencesUtils.user

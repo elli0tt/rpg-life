@@ -1,23 +1,21 @@
 package com.elli0tt.rpg_life.presentation.screen.add_edit_characteristic;
 
-import android.app.Application;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
-import com.elli0tt.rpg_life.data.repository.UserRepositoryImpl;
 import com.elli0tt.rpg_life.domain.repository.UserRepository;
 
-public class AddEditCharacteristicViewModel extends AndroidViewModel {
-    private final UserRepository repository;
+import javax.inject.Inject;
+
+public class AddEditCharacteristicViewModel extends ViewModel {
+    private final UserRepository userRepository;
 
     private final MutableLiveData<String> name = new MutableLiveData<>();
 
-    public AddEditCharacteristicViewModel(@NonNull Application application) {
-        super(application);
-        repository = new UserRepositoryImpl(application);
+    @Inject
+    public AddEditCharacteristicViewModel(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public LiveData<String> getName() {
