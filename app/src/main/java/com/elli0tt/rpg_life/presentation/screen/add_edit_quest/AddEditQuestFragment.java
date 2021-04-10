@@ -58,23 +58,13 @@ public class AddEditQuestFragment extends Fragment {
 //            SoftKeyboardUtil.hideKeyboard(view, getActivity());
 //        }
     };
-    private final View.OnClickListener onAddStartTimeViewClickListener = v -> {
-        SoftKeyboardUtil.hideKeyboard(v, getActivity());
-        pickTime(onStartTimeSetListener);
-    };
-    private final View.OnClickListener onAddTimeDueViewClickListener = v -> {
-        SoftKeyboardUtil.hideKeyboard(v, getActivity());
-        pickTime(onTimeDueSetListener);
-    };
-    private final View.OnClickListener onAddReminderViewClickListener = v ->
-            pickDate(onReminderDateSetListener);
-    private final View.OnClickListener onRemoveReminderViewClickListener = v -> {
 
-    };
     private FragmentAddEditQuestBinding binding;
     private SubQuestsAdapter subQuestsAdapter;
     private NavController navController;
     private AddEditQuestViewModel viewModel;
+
+
     private final TimePickerDialog.OnTimeSetListener onStartTimeSetListener =
             (view, hourOfDay, minute) -> viewModel.setStartTime(hourOfDay, minute);
     private final TimePickerDialog.OnTimeSetListener onTimeDueSetListener =
@@ -89,6 +79,21 @@ public class AddEditQuestFragment extends Fragment {
         viewModel.setReminderDate(year, month, dayOfMonth);
         pickTime(onReminderTimeSetListener);
     };
+
+    private final View.OnClickListener onAddStartTimeViewClickListener = v -> {
+        SoftKeyboardUtil.hideKeyboard(v, getActivity());
+        pickTime(onStartTimeSetListener);
+    };
+    private final View.OnClickListener onAddTimeDueViewClickListener = v -> {
+        SoftKeyboardUtil.hideKeyboard(v, getActivity());
+        pickTime(onTimeDueSetListener);
+    };
+    private final View.OnClickListener onAddReminderViewClickListener = v ->
+            pickDate(onReminderDateSetListener);
+    private final View.OnClickListener onRemoveReminderViewClickListener = v -> {
+        //do nothing
+    };
+
     private final View.OnClickListener onRemoveDateDueViewClickListener =
             new View.OnClickListener() {
                 @Override
