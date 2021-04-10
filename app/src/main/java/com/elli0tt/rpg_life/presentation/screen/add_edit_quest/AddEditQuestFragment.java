@@ -236,7 +236,7 @@ public class AddEditQuestFragment extends BaseFragment {
     }
 
     private void initDagger() {
-        AddEditQuestComponent component = getAppComponent().addEditQuestComponent().create();
+        AddEditQuestComponent component = getAppComponent().addEditQuestComponentFactory().create();
         component.inject(this);
     }
 

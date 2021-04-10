@@ -66,7 +66,7 @@ class AddEditChallengeFragment : BaseFragment() {
     }
 
     private fun initDagger() {
-        val component = appComponent.addEditChallengeComponent().create()
+        val component = appComponent.addEditChallengeComponentFactory().create()
         component.inject(this)
 
         viewModel = injectViewModel(viewModelFactory)

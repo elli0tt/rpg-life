@@ -22,7 +22,7 @@ class AddEditCharacteristicFragment : BaseFragment(R.layout.fragment_add_edit_ch
     }
 
     private fun initDagger() {
-        val component = appComponent.addEditCharacteristicComponent().create()
+        val component = appComponent.addEditCharacteristicComponentFactory().create()
         component.inject(this)
 
         viewModel = injectViewModel(viewModelFactory)

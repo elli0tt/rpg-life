@@ -47,7 +47,7 @@ class AddCategoryToSkillFragment : BaseFragment(R.layout.fragment_add_category_t
     }
 
     private fun initDagger() {
-        val component = appComponent.addCategoryToSkillComponent().create()
+        val component = appComponent.addCategoryToSkillComponentFactory().create()
         component.inject(this)
 
         viewModel = injectViewModel(viewModelFactory)

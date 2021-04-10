@@ -12,9 +12,14 @@ import androidx.navigation.fragment.navArgs
 import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.databinding.FragmentAddEditSkillBinding
 import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment
+import com.elli0tt.rpg_life.presentation.extensions.injectViewModel
 import com.elli0tt.rpg_life.presentation.utils.SoftKeyboardUtil
+import javax.inject.Inject
 
 class AddEditSkillFragment : BaseFragment() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: AddEditSkillViewModel
     private lateinit var navController: NavController
@@ -25,7 +30,8 @@ class AddEditSkillFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        viewModel = ViewModelProvider(this).get(AddEditSkillViewModel::class.java)
+        initDagger()
+
         binding = FragmentAddEditSkillBinding.inflate(inflater,
                 container, false)
         binding.viewModel = viewModel
@@ -37,30 +43,49 @@ class AddEditSkillFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         navController = NavHostFragment.findNavController(this)
 
+        initViews()
+        subscribeToViewModel()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.start(
+                skillId = args.skillId,
+                defaultSkillCategoryText = getString(R.string.add_edit_skill_add_category)
+        )
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.save()
+    }
+
+    private fun initDagger() {
+        val component = appComponent.addEditSkillComponentFactory().create()
+        component.inject(this)
+
+        viewModel = injectViewModel(viewModelFactory)
+    }
+
+    private fun initViews() {
+        setHasOptionsMenu(true)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        setListeners()
+    }
+
+    private fun setListeners() {
         binding.nameEditText.onFocusChangeListener = onEditTextsFocusChangeListener
         binding.addCategoryButtonWithIcon.setOnClickListener { navigateToAddCategoryToSkillScreen() }
         binding.addCategoryButtonWithIcon.setOnRemoveClickListener {
             //TODO
         }
-
-        subscribeToViewModel()
-        setHasOptionsMenu(true)
     }
 
     private fun subscribeToViewModel() {
         viewModel.skillsCategoryName.observe(viewLifecycleOwner) {
             binding.addCategoryButtonWithIcon.setText(it)
         }
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        viewModel.start(args.skillId)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -76,11 +101,6 @@ class AddEditSkillFragment : BaseFragment() {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        viewModel.save()
     }
 
     private val onEditTextsFocusChangeListener = OnFocusChangeListener { v: View?, hasFocus: Boolean ->

@@ -1,17 +1,18 @@
 package com.elli0tt.rpg_life.presentation.screen.add_edit_skill
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.elli0tt.rpg_life.R
-import com.elli0tt.rpg_life.data.repository.SkillsCategoriesRepositoryImpl
-import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl
+import androidx.lifecycle.ViewModel
 import com.elli0tt.rpg_life.domain.model.Skill
 import com.elli0tt.rpg_life.domain.model.SkillsCategory
 import com.elli0tt.rpg_life.domain.repository.SkillsCategoriesRepository
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository
+import javax.inject.Inject
 
-class AddEditSkillViewModel(application: Application) : AndroidViewModel(application) {
+class AddEditSkillViewModel @Inject constructor(
+        private val skillsRepository: SkillsRepository,
+        private val skillsCategoriesRepository: SkillsCategoriesRepository
+) : ViewModel() {
+
     val name = MutableLiveData<String>()
     val skillsCategoryName = MutableLiveData<String>()
 
@@ -29,12 +30,11 @@ class AddEditSkillViewModel(application: Application) : AndroidViewModel(applica
 
     private var mode: Mode = Mode.ADD
 
-    val skillsRepository: SkillsRepository = SkillsRepositoryImpl(application)
-    val skillsCategoriesRepository: SkillsCategoriesRepository = SkillsCategoriesRepositoryImpl(application)
+    private lateinit var defaultSkillCategoryText: String
 
-    private val defaultSkillCategoryText: String = application.getString(R.string.add_edit_skill_add_category)
+    fun start(skillId: Int, defaultSkillCategoryText: String) {
+        this.defaultSkillCategoryText = defaultSkillCategoryText
 
-    fun start(skillId: Int) {
         if (skillId != 0) {
             mode = Mode.EDIT
             loadData(skillId)
@@ -82,5 +82,4 @@ class AddEditSkillViewModel(application: Application) : AndroidViewModel(applica
         }
         mode = Mode.DELETED
     }
-
 }

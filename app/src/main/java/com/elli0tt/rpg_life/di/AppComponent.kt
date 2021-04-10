@@ -13,6 +13,8 @@ import com.elli0tt.rpg_life.presentation.screen.add_edit_characteristic.di.AddEd
 import com.elli0tt.rpg_life.presentation.screen.add_edit_characteristic.di.AddEditCharacteristicModule
 import com.elli0tt.rpg_life.presentation.screen.add_edit_quest.di.AddEditQuestComponent
 import com.elli0tt.rpg_life.presentation.screen.add_edit_quest.di.AddEditQuestModule
+import com.elli0tt.rpg_life.presentation.screen.add_edit_skill.di.AddEditSkillComponent
+import com.elli0tt.rpg_life.presentation.screen.add_edit_skill.di.AddEditSkillModule
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -26,7 +28,8 @@ import javax.inject.Singleton
     AddCategoryToSkillModule::class,
     AddEditChallengeModule::class,
     AddEditCharacteristicModule::class,
-    AddEditQuestModule::class
+    AddEditQuestModule::class,
+    AddEditSkillModule::class
 ])
 interface AppComponent {
 
@@ -35,8 +38,9 @@ interface AppComponent {
         fun create(@BindsInstance context: Context): AppComponent
     }
 
-    fun addCategoryToSkillComponent(): AddCategoryToSkillComponent.Factory
-    fun addEditChallengeComponent(): AddEditChallengeComponent.Factory
-    fun addEditCharacteristicComponent(): AddEditCharacteristicComponent.Factory
-    fun addEditQuestComponent(): AddEditQuestComponent.Factory
+    fun addCategoryToSkillComponentFactory(): AddCategoryToSkillComponent.Factory
+    fun addEditChallengeComponentFactory(): AddEditChallengeComponent.Factory
+    fun addEditCharacteristicComponentFactory(): AddEditCharacteristicComponent.Factory
+    fun addEditQuestComponentFactory(): AddEditQuestComponent.Factory
+    fun addEditSkillComponentFactory(): AddEditSkillComponent.Factory
 }
