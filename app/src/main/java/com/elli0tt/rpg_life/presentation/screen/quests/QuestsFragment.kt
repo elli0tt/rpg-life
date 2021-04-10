@@ -21,7 +21,7 @@ import com.elli0tt.rpg_life.domain.model.Quest
 import com.elli0tt.rpg_life.domain.model.QuestsFilterState
 import com.elli0tt.rpg_life.domain.model.QuestsSortingState
 import com.elli0tt.rpg_life.presentation.adapter.quests.QuestsAdapter
-import com.elli0tt.rpg_life.presentation.core.BaseFragment
+import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment
 import com.elli0tt.rpg_life.presentation.custom.recycler_divider.TopAndBottomItemsSpaceItemDecoration
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.view_fab_menu_card.view.*

@@ -23,7 +23,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -36,7 +35,7 @@ import com.elli0tt.rpg_life.domain.model.Difficulty;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.presentation.adapter.subquests.SubQuestsAdapter;
 import com.elli0tt.rpg_life.presentation.broadcast_receiver.QuestReminderBroadcastReceiver;
-import com.elli0tt.rpg_life.presentation.core.BaseFragment;
+import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment;
 import com.elli0tt.rpg_life.presentation.utils.SoftKeyboardUtil;
 import com.google.android.material.snackbar.Snackbar;
 

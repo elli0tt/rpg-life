@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.elli0tt.rpg_life.R;
-import com.elli0tt.rpg_life.presentation.core.BaseFragment;
+import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment;
 
 public class StopwatchFragment extends BaseFragment {
 

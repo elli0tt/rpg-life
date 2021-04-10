@@ -3,11 +3,10 @@ package com.elli0tt.rpg_life.presentation.screen.statistics
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.elli0tt.rpg_life.R
-import com.elli0tt.rpg_life.presentation.core.BaseFragment
+import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend

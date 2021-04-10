@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 
 import com.elli0tt.rpg_life.R;
-import com.elli0tt.rpg_life.presentation.core.BaseFragment;
+import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment;
 
 import static android.app.Activity.RESULT_OK;
 

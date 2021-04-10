@@ -1,12 +1,7 @@
 package com.elli0tt.rpg_life.presentation.screen.add_edit_characteristic
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.elli0tt.rpg_life.R
-import com.elli0tt.rpg_life.presentation.core.BaseFragment
+import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment
 
 class AddEditCharacteristicFragment : BaseFragment(R.layout.fragment_add_edit_characteristic) {
 

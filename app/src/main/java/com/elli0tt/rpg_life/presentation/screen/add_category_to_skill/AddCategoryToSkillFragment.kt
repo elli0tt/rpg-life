@@ -13,9 +13,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.presentation.adapter.add_category_to_skill.AddCategoryToSkillAdapter
-import com.elli0tt.rpg_life.presentation.core.BaseFragment
+import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment
+import com.elli0tt.rpg_life.presentation.extensions.injectViewModel
+import javax.inject.Inject
 
 class AddCategoryToSkillFragment : BaseFragment(R.layout.fragment_add_category_to_skill) {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
     private lateinit var viewModel: AddCategoryToSkillViewModel
 
     private lateinit var recyclerView: RecyclerView
@@ -28,7 +34,8 @@ class AddCategoryToSkillFragment : BaseFragment(R.layout.fragment_add_category_t
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(AddCategoryToSkillViewModel::class.java)
+
+        initDagger()
 
         navController = NavHostFragment.findNavController(this)
 
@@ -39,16 +46,23 @@ class AddCategoryToSkillFragment : BaseFragment(R.layout.fragment_add_category_t
         subscribeToViewModel()
     }
 
+    private fun initDagger() {
+        val component = appComponent.addCategoryToSkillComponent().create()
+        component.inject(this)
+
+        viewModel = injectViewModel(viewModelFactory)
+    }
+
     private fun setupRecyclerView() {
         addCategoryToSkillAdapter = AddCategoryToSkillAdapter()
         recyclerView.adapter = addCategoryToSkillAdapter
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        addCategoryToSkillAdapter.onItemClickListener = object : AddCategoryToSkillAdapter.OnItemClickListener {
-            override fun onClick(position: Int) {
-                viewModel.updateCategory(position, args.skillId)
-                navController.popBackStack()
-            }
-        }
+
+        addCategoryToSkillAdapter.onItemClickListener =
+                AddCategoryToSkillAdapter.OnItemClickListener { position ->
+                    viewModel.updateCategory(position, args.skillId)
+                    navController.popBackStack()
+                }
     }
 
     private fun subscribeToViewModel() {

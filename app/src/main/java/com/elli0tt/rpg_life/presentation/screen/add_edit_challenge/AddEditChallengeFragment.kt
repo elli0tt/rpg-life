@@ -11,7 +11,6 @@ import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -20,7 +19,7 @@ import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.databinding.FragmentAddEditChallengeBinding
 import com.elli0tt.rpg_life.domain.model.Difficulty
 import com.elli0tt.rpg_life.domain.model.Quest.DateState
-import com.elli0tt.rpg_life.presentation.core.BaseFragment
+import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment
 import com.elli0tt.rpg_life.presentation.screen.add_edit_quest.DifficultyPopupMenuIds
 import com.elli0tt.rpg_life.presentation.utils.SoftKeyboardUtil
 import java.util.*

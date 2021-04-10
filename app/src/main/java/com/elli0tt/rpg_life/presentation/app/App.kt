@@ -24,6 +24,6 @@ class App : Application() {
     }
 
     private fun initAppComponent() {
-        appComponent = DaggerAppComponent.factory().create()
+        appComponent = DaggerAppComponent.factory().create(applicationContext)
     }
 }

@@ -9,7 +9,7 @@ import com.elli0tt.rpg_life.domain.model.SkillsCategory
 
 class AddCategoryToSkillAdapter : ListAdapter<SkillsCategory, AddCategoryToSkillViewHolder>(DIFF_CALLBACK) {
 
-    interface OnItemClickListener {
+    fun interface OnItemClickListener {
         fun onClick(position: Int)
     }
 

@@ -10,14 +10,13 @@ import android.widget.NumberPicker;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.databinding.FragmentCountdownTimerBinding;
 import com.elli0tt.rpg_life.domain.model.TimerState;
-import com.elli0tt.rpg_life.presentation.core.BaseFragment;
+import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment;
 
 import java.util.Locale;
 

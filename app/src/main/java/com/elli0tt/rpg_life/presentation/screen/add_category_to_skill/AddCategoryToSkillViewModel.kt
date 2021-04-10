@@ -1,15 +1,14 @@
 package com.elli0tt.rpg_life.presentation.screen.add_category_to_skill
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import com.elli0tt.rpg_life.data.repository.SkillsCategoriesRepositoryImpl
-import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl
+import androidx.lifecycle.ViewModel
 import com.elli0tt.rpg_life.domain.repository.SkillsCategoriesRepository
 import com.elli0tt.rpg_life.domain.repository.SkillsRepository
+import javax.inject.Inject
 
-class AddCategoryToSkillViewModel(application: Application) : AndroidViewModel(application) {
-    private val skillsCategoriesRepository: SkillsCategoriesRepository = SkillsCategoriesRepositoryImpl(application)
-    private val skillsRepository: SkillsRepository = SkillsRepositoryImpl(application)
+class AddCategoryToSkillViewModel @Inject constructor(
+        private val skillsCategoriesRepository: SkillsCategoriesRepository,
+        private val skillsRepository: SkillsRepository
+) : ViewModel() {
 
     val skillsCategoriesToShow = skillsCategoriesRepository.getAllSkillsCategories()
 

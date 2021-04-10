@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.elli0tt.rpg_life.databinding.FragmentAddEditSkillCategoryBinding
-import com.elli0tt.rpg_life.presentation.core.BaseFragment
+import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment
 
 class AddEditSkillsCategoryFragment : BaseFragment() {
 

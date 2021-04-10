@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.presentation.adapter.add_skill_to_quest.AddSkillsToQuestAdapter
-import com.elli0tt.rpg_life.presentation.core.BaseFragment
+import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment
 
 class AddSkillsToQuestFragment : BaseFragment(R.layout.fragment_add_skills_to_quest) {
 
