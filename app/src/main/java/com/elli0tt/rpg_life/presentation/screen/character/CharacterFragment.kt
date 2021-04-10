@@ -15,30 +15,51 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment
+import com.elli0tt.rpg_life.presentation.extensions.injectViewModel
+import com.elli0tt.rpg_life.presentation.screen.character.di.CharacterComponent
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.fragment_character.*
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import javax.inject.Inject
 
 class CharacterFragment : BaseFragment(R.layout.fragment_character) {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private lateinit var characterComponent: CharacterComponent
 
     private lateinit var navController: NavController
     private lateinit var viewModel: CharacterViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(CharacterViewModel::class.java)
+
+        initDagger()
         navController = NavHostFragment.findNavController(this)
 
         initViews()
         subscribeToViewModel()
-        setHasOptionsMenu(true)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        loadProfileImageFromInternalStorage()
+    }
+
+    private fun initDagger() {
+        characterComponent = appComponent.characterComponentFactory().create()
+        characterComponent.inject(this)
+
+        viewModel = injectViewModel(viewModelFactory)
     }
 
     private fun initViews() {
         setListeners()
+        setHasOptionsMenu(true)
     }
 
     fun navigateToAddCharacteristicFragment() {
@@ -67,11 +88,6 @@ class CharacterFragment : BaseFragment(R.layout.fragment_character) {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.character_toolbar_menu, menu)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        loadProfileImageFromInternalStorage()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

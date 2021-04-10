@@ -1,16 +1,18 @@
 package com.elli0tt.rpg_life.presentation.screen.character
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.elli0tt.rpg_life.data.repository.UserRepositoryImpl
 import com.elli0tt.rpg_life.domain.model.Characteristic
 import com.elli0tt.rpg_life.domain.model.User
 import java.util.*
+import javax.inject.Inject
 
-class CharacterViewModel(application: Application) : AndroidViewModel(application) {
-    private val userRepository: UserRepositoryImpl = UserRepositoryImpl(application)
+class CharacterViewModel @Inject constructor(
+        private val userRepository: UserRepositoryImpl
+) : ViewModel() {
+
     private val allCharacteristics: LiveData<List<Characteristic>> = userRepository.allCharacteristics
 
     private var _user = MutableLiveData(userRepository.user)
