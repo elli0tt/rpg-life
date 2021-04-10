@@ -1,4 +1,4 @@
-    package com.elli0tt.rpg_life.presentation.screen.add_edit_quest;
+package com.elli0tt.rpg_life.presentation.screen.add_edit_quest;
 
 import android.app.Application;
 import android.content.ContentValues;
@@ -44,7 +44,8 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private final String tomorrow;
     private final MutableLiveData<String> name = new MutableLiveData<>();
     //    private MutableLiveData<String> description = new MutableLiveData<>("");
-    private final MutableLiveData<Difficulty> difficulty = new MutableLiveData<>(Difficulty.NOT_SET);
+    private final MutableLiveData<Difficulty> difficulty =
+            new MutableLiveData<>(Difficulty.NOT_SET);
     private final MutableLiveData<Quest.DateState> dateDueState =
             new MutableLiveData<>(Quest.DateState.NOT_SET);
     private final MutableLiveData<Quest.DateState> startDateState =
@@ -55,10 +56,18 @@ public class AddEditQuestViewModel extends AndroidViewModel {
             new MutableLiveData<>(R.string.add_edit_quest_repeat);
     private final MutableLiveData<Quest.RepeatState> repeatState =
             new MutableLiveData<>(Quest.RepeatState.NOT_SET);
-
+    private final Calendar reminderDate = Calendar.getInstance();
+    private final CompleteQuestUseCase completeQuestUseCase;
+    private final QuestsRepository questsRepository;
+    private final SkillsRepository skillsRepository;
+    private final UserRepository userRepository;
+    private final DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG);
+    private final DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
+    private final WorkManager workManager;
+    private final SimpleDateFormat dateAndTimeFormat = new SimpleDateFormat("d MMM, yyyy HH:mm",
+            Locale.getDefault());
     private Calendar startDate = Calendar.getInstance();
     private Calendar dateDue = Calendar.getInstance();
-    private final Calendar reminderDate = Calendar.getInstance();
     private Quest currentQuest;
     private LiveData<List<Quest>> subQuests;
     private boolean isSubQuest;
@@ -69,16 +78,7 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private int id;
     private Mode mode = Mode.EDIT;
     private boolean isDataLoaded = false;
-    private final CompleteQuestUseCase completeQuestUseCase;
-    private final QuestsRepository questsRepository;
-    private final SkillsRepository skillsRepository;
-    private final UserRepository userRepository;
-    private final DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG);
-    private final DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
-    private final WorkManager workManager;
     private OneTimeWorkRequest insertEmptyQuestWorkRequest;
-    private final SimpleDateFormat dateAndTimeFormat = new SimpleDateFormat("d MMM, yyyy HH:mm",
-            Locale.getDefault());
 
     public AddEditQuestViewModel(@NonNull Application application) {
         super(application);

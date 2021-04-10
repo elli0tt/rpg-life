@@ -58,11 +58,12 @@ public class QuestsViewModel extends AndroidViewModel {
     private final SkillsRepository skillsRepository;
     private final UserRepository userRepository;
     private final WorkManager workManager;
-    private OneTimeWorkRequest insertEmptyQuestWorkRequest;
-    private OneTimeWorkRequest insertEmptyChallengeWorkRequest;
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM, yyyy", Locale.getDefault());
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM, yyyy",
+            Locale.getDefault());
     private final SimpleDateFormat dateAndTimeFormat = new SimpleDateFormat("d MMM, yyyy HH:mm",
             Locale.getDefault());
+    private OneTimeWorkRequest insertEmptyQuestWorkRequest;
+    private OneTimeWorkRequest insertEmptyChallengeWorkRequest;
 
     public QuestsViewModel(@NonNull Application application) {
         super(application);

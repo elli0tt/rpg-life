@@ -11,17 +11,13 @@ import java.util.*
 
 class CharacterViewModel(application: Application) : AndroidViewModel(application) {
     private val userRepository: UserRepositoryImpl = UserRepositoryImpl(application)
-    private val allCharacteristics: LiveData<List<Characteristic>>
+    private val allCharacteristics: LiveData<List<Characteristic>> = userRepository.allCharacteristics
 
     private var _user = MutableLiveData(userRepository.user)
     val user: LiveData<User> = _user
 
     private var _snackbarTextResId = MutableLiveData<Int>()
     val snackbarTextResId: LiveData<Int> = _snackbarTextResId
-
-    init {
-        allCharacteristics = userRepository.allCharacteristics
-    }
 
     fun insert(characteristic: Characteristic) {
         userRepository.insertCharacteristics(characteristic)

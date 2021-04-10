@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -169,33 +168,33 @@ class QuestsFragment : Fragment() {
     }
 
     private fun subscribeToViewModel() {
-        viewModel.quests.observe(viewLifecycleOwner, Observer { questList: List<Quest?>? ->
+        viewModel.quests.observe(viewLifecycleOwner) { questList: List<Quest?>? ->
             questsAdapter.submitList(questList)
-        })
-        viewModel.isSelectionStarted.observe(viewLifecycleOwner, Observer { isSelectionStarted ->
+        }
+        viewModel.isSelectionStarted.observe(viewLifecycleOwner) { isSelectionStarted ->
             if (isSelectionStarted) {
                 mainFab.hide()
             } else {
                 mainFab.show()
             }
-        })
-        viewModel.showCompletedTextResId.observe(viewLifecycleOwner, Observer { textResId: Int? ->
+        }
+        viewModel.showCompletedTextResId.observe(viewLifecycleOwner) { textResId: Int? ->
             if (showCompletedMenuItem != null) {
                 showCompletedMenuItem!!.setTitle((textResId)!!)
             }
-        })
-        viewModel.insertEmptyQuestWorkInfo.observe(viewLifecycleOwner, Observer { workInfo ->
+        }
+        viewModel.insertEmptyQuestWorkInfo.observe(viewLifecycleOwner) { workInfo ->
             if (workInfo != null && workInfo.state.isFinished) {
                 navigateToEditQuestScreen(workInfo.outputData.getInt(com.elli0tt.rpg_life.presentation.worker.WorkerConstants.KEY_QUEST_ID, 0))
                 viewModel.updateInsertEmptyQuestWorkRequest()
             }
-        })
-        viewModel.insertEmptyChallengeWorkInfo.observe(viewLifecycleOwner, Observer { workInfo ->
+        }
+        viewModel.insertEmptyChallengeWorkInfo.observe(viewLifecycleOwner) { workInfo ->
             if (workInfo != null && workInfo.state.isFinished) {
                 navigateToEditChallengeScreen(workInfo.outputData.getInt(com.elli0tt.rpg_life.presentation.worker.WorkerConstants.KEY_CHALLENGE_ID, 0))
                 viewModel.updateInsertEmptyChallengeWorkRequest()
             }
-        })
+        }
     }
 
     private fun showFabMenu() {

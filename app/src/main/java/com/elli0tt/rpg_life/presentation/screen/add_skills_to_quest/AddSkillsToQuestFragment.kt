@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -72,9 +71,9 @@ class AddSkillsToQuestFragment : Fragment() {
     }
 
     private fun subscribeToViewModel() {
-        viewModel.skillsToShow.observe(viewLifecycleOwner, Observer { allSkillsData ->
+        viewModel.skillsToShow.observe(viewLifecycleOwner) { allSkillsData ->
             addSkillsToQuestAdapter.submitList(allSkillsData)
-        })
+        }
     }
 
     override fun onStop() {

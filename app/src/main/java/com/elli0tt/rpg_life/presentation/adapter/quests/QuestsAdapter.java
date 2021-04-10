@@ -33,26 +33,6 @@ import java.util.Locale;
 
 public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHolder> {
 
-    public interface OnItemClickListener {
-        void onItemClick(int position);
-    }
-
-    public interface OnItemLongClickListener {
-        void onLongClick(int position);
-    }
-
-    public interface OnIsCompleteCheckBoxClickListener {
-        void onClick(boolean isCompleted, int position);
-    }
-
-    public interface OnIsImportantCheckBoxClickListener {
-        void onClick(boolean isImportant, int position);
-    }
-
-    public interface OnSelectionFinishedListener {
-        void onSelectionFinished();
-    }
-
     private static final DiffUtil.ItemCallback<Quest> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<Quest>() {
                 @Override
@@ -73,7 +53,6 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
                             oldItem.getHasSubquests() == newItem.getHasSubquests();
                 }
             };
-
     private OnIsCompleteCheckBoxClickListener onIsCompleteCheckBoxClickListener;
     private OnIsImportantCheckBoxClickListener onIsImportantCheckBoxClickListener;
     private OnItemClickListener onItemClickListener;
@@ -91,7 +70,6 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
             notifyItemChanged(position);
         }
     };
-
     public QuestsAdapter() {
         super(DIFF_CALLBACK);
     }
@@ -203,7 +181,28 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         return selectedQuests;
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public interface OnItemLongClickListener {
+        void onLongClick(int position);
+    }
+
+    public interface OnIsCompleteCheckBoxClickListener {
+        void onClick(boolean isCompleted, int position);
+    }
+
+    public interface OnIsImportantCheckBoxClickListener {
+        void onClick(boolean isImportant, int position);
+    }
+
+    public interface OnSelectionFinishedListener {
+        void onSelectionFinished();
+    }
+
     static class QuestsViewHolder extends RecyclerView.ViewHolder {
+        private final QuestsViewModel viewModel;
         private CheckBox isCompletedCheckBox;
         private TextView nameTextView;
         private TextView difficultyTextView;
@@ -213,9 +212,6 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         private AppCompatImageView hasSubquestsImageView;
         private TextView dayNumberTextView;
         private ConstraintLayout constraintLayout;
-
-        private final QuestsViewModel viewModel;
-
         private ConstraintSet constraintSet;
 
         QuestsViewHolder(

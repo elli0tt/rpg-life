@@ -344,11 +344,8 @@ class CustomLevelProgressBar @JvmOverloads constructor(
         val desiredWidth = (width + strokeWidth + paddingRight + paddingLeft).toInt()
         val desiredHeight = (height + strokeWidth + paddingTop + paddingBottom).toInt()
 
-        val width: Int
-        val height: Int
-
         //Measure Width
-        width = when (widthMode) {
+        val width: Int = when (widthMode) {
             MeasureSpec.EXACTLY -> //Must be this size
                 widthSize
             MeasureSpec.AT_MOST -> //Can't be bigger than...
@@ -358,7 +355,7 @@ class CustomLevelProgressBar @JvmOverloads constructor(
         }
 
         //Measure Height
-        height = when (heightMode) {
+        val height: Int = when (heightMode) {
             MeasureSpec.EXACTLY -> //Must be this size
                 heightSize
             MeasureSpec.AT_MOST -> //Can't be bigger than...

@@ -38,9 +38,9 @@
                 android:layout_marginHorizontal="16dp"
                 android:background="@color/colorPrimary"
                 android:hint="@string/add_quest_name_hint"
+                android:text="@={viewModel.name}"
                 android:textColor="@color/colorTextWhite"
                 android:textColorHint="#8A8888"
-                android:text="@={viewModel.name}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/toolbar" />

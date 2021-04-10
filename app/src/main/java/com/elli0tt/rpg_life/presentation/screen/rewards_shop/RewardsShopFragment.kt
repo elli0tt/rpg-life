@@ -3,7 +3,6 @@ package com.elli0tt.rpg_life.presentation.screen.rewards_shop
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.presentation.adapter.rewards_shop.RewardsShopAdapter
@@ -33,9 +32,9 @@ class RewardsShopFragment : Fragment(R.layout.fragment_rewards_shop) {
 
     private fun subscribeToViewModel() {
         viewModel.apply {
-            rewardsList.observe(viewLifecycleOwner, Observer {
+            rewardsList.observe(viewLifecycleOwner) {
                 rewardsAdapter.submitList(it)
-            })
+            }
         }
     }
 }

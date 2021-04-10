@@ -15,7 +15,7 @@ class AddEditSkillsCategoryFragment : Fragment() {
 
     private val args: AddEditSkillsCategoryFragmentArgs by navArgs()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         viewModel = ViewModelProvider(this).get(AddEditSkillsCategoryViewModel::class.java)
 
         binding = FragmentAddEditSkillCategoryBinding.inflate(inflater, container, false)

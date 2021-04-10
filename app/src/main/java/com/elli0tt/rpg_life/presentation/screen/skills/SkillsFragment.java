@@ -26,17 +26,16 @@ import com.elli0tt.rpg_life.presentation.custom.view.UpDownArrowsView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class SkillsFragment extends Fragment {
+    private final SkillsAdapter skillsAdapter = new SkillsAdapter();
     private SkillsViewModel viewModel;
-
+    private final View.OnClickListener onAddSkillFabClickListener =
+            v -> viewModel.insertEmptySkill();
+    private final View.OnClickListener onSortUpDownArrowsViewClickListener =
+            view -> viewModel.changeSortingDirection();
     private RecyclerView recyclerView;
     private FloatingActionButton addSkillFab;
     private UpDownArrowsView sortUpDownArrowsView;
-
     private NavController navController;
-    private final SkillsAdapter skillsAdapter = new SkillsAdapter();
-    private final View.OnClickListener onAddSkillFabClickListener = v -> viewModel.insertEmptySkill();
-    private final View.OnClickListener onSortUpDownArrowsViewClickListener =
-            view -> viewModel.changeSortingDirection();
 
     @Nullable
     @Override

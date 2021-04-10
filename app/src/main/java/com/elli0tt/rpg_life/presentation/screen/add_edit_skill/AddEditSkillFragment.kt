@@ -24,7 +24,7 @@ class AddEditSkillFragment : Fragment() {
     private lateinit var binding: FragmentAddEditSkillBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         viewModel = ViewModelProvider(this).get(AddEditSkillViewModel::class.java)
         binding = FragmentAddEditSkillBinding.inflate(inflater,
                 container, false)

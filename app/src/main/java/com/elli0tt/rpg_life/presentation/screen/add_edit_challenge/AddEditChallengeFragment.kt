@@ -12,7 +12,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -40,7 +39,7 @@ class AddEditChallengeFragment : Fragment() {
     private lateinit var veryHardTitle: String
     private lateinit var impossibleTitle: String
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         viewModel = ViewModelProvider(this).get(AddEditChallengeViewModel::class.java)
         navController = NavHostFragment.findNavController(this)
 
@@ -90,7 +89,7 @@ class AddEditChallengeFragment : Fragment() {
     }
 
     private fun subscribeToViewModel() {
-        viewModel.difficulty.observe(viewLifecycleOwner, Observer<Difficulty> { difficulty: Difficulty? ->
+        viewModel.difficulty.observe(viewLifecycleOwner) { difficulty: Difficulty? ->
             when (difficulty) {
                 Difficulty.VERY_EASY -> binding.difficultyView.setText(veryEasyTitle)
                 Difficulty.EASY -> binding.difficultyView.setText(easyTitle)
@@ -105,32 +104,31 @@ class AddEditChallengeFragment : Fragment() {
             } else {
                 binding.difficultyView.setRemoveIconVisibility(View.VISIBLE)
             }
-        })
+        }
 
-        viewModel.dateDueState.observe(viewLifecycleOwner,
-                Observer { dateDueState: DateState? ->
-                    when (dateDueState) {
-                        DateState.NOT_SET -> {
-                            binding.addDateDueView.setText(R.string.add_edit_quest_add_date_due)
-                            binding.addDateDueView.setRemoveIconVisibility(View.INVISIBLE)
-                            binding.addTimeDueView.visibility = View.GONE
-                            binding.addTimeDueView.setRemoveIconVisibility(View.INVISIBLE)
-                        }
-                        DateState.DATE_SET -> {
-                            binding.addDateDueView.setText(viewModel.getDateDueFormatted())
-                            binding.addDateDueView.setRemoveIconVisibility(View.VISIBLE)
-                            binding.addTimeDueView.visibility = View.VISIBLE
-                            binding.addTimeDueView.setText(R.string.add_edit_quest_add_time_due)
-                        }
-                        DateState.DATE_TIME_SET -> {
-                            binding.addDateDueView.setText(viewModel.getDateDueFormatted())
-                            binding.addDateDueView.setRemoveIconVisibility(View.VISIBLE)
-                            binding.addTimeDueView.visibility = View.VISIBLE
-                            binding.addTimeDueView.setText(viewModel.getTimeDueFormatted())
-                            binding.addTimeDueView.setRemoveIconVisibility(View.VISIBLE)
-                        }
-                    }
-                })
+        viewModel.dateDueState.observe(viewLifecycleOwner) { dateDueState: DateState? ->
+            when (dateDueState) {
+                DateState.NOT_SET -> {
+                    binding.addDateDueView.setText(R.string.add_edit_quest_add_date_due)
+                    binding.addDateDueView.setRemoveIconVisibility(View.INVISIBLE)
+                    binding.addTimeDueView.visibility = View.GONE
+                    binding.addTimeDueView.setRemoveIconVisibility(View.INVISIBLE)
+                }
+                DateState.DATE_SET -> {
+                    binding.addDateDueView.setText(viewModel.getDateDueFormatted())
+                    binding.addDateDueView.setRemoveIconVisibility(View.VISIBLE)
+                    binding.addTimeDueView.visibility = View.VISIBLE
+                    binding.addTimeDueView.setText(R.string.add_edit_quest_add_time_due)
+                }
+                DateState.DATE_TIME_SET -> {
+                    binding.addDateDueView.setText(viewModel.getDateDueFormatted())
+                    binding.addDateDueView.setRemoveIconVisibility(View.VISIBLE)
+                    binding.addTimeDueView.visibility = View.VISIBLE
+                    binding.addTimeDueView.setText(viewModel.getTimeDueFormatted())
+                    binding.addTimeDueView.setRemoveIconVisibility(View.VISIBLE)
+                }
+            }
+        }
     }
 
     override fun onStart() {

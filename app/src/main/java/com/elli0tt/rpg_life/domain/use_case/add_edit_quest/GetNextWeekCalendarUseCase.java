@@ -9,7 +9,7 @@ import javax.inject.Inject;
 public class GetNextWeekCalendarUseCase {
 
     @Inject
-    public GetNextWeekCalendarUseCase(){
+    public GetNextWeekCalendarUseCase() {
         // do nothing
     }
 

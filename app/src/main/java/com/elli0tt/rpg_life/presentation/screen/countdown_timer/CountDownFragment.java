@@ -25,17 +25,11 @@ import timber.log.Timber;
 public class CountDownFragment extends Fragment {
 
     private static final String TIME_LEFT_TAG = "time left";
+    private final NumberPicker.Formatter numberPickersFormatter =
+            value -> String.format(Locale.getDefault(), "%02d", value);
     private FragmentCountdownTimerBinding binding;
     private CountDownViewModel viewModel;
     private CountDownTimer timer;
-    //Used to enable startTimerFab just 1 time - after it was disabled
-    private boolean isStartFabEnabled = true;
-    private final Observer<Integer> numberPickersValuesObserver = integer -> {
-        if (binding.numberPickersLayout.getVisibility() == View.VISIBLE &&
-                (isStartFabEnabled ^ viewModel.isNeedToEnableStartFab())) {
-            enableStartFab(viewModel.isNeedToEnableStartFab());
-        }
-    };
     private final View.OnClickListener startFabOnClickListener = v -> startTimer();
     private final View.OnClickListener pauseFabOnClickListener = new View.OnClickListener() {
         @Override
@@ -53,8 +47,14 @@ public class CountDownFragment extends Fragment {
             viewModel.stopTimer();
         }
     };
-    private final NumberPicker.Formatter numberPickersFormatter =
-            value -> String.format(Locale.getDefault(), "%02d", value);
+    //Used to enable startTimerFab just 1 time - after it was disabled
+    private boolean isStartFabEnabled = true;
+    private final Observer<Integer> numberPickersValuesObserver = integer -> {
+        if (binding.numberPickersLayout.getVisibility() == View.VISIBLE &&
+                (isStartFabEnabled ^ viewModel.isNeedToEnableStartFab())) {
+            enableStartFab(viewModel.isNeedToEnableStartFab());
+        }
+    };
 
     @Nullable
     @Override
@@ -133,7 +133,8 @@ public class CountDownFragment extends Fragment {
     private void startTimer() {
         viewModel.startTimer(System.currentTimeMillis());
         binding.progressBar.setMax(viewModel.getMaxProgress());
-        timer = new CountDownTimer(viewModel.getTimeLeftMillis(), CountDownTimerConstants.COUNT_DOWN_INTERVAL) {
+        timer = new CountDownTimer(viewModel.getTimeLeftMillis(),
+                CountDownTimerConstants.COUNT_DOWN_INTERVAL) {
             @Override
             public void onTick(long millisUntilFinished) {
                 viewModel.updateTimeLeftSeconds();

@@ -5,7 +5,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.domain.model.AddSkillData
-import com.elli0tt.rpg_life.presentation.adapter.add_skill_to_quest.AddSkillsToQuestAdapter
 import com.google.android.material.slider.Slider
 
 class AddSkillsToQuestViewHolder(itemView: View,
