@@ -1,28 +1,22 @@
 package com.elli0tt.rpg_life.presentation.screen.add_edit_quest;
 
-import android.app.Application;
 import android.content.ContentValues;
 import android.provider.CalendarContract;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
 import com.elli0tt.rpg_life.R;
-import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl;
-import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl;
-import com.elli0tt.rpg_life.data.repository.UserRepositoryImpl;
 import com.elli0tt.rpg_life.domain.model.Difficulty;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.repository.QuestsRepository;
-import com.elli0tt.rpg_life.domain.repository.SkillsRepository;
-import com.elli0tt.rpg_life.domain.repository.UserRepository;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetClosestWeekdayCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetNextWeekCalendarUseCase;
 import com.elli0tt.rpg_life.domain.use_case.add_edit_quest.GetTodayCalendarUseCase;
@@ -39,9 +33,13 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class AddEditQuestViewModel extends AndroidViewModel {
-    private final String today;
-    private final String tomorrow;
+import javax.inject.Inject;
+
+public class AddEditQuestViewModel extends ViewModel {
+
+    private String today;
+    private String tomorrow;
+
     private final MutableLiveData<String> name = new MutableLiveData<>();
     //    private MutableLiveData<String> description = new MutableLiveData<>("");
     private final MutableLiveData<Difficulty> difficulty =
@@ -56,18 +54,22 @@ public class AddEditQuestViewModel extends AndroidViewModel {
             new MutableLiveData<>(R.string.add_edit_quest_repeat);
     private final MutableLiveData<Quest.RepeatState> repeatState =
             new MutableLiveData<>(Quest.RepeatState.NOT_SET);
+
     private final Calendar reminderDate = Calendar.getInstance();
+
     private final CompleteQuestUseCase completeQuestUseCase;
     private final QuestsRepository questsRepository;
-    private final SkillsRepository skillsRepository;
-    private final UserRepository userRepository;
+
     private final DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG);
     private final DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
-    private final WorkManager workManager;
     private final SimpleDateFormat dateAndTimeFormat = new SimpleDateFormat("d MMM, yyyy HH:mm",
             Locale.getDefault());
+
+    private final WorkManager workManager;
+
     private Calendar startDate = Calendar.getInstance();
     private Calendar dateDue = Calendar.getInstance();
+
     private Quest currentQuest;
     private LiveData<List<Quest>> subQuests;
     private boolean isSubQuest;
@@ -80,20 +82,17 @@ public class AddEditQuestViewModel extends AndroidViewModel {
     private boolean isDataLoaded = false;
     private OneTimeWorkRequest insertEmptyQuestWorkRequest;
 
-    public AddEditQuestViewModel(@NonNull Application application) {
-        super(application);
-        workManager = WorkManager.getInstance(application);
+    @Inject
+    public AddEditQuestViewModel(
+            CompleteQuestUseCase completeQuestUseCase,
+            QuestsRepository questsRepository,
+            WorkManager workManager
+    ) {
+        this.completeQuestUseCase = completeQuestUseCase;
+        this.questsRepository = questsRepository;
+        this.workManager = workManager;
+
         updateInsertEmptyQuestWorkRequest();
-
-        questsRepository = new QuestsRepositoryImpl(application);
-        skillsRepository = new SkillsRepositoryImpl(application);
-        userRepository = new UserRepositoryImpl(application);
-
-        completeQuestUseCase = new CompleteQuestUseCase(questsRepository, skillsRepository,
-                userRepository);
-
-        today = application.getString(R.string.quest_date_due_today);
-        tomorrow = application.getString(R.string.quest_date_due_tomorrow);
     }
 
     public MutableLiveData<String> getName() {
@@ -156,9 +155,17 @@ public class AddEditQuestViewModel extends AndroidViewModel {
         return workManager.getWorkInfoByIdLiveData(insertEmptyQuestWorkRequest.getId());
     }
 
-    void start(@Nullable Integer id, boolean isSubQuest, int parentQuestId) {
+    void start(
+            @Nullable Integer id,
+            boolean isSubQuest,
+            int parentQuestId,
+            String today,
+            String tomorrow
+    ) {
         this.isSubQuest = isSubQuest;
         this.parentQuestId = parentQuestId;
+        this.today = today;
+        this.tomorrow = tomorrow;
 
         if (id == null) {
             //No need to populate, the quest is new

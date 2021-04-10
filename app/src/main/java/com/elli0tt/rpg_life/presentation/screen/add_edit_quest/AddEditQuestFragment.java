@@ -36,21 +36,30 @@ import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.presentation.adapter.subquests.SubQuestsAdapter;
 import com.elli0tt.rpg_life.presentation.broadcast_receiver.QuestReminderBroadcastReceiver;
 import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment;
+import com.elli0tt.rpg_life.presentation.screen.add_edit_quest.di.AddEditQuestComponent;
 import com.elli0tt.rpg_life.presentation.utils.SoftKeyboardUtil;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Calendar;
+
+import javax.inject.Inject;
 
 import static android.Manifest.permission.WRITE_CALENDAR;
 import static android.content.pm.PackageManager.PERMISSION_DENIED;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 public class AddEditQuestFragment extends BaseFragment {
+
     public static final String EXTRA_REMINDER_TITLE = "com.elli0tt.rpg_life.presentation" +
             ".add_edit_quest_extra_reminder_title";
     public static final String EXTRA_NOTIFICATION_ID = "com.elli0tt.rpg_life.presentation" +
             ".add_edit_quest_extra_notification_id";
+
     private static final int REQUEST_PERMISSIONS = 1000;
+
+    @Inject
+    public ViewModelProvider.Factory viewModelFactory;
+
     private final View.OnFocusChangeListener onEditTextsFocusChangeListener = (view, hasFocus) -> {
 //        if (hasFocus) {
 //            SoftKeyboardUtil.showKeyboard(view, getActivity());
@@ -164,7 +173,9 @@ public class AddEditQuestFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        viewModel = new ViewModelProvider(this).get(AddEditQuestViewModel.class);
+        initDagger();
+        viewModel = new ViewModelProvider(this, viewModelFactory).get(AddEditQuestViewModel.class);
+
         binding = FragmentAddEditQuestBinding.inflate(inflater, container, false);
 
         binding.setViewModel(viewModel);
@@ -184,9 +195,13 @@ public class AddEditQuestFragment extends BaseFragment {
         binding.nameEditText.clearFocus();
 
         if (getArguments() != null) {
-            viewModel.start(AddEditQuestFragmentArgs.fromBundle(getArguments()).getQuestId(),
+            viewModel.start(
+                    AddEditQuestFragmentArgs.fromBundle(getArguments()).getQuestId(),
                     AddEditQuestFragmentArgs.fromBundle(getArguments()).getIsSubQuest(),
-                    AddEditQuestFragmentArgs.fromBundle(getArguments()).getParentQuestId());
+                    AddEditQuestFragmentArgs.fromBundle(getArguments()).getParentQuestId(),
+                    getString(R.string.quest_date_due_today),
+                    getString(R.string.quest_date_due_tomorrow)
+            );
             //TODO: DELETE WHEN TREE SUBQUESTS ARE IMPLEMENTED
             if (AddEditQuestFragmentArgs.fromBundle(getArguments()).getIsSubQuest()) {
                 binding.addSubquestButton.setVisibility(View.INVISIBLE);
@@ -218,6 +233,11 @@ public class AddEditQuestFragment extends BaseFragment {
     public void onStop() {
         super.onStop();
         viewModel.saveQuest();
+    }
+
+    private void initDagger() {
+        AddEditQuestComponent component = getAppComponent().addEditQuestComponent().create();
+        component.inject(this);
     }
 
     private void setupToolbar() {

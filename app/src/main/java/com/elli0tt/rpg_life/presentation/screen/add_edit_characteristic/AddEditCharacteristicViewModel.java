@@ -15,6 +15,7 @@ public class AddEditCharacteristicViewModel extends ViewModel {
 
     @Inject
     public AddEditCharacteristicViewModel(UserRepository userRepository) {
+        super();
         this.userRepository = userRepository;
     }
 
