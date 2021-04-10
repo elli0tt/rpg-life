@@ -29,7 +29,7 @@ public class CountDownFragment extends Fragment {
     private CountDownViewModel viewModel;
     private CountDownTimer timer;
     //Used to enable startTimerFab just 1 time - after it was disabled
-    private final boolean isStartFabEnabled = true;
+    private boolean isStartFabEnabled = true;
     private final Observer<Integer> numberPickersValuesObserver = integer -> {
         if (binding.numberPickersLayout.getVisibility() == View.VISIBLE &&
                 (isStartFabEnabled ^ viewModel.isNeedToEnableStartFab())) {
