@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.elli0tt.rpg_life.databinding.FragmentAddEditSkillCategoryBinding
+import com.elli0tt.rpg_life.presentation.core.BaseFragment
 
-class AddEditSkillsCategoryFragment : Fragment() {
+class AddEditSkillsCategoryFragment : BaseFragment() {
+
     private lateinit var viewModel: AddEditSkillsCategoryViewModel
     private lateinit var binding: FragmentAddEditSkillCategoryBinding
 

@@ -6,12 +6,15 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.view.*
-import androidx.fragment.app.Fragment
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.elli0tt.rpg_life.R
+import com.elli0tt.rpg_life.presentation.core.BaseFragment
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.fragment_character.*
@@ -19,15 +22,10 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
-class CharacterFragment : Fragment() {
+class CharacterFragment : BaseFragment(R.layout.fragment_character) {
 
     private lateinit var navController: NavController
     private lateinit var viewModel: CharacterViewModel
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_character, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

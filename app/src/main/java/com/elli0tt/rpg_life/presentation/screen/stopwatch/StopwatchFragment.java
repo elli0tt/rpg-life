@@ -2,19 +2,17 @@ package com.elli0tt.rpg_life.presentation.screen.stopwatch;
 
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import com.elli0tt.rpg_life.R;
+import com.elli0tt.rpg_life.presentation.core.BaseFragment;
 
-public class StopwatchFragment extends Fragment {
+public class StopwatchFragment extends BaseFragment {
 
     private Button startButton;
     private Button pauseButton;
@@ -23,6 +21,7 @@ public class StopwatchFragment extends Fragment {
     private Chronometer chronometer;
 
     private long pauseOffSet;
+
     private final View.OnClickListener startButtonOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -46,11 +45,8 @@ public class StopwatchFragment extends Fragment {
         }
     };
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_stopwatch, container, false);
+    public StopwatchFragment() {
+        super(R.layout.fragment_stopwatch);
     }
 
     @Override

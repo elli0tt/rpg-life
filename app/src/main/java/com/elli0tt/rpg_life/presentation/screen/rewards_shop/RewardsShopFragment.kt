@@ -6,9 +6,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.presentation.adapter.rewards_shop.RewardsShopAdapter
+import com.elli0tt.rpg_life.presentation.core.BaseFragment
 import kotlinx.android.synthetic.main.fragment_rewards_shop.*
 
-class RewardsShopFragment : Fragment(R.layout.fragment_rewards_shop) {
+class RewardsShopFragment : BaseFragment(R.layout.fragment_rewards_shop) {
 
     private lateinit var viewModel: RewardsShopViewModel
 

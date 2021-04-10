@@ -3,11 +3,13 @@ package com.elli0tt.rpg_life.presentation.screen.quests
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -19,11 +21,13 @@ import com.elli0tt.rpg_life.domain.model.Quest
 import com.elli0tt.rpg_life.domain.model.QuestsFilterState
 import com.elli0tt.rpg_life.domain.model.QuestsSortingState
 import com.elli0tt.rpg_life.presentation.adapter.quests.QuestsAdapter
+import com.elli0tt.rpg_life.presentation.core.BaseFragment
 import com.elli0tt.rpg_life.presentation.custom.recycler_divider.TopAndBottomItemsSpaceItemDecoration
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.view_fab_menu_card.view.*
 
-class QuestsFragment : Fragment() {
+class QuestsFragment : BaseFragment(R.layout.fragment_quests) {
+
     private lateinit var viewModel: QuestsViewModel
     private val questsAdapter = QuestsAdapter()
 
@@ -42,12 +46,6 @@ class QuestsFragment : Fragment() {
 
     private var isFabMenuOpened = false
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_quests, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = NavHostFragment.findNavController(this)
@@ -56,10 +54,6 @@ class QuestsFragment : Fragment() {
         initViews(view)
         subscribeToViewModel()
         setHasOptionsMenu(true)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 

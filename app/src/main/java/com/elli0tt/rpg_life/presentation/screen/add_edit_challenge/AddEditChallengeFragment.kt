@@ -20,11 +20,12 @@ import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.databinding.FragmentAddEditChallengeBinding
 import com.elli0tt.rpg_life.domain.model.Difficulty
 import com.elli0tt.rpg_life.domain.model.Quest.DateState
+import com.elli0tt.rpg_life.presentation.core.BaseFragment
 import com.elli0tt.rpg_life.presentation.screen.add_edit_quest.DifficultyPopupMenuIds
 import com.elli0tt.rpg_life.presentation.utils.SoftKeyboardUtil
 import java.util.*
 
-class AddEditChallengeFragment : Fragment() {
+class AddEditChallengeFragment : BaseFragment() {
 
     private lateinit var viewModel: AddEditChallengeViewModel
     private lateinit var binding: FragmentAddEditChallengeBinding

@@ -36,6 +36,7 @@ import com.elli0tt.rpg_life.domain.model.Difficulty;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.presentation.adapter.subquests.SubQuestsAdapter;
 import com.elli0tt.rpg_life.presentation.broadcast_receiver.QuestReminderBroadcastReceiver;
+import com.elli0tt.rpg_life.presentation.core.BaseFragment;
 import com.elli0tt.rpg_life.presentation.utils.SoftKeyboardUtil;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -45,7 +46,7 @@ import static android.Manifest.permission.WRITE_CALENDAR;
 import static android.content.pm.PackageManager.PERMISSION_DENIED;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
-public class AddEditQuestFragment extends Fragment {
+public class AddEditQuestFragment extends BaseFragment {
     public static final String EXTRA_REMINDER_TITLE = "com.elli0tt.rpg_life.presentation" +
             ".add_edit_quest_extra_reminder_title";
     public static final String EXTRA_NOTIFICATION_ID = "com.elli0tt.rpg_life.presentation" +
@@ -63,7 +64,6 @@ public class AddEditQuestFragment extends Fragment {
     private SubQuestsAdapter subQuestsAdapter;
     private NavController navController;
     private AddEditQuestViewModel viewModel;
-
 
     private final TimePickerDialog.OnTimeSetListener onStartTimeSetListener =
             (view, hourOfDay, minute) -> viewModel.setStartTime(hourOfDay, minute);

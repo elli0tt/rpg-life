@@ -5,17 +5,17 @@ import android.view.*
 import android.view.View.OnFocusChangeListener
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
 import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.databinding.FragmentAddEditSkillBinding
+import com.elli0tt.rpg_life.presentation.core.BaseFragment
 import com.elli0tt.rpg_life.presentation.utils.SoftKeyboardUtil
 
-class AddEditSkillFragment : Fragment() {
+class AddEditSkillFragment : BaseFragment() {
+
     private lateinit var viewModel: AddEditSkillViewModel
     private lateinit var navController: NavController
 

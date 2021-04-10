@@ -1,18 +1,15 @@
 package com.elli0tt.rpg_life.presentation.screen.skills;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -22,26 +19,28 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.domain.model.SkillsSortingState;
 import com.elli0tt.rpg_life.presentation.adapter.skills.SkillsAdapter;
+import com.elli0tt.rpg_life.presentation.core.BaseFragment;
 import com.elli0tt.rpg_life.presentation.custom.view.UpDownArrowsView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class SkillsFragment extends Fragment {
+public class SkillsFragment extends BaseFragment {
+
     private final SkillsAdapter skillsAdapter = new SkillsAdapter();
+
     private SkillsViewModel viewModel;
+
     private final View.OnClickListener onAddSkillFabClickListener =
             v -> viewModel.insertEmptySkill();
     private final View.OnClickListener onSortUpDownArrowsViewClickListener =
             view -> viewModel.changeSortingDirection();
+
     private RecyclerView recyclerView;
     private FloatingActionButton addSkillFab;
     private UpDownArrowsView sortUpDownArrowsView;
     private NavController navController;
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_skills, container, false);
+    public SkillsFragment() {
+        super(R.layout.fragment_skills);
     }
 
     @Override

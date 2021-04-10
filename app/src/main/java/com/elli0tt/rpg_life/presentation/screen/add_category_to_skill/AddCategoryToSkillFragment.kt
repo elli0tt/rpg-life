@@ -1,10 +1,11 @@
 package com.elli0tt.rpg_life.presentation.screen.add_category_to_skill
 
 import android.os.Bundle
-import android.view.*
-import androidx.fragment.app.Fragment
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
@@ -12,8 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.presentation.adapter.add_category_to_skill.AddCategoryToSkillAdapter
+import com.elli0tt.rpg_life.presentation.core.BaseFragment
 
-class AddCategoryToSkillFragment : Fragment() {
+class AddCategoryToSkillFragment : BaseFragment(R.layout.fragment_add_category_to_skill) {
     private lateinit var viewModel: AddCategoryToSkillViewModel
 
     private lateinit var recyclerView: RecyclerView
@@ -23,10 +25,6 @@ class AddCategoryToSkillFragment : Fragment() {
     private lateinit var navController: NavController
 
     private val args: AddCategoryToSkillFragmentArgs by navArgs()
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_add_category_to_skill, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

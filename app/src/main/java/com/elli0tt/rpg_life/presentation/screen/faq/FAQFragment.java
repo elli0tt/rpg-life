@@ -3,31 +3,26 @@ package com.elli0tt.rpg_life.presentation.screen.faq;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
-import androidx.fragment.app.Fragment;
 
 import com.elli0tt.rpg_life.R;
+import com.elli0tt.rpg_life.presentation.core.BaseFragment;
 
 import static android.app.Activity.RESULT_OK;
 
-public class FAQFragment extends Fragment {
+public class FAQFragment extends BaseFragment {
 
     private static final int DOWNLOAD_IMAGE_REQUEST_CODE = 1;
     private Button pictureButton;
     private AppCompatImageView imageView;
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_faq, container, false);
+    public FAQFragment() {
+        super(R.layout.fragment_faq);
     }
 
     @Override
@@ -67,6 +62,5 @@ public class FAQFragment extends Fragment {
                 data.getExtras() != null) {
             imageView.setImageBitmap(data.getExtras().getParcelable("data"));
         }
-
     }
 }

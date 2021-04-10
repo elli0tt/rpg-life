@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.elli0tt.rpg_life.R
+import com.elli0tt.rpg_life.presentation.core.BaseFragment
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
@@ -15,14 +16,11 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.formatter.PercentFormatter
 
 
-class StatisticsFragment : Fragment() {
+class StatisticsFragment : BaseFragment(R.layout.fragment_statistics) {
+
     private lateinit var viewModel: StatisticsViewModel
 
     private lateinit var skillsPieChart: PieChart
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_statistics, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

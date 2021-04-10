@@ -1,9 +1,11 @@
 package com.elli0tt.rpg_life.presentation.screen.add_skills_to_quest
 
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -12,8 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.presentation.adapter.add_skill_to_quest.AddSkillsToQuestAdapter
+import com.elli0tt.rpg_life.presentation.core.BaseFragment
 
-class AddSkillsToQuestFragment : Fragment() {
+class AddSkillsToQuestFragment : BaseFragment(R.layout.fragment_add_skills_to_quest) {
+
     private lateinit var viewModel: AddSkillsToQuestViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var addSkillsToQuestAdapter: AddSkillsToQuestAdapter
@@ -21,15 +25,11 @@ class AddSkillsToQuestFragment : Fragment() {
     private val args: AddSkillsToQuestFragmentArgs by navArgs()
     private lateinit var navController: NavController
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        viewModel = ViewModelProvider(this).get(AddSkillsToQuestViewModel::class.java)
-        navController = NavHostFragment.findNavController(this)
-        return inflater.inflate(R.layout.fragment_add_skills_to_quest, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel = ViewModelProvider(this).get(AddSkillsToQuestViewModel::class.java)
+        navController = NavHostFragment.findNavController(this)
 
         recyclerView = view.findViewById(R.id.recycler)
 

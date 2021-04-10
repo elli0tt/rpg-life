@@ -17,19 +17,23 @@ import androidx.lifecycle.ViewModelProvider;
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.databinding.FragmentCountdownTimerBinding;
 import com.elli0tt.rpg_life.domain.model.TimerState;
+import com.elli0tt.rpg_life.presentation.core.BaseFragment;
 
 import java.util.Locale;
 
 import timber.log.Timber;
 
-public class CountDownFragment extends Fragment {
+public class CountDownFragment extends BaseFragment {
 
     private static final String TIME_LEFT_TAG = "time left";
+
     private final NumberPicker.Formatter numberPickersFormatter =
             value -> String.format(Locale.getDefault(), "%02d", value);
+
     private FragmentCountdownTimerBinding binding;
     private CountDownViewModel viewModel;
     private CountDownTimer timer;
+
     private final View.OnClickListener startFabOnClickListener = v -> startTimer();
     private final View.OnClickListener pauseFabOnClickListener = new View.OnClickListener() {
         @Override
@@ -47,8 +51,10 @@ public class CountDownFragment extends Fragment {
             viewModel.stopTimer();
         }
     };
+
     //Used to enable startTimerFab just 1 time - after it was disabled
     private boolean isStartFabEnabled = true;
+
     private final Observer<Integer> numberPickersValuesObserver = integer -> {
         if (binding.numberPickersLayout.getVisibility() == View.VISIBLE &&
                 (isStartFabEnabled ^ viewModel.isNeedToEnableStartFab())) {
