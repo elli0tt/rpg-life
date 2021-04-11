@@ -1,13 +1,9 @@
 package com.elli0tt.rpg_life.presentation.screen.countdown_timer;
 
-import android.app.Application;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
-import com.elli0tt.rpg_life.data.repository.CountDownTimerRepositoryImpl;
 import com.elli0tt.rpg_life.domain.model.TimerState;
 import com.elli0tt.rpg_life.domain.repository.CountDownTimerRepository;
 import com.elli0tt.rpg_life.domain.use_case.countdown_timer.ConvertMillisToSecondsUseCase;
@@ -15,7 +11,9 @@ import com.elli0tt.rpg_life.domain.use_case.countdown_timer.ConvertSecondsToMill
 import com.elli0tt.rpg_life.domain.use_case.countdown_timer.ConvertToSecondsUseCase;
 import com.elli0tt.rpg_life.domain.use_case.countdown_timer.GetTimeFormattedUseCase;
 
-public class CountDownViewModel extends AndroidViewModel {
+import javax.inject.Inject;
+
+public class CountDownViewModel extends ViewModel {
 
     private final MutableLiveData<TimerState> timerState = new MutableLiveData<>();
     private final MutableLiveData<Long> timeLeftSeconds = new MutableLiveData<>();
@@ -24,23 +22,29 @@ public class CountDownViewModel extends AndroidViewModel {
     private final MutableLiveData<Integer> hours = new MutableLiveData<>(0);
     private final MutableLiveData<Integer> minutes = new MutableLiveData<>(0);
     private final MutableLiveData<Integer> seconds = new MutableLiveData<>(0);
+
     private final ConvertMillisToSecondsUseCase convertMillisToSecondsUseCase;
     private final ConvertSecondsToMillisUseCase convertSecondsToMillisUseCase;
     private final ConvertToSecondsUseCase convertToSecondsUseCase;
     private final GetTimeFormattedUseCase getTimeFormattedUseCase;
     private final CountDownTimerRepository countDownTimerRepository;
+
     private long endTime;
     private long timerLengthSeconds;
 
-    public CountDownViewModel(@NonNull Application application) {
-        super(application);
-
-        convertMillisToSecondsUseCase = new ConvertMillisToSecondsUseCase();
-        convertSecondsToMillisUseCase = new ConvertSecondsToMillisUseCase();
-        convertToSecondsUseCase = new ConvertToSecondsUseCase();
-        getTimeFormattedUseCase = new GetTimeFormattedUseCase();
-
-        countDownTimerRepository = new CountDownTimerRepositoryImpl(application);
+    @Inject
+    public CountDownViewModel(
+            ConvertMillisToSecondsUseCase convertMillisToSecondsUseCase,
+            ConvertSecondsToMillisUseCase convertSecondsToMillisUseCase,
+            ConvertToSecondsUseCase convertToSecondsUseCase,
+            GetTimeFormattedUseCase getTimeFormattedUseCase,
+            CountDownTimerRepository countDownTimerRepository
+    ) {
+        this.convertMillisToSecondsUseCase = convertMillisToSecondsUseCase;
+        this.convertSecondsToMillisUseCase = convertSecondsToMillisUseCase;
+        this.convertToSecondsUseCase = convertToSecondsUseCase;
+        this.getTimeFormattedUseCase = getTimeFormattedUseCase;
+        this.countDownTimerRepository = countDownTimerRepository;
 
         timeLeftSeconds.setValue(countDownTimerRepository.getTimeLeftSeconds());
         endTime = countDownTimerRepository.getEndTime();

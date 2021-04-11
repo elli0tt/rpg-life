@@ -17,14 +17,22 @@ import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.databinding.FragmentCountdownTimerBinding;
 import com.elli0tt.rpg_life.domain.model.TimerState;
 import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment;
+import com.elli0tt.rpg_life.presentation.screen.countdown_timer.di.CountDownComponent;
 
 import java.util.Locale;
+
+import javax.inject.Inject;
 
 import timber.log.Timber;
 
 public class CountDownFragment extends BaseFragment {
 
     private static final String TIME_LEFT_TAG = "time left";
+
+    @Inject
+    public ViewModelProvider.Factory viewModelFactory;
+
+    private CountDownComponent countDownComponent;
 
     private final NumberPicker.Formatter numberPickersFormatter =
             value -> String.format(Locale.getDefault(), "%02d", value);
@@ -65,9 +73,11 @@ public class CountDownFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        initDagger();
+
         binding = FragmentCountdownTimerBinding.inflate(inflater,
                 container, false);
-        viewModel = new ViewModelProvider(this).get(CountDownViewModel.class);
+        viewModel = new ViewModelProvider(this, viewModelFactory).get(CountDownViewModel.class);
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
         return binding.getRoot();
@@ -108,6 +118,11 @@ public class CountDownFragment extends BaseFragment {
             timer.cancel();
         }
         viewModel.saveData();
+    }
+
+    private void initDagger() {
+        countDownComponent = getAppComponent().countDownComponentFactory().create();
+        countDownComponent.inject(this);
     }
 
     private void subscribeToViewModel() {

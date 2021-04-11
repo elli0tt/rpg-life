@@ -21,6 +21,8 @@ import com.elli0tt.rpg_life.presentation.screen.add_skills_to_quest.di.AddSkills
 import com.elli0tt.rpg_life.presentation.screen.add_skills_to_quest.di.AddSkillsToQuestModule
 import com.elli0tt.rpg_life.presentation.screen.character.di.CharacterComponent
 import com.elli0tt.rpg_life.presentation.screen.character.di.CharacterModule
+import com.elli0tt.rpg_life.presentation.screen.countdown_timer.di.CountDownComponent
+import com.elli0tt.rpg_life.presentation.screen.countdown_timer.di.CountDownModule
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -38,7 +40,8 @@ import javax.inject.Singleton
     AddEditSkillModule::class,
     AddEditSkillsCategoryModule::class,
     AddSkillsToQuestModule::class,
-    CharacterModule::class
+    CharacterModule::class,
+    CountDownModule::class
 ])
 interface AppComponent {
 
@@ -55,4 +58,5 @@ interface AppComponent {
     fun addEditSkillCategoryComponentFactory(): AddEditSkillsCategoryComponent.Factory
     fun addSkillsToQuestComponentFactory(): AddSkillsToQuestComponent.Factory
     fun characterComponentFactory(): CharacterComponent.Factory
+    fun countDownComponentFactory(): CountDownComponent.Factory
 }
