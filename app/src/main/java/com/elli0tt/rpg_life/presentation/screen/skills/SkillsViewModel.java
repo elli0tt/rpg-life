@@ -1,20 +1,16 @@
 package com.elli0tt.rpg_life.presentation.screen.skills;
 
-import android.app.Application;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
+import androidx.lifecycle.ViewModel;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
 
 import com.elli0tt.rpg_life.R;
-import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.model.Skill;
 import com.elli0tt.rpg_life.domain.model.SkillsSortingState;
@@ -25,25 +21,31 @@ import com.elli0tt.rpg_life.presentation.worker.InsertEmptySkillWorker;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SkillsViewModel extends AndroidViewModel {
+import javax.inject.Inject;
+
+public class SkillsViewModel extends ViewModel {
+
     private final LiveData<List<Skill>> allSkills;
     private final MutableLiveData<SkillsSortingState> sortingState = new MutableLiveData<>();
     private final MediatorLiveData<List<Skill>> skillsToShow = new MediatorLiveData<>();
     private final LiveData<Integer> sortedByTextResId = Transformations.map(sortingState,
             this::getSortedByTextResId);
 
-    private final SortSkillsUseCase sortSkillsUseCase = new SortSkillsUseCase();
-
     private final SkillsRepository skillsRepository;
 
     private final WorkManager workManager;
+
     private WorkRequest insertEmptySkillWorkRequest;
 
-    public SkillsViewModel(@NonNull Application application) {
-        super(application);
-        skillsRepository = new SkillsRepositoryImpl(application);
+    @Inject
+    public SkillsViewModel(
+            SortSkillsUseCase sortSkillsUseCase,
+            SkillsRepository skillsRepository,
+            WorkManager workManager
+    ) {
+        this.skillsRepository = skillsRepository;
+        this.workManager = workManager;
 
-        workManager = WorkManager.getInstance(application);
         updateInsertEmptySkillWorkRequest();
 
         sortingState.setValue(skillsRepository.getSkillsSortingState());
@@ -153,5 +155,4 @@ public class SkillsViewModel extends AndroidViewModel {
         insertEmptySkillWorkRequest =
                 new OneTimeWorkRequest.Builder(InsertEmptySkillWorker.class).build();
     }
-
 }

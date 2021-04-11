@@ -21,9 +21,17 @@ import com.elli0tt.rpg_life.domain.model.SkillsSortingState;
 import com.elli0tt.rpg_life.presentation.adapter.skills.SkillsAdapter;
 import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment;
 import com.elli0tt.rpg_life.presentation.custom.view.UpDownArrowsView;
+import com.elli0tt.rpg_life.presentation.screen.skills.di.SkillsComponent;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import javax.inject.Inject;
+
 public class SkillsFragment extends BaseFragment {
+
+    @Inject
+    public ViewModelProvider.Factory viewModelFactory;
+
+    private SkillsComponent skillsComponent;
 
     private final SkillsAdapter skillsAdapter = new SkillsAdapter();
 
@@ -46,7 +54,9 @@ public class SkillsFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = new ViewModelProvider(this).get(SkillsViewModel.class);
+
+        initDagger();
+
         navController = NavHostFragment.findNavController(this);
 
         recyclerView = view.findViewById(R.id.skills_recycler_view);
@@ -60,6 +70,13 @@ public class SkillsFragment extends BaseFragment {
 
         addSkillFab.setOnClickListener(onAddSkillFabClickListener);
         sortUpDownArrowsView.setOnViewClickListener(onSortUpDownArrowsViewClickListener);
+    }
+
+    private void initDagger() {
+        skillsComponent = getAppComponent().skillsComponentFactory().create();
+        skillsComponent.inject(this);
+
+        viewModel = new ViewModelProvider(this, viewModelFactory).get(SkillsViewModel.class);
     }
 
     private void setupToolbar() {
