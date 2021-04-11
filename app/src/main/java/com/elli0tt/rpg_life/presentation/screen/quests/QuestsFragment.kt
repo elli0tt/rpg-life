@@ -23,10 +23,18 @@ import com.elli0tt.rpg_life.domain.model.QuestsSortingState
 import com.elli0tt.rpg_life.presentation.adapter.quests.QuestsAdapter
 import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment
 import com.elli0tt.rpg_life.presentation.custom.recycler_divider.TopAndBottomItemsSpaceItemDecoration
+import com.elli0tt.rpg_life.presentation.extensions.injectViewModel
+import com.elli0tt.rpg_life.presentation.screen.quests.di.QuestsComponent
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.view_fab_menu_card.view.*
+import javax.inject.Inject
 
 class QuestsFragment : BaseFragment(R.layout.fragment_quests) {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private lateinit var questsComponent: QuestsComponent
 
     private lateinit var viewModel: QuestsViewModel
     private val questsAdapter = QuestsAdapter()
@@ -48,13 +56,25 @@ class QuestsFragment : BaseFragment(R.layout.fragment_quests) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initDagger()
+
         navController = NavHostFragment.findNavController(this)
-        viewModel = ViewModelProvider(this).get(QuestsViewModel::class.java)
 
         initViews(view)
+        viewModel.start(
+                getString(R.string.quest_date_due_today),
+                getString(R.string.quest_date_due_tomorrow)
+        )
         subscribeToViewModel()
         setHasOptionsMenu(true)
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+    }
+
+    private fun initDagger() {
+        questsComponent = appComponent.questsComponentFactory().create()
+        questsComponent.inject(this)
+
+        viewModel = injectViewModel(viewModelFactory)
     }
 
     private fun initViews(view: View) {

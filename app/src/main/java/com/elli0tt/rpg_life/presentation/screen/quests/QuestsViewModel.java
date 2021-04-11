@@ -1,21 +1,15 @@
 package com.elli0tt.rpg_life.presentation.screen.quests;
 
-import android.app.Application;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
+import androidx.lifecycle.ViewModel;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
 import com.elli0tt.rpg_life.R;
-import com.elli0tt.rpg_life.data.repository.QuestsRepositoryImpl;
-import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl;
-import com.elli0tt.rpg_life.data.repository.UserRepositoryImpl;
 import com.elli0tt.rpg_life.domain.model.Quest;
 import com.elli0tt.rpg_life.domain.model.QuestsFilterState;
 import com.elli0tt.rpg_life.domain.model.QuestsSortingState;
@@ -37,9 +31,13 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class QuestsViewModel extends AndroidViewModel {
-    private final String today;
-    private final String tomorrow;
+import javax.inject.Inject;
+
+public class QuestsViewModel extends ViewModel {
+
+    private String today;
+    private String tomorrow;
+
     private final LiveData<List<Quest>> allQuests;
     private final MutableLiveData<QuestsFilterState> currentFilterState = new MutableLiveData<>();
     private final MediatorLiveData<List<Quest>> questsToShow = new MediatorLiveData<>();
@@ -47,10 +45,9 @@ public class QuestsViewModel extends AndroidViewModel {
     private final MutableLiveData<Boolean> isSelectionStarted = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> isShowCompleted = new MutableLiveData<>();
     private final LiveData<Integer> showCompletedTextResId;
-    private final SortQuestsUseCase sortQuestsUseCase = new SortQuestsUseCase();
-    private final FilterQuestsUseCase filterQuestsUseCase =
-            new FilterQuestsUseCase(new IsCalendarEqualsTodayCalendarUseCase(),
-                    new IsCalendarEqualsTomorrowCalendarUseCase());
+
+    private final SortQuestsUseCase sortQuestsUseCase;
+    private final FilterQuestsUseCase filterQuestsUseCase;
     private final PopulateWithSamplesUseCase populateWithSamplesUseCase;
     private final CompleteQuestUseCase completeQuestUseCase;
     private final SetQuestImportantUseCase setQuestImportantUseCase;
@@ -58,30 +55,39 @@ public class QuestsViewModel extends AndroidViewModel {
     private final SkillsRepository skillsRepository;
     private final UserRepository userRepository;
     private final WorkManager workManager;
+
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM, yyyy",
             Locale.getDefault());
     private final SimpleDateFormat dateAndTimeFormat = new SimpleDateFormat("d MMM, yyyy HH:mm",
             Locale.getDefault());
+
     private OneTimeWorkRequest insertEmptyQuestWorkRequest;
     private OneTimeWorkRequest insertEmptyChallengeWorkRequest;
 
-    public QuestsViewModel(@NonNull Application application) {
-        super(application);
-        workManager = WorkManager.getInstance(application);
+    @Inject
+    public QuestsViewModel(
+            final SortQuestsUseCase sortQuestsUseCase,
+            final FilterQuestsUseCase filterQuestsUseCase,
+            final PopulateWithSamplesUseCase populateWithSamplesUseCase,
+            final CompleteQuestUseCase completeQuestUseCase,
+            final SetQuestImportantUseCase setQuestImportantUseCase,
+            final QuestsRepository questsRepository,
+            final SkillsRepository skillsRepository,
+            final UserRepository userRepository,
+            final WorkManager workManager
+    ) {
+        this.sortQuestsUseCase = sortQuestsUseCase;
+        this.filterQuestsUseCase = filterQuestsUseCase;
+        this.populateWithSamplesUseCase = populateWithSamplesUseCase;
+        this.completeQuestUseCase = completeQuestUseCase;
+        this.setQuestImportantUseCase = setQuestImportantUseCase;
+        this.questsRepository = questsRepository;
+        this.skillsRepository = skillsRepository;
+        this.userRepository = userRepository;
+        this.workManager = workManager;
+
         updateInsertEmptyQuestWorkRequest();
         updateInsertEmptyChallengeWorkRequest();
-
-        today = application.getString(R.string.quest_date_due_today);
-        tomorrow = application.getString(R.string.quest_date_due_tomorrow);
-
-        questsRepository = new QuestsRepositoryImpl(application);
-        skillsRepository = new SkillsRepositoryImpl(application);
-        userRepository = new UserRepositoryImpl(application);
-
-        populateWithSamplesUseCase = new PopulateWithSamplesUseCase(questsRepository);
-        completeQuestUseCase = new CompleteQuestUseCase(questsRepository, skillsRepository,
-                userRepository);
-        setQuestImportantUseCase = new SetQuestImportantUseCase(questsRepository);
 
         currentFilterState.setValue(questsRepository.getQuestsFilterState());
         currentSortingState.setValue(questsRepository.getQuestsSortingState());
@@ -136,6 +142,11 @@ public class QuestsViewModel extends AndroidViewModel {
             return R.string.show_completed;
         });
 
+    }
+
+    public void start(String today, String tomorrow) {
+        this.today = today;
+        this.tomorrow = tomorrow;
     }
 
     LiveData<List<Quest>> getQuests() {
