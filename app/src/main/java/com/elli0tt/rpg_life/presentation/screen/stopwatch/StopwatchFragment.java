@@ -8,11 +8,22 @@ import android.widget.Chronometer;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment;
+import com.elli0tt.rpg_life.presentation.screen.stopwatch.di.StopwatchComponent;
+
+import javax.inject.Inject;
 
 public class StopwatchFragment extends BaseFragment {
+
+    @Inject
+    public ViewModelProvider.Factory viewModelFactory;
+
+    private StopwatchComponent stopwatchComponent;
+
+    private StopwatchViewModel viewModel;
 
     private Button startButton;
     private Button pauseButton;
@@ -53,8 +64,16 @@ public class StopwatchFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        initDagger();
         initViews(view);
         setListeners();
+    }
+
+    private void initDagger() {
+        stopwatchComponent = getAppComponent().stopwatchComponentFactory().create();
+        stopwatchComponent.inject(this);
+
+        viewModel = new ViewModelProvider(this, viewModelFactory).get(StopwatchViewModel.class);
     }
 
     private void initViews(@NonNull View view) {

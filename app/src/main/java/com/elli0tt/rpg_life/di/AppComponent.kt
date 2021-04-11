@@ -31,6 +31,8 @@ import com.elli0tt.rpg_life.presentation.screen.skills.di.SkillsComponent
 import com.elli0tt.rpg_life.presentation.screen.skills.di.SkillsModule
 import com.elli0tt.rpg_life.presentation.screen.statistics.di.StatisticsComponent
 import com.elli0tt.rpg_life.presentation.screen.statistics.di.StatisticsModule
+import com.elli0tt.rpg_life.presentation.screen.stopwatch.di.StopwatchComponent
+import com.elli0tt.rpg_life.presentation.screen.stopwatch.di.StopwatchModule
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -53,7 +55,8 @@ import javax.inject.Singleton
     QuestsModule::class,
     RewardsShopModule::class,
     SkillsModule::class,
-    StatisticsModule::class
+    StatisticsModule::class,
+    StopwatchModule::class
 ])
 interface AppComponent {
 
@@ -75,4 +78,5 @@ interface AppComponent {
     fun rewardsShopComponentFactory(): RewardsShopComponent.Factory
     fun skillsComponentFactory(): SkillsComponent.Factory
     fun statisticsComponentFactory(): StatisticsComponent.Factory
+    fun stopwatchComponentFactory(): StopwatchComponent.Factory
 }
