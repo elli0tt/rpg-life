@@ -29,6 +29,8 @@ import com.elli0tt.rpg_life.presentation.screen.rewards_shop.di.RewardsShopCompo
 import com.elli0tt.rpg_life.presentation.screen.rewards_shop.di.RewardsShopModule
 import com.elli0tt.rpg_life.presentation.screen.skills.di.SkillsComponent
 import com.elli0tt.rpg_life.presentation.screen.skills.di.SkillsModule
+import com.elli0tt.rpg_life.presentation.screen.statistics.di.StatisticsComponent
+import com.elli0tt.rpg_life.presentation.screen.statistics.di.StatisticsModule
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -50,7 +52,8 @@ import javax.inject.Singleton
     CountDownModule::class,
     QuestsModule::class,
     RewardsShopModule::class,
-    SkillsModule::class
+    SkillsModule::class,
+    StatisticsModule::class
 ])
 interface AppComponent {
 
@@ -71,4 +74,5 @@ interface AppComponent {
     fun questsComponentFactory(): QuestsComponent.Factory
     fun rewardsShopComponentFactory(): RewardsShopComponent.Factory
     fun skillsComponentFactory(): SkillsComponent.Factory
+    fun statisticsComponentFactory(): StatisticsComponent.Factory
 }

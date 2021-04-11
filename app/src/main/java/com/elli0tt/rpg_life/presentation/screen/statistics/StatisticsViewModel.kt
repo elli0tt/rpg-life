@@ -1,24 +1,19 @@
 package com.elli0tt.rpg_life.presentation.screen.statistics
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import com.elli0tt.rpg_life.data.repository.SkillsCategoriesRepositoryImpl
-import com.elli0tt.rpg_life.data.repository.SkillsRepositoryImpl
+import androidx.lifecycle.ViewModel
 import com.elli0tt.rpg_life.domain.use_case.statistics.GetSkillsCategoriesPieEntriesUseCase
 import com.elli0tt.rpg_life.domain.use_case.statistics.GetSkillsPieEntriesUseCase
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
 import java.util.*
+import javax.inject.Inject
 
-class StatisticsViewModel(application: Application) : AndroidViewModel(application) {
-    private val skillsRepository = SkillsRepositoryImpl(application)
-    private val skillsCategoriesRepository = SkillsCategoriesRepositoryImpl(application)
-
-    private val getSkillsPieEntriesUseCase: GetSkillsPieEntriesUseCase = GetSkillsPieEntriesUseCase(skillsRepository)
-    private val getSkillsCategoriesPieEntriesUseCase: GetSkillsCategoriesPieEntriesUseCase = GetSkillsCategoriesPieEntriesUseCase(skillsRepository, skillsCategoriesRepository)
-
+class StatisticsViewModel @Inject constructor(
+        getSkillsPieEntriesUseCase: GetSkillsPieEntriesUseCase,
+        getSkillsCategoriesPieEntriesUseCase: GetSkillsCategoriesPieEntriesUseCase
+) : ViewModel() {
     private val skillsPieEntries = getSkillsPieEntriesUseCase.invoke()
     private val skillsCategoriesPieEntries = getSkillsCategoriesPieEntriesUseCase.invoke()
 

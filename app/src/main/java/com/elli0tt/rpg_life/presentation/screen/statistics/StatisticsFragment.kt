@@ -2,20 +2,29 @@ package com.elli0tt.rpg_life.presentation.screen.statistics
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment
+import com.elli0tt.rpg_life.presentation.extensions.injectViewModel
+import com.elli0tt.rpg_life.presentation.screen.statistics.di.StatisticsComponent
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.formatter.PercentFormatter
-
+import javax.inject.Inject
 
 class StatisticsFragment : BaseFragment(R.layout.fragment_statistics) {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private lateinit var statisticsComponent: StatisticsComponent
 
     private lateinit var viewModel: StatisticsViewModel
 
@@ -24,31 +33,20 @@ class StatisticsFragment : BaseFragment(R.layout.fragment_statistics) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this).get(StatisticsViewModel::class.java)
+        initDagger()
 
         skillsPieChart = view.findViewById(R.id.skills_pie_chart)
-
-        skillsPieChart.apply {
-            setUsePercentValues(true)
-            description.isEnabled = false
-//            setExtraOffsets(30f, 0f, 30f, 0f)
-            animateY(1400, Easing.EaseInOutQuad)
-            isDrawHoleEnabled = false
-            setDrawEntryLabels(false)
-//            setEntryLabelTextSize(20f)
-//            setEntryLabelColor(Color.BLACK)
-            minAngleForSlices = 2f
-
-            legend.apply {
-                isWordWrapEnabled = true
-                horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
-                xEntrySpace = 7f
-                form = Legend.LegendForm.CIRCLE
-            }
-        }
+        initSkillsPieChart()
 
         subscribeToViewModel()
         setHasOptionsMenu(true)
+    }
+
+    private fun initDagger() {
+        statisticsComponent = appComponent.statisticsComponentFactory().create()
+        statisticsComponent.inject(this)
+
+        viewModel = injectViewModel(viewModelFactory)
     }
 
     private fun subscribeToViewModel() {
@@ -69,6 +67,27 @@ class StatisticsFragment : BaseFragment(R.layout.fragment_statistics) {
             skillsPieChart.data = pieData
             skillsPieChart.animateY(1400, Easing.EaseInOutQuad)
             //skillsPieChart.invalidate()
+        }
+    }
+
+    private fun initSkillsPieChart() {
+        skillsPieChart.apply {
+            setUsePercentValues(true)
+            description.isEnabled = false
+//            setExtraOffsets(30f, 0f, 30f, 0f)
+            animateY(1400, Easing.EaseInOutQuad)
+            isDrawHoleEnabled = false
+            setDrawEntryLabels(false)
+//            setEntryLabelTextSize(20f)
+//            setEntryLabelColor(Color.BLACK)
+            minAngleForSlices = 2f
+
+            legend.apply {
+                isWordWrapEnabled = true
+                horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+                xEntrySpace = 7f
+                form = Legend.LegendForm.CIRCLE
+            }
         }
     }
 
