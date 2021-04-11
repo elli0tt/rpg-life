@@ -25,6 +25,8 @@ import com.elli0tt.rpg_life.presentation.screen.countdown_timer.di.CountDownComp
 import com.elli0tt.rpg_life.presentation.screen.countdown_timer.di.CountDownModule
 import com.elli0tt.rpg_life.presentation.screen.quests.di.QuestsComponent
 import com.elli0tt.rpg_life.presentation.screen.quests.di.QuestsModule
+import com.elli0tt.rpg_life.presentation.screen.rewards_shop.di.RewardsShopComponent
+import com.elli0tt.rpg_life.presentation.screen.rewards_shop.di.RewardsShopModule
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -44,7 +46,8 @@ import javax.inject.Singleton
     AddSkillsToQuestModule::class,
     CharacterModule::class,
     CountDownModule::class,
-    QuestsModule::class
+    QuestsModule::class,
+    RewardsShopModule::class
 ])
 interface AppComponent {
 
@@ -63,4 +66,5 @@ interface AppComponent {
     fun characterComponentFactory(): CharacterComponent.Factory
     fun countDownComponentFactory(): CountDownComponent.Factory
     fun questsComponentFactory(): QuestsComponent.Factory
+    fun rewardsShopComponentFactory(): RewardsShopComponent.Factory
 }

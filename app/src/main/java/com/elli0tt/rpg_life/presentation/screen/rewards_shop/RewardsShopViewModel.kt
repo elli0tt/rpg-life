@@ -1,12 +1,12 @@
 package com.elli0tt.rpg_life.presentation.screen.rewards_shop
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.elli0tt.rpg_life.domain.model.Reward
+import javax.inject.Inject
 
-class RewardsShopViewModel(application: Application) : AndroidViewModel(application) {
+class RewardsShopViewModel @Inject constructor() : ViewModel() {
 
     private var _rewardsList = MutableLiveData<List<Reward>>()
     val rewardsList: LiveData<List<Reward>> = _rewardsList
