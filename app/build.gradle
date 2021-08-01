@@ -7,8 +7,7 @@ apply plugin: 'androidx.navigation.safeargs'
 android {
     compileSdkVersion 30
     defaultConfig {
-        //applicationId "com.elli0tt.rpg_life_debug" // debug
-        applicationId "com.elli0tt.rpg_life" // release
+        applicationId "com.elli0tt.rpg_life"
 
         minSdkVersion 22
         targetSdkVersion 30
@@ -48,6 +47,10 @@ android {
         }
     }
 
+    defaultConfig{
+        manifestPlaceholders = [appName: "@string/app_name"]
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -55,6 +58,7 @@ android {
             signingConfig signingConfigs.release
         }
         debug {
+            manifestPlaceholders = [appName: "RPG Life Debug"]
             applicationIdSuffix ".debug"
         }
     }
