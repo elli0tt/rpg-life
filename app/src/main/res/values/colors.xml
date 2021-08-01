@@ -10,4 +10,10 @@
     <color name="colorLightGreen">#64dd17</color>
     <color name="colorAfterDateDue">#C9081B</color>
     <color name="colorTextWhite">#FFFFFF</color>
+    <color name="colorVeryEasyTask">#334663</color>
+    <color name="colorEasyTask">#52e898</color>
+    <color name="colorNormalTask">#60bd4f</color>
+    <color name="colorHardTask">#f1d600</color>
+    <color name="colorEpicTask">#ff9f19</color>
+    <color name="colorLegendaryTask">#eb5b46</color>
 </resources>

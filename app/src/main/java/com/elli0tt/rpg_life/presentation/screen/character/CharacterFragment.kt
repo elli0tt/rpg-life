@@ -10,6 +10,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.RadioGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -62,8 +63,67 @@ class CharacterFragment : BaseFragment(R.layout.fragment_character) {
         setHasOptionsMenu(true)
     }
 
-    fun navigateToAddCharacteristicFragment() {
-        navController.navigate(R.id.action_character_screen_to_add_characteristic_fragment)
+    private fun setListeners() {
+        characterImageView.setOnClickListener(onLevelProgressBarClickListener)
+        increaseCoinsFab.setOnClickListener(onIncreaseCoinsFabClickListener)
+        decreaseCoinsFab.setOnClickListener(onDecreaseCoinsFabClickListener)
+        multiplierRadioGroup.setOnCheckedChangeListener(onMultiplierRadioGroupCheckedChangeListener)
+
+        setOnCompleteTasksButtonsClickListeners()
+    }
+
+    private fun setOnCompleteTasksButtonsClickListeners() {
+        completeVeryEasyTaskButton.setOnClickListener(onCompleteVeryEasyTaskButtonClickListener)
+        completeEasyTaskButton.setOnClickListener(onCompleteEasyTaskButtonClickListener)
+        completeNormalTaskButton.setOnClickListener(onCompleteNormalTaskButtonClickListener)
+        completeHardTaskButton.setOnClickListener(onCompleteHardTaskButtonClickListener)
+        completeEpicTaskButton.setOnClickListener(onCompleteEpicTaskButtonClickListener)
+        completeLegendaryTaskButton.setOnClickListener(onCompleteLegendaryTaskButtonClickListener)
+    }
+
+    private val onLevelProgressBarClickListener = View.OnClickListener {
+        pickImage()
+    }
+
+    private val onIncreaseCoinsFabClickListener = View.OnClickListener {
+        viewModel.onIncreaseCoinsClick()
+    }
+
+    private val onDecreaseCoinsFabClickListener = View.OnClickListener {
+        viewModel.onDecreaseCoinsClick()
+    }
+
+    private val onMultiplierRadioGroupCheckedChangeListener =
+            RadioGroup.OnCheckedChangeListener { _, checkedId ->
+                when(checkedId) {
+                    R.id.multiplierNoneRadioButton -> viewModel.onMultiplierNoneClick()
+                    R.id.multiplierX1_5RadioButton -> viewModel.onMultiplierX1_5Click()
+                    R.id.multiplierX2RadioButton -> viewModel.onMultiplierX2Click()
+                }
+            }
+
+    private val onCompleteVeryEasyTaskButtonClickListener = View.OnClickListener {
+        viewModel.onCompleteVeryEasyTaskClick()
+    }
+
+    private val onCompleteEasyTaskButtonClickListener = View.OnClickListener {
+        viewModel.onCompleteEasyTaskClick()
+    }
+
+    private val onCompleteNormalTaskButtonClickListener = View.OnClickListener {
+        viewModel.onCompleteNormalTaskClick()
+    }
+
+    private val onCompleteHardTaskButtonClickListener = View.OnClickListener {
+        viewModel.onCompleteHardTaskClick()
+    }
+
+    private val onCompleteEpicTaskButtonClickListener = View.OnClickListener {
+        viewModel.onCompleteEpicTaskClick()
+    }
+
+    private val onCompleteLegendaryTaskButtonClickListener = View.OnClickListener {
+        viewModel.onCompleteLegendaryTaskClick()
     }
 
     private fun subscribeToViewModel() {
@@ -93,7 +153,7 @@ class CharacterFragment : BaseFragment(R.layout.fragment_character) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.character_toolbar_item_populate_with_samples -> {
-                viewModel.populateWithSamples()
+                viewModel.onPopulateWithSamplesClick()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -163,21 +223,15 @@ class CharacterFragment : BaseFragment(R.layout.fragment_character) {
         }
     }
 
-    private fun setListeners() {
-        characterImageView.setOnClickListener(onLevelProgressBarClickListener)
-        increaseCoinsFab.setOnClickListener(onIncreaseCoinsFabClickListener)
-        decreaseCoinsFab.setOnClickListener(onDecreaseCoinsFabClickListener)
+    private val onNavigateToRewardsShopScreenButtonClickListener = View.OnClickListener {
+        navigateToRewardsShopScreen()
     }
 
-    private val onLevelProgressBarClickListener = View.OnClickListener {
-        pickImage()
+    private fun navigateToRewardsShopScreen() {
+
     }
 
-    private val onIncreaseCoinsFabClickListener = View.OnClickListener {
-        viewModel.addOneCoin()
-    }
-
-    private val onDecreaseCoinsFabClickListener = View.OnClickListener {
-        viewModel.takeOneCoin()
+    private fun navigateToAddCharacteristicFragment() {
+        navController.navigate(R.id.action_character_screen_to_add_characteristic_fragment)
     }
 }

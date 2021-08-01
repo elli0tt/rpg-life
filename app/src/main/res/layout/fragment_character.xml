@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -162,6 +163,114 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/completeVeryEasyTaskButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/character_complete_task_buttons_margin_start"
+            android:layout_marginTop="@dimen/character_complete_tasks_button_top_margin"
+            android:backgroundTint="@color/colorVeryEasyTask"
+            android:text="@string/character_complete_very_easy_task"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/characterInfoCardView" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/completeEasyTaskButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/character_complete_task_buttons_margin_start"
+            android:layout_marginTop="@dimen/character_complete_tasks_button_top_margin"
+            android:backgroundTint="@color/colorEasyTask"
+            android:text="@string/character_complete_easy_task"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/completeVeryEasyTaskButton" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/completeNormalTaskButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/character_complete_task_buttons_margin_start"
+            android:layout_marginTop="@dimen/character_complete_tasks_button_top_margin"
+            android:backgroundTint="@color/colorNormalTask"
+            android:text="@string/character_complete_normal_task"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/completeEasyTaskButton" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/completeHardTaskButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/character_complete_task_buttons_margin_start"
+            android:layout_marginTop="@dimen/character_complete_tasks_button_top_margin"
+            android:backgroundTint="@color/colorHardTask"
+            android:text="@string/character_complete_hard_task"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/completeNormalTaskButton" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/completeEpicTaskButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/character_complete_task_buttons_margin_start"
+            android:layout_marginTop="@dimen/character_complete_tasks_button_top_margin"
+            android:backgroundTint="@color/colorEpicTask"
+            android:text="@string/character_complete_epic_task"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/completeHardTaskButton" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/completeLegendaryTaskButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/character_complete_task_buttons_margin_start"
+            android:layout_marginTop="@dimen/character_complete_tasks_button_top_margin"
+            android:backgroundTint="@color/colorLegendaryTask"
+            android:paddingBottom="16dp"
+            android:text="@string/character_complete_legendary_task"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/completeEpicTaskButton" />
+
+        <RadioGroup
+            android:id="@+id/multiplierRadioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:checkedButton="@id/multiplierNoneRadioButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/characterInfoCardView">
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/multiplierNoneRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/character_multiplier_none" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/multiplierX1.5RadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/character_multiplier_x1_5" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/multiplierX2RadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/character_multiplier_x2" />
+        </RadioGroup>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navigateToRewardsShopScreenButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorSecondary"
+            android:text="@string/character_rewards_shop"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/characterInfoCardView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

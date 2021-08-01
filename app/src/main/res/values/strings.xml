@@ -127,4 +127,14 @@
     <string name="quests_main_fab_content_description">Open adding quest or challenge buttons menu</string>
     <string name="skills_add_skill_fab_content_description">Create new skill</string>
     <string name="rewards_shop_toolbar_title">Rewards shop</string>
+    <string name="character_rewards_shop">Rewards shop</string>
+    <string name="character_complete_very_easy_task">Complete Very Easy task</string>
+    <string name="character_complete_easy_task">Complete Easy task</string>
+    <string name="character_complete_normal_task">Complete Normal task</string>
+    <string name="character_complete_hard_task">Complete Hard task</string>
+    <string name="character_complete_epic_task">Complete Epic task</string>
+    <string name="character_complete_legendary_task">Complete Legendary task</string>
+    <string name="character_multiplier_none">None</string>
+    <string name="character_multiplier_x1_5">X1.5</string>
+    <string name="character_multiplier_x2">X2</string>
 </resources>

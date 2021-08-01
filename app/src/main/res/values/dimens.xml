@@ -10,4 +10,6 @@
     <dimen name="list_item_quest_start_start_margin_small">4dp</dimen>
     <dimen name="quests_top_item_top_margin">4dp</dimen>
     <dimen name="quests_bottom_item_bottom_margin">8dp</dimen>
+    <dimen name="character_complete_tasks_button_top_margin">8dp</dimen>
+    <dimen name="character_complete_task_buttons_margin_start">16dp</dimen>
 </resources>

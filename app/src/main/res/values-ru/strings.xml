@@ -124,4 +124,5 @@
     <string name="quests_main_fab_content_description">Открыть меня создания квестов и челленджей</string>
     <string name="skills_add_skill_fab_content_description">Создать новый навык</string>
     <string name="rewards_shop_toolbar_title">Магазин наград</string>
+    <string name="character_rewards_shop">Магазин наград</string>
 </resources>
