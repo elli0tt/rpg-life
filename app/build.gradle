@@ -7,8 +7,8 @@ apply plugin: 'androidx.navigation.safeargs'
 android {
     compileSdkVersion 30
     defaultConfig {
-        applicationId "com.elli0tt.rpg_life_debug" // debug
-        //applicationId "com.elli0tt.rpg_life" // release
+        //applicationId "com.elli0tt.rpg_life_debug" // debug
+        applicationId "com.elli0tt.rpg_life" // release
 
         minSdkVersion 22
         targetSdkVersion 30
@@ -27,10 +27,35 @@ android {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
 
+    bundle {
+        language {
+            enableSplit = true
+        }
+        density {
+            enableSplit = true
+        }
+        abi {
+            enableSplit = true
+        }
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("../key-store")
+            storePassword 'keystorepassword'
+            keyAlias 'key'
+            keyPassword 'keystorepassword'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            applicationIdSuffix ".debug"
         }
     }
 
