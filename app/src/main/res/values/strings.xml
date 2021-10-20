@@ -2,6 +2,7 @@
     <string name="app_name">RPG Life </string>
     <string name="nav_character">Character</string>
     <string name="nav_skills">Skills</string>
+    <string name="nav_rewards_shop">Rewards</string>
     <string name="nav_quests">Quests</string>
     <string name="nav_statistics">Statistics</string>
     <string name="nav_settings">Settings</string>
@@ -137,4 +138,8 @@
     <string name="character_multiplier_none">None</string>
     <string name="character_multiplier_x1_5">X1.5</string>
     <string name="character_multiplier_x2">X2</string>
+
+    <string name="rewards_shop_buy_button_text">Buy</string>
+    <string name="rewards_shop_cancel_button_text">Cancel</string>
+    <string name="rewards_shop_not_enough_money">Not enough money</string>
 </resources>

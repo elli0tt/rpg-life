@@ -5,9 +5,13 @@
         android:icon="@drawable/ic_round_account_circle_white_24"
         android:title="@string/nav_character" />
     <item
-        android:id="@+id/skills_screen"
-        android:icon="@drawable/ic_round_accessibility_white_24"
-        android:title="@string/nav_skills" />
+        android:id="@+id/rewards_shop_screen"
+        android:icon="@drawable/ic_round_account_balance_24"
+        android:title="@string/nav_rewards_shop" />
+    <!--    <item-->
+    <!--        android:id="@+id/skills_screen"-->
+    <!--        android:icon="@drawable/ic_round_accessibility_white_24"-->
+    <!--        android:title="@string/nav_skills" />-->
     <item
         android:id="@+id/quests_screen"
         android:icon="@drawable/ic_round_import_contacts_white_24"

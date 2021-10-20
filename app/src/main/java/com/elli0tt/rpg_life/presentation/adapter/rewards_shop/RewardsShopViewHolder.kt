@@ -7,10 +7,14 @@ import kotlinx.android.synthetic.main.list_item_rewards_shop.view.*
 
 class RewardsShopViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    fun bind(reward: Reward) {
+    fun bind(reward: Reward, onItemClickListener: RewardsShopAdapter.OnItemClickListener?) {
         itemView.apply {
             rewardNameTextView.text = reward.name
-            priceTextView.text = reward.price
+            priceTextView.text = reward.price.toString()
+
+            setOnClickListener {
+                onItemClickListener?.onItemClick(adapterPosition)
+            }
         }
     }
 }

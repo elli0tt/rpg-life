@@ -40,7 +40,8 @@ public class MainActivity extends AppCompatActivity {
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             int id = destination.getId();
             if (id == R.id.character_screen ||
-                    id == R.id.skills_screen ||
+//                    id == R.id.skills_screen ||
+                    id == R.id.rewards_shop_screen ||
                     id == R.id.quests_screen ||
                     id == R.id.statistics_screen ||
                     id == R.id.settings_screen
