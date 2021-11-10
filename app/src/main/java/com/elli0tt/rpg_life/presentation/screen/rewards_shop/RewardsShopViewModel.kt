@@ -1,9 +1,9 @@
 package com.elli0tt.rpg_life.presentation.screen.rewards_shop
 
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.data.repository.UserRepositoryImpl
 import com.elli0tt.rpg_life.domain.model.Reward
 import com.elli0tt.rpg_life.presentation.core.live_data.Event
@@ -16,8 +16,8 @@ class RewardsShopViewModel @Inject constructor(
     private var _rewardsList = MutableLiveData<List<Reward>>()
     val rewardsList: LiveData<List<Reward>> = _rewardsList
 
-    private var _showSnackbarEvent = MutableLiveData<Event<Int>>()
-    val showSnackbarEvent: LiveData<Event<Int>> = _showSnackbarEvent
+    private var _showSnackbarEvent = MutableLiveData<Event<String>>()
+    val showSnackbarEvent: LiveData<Event<String>> = _showSnackbarEvent
 
     init {
         loadData()
@@ -38,18 +38,18 @@ class RewardsShopViewModel @Inject constructor(
                 Reward(name = "1 час игры в компьютерную игру", price = 20),
                 Reward(name = "Музыка на весь день", price = 20),
                 Reward(name = "Зайти в инстаграм", price = 50),
-                Reward(name = "Полистать ленту вк", price = 50)
+                Reward(name = "Полистать ленту вк", price = 50),
+                Reward(name = "Посмотреть видео на Youtube", price = 50)
         )
     }
 
     fun buyReward(position: Int) {
         val newUser = userRepository.user
-        val price = rewardsList.value?.get(position)?.price ?: 0
-        if (newUser.coinsCount >= price) {
+        rewardsList.value?.get(position)?.let { reward ->
+            val price = reward.price
             newUser.coinsCount = newUser.coinsCount - price
             userRepository.user = newUser
-        } else {
-            _showSnackbarEvent.value = Event(R.string.rewards_shop_not_enough_money)
+            _showSnackbarEvent.value = Event(reward.name)
         }
     }
 }

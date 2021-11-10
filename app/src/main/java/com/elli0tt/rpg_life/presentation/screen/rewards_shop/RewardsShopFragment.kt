@@ -56,8 +56,8 @@ class RewardsShopFragment : BaseFragment(R.layout.fragment_rewards_shop) {
                 rewardsAdapter.submitList(it)
             }
             showSnackbarEvent.observe(viewLifecycleOwner) { event ->
-                event.getContentIfNotHandled()?.let { resId ->
-                    Snackbar.make(requireView(), resId, Snackbar.LENGTH_SHORT).show()
+                event.getContentIfNotHandled()?.let { text ->
+                    Snackbar.make(requireView(), text, Snackbar.LENGTH_SHORT).show()
                 }
             }
         }
