@@ -57,8 +57,8 @@ class QuestsFragment : BaseFragment(R.layout.fragment_quests) {
 
         initViews(view)
         viewModel.start(
-                getString(R.string.quest_date_due_today),
-                getString(R.string.quest_date_due_tomorrow)
+            getString(R.string.quest_date_due_today),
+            getString(R.string.quest_date_due_tomorrow)
         )
         subscribeToViewModel()
         setHasOptionsMenu(true)
@@ -98,7 +98,11 @@ class QuestsFragment : BaseFragment(R.layout.fragment_quests) {
         }
         addChallengeFab.setOnClickListener {
             hideFabMenu()
-            Toast.makeText(context, "Challenges are being revised, don't use them now", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                context,
+                "Challenges are being revised, don't use them now",
+                Toast.LENGTH_LONG
+            ).show()
             //viewModel.insertEmptyChallenge()
         }
         mainFab.setOnClickListener {
@@ -140,7 +144,8 @@ class QuestsFragment : BaseFragment(R.layout.fragment_quests) {
                 val activity: AppCompatActivity? = activity as AppCompatActivity?
                 if (activity != null) {
                     actionMode = activity.startSupportActionMode(
-                            ActionModeController(viewModel, questsAdapter))
+                        ActionModeController(viewModel, questsAdapter)
+                    )
                 }
                 viewModel.startSelection()
                 questsAdapter.startSelection(position)
@@ -162,9 +167,11 @@ class QuestsFragment : BaseFragment(R.layout.fragment_quests) {
         }
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         recyclerView.addItemDecoration(
-                TopAndBottomItemsSpaceItemDecoration(
-                        resources.getDimension(R.dimen.quests_top_item_top_margin).toInt(),
-                        resources.getDimension(R.dimen.quests_bottom_item_bottom_margin).toInt()))
+            TopAndBottomItemsSpaceItemDecoration(
+                resources.getDimension(R.dimen.quests_top_item_top_margin).toInt(),
+                resources.getDimension(R.dimen.quests_bottom_item_bottom_margin).toInt()
+            )
+        )
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (dy < 0 && !mainFab.isShown && !viewModel.isSelectionStarted.value!!) {
@@ -194,13 +201,23 @@ class QuestsFragment : BaseFragment(R.layout.fragment_quests) {
         }
         viewModel.insertEmptyQuestWorkInfo.observe(viewLifecycleOwner) { workInfo ->
             if (workInfo != null && workInfo.state.isFinished) {
-                navigateToEditQuestScreen(workInfo.outputData.getInt(com.elli0tt.rpg_life.presentation.worker.WorkerConstants.KEY_QUEST_ID, 0))
+                navigateToEditQuestScreen(
+                    workInfo.outputData.getInt(
+                        com.elli0tt.rpg_life.presentation.worker.WorkerConstants.KEY_QUEST_ID,
+                        0
+                    )
+                )
                 viewModel.updateInsertEmptyQuestWorkRequest()
             }
         }
         viewModel.insertEmptyChallengeWorkInfo.observe(viewLifecycleOwner) { workInfo ->
             if (workInfo != null && workInfo.state.isFinished) {
-                navigateToEditChallengeScreen(workInfo.outputData.getInt(com.elli0tt.rpg_life.presentation.worker.WorkerConstants.KEY_CHALLENGE_ID, 0))
+                navigateToEditChallengeScreen(
+                    workInfo.outputData.getInt(
+                        com.elli0tt.rpg_life.presentation.worker.WorkerConstants.KEY_CHALLENGE_ID,
+                        0
+                    )
+                )
                 viewModel.updateInsertEmptyChallengeWorkRequest()
             }
         }
@@ -215,18 +232,18 @@ class QuestsFragment : BaseFragment(R.layout.fragment_quests) {
         mainFab.animate().rotation(135f)
         fabMenuBackgroundView.animate().alpha(1f)
         addChallengeFab.animate()
-                .translationY(-requireContext().resources.getDimension(R.dimen.add_challenge_fab_translationY))
-                .rotation(0f)
+            .translationY(-requireContext().resources.getDimension(R.dimen.add_challenge_fab_translationY))
+            .rotation(0f)
         addQuestFab.animate()
-                .translationY(-requireContext().resources.getDimension(R.dimen.add_quest_fab_translationY))
-                .rotation(0f)
-                .setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator?) {
-                        super.onAnimationEnd(animation)
-                        addQuestCardView.visibility = View.VISIBLE
-                        addChallengeCardView.visibility = View.VISIBLE
-                    }
-                })
+            .translationY(-requireContext().resources.getDimension(R.dimen.add_quest_fab_translationY))
+            .rotation(0f)
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator?) {
+                    super.onAnimationEnd(animation)
+                    addQuestCardView.visibility = View.VISIBLE
+                    addChallengeCardView.visibility = View.VISIBLE
+                }
+            })
     }
 
     private fun hideFabMenu() {
@@ -234,21 +251,21 @@ class QuestsFragment : BaseFragment(R.layout.fragment_quests) {
         mainFab.animate().rotation(0f)
         fabMenuBackgroundView.animate().alpha(0f)
         addChallengeFab.animate()
-                .translationY(0f)
-                .rotation(90f)
+            .translationY(0f)
+            .rotation(90f)
         addQuestFab.animate()
-                .translationY(0f)
-                .rotation(90f)
-                .setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator?) {
-                        super.onAnimationEnd(animation)
-                        addQuestCardView.visibility = View.GONE
-                        addChallengeCardView.visibility = View.GONE
-                        addChallengeFab.hide()
-                        addQuestFab.hide()
-                        fabMenuBackgroundView.visibility = View.GONE
-                    }
-                })
+            .translationY(0f)
+            .rotation(90f)
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator?) {
+                    super.onAnimationEnd(animation)
+                    addQuestCardView.visibility = View.GONE
+                    addChallengeCardView.visibility = View.GONE
+                    addChallengeFab.hide()
+                    addQuestFab.hide()
+                    fabMenuBackgroundView.visibility = View.GONE
+                }
+            })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

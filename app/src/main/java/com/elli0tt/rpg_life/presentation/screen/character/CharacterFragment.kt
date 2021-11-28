@@ -11,7 +11,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.RadioGroup
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.elli0tt.rpg_life.R
@@ -24,7 +23,6 @@ import kotlinx.android.synthetic.main.fragment_character.*
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
-import javax.inject.Inject
 
 class CharacterFragment : BaseFragment(R.layout.fragment_character) {
 
@@ -91,13 +89,13 @@ class CharacterFragment : BaseFragment(R.layout.fragment_character) {
     }
 
     private val onMultiplierRadioGroupCheckedChangeListener =
-            RadioGroup.OnCheckedChangeListener { _, checkedId ->
-                when(checkedId) {
-                    R.id.multiplierNoneRadioButton -> viewModel.onMultiplierNoneClick()
-                    R.id.multiplierX1_5RadioButton -> viewModel.onMultiplierX1_5Click()
-                    R.id.multiplierX2RadioButton -> viewModel.onMultiplierX2Click()
-                }
+        RadioGroup.OnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.multiplierNoneRadioButton -> viewModel.onMultiplierNoneClick()
+                R.id.multiplierX1_5RadioButton -> viewModel.onMultiplierX1_5Click()
+                R.id.multiplierX2RadioButton -> viewModel.onMultiplierX2Click()
             }
+        }
 
     private val onCompleteVeryEasyTaskButtonClickListener = View.OnClickListener {
         viewModel.onCompleteVeryEasyTaskClick()
@@ -131,12 +129,12 @@ class CharacterFragment : BaseFragment(R.layout.fragment_character) {
                 levelProgressBar.max = it.xpToNextLevel
                 levelProgressBar.progress = it.xpToNextLevel - it.xpLeftToNextLevel
                 completedQuestsTextView.text = getString(
-                        R.string.character_completed_quests,
-                        it.completedQuestsCount.toString()
+                    R.string.character_completed_quests,
+                    it.completedQuestsCount.toString()
                 )
                 earnedCoinsTextView.text = getString(
-                        R.string.character_earned_coins,
-                        it.earnedCoinsCount.toString()
+                    R.string.character_earned_coins,
+                    it.earnedCoinsCount.toString()
                 )
             }
         }
@@ -159,11 +157,11 @@ class CharacterFragment : BaseFragment(R.layout.fragment_character) {
 
     private fun pickImage() {
         CropImage.activity()
-                .setCropShape(CropImageView.CropShape.OVAL)
-                .setFixAspectRatio(true)
-                .setMinCropResultSize(characterImageView.width, characterImageView.height)
-                //.setMaxCropResultSize(levelProgressBar.radius * 2, levelProgressBar.radius * 2)
-                .start(requireContext(), this)
+            .setCropShape(CropImageView.CropShape.OVAL)
+            .setFixAspectRatio(true)
+            .setMinCropResultSize(characterImageView.width, characterImageView.height)
+            //.setMaxCropResultSize(levelProgressBar.radius * 2, levelProgressBar.radius * 2)
+            .start(requireContext(), this)
 //        val pickImageIntent = Intent(Intent.ACTION_GET_CONTENT)
 //        pickImageIntent.type = "image/*"
 //        pickImageIntent.putExtra("crop", "true")
@@ -202,7 +200,8 @@ class CharacterFragment : BaseFragment(R.layout.fragment_character) {
             path.mkdir()
         }
         val bitmap = BitmapFactory.decodeStream(imageStream)
-        val outFile = File(path, requireContext().getString(R.string.profile_image_file_name) + ".jpeg")
+        val outFile =
+            File(path, requireContext().getString(R.string.profile_image_file_name) + ".jpeg")
         val outputStream = FileOutputStream(outFile)
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
         imageStream?.close()
@@ -210,11 +209,13 @@ class CharacterFragment : BaseFragment(R.layout.fragment_character) {
     }
 
     private fun loadProfileImageFromInternalStorage() {
-        val path = File(requireContext().filesDir,
-                getString(R.string.user_images_directory_name) +
-                        "/" +
-                        getString(R.string.profile_image_file_name) +
-                        ".jpeg")
+        val path = File(
+            requireContext().filesDir,
+            getString(R.string.user_images_directory_name) +
+                    "/" +
+                    getString(R.string.profile_image_file_name) +
+                    ".jpeg"
+        )
         if (path.exists()) {
             characterImageView.setImageBitmap(BitmapFactory.decodeStream(FileInputStream(path)))
         }

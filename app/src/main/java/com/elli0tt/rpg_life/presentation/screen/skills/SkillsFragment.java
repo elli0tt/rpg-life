@@ -28,13 +28,10 @@ import javax.inject.Inject;
 
 public class SkillsFragment extends BaseFragment {
 
+    private final SkillsAdapter skillsAdapter = new SkillsAdapter();
     @Inject
     public ViewModelProvider.Factory viewModelFactory;
-
     private SkillsComponent skillsComponent;
-
-    private final SkillsAdapter skillsAdapter = new SkillsAdapter();
-
     private SkillsViewModel viewModel;
 
     private final View.OnClickListener onAddSkillFabClickListener =

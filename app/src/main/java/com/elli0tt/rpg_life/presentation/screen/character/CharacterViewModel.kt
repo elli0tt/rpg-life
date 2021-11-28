@@ -11,10 +11,11 @@ import javax.inject.Inject
 import kotlin.math.roundToInt
 
 class CharacterViewModel @Inject constructor(
-        private val userRepository: UserRepositoryImpl
+    private val userRepository: UserRepositoryImpl
 ) : ViewModel() {
 
-    private val allCharacteristics: LiveData<List<Characteristic>> = userRepository.allCharacteristics
+    private val allCharacteristics: LiveData<List<Characteristic>> =
+        userRepository.allCharacteristics
 
     private var _user = MutableLiveData(userRepository.user)
     val user: LiveData<User> = _user

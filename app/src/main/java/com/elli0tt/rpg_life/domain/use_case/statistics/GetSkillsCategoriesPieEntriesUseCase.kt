@@ -10,8 +10,8 @@ import com.github.mikephil.charting.data.PieEntry
 import javax.inject.Inject
 
 class GetSkillsCategoriesPieEntriesUseCase @Inject constructor(
-        skillsRepository: SkillsRepository,
-        skillsCategoriesRepository: SkillsCategoriesRepository
+    skillsRepository: SkillsRepository,
+    skillsCategoriesRepository: SkillsCategoriesRepository
 ) {
     private val resultPieEntries: MediatorLiveData<List<PieEntry>> = MediatorLiveData()
     private val skills = skillsRepository.allSkills
@@ -30,17 +30,17 @@ class GetSkillsCategoriesPieEntriesUseCase @Inject constructor(
     }
 
     private fun mapToPieEntries(
-            skills: List<Skill>?,
-            skillsCategories: List<SkillsCategory>?
+        skills: List<Skill>?,
+        skillsCategories: List<SkillsCategory>?
     ): List<PieEntry> {
         val result = ArrayList<PieEntry>()
         if (skills != null && skillsCategories != null) {
             val totalXpSum = skills.map { it.totalXp }.sum()
             for (category in skillsCategories) {
                 val categoryXp = skills
-                        .filter { it.categoryId == category.id }
-                        .map { it.totalXp }
-                        .sum()
+                    .filter { it.categoryId == category.id }
+                    .map { it.totalXp }
+                    .sum()
                 result.add(PieEntry(categoryXp.toFloat() / totalXpSum * 100, category.name))
             }
 

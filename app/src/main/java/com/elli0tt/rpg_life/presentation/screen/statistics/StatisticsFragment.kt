@@ -6,7 +6,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
 import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment
 import com.elli0tt.rpg_life.presentation.extensions.injectViewModel
@@ -17,7 +16,6 @@ import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.formatter.PercentFormatter
-import javax.inject.Inject
 
 class StatisticsFragment : BaseFragment(R.layout.fragment_statistics) {
 

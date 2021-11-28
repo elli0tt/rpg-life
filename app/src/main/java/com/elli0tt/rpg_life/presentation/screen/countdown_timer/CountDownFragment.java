@@ -28,15 +28,11 @@ import timber.log.Timber;
 public class CountDownFragment extends BaseFragment {
 
     private static final String TIME_LEFT_TAG = "time left";
-
-    @Inject
-    public ViewModelProvider.Factory viewModelFactory;
-
-    private CountDownComponent countDownComponent;
-
     private final NumberPicker.Formatter numberPickersFormatter =
             value -> String.format(Locale.getDefault(), "%02d", value);
-
+    @Inject
+    public ViewModelProvider.Factory viewModelFactory;
+    private CountDownComponent countDownComponent;
     private FragmentCountdownTimerBinding binding;
     private CountDownViewModel viewModel;
     private CountDownTimer timer;

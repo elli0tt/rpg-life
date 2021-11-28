@@ -11,8 +11,8 @@ import java.util.*
 import javax.inject.Inject
 
 class StatisticsViewModel @Inject constructor(
-        getSkillsPieEntriesUseCase: GetSkillsPieEntriesUseCase,
-        getSkillsCategoriesPieEntriesUseCase: GetSkillsCategoriesPieEntriesUseCase
+    getSkillsPieEntriesUseCase: GetSkillsPieEntriesUseCase,
+    getSkillsCategoriesPieEntriesUseCase: GetSkillsCategoriesPieEntriesUseCase
 ) : ViewModel() {
     private val skillsPieEntries = getSkillsPieEntriesUseCase.invoke()
     private val skillsCategoriesPieEntries = getSkillsCategoriesPieEntriesUseCase.invoke()
@@ -21,7 +21,8 @@ class StatisticsViewModel @Inject constructor(
         SKILLS, SKILLS_CATEGORIES
     }
 
-    private val statisticsMode: MutableLiveData<StatisticsMode> = MutableLiveData(StatisticsMode.SKILLS)
+    private val statisticsMode: MutableLiveData<StatisticsMode> =
+        MutableLiveData(StatisticsMode.SKILLS)
 
     var pieEntries: MediatorLiveData<List<PieEntry>> = MediatorLiveData()
 
@@ -44,7 +45,8 @@ class StatisticsViewModel @Inject constructor(
         pieEntries.addSource(statisticsMode) { statisticsMode ->
             when (statisticsMode) {
                 StatisticsMode.SKILLS -> pieEntries.value = skillsPieEntries.value
-                StatisticsMode.SKILLS_CATEGORIES -> pieEntries.value = skillsCategoriesPieEntries.value
+                StatisticsMode.SKILLS_CATEGORIES -> pieEntries.value =
+                    skillsCategoriesPieEntries.value
                 else -> { // do nothing
                 }
             }

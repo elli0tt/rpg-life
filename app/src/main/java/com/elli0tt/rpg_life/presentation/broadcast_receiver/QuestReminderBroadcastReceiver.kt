@@ -13,11 +13,16 @@ class QuestReminderBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         val builder = NotificationCompat.Builder(context!!, MainActivity.CHANNEL_ID)
-                .setContentTitle(intent?.getStringExtra(AddEditQuestFragment.EXTRA_REMINDER_TITLE))
-                .setContentText("")
-                .setSmallIcon(R.drawable.ic_round_today_white_24)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentTitle(intent?.getStringExtra(AddEditQuestFragment.EXTRA_REMINDER_TITLE))
+            .setContentText("")
+            .setSmallIcon(R.drawable.ic_round_today_white_24)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         val notificationManager = NotificationManagerCompat.from(context)
-        notificationManager.notify(intent?.getIntExtra(AddEditQuestFragment.EXTRA_NOTIFICATION_ID, 0)!!, builder.build())
+        notificationManager.notify(
+            intent?.getIntExtra(
+                AddEditQuestFragment.EXTRA_NOTIFICATION_ID,
+                0
+            )!!, builder.build()
+        )
     }
 }

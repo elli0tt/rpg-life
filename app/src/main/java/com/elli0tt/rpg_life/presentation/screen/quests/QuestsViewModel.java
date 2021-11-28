@@ -35,9 +35,6 @@ import javax.inject.Inject;
 
 public class QuestsViewModel extends ViewModel {
 
-    private String today;
-    private String tomorrow;
-
     private final LiveData<List<Quest>> allQuests;
     private final MutableLiveData<QuestsFilterState> currentFilterState = new MutableLiveData<>();
     private final MediatorLiveData<List<Quest>> questsToShow = new MediatorLiveData<>();
@@ -45,7 +42,6 @@ public class QuestsViewModel extends ViewModel {
     private final MutableLiveData<Boolean> isSelectionStarted = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> isShowCompleted = new MutableLiveData<>();
     private final LiveData<Integer> showCompletedTextResId;
-
     private final SortQuestsUseCase sortQuestsUseCase;
     private final FilterQuestsUseCase filterQuestsUseCase;
     private final PopulateWithSamplesUseCase populateWithSamplesUseCase;
@@ -55,12 +51,12 @@ public class QuestsViewModel extends ViewModel {
     private final SkillsRepository skillsRepository;
     private final UserRepository userRepository;
     private final WorkManager workManager;
-
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM, yyyy",
             Locale.getDefault());
     private final SimpleDateFormat dateAndTimeFormat = new SimpleDateFormat("d MMM, yyyy HH:mm",
             Locale.getDefault());
-
+    private String today;
+    private String tomorrow;
     private OneTimeWorkRequest insertEmptyQuestWorkRequest;
     private OneTimeWorkRequest insertEmptyChallengeWorkRequest;
 

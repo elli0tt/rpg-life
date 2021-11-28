@@ -3,11 +3,12 @@ package com.elli0tt.rpg_life.domain.model
 import kotlin.math.sqrt
 
 data class User @JvmOverloads constructor(
-        var name: String = DEFAULT_NAME,
-        var totalXp: Int = DEFAULT_TOTAL_XP,
-        var coinsCount: Int = DEFAULT_COINS_COUNT,
-        var completedQuestsCount: Int = DEFAULT_COMPLETED_QUESTS_COUNT,
-        var earnedCoinsCount: Int = DEFAULT_EARNED_COINS_COUNT) {
+    var name: String = DEFAULT_NAME,
+    var totalXp: Int = DEFAULT_TOTAL_XP,
+    var coinsCount: Int = DEFAULT_COINS_COUNT,
+    var completedQuestsCount: Int = DEFAULT_COMPLETED_QUESTS_COUNT,
+    var earnedCoinsCount: Int = DEFAULT_EARNED_COINS_COUNT
+) {
 
     companion object {
         const val DEFAULT_NAME = ""

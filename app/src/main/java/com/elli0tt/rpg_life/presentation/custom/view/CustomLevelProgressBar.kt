@@ -40,7 +40,7 @@ import kotlin.math.min
  */
 
 class CustomLevelProgressBar @JvmOverloads constructor(
-        context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
     companion object {
@@ -110,51 +110,51 @@ class CustomLevelProgressBar @JvmOverloads constructor(
 
     init {
         context.theme.obtainStyledAttributes(
-                attrs,
-                R.styleable.SpeedProgressBar,
-                0, 0
+            attrs,
+            R.styleable.SpeedProgressBar,
+            0, 0
         ).apply {
             try {
                 speed = getFloat(
-                        R.styleable.SpeedProgressBar_spb_level,
-                        DEFAULT_SPEED
+                    R.styleable.SpeedProgressBar_spb_level,
+                    DEFAULT_SPEED
                 )
 
                 textTitle = getString(R.styleable.SpeedProgressBar_spb_text_title)
 
                 isEnable = getBoolean(
-                        R.styleable.SpeedProgressBar_spb_is_enable,
-                        DEFAULT_IS_ENABLE
+                    R.styleable.SpeedProgressBar_spb_is_enable,
+                    DEFAULT_IS_ENABLE
                 )
 
                 isStepProgress = getBoolean(
-                        R.styleable.SpeedProgressBar_spb_is_step_progress,
-                        DEFAULT_IS_ENABLE
+                    R.styleable.SpeedProgressBar_spb_is_step_progress,
+                    DEFAULT_IS_ENABLE
                 )
 
                 textLevelColor = getColor(
-                        R.styleable.SpeedProgressBar_spb_text_level_color,
-                        DEFAULT_TEXT_LEVEL_COLOR
+                    R.styleable.SpeedProgressBar_spb_text_level_color,
+                    DEFAULT_TEXT_LEVEL_COLOR
                 )
 
                 textTitleColor = getColor(
-                        R.styleable.SpeedProgressBar_spb_text_title_color,
-                        DEFAULT_TEXT_TITLE_COLOR
+                    R.styleable.SpeedProgressBar_spb_text_title_color,
+                    DEFAULT_TEXT_TITLE_COLOR
                 )
 
                 progressColor = getColor(
-                        R.styleable.SpeedProgressBar_spb_background_color,
-                        DEFAULT_TEXT_TITLE_COLOR
+                    R.styleable.SpeedProgressBar_spb_background_color,
+                    DEFAULT_TEXT_TITLE_COLOR
                 )
 
                 unprogressColor = getColor(
-                        R.styleable.SpeedProgressBar_spb_unprogress_color,
-                        DEFAULT_UNPROGRESS_COLOR
+                    R.styleable.SpeedProgressBar_spb_unprogress_color,
+                    DEFAULT_UNPROGRESS_COLOR
                 )
 
                 strokeWidth = getInteger(
-                        R.styleable.SpeedProgressBar_spb_stroke_with,
-                        DEFAULT_STROKE_WiDTH
+                    R.styleable.SpeedProgressBar_spb_stroke_with,
+                    DEFAULT_STROKE_WiDTH
                 ).toFloat()
 
                 getDrawable(R.styleable.SpeedProgressBar_spb_src)?.let {
@@ -258,10 +258,10 @@ class CustomLevelProgressBar @JvmOverloads constructor(
         super.onDraw(canvas)
 
         canvas.drawCircle(
-                borderRect.centerX(),
-                borderRect.centerY(),
-                radius - 2 * strokeWidth,
-                backgroundPaint
+            borderRect.centerX(),
+            borderRect.centerY(),
+            radius - 2 * strokeWidth,
+            backgroundPaint
         )
 
         //    step progress
@@ -270,19 +270,19 @@ class CustomLevelProgressBar @JvmOverloads constructor(
             while (step <= DEFAULT_TOTAL_ANGLE) {
                 if (step <= angle) {
                     canvas.drawArc(
-                            borderRect,
-                            (DEFAULT_START_ANGLE + step).toFloat(),
-                            10f,
-                            false,
-                            progressPaint
+                        borderRect,
+                        (DEFAULT_START_ANGLE + step).toFloat(),
+                        10f,
+                        false,
+                        progressPaint
                     )
                 } else {
                     canvas.drawArc(
-                            borderRect,
-                            (DEFAULT_START_ANGLE + step).toFloat(),
-                            10f,
-                            false,
-                            unProgressPaint
+                        borderRect,
+                        (DEFAULT_START_ANGLE + step).toFloat(),
+                        10f,
+                        false,
+                        unProgressPaint
                     )
                 }
                 step += 30
@@ -292,11 +292,11 @@ class CustomLevelProgressBar @JvmOverloads constructor(
 
             if (angle < DEFAULT_TOTAL_ANGLE) {
                 canvas.drawArc(
-                        borderRect,
-                        continuousSwipeAngle,
-                        continuousStartAngle,
-                        false,
-                        unProgressPaint
+                    borderRect,
+                    continuousSwipeAngle,
+                    continuousStartAngle,
+                    false,
+                    unProgressPaint
                 )
             }
         }
@@ -304,10 +304,10 @@ class CustomLevelProgressBar @JvmOverloads constructor(
         //levelTitle
         if (bitmap == null) {
             canvas.drawText(
-                    speed.toInt().toString(),
-                    borderRect.centerX(),
-                    borderRect.centerY() + textOffset,
-                    textLevelPaint
+                speed.toInt().toString(),
+                borderRect.centerX(),
+                borderRect.centerY() + textOffset,
+                textLevelPaint
             )
         }
     }
@@ -401,8 +401,8 @@ class CustomLevelProgressBar @JvmOverloads constructor(
 
         mShaderMatrix.setScale(scale, scale)
         mShaderMatrix.postTranslate(
-                (dx + 0.5f).toInt() + drawableRect.left,
-                (dy + 0.5f).toInt() + drawableRect.top
+            (dx + 0.5f).toInt() + drawableRect.left,
+            (dy + 0.5f).toInt() + drawableRect.top
         )
 
         bitmapShader.setLocalMatrix(mShaderMatrix)

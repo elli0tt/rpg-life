@@ -8,8 +8,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.elli0tt.rpg_life.R
 
-class UpDownArrowsView(context: Context, attributeSet: AttributeSet?)
-    : ConstraintLayout(context, attributeSet) {
+class UpDownArrowsView(context: Context, attributeSet: AttributeSet?) :
+    ConstraintLayout(context, attributeSet) {
     private val arrowImageView: AppCompatImageView
     private val textView: TextView
     private val removeImageView: AppCompatImageView
@@ -37,10 +37,20 @@ class UpDownArrowsView(context: Context, attributeSet: AttributeSet?)
     }
 
     fun setArrowUp() {
-        arrowImageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_round_keyboard_arrow_up_white_24))
+        arrowImageView.setImageDrawable(
+            ContextCompat.getDrawable(
+                context,
+                R.drawable.ic_round_keyboard_arrow_up_white_24
+            )
+        )
     }
 
     fun setArrowDown() {
-        arrowImageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_round_keyboard_arrow_down_white_24))
+        arrowImageView.setImageDrawable(
+            ContextCompat.getDrawable(
+                context,
+                R.drawable.ic_round_keyboard_arrow_down_white_24
+            )
+        )
     }
 }

@@ -43,7 +43,11 @@ class AddEditChallengeFragment : BaseFragment() {
     private lateinit var veryHardTitle: String
     private lateinit var impossibleTitle: String
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         viewModel = ViewModelProvider(this).get(AddEditChallengeViewModel::class.java)
         navController = NavHostFragment.findNavController(this)
 
@@ -96,18 +100,30 @@ class AddEditChallengeFragment : BaseFragment() {
     }
 
     private fun initDifficultyTitlesString() {
-        veryEasyTitle = getString(R.string.add_edit_quest_difficulty_very_easy,
-                Difficulty.VERY_EASY.xpIncrease)
-        easyTitle = getString(R.string.add_edit_quest_difficulty_easy,
-                Difficulty.EASY.xpIncrease)
-        normalTitle = getString(R.string.add_edit_quest_difficulty_normal,
-                Difficulty.NORMAL.xpIncrease)
-        hardTitle = getString(R.string.add_edit_quest_difficulty_hard,
-                Difficulty.HARD.xpIncrease)
-        veryHardTitle = getString(R.string.add_edit_quest_difficulty_very_hard,
-                Difficulty.VERY_HARD.xpIncrease)
-        impossibleTitle = getString(R.string.add_edit_quest_difficulty_impossible,
-                Difficulty.IMPOSSIBLE.xpIncrease)
+        veryEasyTitle = getString(
+            R.string.add_edit_quest_difficulty_very_easy,
+            Difficulty.VERY_EASY.xpIncrease
+        )
+        easyTitle = getString(
+            R.string.add_edit_quest_difficulty_easy,
+            Difficulty.EASY.xpIncrease
+        )
+        normalTitle = getString(
+            R.string.add_edit_quest_difficulty_normal,
+            Difficulty.NORMAL.xpIncrease
+        )
+        hardTitle = getString(
+            R.string.add_edit_quest_difficulty_hard,
+            Difficulty.HARD.xpIncrease
+        )
+        veryHardTitle = getString(
+            R.string.add_edit_quest_difficulty_very_hard,
+            Difficulty.VERY_HARD.xpIncrease
+        )
+        impossibleTitle = getString(
+            R.string.add_edit_quest_difficulty_impossible,
+            Difficulty.IMPOSSIBLE.xpIncrease
+        )
     }
 
     private fun subscribeToViewModel() {
@@ -156,9 +172,9 @@ class AddEditChallengeFragment : BaseFragment() {
     override fun onStart() {
         super.onStart()
         viewModel.start(
-                challengeId = args.challengeId,
-                today = getString(R.string.quest_date_due_today),
-                tomorrow = getString(R.string.quest_date_due_tomorrow)
+            challengeId = args.challengeId,
+            today = getString(R.string.quest_date_due_today),
+            tomorrow = getString(R.string.quest_date_due_tomorrow)
         )
     }
 
@@ -182,18 +198,34 @@ class AddEditChallengeFragment : BaseFragment() {
     private fun showDifficultyPopupMenu(view: View) {
         val popupMenu = PopupMenu(requireContext(), view)
         val menu = popupMenu.menu
-        menu.add(Menu.NONE, DifficultyPopupMenuIds.VERY_EASY_POPUP_MENU_ITEM_ID,
-                DifficultyPopupMenuIds.VERY_EASY_POPUP_MENU_ITEM_ORDER, veryEasyTitle)
-        menu.add(Menu.NONE, DifficultyPopupMenuIds.EASY_POPUP_MENU_ITEM_ID, DifficultyPopupMenuIds.EASY_POPUP_MENU_ITEM_ORDER,
-                easyTitle)
-        menu.add(Menu.NONE, DifficultyPopupMenuIds.NORMAL_POPUP_MENU_ITEM_ID,
-                DifficultyPopupMenuIds.NORMAL_POPUP_MENU_ITEM_ORDER, normalTitle)
-        menu.add(Menu.NONE, DifficultyPopupMenuIds.HARD_POPUP_MENU_ITEM_ID, DifficultyPopupMenuIds.HARD_POPUP_MENU_ITEM_ORDER,
-                hardTitle)
-        menu.add(Menu.NONE, DifficultyPopupMenuIds.VERY_HARD_POPUP_MENU_ITEM_ID,
-                DifficultyPopupMenuIds.VERY_HARD_POPUP_MENU_ITEM_ORDER, veryHardTitle)
-        menu.add(Menu.NONE, DifficultyPopupMenuIds.IMPOSSIBLE_POPUP_MENU_ITEM_ID,
-                DifficultyPopupMenuIds.IMPOSSIBLE_POPUP_MENU_ITEM_ORDER, impossibleTitle)
+        menu.add(
+            Menu.NONE, DifficultyPopupMenuIds.VERY_EASY_POPUP_MENU_ITEM_ID,
+            DifficultyPopupMenuIds.VERY_EASY_POPUP_MENU_ITEM_ORDER, veryEasyTitle
+        )
+        menu.add(
+            Menu.NONE,
+            DifficultyPopupMenuIds.EASY_POPUP_MENU_ITEM_ID,
+            DifficultyPopupMenuIds.EASY_POPUP_MENU_ITEM_ORDER,
+            easyTitle
+        )
+        menu.add(
+            Menu.NONE, DifficultyPopupMenuIds.NORMAL_POPUP_MENU_ITEM_ID,
+            DifficultyPopupMenuIds.NORMAL_POPUP_MENU_ITEM_ORDER, normalTitle
+        )
+        menu.add(
+            Menu.NONE,
+            DifficultyPopupMenuIds.HARD_POPUP_MENU_ITEM_ID,
+            DifficultyPopupMenuIds.HARD_POPUP_MENU_ITEM_ORDER,
+            hardTitle
+        )
+        menu.add(
+            Menu.NONE, DifficultyPopupMenuIds.VERY_HARD_POPUP_MENU_ITEM_ID,
+            DifficultyPopupMenuIds.VERY_HARD_POPUP_MENU_ITEM_ORDER, veryHardTitle
+        )
+        menu.add(
+            Menu.NONE, DifficultyPopupMenuIds.IMPOSSIBLE_POPUP_MENU_ITEM_ID,
+            DifficultyPopupMenuIds.IMPOSSIBLE_POPUP_MENU_ITEM_ORDER, impossibleTitle
+        )
         popupMenu.setOnMenuItemClickListener { item: MenuItem ->
             binding.difficultyView.setText(item.title.toString())
             viewModel.changeDifficulty(item.itemId)
@@ -219,18 +251,21 @@ class AddEditChallengeFragment : BaseFragment() {
     }
 
     private fun navigateToAddSkillsToQuestScreen() {
-        val action = AddEditChallengeFragmentDirections.actionAddEditChallengeScreenToAddSkillsToQuestScreen()
+        val action =
+            AddEditChallengeFragmentDirections.actionAddEditChallengeScreenToAddSkillsToQuestScreen()
         action.questId = viewModel.challengeId
         navController.navigate(action)
     }
 
-    private val onDateDueSetListener = OnDateSetListener { _: DatePicker?, year: Int, month: Int, dayOfMonth: Int ->
-        viewModel.setDateDue(year, month, dayOfMonth)
-    }
+    private val onDateDueSetListener =
+        OnDateSetListener { _: DatePicker?, year: Int, month: Int, dayOfMonth: Int ->
+            viewModel.setDateDue(year, month, dayOfMonth)
+        }
 
-    private val onTimeDueSetListener = OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int ->
-        viewModel.setDateDue(hourOfDay, minute)
-    }
+    private val onTimeDueSetListener =
+        OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int ->
+            viewModel.setDateDue(hourOfDay, minute)
+        }
 
     private val onAddDateDueViewClickListener = View.OnClickListener { v: View? ->
         SoftKeyboardUtil.hideKeyboard(v, activity)
@@ -253,26 +288,32 @@ class AddEditChallengeFragment : BaseFragment() {
     }
 
     private fun pickDate(onDateSetListener: OnDateSetListener) {
-        val datePickerDialog = DatePickerDialog(requireContext(),
-                onDateSetListener,
-                Calendar.getInstance()[Calendar.YEAR],
-                Calendar.getInstance()[Calendar.MONTH],
-                Calendar.getInstance()[Calendar.DAY_OF_MONTH])
+        val datePickerDialog = DatePickerDialog(
+            requireContext(),
+            onDateSetListener,
+            Calendar.getInstance()[Calendar.YEAR],
+            Calendar.getInstance()[Calendar.MONTH],
+            Calendar.getInstance()[Calendar.DAY_OF_MONTH]
+        )
         datePickerDialog.show()
     }
 
     private fun pickTime(onTimeSetListener: OnTimeSetListener) {
-        val timePickerDialog = TimePickerDialog(context, onTimeSetListener,
-                Calendar.getInstance()[Calendar.HOUR_OF_DAY],
-                Calendar.getInstance()[Calendar.MINUTE],
-                true)
+        val timePickerDialog = TimePickerDialog(
+            context, onTimeSetListener,
+            Calendar.getInstance()[Calendar.HOUR_OF_DAY],
+            Calendar.getInstance()[Calendar.MINUTE],
+            true
+        )
         timePickerDialog.show()
     }
 
     private fun showAddDateDuePopupMenu(view: View) {
         val popupMenu = PopupMenu(requireContext(), view)
-        popupMenu.menuInflater.inflate(R.menu.add_edit_quest_add_date_due_popup_menu,
-                popupMenu.menu)
+        popupMenu.menuInflater.inflate(
+            R.menu.add_edit_quest_add_date_due_popup_menu,
+            popupMenu.menu
+        )
         popupMenu.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
                 R.id.add_edit_quest_add_date_due_popup_today -> {

@@ -25,7 +25,12 @@ class Characteristic {
     }
 
     @Ignore
-    constructor(name: String) : this(name, DEFAULT_VALUE, DEFAULT_DESCRIPTION, DEFAULT_IMAGE_RESOURCE)
+    constructor(name: String) : this(
+        name,
+        DEFAULT_VALUE,
+        DEFAULT_DESCRIPTION,
+        DEFAULT_IMAGE_RESOURCE
+    )
 
     companion object {
         private const val DEFAULT_DESCRIPTION = ""

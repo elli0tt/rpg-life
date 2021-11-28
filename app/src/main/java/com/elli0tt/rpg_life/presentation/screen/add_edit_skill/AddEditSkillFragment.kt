@@ -26,12 +26,16 @@ class AddEditSkillFragment : BaseFragment() {
 
     private lateinit var binding: FragmentAddEditSkillBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         initDagger()
 
-        binding = FragmentAddEditSkillBinding.inflate(inflater,
-                container, false)
+        binding = FragmentAddEditSkillBinding.inflate(
+            inflater,
+            container, false
+        )
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
         return binding.root
@@ -48,8 +52,8 @@ class AddEditSkillFragment : BaseFragment() {
     override fun onStart() {
         super.onStart()
         viewModel.start(
-                skillId = args.skillId,
-                defaultSkillCategoryText = getString(R.string.add_edit_skill_add_category)
+            skillId = args.skillId,
+            defaultSkillCategoryText = getString(R.string.add_edit_skill_add_category)
         )
     }
 
@@ -101,14 +105,16 @@ class AddEditSkillFragment : BaseFragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private val onEditTextsFocusChangeListener = OnFocusChangeListener { v: View?, hasFocus: Boolean ->
-        if (!hasFocus) {
-            SoftKeyboardUtil.hideKeyboard(v, activity)
+    private val onEditTextsFocusChangeListener =
+        OnFocusChangeListener { v: View?, hasFocus: Boolean ->
+            if (!hasFocus) {
+                SoftKeyboardUtil.hideKeyboard(v, activity)
+            }
         }
-    }
 
     private fun navigateToAddCategoryToSkillScreen() {
-        val action = AddEditSkillFragmentDirections.actionAddEditSkillScreenToAddCategoryToSkillFragment()
+        val action =
+            AddEditSkillFragmentDirections.actionAddEditSkillScreenToAddCategoryToSkillFragment()
         action.skillId = viewModel.skillId
         navController.navigate(action)
     }
@@ -116,7 +122,12 @@ class AddEditSkillFragment : BaseFragment() {
     private fun showOnDeleteConfirmDialog() {
         AlertDialog.Builder(requireContext()).apply {
             setTitle(getString(R.string.add_edit_skill_confirm_delete_title))
-            setMessage(getString(R.string.add_edit_skill_confirm_delete_message, viewModel.skillName))
+            setMessage(
+                getString(
+                    R.string.add_edit_skill_confirm_delete_message,
+                    viewModel.skillName
+                )
+            )
             setCancelable(true)
             setPositiveButton(getString(R.string.add_edit_skill_confirm_positive_text)) { _, _ ->
                 viewModel.delete()

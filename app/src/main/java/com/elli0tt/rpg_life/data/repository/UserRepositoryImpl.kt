@@ -29,7 +29,8 @@ class UserRepositoryImpl @Inject constructor(context: Context) : UserRepository 
         InsertCharacteristicAsyncTask(characteristicsDao).execute(characteristic)
     }
 
-    private class InsertCharacteristicAsyncTask(private val characteristicsDao: CharacteristicsDao) : AsyncTask<Characteristic?, Void?, Void?>() {
+    private class InsertCharacteristicAsyncTask(private val characteristicsDao: CharacteristicsDao) :
+        AsyncTask<Characteristic?, Void?, Void?>() {
         override fun doInBackground(vararg characteristics: Characteristic?): Void? {
             characteristicsDao.insertCharacteristic(characteristics[0])
             return null
@@ -40,7 +41,8 @@ class UserRepositoryImpl @Inject constructor(context: Context) : UserRepository 
         InsertCharacteristicsAsyncTask(characteristicsDao).execute(characteristicList)
     }
 
-    private class InsertCharacteristicsAsyncTask(private val characteristicsDao: CharacteristicsDao) : AsyncTask<List<Characteristic?>?, Void?, Void?>() {
+    private class InsertCharacteristicsAsyncTask(private val characteristicsDao: CharacteristicsDao) :
+        AsyncTask<List<Characteristic?>?, Void?, Void?>() {
         @SafeVarargs
         override fun doInBackground(vararg lists: List<Characteristic?>?): Void? {
             characteristicsDao.insertCharacteristic(lists[0])

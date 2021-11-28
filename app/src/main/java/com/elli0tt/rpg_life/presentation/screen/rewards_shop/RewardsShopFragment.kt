@@ -3,7 +3,6 @@ package com.elli0tt.rpg_life.presentation.screen.rewards_shop
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.ViewModelProvider
 import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.presentation.adapter.rewards_shop.RewardsShopAdapter
 import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment
@@ -11,7 +10,6 @@ import com.elli0tt.rpg_life.presentation.extensions.injectViewModel
 import com.elli0tt.rpg_life.presentation.screen.rewards_shop.di.RewardsShopComponent
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_rewards_shop.*
-import javax.inject.Inject
 
 class RewardsShopFragment : BaseFragment(R.layout.fragment_rewards_shop) {
 
@@ -62,13 +60,13 @@ class RewardsShopFragment : BaseFragment(R.layout.fragment_rewards_shop) {
 
     private fun showBuyDialog(position: Int) {
         AlertDialog.Builder(requireContext())
-                .setTitle(viewModel.rewardsList.value?.get(position)?.name ?: "")
-                .setPositiveButton(R.string.rewards_shop_buy_button_text) { _, _ ->
-                    viewModel.buyReward(position)
-                }
-                .setNeutralButton(R.string.rewards_shop_cancel_button_text) { _, _ ->
-                    // do nothing
-                }
-                .show()
+            .setTitle(viewModel.rewardsList.value?.get(position)?.name ?: "")
+            .setPositiveButton(R.string.rewards_shop_buy_button_text) { _, _ ->
+                viewModel.buyReward(position)
+            }
+            .setNeutralButton(R.string.rewards_shop_cancel_button_text) { _, _ ->
+                // do nothing
+            }
+            .show()
     }
 }

@@ -20,9 +20,9 @@ class AddEditSkillsCategoryFragment : BaseFragment() {
     private val args: AddEditSkillsCategoryFragmentArgs by navArgs()
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         initDagger()
 
@@ -44,7 +44,7 @@ class AddEditSkillsCategoryFragment : BaseFragment() {
 
     private fun initDagger() {
         addEditSkillsCategoryComponent = appComponent.addEditSkillCategoryComponentFactory()
-                .create()
+            .create()
         addEditSkillsCategoryComponent.inject(this)
 
         viewModel = injectViewModel(viewModelFactory)

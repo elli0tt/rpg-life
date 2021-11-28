@@ -47,7 +47,7 @@ android {
         }
     }
 
-    defaultConfig{
+    defaultConfig {
         manifestPlaceholders = [appName: "@string/app_name"]
     }
 

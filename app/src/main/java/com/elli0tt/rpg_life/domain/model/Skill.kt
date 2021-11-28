@@ -6,12 +6,13 @@ import kotlin.math.sqrt
 
 @Entity(tableName = "skills_table")
 data class Skill @JvmOverloads constructor(
-        @PrimaryKey(autoGenerate = true)
-        var id: Int = DEFAULT_ID,
-        var name: String = DEFAULT_NAME,
-        var timeSpentMillis: Long = DEFAULT_TIME_SPENT_MILLIS,
-        var totalXp: Long = DEFAULT_TOTAL_XP,
-        var categoryId: Int = DEFAULT_CATEGORY_ID) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = DEFAULT_ID,
+    var name: String = DEFAULT_NAME,
+    var timeSpentMillis: Long = DEFAULT_TIME_SPENT_MILLIS,
+    var totalXp: Long = DEFAULT_TOTAL_XP,
+    var categoryId: Int = DEFAULT_CATEGORY_ID
+) {
 
     companion object {
         const val DEFAULT_ID = 0

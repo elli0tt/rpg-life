@@ -37,9 +37,6 @@ import javax.inject.Inject;
 
 public class AddEditQuestViewModel extends ViewModel {
 
-    private String today;
-    private String tomorrow;
-
     private final MutableLiveData<String> name = new MutableLiveData<>();
     //    private MutableLiveData<String> description = new MutableLiveData<>("");
     private final MutableLiveData<Difficulty> difficulty =
@@ -54,19 +51,16 @@ public class AddEditQuestViewModel extends ViewModel {
             new MutableLiveData<>(R.string.add_edit_quest_repeat);
     private final MutableLiveData<Quest.RepeatState> repeatState =
             new MutableLiveData<>(Quest.RepeatState.NOT_SET);
-
     private final Calendar reminderDate = Calendar.getInstance();
-
     private final CompleteQuestUseCase completeQuestUseCase;
     private final QuestsRepository questsRepository;
-
     private final DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG);
     private final DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
     private final SimpleDateFormat dateAndTimeFormat = new SimpleDateFormat("d MMM, yyyy HH:mm",
             Locale.getDefault());
-
     private final WorkManager workManager;
-
+    private String today;
+    private String tomorrow;
     private Calendar startDate = Calendar.getInstance();
     private Calendar dateDue = Calendar.getInstance();
 

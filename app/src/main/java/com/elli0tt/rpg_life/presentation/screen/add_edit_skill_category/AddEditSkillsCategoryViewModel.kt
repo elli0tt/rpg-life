@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AddEditSkillsCategoryViewModel @Inject constructor(
-        private val skillsCategoryRepository: SkillsCategoriesRepository
+    private val skillsCategoryRepository: SkillsCategoriesRepository
 ) : ViewModel() {
 
     enum class Mode {

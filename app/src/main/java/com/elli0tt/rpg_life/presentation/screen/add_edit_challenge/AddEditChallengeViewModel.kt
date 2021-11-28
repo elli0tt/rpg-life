@@ -16,9 +16,9 @@ import java.util.*
 import javax.inject.Inject
 
 class AddEditChallengeViewModel @Inject constructor(
-        val questsRepository: QuestsRepository,
-        val skillsRepository: SkillsRepository,
-        private val failChallengeUseCase: FailChallengeUseCase
+    val questsRepository: QuestsRepository,
+    val skillsRepository: SkillsRepository,
+    private val failChallengeUseCase: FailChallengeUseCase
 ) : ViewModel() {
 
     var name = MutableLiveData("")

@@ -10,8 +10,8 @@ import com.elli0tt.rpg_life.domain.use_case.skills.GetAddSkillsDataUseCase
 import javax.inject.Inject
 
 class AddSkillsToQuestViewModel @Inject constructor(
-        private val getAddSkillsDataUseCase: GetAddSkillsDataUseCase,
-        private val questsRepository: QuestsRepository
+    private val getAddSkillsDataUseCase: GetAddSkillsDataUseCase,
+    private val questsRepository: QuestsRepository
 ) : ViewModel() {
 
     private val skillsFromDB: LiveData<List<AddSkillData>>
@@ -43,7 +43,11 @@ class AddSkillsToQuestViewModel @Inject constructor(
         if (skills != null) {
             for (skill in skills) {
                 if (skill.xpPercentage != AddSkillData.DEFAULT_XP_PERCENT) {
-                    questsRepository.insertRelatedSkill(questId.value!!, skill.id, skill.xpPercentage)
+                    questsRepository.insertRelatedSkill(
+                        questId.value!!,
+                        skill.id,
+                        skill.xpPercentage
+                    )
                 } else {
                     questsRepository.deleteRelatedSkill(questId.value!!, skill.id)
                 }

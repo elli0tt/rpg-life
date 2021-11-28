@@ -7,7 +7,8 @@ import com.elli0tt.rpg_life.domain.model.SkillsCategory
 import com.elli0tt.rpg_life.domain.repository.SkillsCategoriesRepository
 import javax.inject.Inject
 
-class SkillsCategoriesRepositoryImpl @Inject constructor(context: Context) : SkillsCategoriesRepository {
+class SkillsCategoriesRepositoryImpl @Inject constructor(context: Context) :
+    SkillsCategoriesRepository {
 
     private val skillsCategoriesDao = AppRoomDatabase.getDatabase(context).skillsCategoriesDao
 

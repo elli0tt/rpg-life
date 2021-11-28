@@ -9,8 +9,8 @@ import androidx.preference.SwitchPreferenceCompat
 import com.elli0tt.rpg_life.R
 
 
-class WhiteTitleSwitchPreferenceCompat(context: Context, attrs: AttributeSet?)
-    : SwitchPreferenceCompat(context, attrs) {
+class WhiteTitleSwitchPreferenceCompat(context: Context, attrs: AttributeSet?) :
+    SwitchPreferenceCompat(context, attrs) {
 
     override fun onBindViewHolder(holder: PreferenceViewHolder?) {
         super.onBindViewHolder(holder)

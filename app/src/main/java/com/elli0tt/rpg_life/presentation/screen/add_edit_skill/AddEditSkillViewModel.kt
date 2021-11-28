@@ -9,8 +9,8 @@ import com.elli0tt.rpg_life.domain.repository.SkillsRepository
 import javax.inject.Inject
 
 class AddEditSkillViewModel @Inject constructor(
-        private val skillsRepository: SkillsRepository,
-        private val skillsCategoriesRepository: SkillsCategoriesRepository
+    private val skillsRepository: SkillsRepository,
+    private val skillsCategoriesRepository: SkillsCategoriesRepository
 ) : ViewModel() {
 
     val name = MutableLiveData<String>()
@@ -47,7 +47,8 @@ class AddEditSkillViewModel @Inject constructor(
                 super.run()
                 skill = skillsRepository.getSkillById(skillId)
                 if (skill.categoryId != 0) {
-                    skillCategory = skillsCategoriesRepository.getSkillCategoryByIdSync(skill.categoryId)
+                    skillCategory =
+                        skillsCategoriesRepository.getSkillCategoryByIdSync(skill.categoryId)
                 }
                 onDataLoaded()
             }

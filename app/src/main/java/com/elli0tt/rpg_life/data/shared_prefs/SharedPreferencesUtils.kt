@@ -7,10 +7,11 @@ import com.google.gson.Gson
 class SharedPreferencesUtils(context: Context) {
 
     private val sharedPreferences =
-            context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
+        context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
 
     private companion object {
-        const val SHARED_PREFERENCES_NAME = "com.elli0tt.rpg_life.data.shared_prefs.SharedPreferencesUtils"
+        const val SHARED_PREFERENCES_NAME =
+            "com.elli0tt.rpg_life.data.shared_prefs.SharedPreferencesUtils"
 
         const val KEY_USER = "KEY_USER"
         const val KEY_TIME_LEFT_SECONDS = "time left seconds"
@@ -65,19 +66,24 @@ class SharedPreferencesUtils(context: Context) {
 
     var questsFilterState: QuestsFilterState
         get() {
-            val ordinal = sharedPreferences.getInt(KEY_QUESTS_FILTER_STATE,
-                    DEFAULT_QUESTS_FILTER_STATE.ordinal)
+            val ordinal = sharedPreferences.getInt(
+                KEY_QUESTS_FILTER_STATE,
+                DEFAULT_QUESTS_FILTER_STATE.ordinal
+            )
             return QuestsFilterState.values()[ordinal]
         }
         set(value) = sharedPreferences.edit().putInt(KEY_QUESTS_FILTER_STATE, value.ordinal).apply()
 
     var questsSortingState: QuestsSortingState
         get() {
-            val ordinal = sharedPreferences.getInt(KEY_QUESTS_SORTING_STATE,
-                    DEFAULT_QUESTS_SORTING_STATE.ordinal)
+            val ordinal = sharedPreferences.getInt(
+                KEY_QUESTS_SORTING_STATE,
+                DEFAULT_QUESTS_SORTING_STATE.ordinal
+            )
             return QuestsSortingState.values()[ordinal]
         }
-        set(value) = sharedPreferences.edit().putInt(KEY_QUESTS_SORTING_STATE, value.ordinal).apply()
+        set(value) = sharedPreferences.edit().putInt(KEY_QUESTS_SORTING_STATE, value.ordinal)
+            .apply()
 
     var isShowCompleted: Boolean
         get() = sharedPreferences.getBoolean(KEY_SHOW_COMPLETED, DEFAULT_IS_SHOW_COMPLETED)
@@ -85,9 +91,12 @@ class SharedPreferencesUtils(context: Context) {
 
     var skillsSortingState: SkillsSortingState
         get() {
-            val ordinal = sharedPreferences.getInt(KEY_SKILLS_SORTING_STATE,
-                    SkillsSortingState.NAME_ASC.ordinal)
+            val ordinal = sharedPreferences.getInt(
+                KEY_SKILLS_SORTING_STATE,
+                SkillsSortingState.NAME_ASC.ordinal
+            )
             return SkillsSortingState.values()[ordinal]
         }
-        set(value) = sharedPreferences.edit().putInt(KEY_SKILLS_SORTING_STATE, value.ordinal).apply()
+        set(value) = sharedPreferences.edit().putInt(KEY_SKILLS_SORTING_STATE, value.ordinal)
+            .apply()
 }

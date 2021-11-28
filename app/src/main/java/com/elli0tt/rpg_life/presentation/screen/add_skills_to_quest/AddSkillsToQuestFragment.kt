@@ -66,11 +66,11 @@ class AddSkillsToQuestFragment : BaseFragment(R.layout.fragment_add_skills_to_qu
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 
         addSkillsToQuestAdapter.onXpPercentageSeekBarTouchStopListener =
-                object : AddSkillsToQuestAdapter.OnXpPercentageSeekBarTouchStopListener {
-                    override fun onTouchStop(position: Int, xpPercentage: Int) {
-                        viewModel.onXpPercentageSeekBarTouchStop(position, xpPercentage)
-                    }
+            object : AddSkillsToQuestAdapter.OnXpPercentageSeekBarTouchStopListener {
+                override fun onTouchStop(position: Int, xpPercentage: Int) {
+                    viewModel.onXpPercentageSeekBarTouchStop(position, xpPercentage)
                 }
+            }
     }
 
     private fun setupToolbar() {

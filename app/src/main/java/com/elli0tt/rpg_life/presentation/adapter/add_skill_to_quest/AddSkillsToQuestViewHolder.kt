@@ -7,9 +7,10 @@ import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.domain.model.AddSkillData
 import com.google.android.material.slider.Slider
 
-class AddSkillsToQuestViewHolder(itemView: View,
-                                 onXpPercentageSeekBarTouchStopListener: AddSkillsToQuestAdapter.OnXpPercentageSeekBarTouchStopListener)
-    : RecyclerView.ViewHolder(itemView) {
+class AddSkillsToQuestViewHolder(
+    itemView: View,
+    onXpPercentageSeekBarTouchStopListener: AddSkillsToQuestAdapter.OnXpPercentageSeekBarTouchStopListener
+) : RecyclerView.ViewHolder(itemView) {
 
     private val nameTextView: TextView = itemView.findViewById(R.id.nameTextView)
     private val xpPercentageSlider: Slider = itemView.findViewById(R.id.xp_percentage_seek_bar)
@@ -17,7 +18,8 @@ class AddSkillsToQuestViewHolder(itemView: View,
 
     init {
         xpPercentageSlider.addOnChangeListener { slider, value, fromUser ->
-            xpValueTextView.text = itemView.context.getString(R.string.add_skills_to_quest_xp_percent, value.toInt())
+            xpValueTextView.text =
+                itemView.context.getString(R.string.add_skills_to_quest_xp_percent, value.toInt())
         }
 
         xpPercentageSlider.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
@@ -26,7 +28,10 @@ class AddSkillsToQuestViewHolder(itemView: View,
             }
 
             override fun onStopTrackingTouch(slider: Slider) {
-                onXpPercentageSeekBarTouchStopListener.onTouchStop(adapterPosition, slider.value.toInt())
+                onXpPercentageSeekBarTouchStopListener.onTouchStop(
+                    adapterPosition,
+                    slider.value.toInt()
+                )
             }
         })
 //        xpPercentageSlider.setOnsetOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -47,7 +52,9 @@ class AddSkillsToQuestViewHolder(itemView: View,
     fun bind(skill: AddSkillData) {
         nameTextView.text = skill.name
         xpPercentageSlider.value = skill.xpPercentage.toFloat()
-        xpValueTextView.text = itemView.context.getString(R.string.add_skills_to_quest_xp_percent,
-                xpPercentageSlider.value.toInt())
+        xpValueTextView.text = itemView.context.getString(
+            R.string.add_skills_to_quest_xp_percent,
+            xpPercentageSlider.value.toInt()
+        )
     }
 }

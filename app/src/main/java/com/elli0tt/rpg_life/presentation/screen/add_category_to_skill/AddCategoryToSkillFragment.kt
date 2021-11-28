@@ -57,10 +57,10 @@ class AddCategoryToSkillFragment : BaseFragment(R.layout.fragment_add_category_t
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 
         addCategoryToSkillAdapter.onItemClickListener =
-                AddCategoryToSkillAdapter.OnItemClickListener { position ->
-                    viewModel.updateCategory(position, args.skillId)
-                    navController.popBackStack()
-                }
+            AddCategoryToSkillAdapter.OnItemClickListener { position ->
+                viewModel.updateCategory(position, args.skillId)
+                navController.popBackStack()
+            }
     }
 
     private fun subscribeToViewModel() {
@@ -82,7 +82,8 @@ class AddCategoryToSkillFragment : BaseFragment(R.layout.fragment_add_category_t
     }
 
     private fun navigateToAddSkillsCategoryScreen() {
-        val action = AddCategoryToSkillFragmentDirections.actionAddCategoryToSkillScreenToAddEditSkillCategoryScreen()
+        val action =
+            AddCategoryToSkillFragmentDirections.actionAddCategoryToSkillScreenToAddEditSkillCategoryScreen()
         navController.navigate(action)
     }
 }

@@ -10,7 +10,7 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindCountDownTimerRepository(
-            countDownTimerRepositoryImpl: CountDownTimerRepositoryImpl
+        countDownTimerRepositoryImpl: CountDownTimerRepositoryImpl
     ): CountDownTimerRepository
 
     @Binds
@@ -21,7 +21,7 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindSkillsCategoriesRepository(
-            skillsCategoriesRepositoryImpl: SkillsCategoriesRepositoryImpl
+        skillsCategoriesRepositoryImpl: SkillsCategoriesRepositoryImpl
     ): SkillsCategoriesRepository
 
     @Binds

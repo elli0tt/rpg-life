@@ -6,13 +6,16 @@ import com.elli0tt.rpg_life.domain.repository.SkillsRepository
 import javax.inject.Inject
 
 class AddCategoryToSkillViewModel @Inject constructor(
-        private val skillsCategoriesRepository: SkillsCategoriesRepository,
-        private val skillsRepository: SkillsRepository
+    private val skillsCategoriesRepository: SkillsCategoriesRepository,
+    private val skillsRepository: SkillsRepository
 ) : ViewModel() {
 
     val skillsCategoriesToShow = skillsCategoriesRepository.getAllSkillsCategories()
 
     fun updateCategory(position: Int, skillId: Int) {
-        skillsRepository.updateSkillCategoryById(skillId, skillsCategoriesToShow.value?.get(position)!!.id)
+        skillsRepository.updateSkillCategoryById(
+            skillId,
+            skillsCategoriesToShow.value?.get(position)!!.id
+        )
     }
 }

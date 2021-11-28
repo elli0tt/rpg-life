@@ -1,5 +1,7 @@
 package com.elli0tt.rpg_life.presentation.screen.faq;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -12,8 +14,6 @@ import androidx.appcompat.widget.AppCompatImageView;
 
 import com.elli0tt.rpg_life.R;
 import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment;
-
-import static android.app.Activity.RESULT_OK;
 
 public class FAQFragment extends BaseFragment {
 

@@ -17,7 +17,7 @@ class RewardsShopAdapter : ListAdapter<OldReward, RewardsShopViewHolder>(DIFF_CA
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RewardsShopViewHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.list_item_rewards_shop, parent, false)
+            .inflate(R.layout.list_item_rewards_shop, parent, false)
         return RewardsShopViewHolder(view)
     }
 
