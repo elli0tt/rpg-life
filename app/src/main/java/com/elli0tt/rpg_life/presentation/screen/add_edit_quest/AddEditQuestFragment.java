@@ -56,6 +56,9 @@ public class AddEditQuestFragment extends BaseFragment {
             ".add_edit_quest_extra_notification_id";
 
     private static final int REQUEST_PERMISSIONS = 1000;
+
+    private AddEditQuestViewModel viewModel;
+
     private final View.OnFocusChangeListener onEditTextsFocusChangeListener = (view, hasFocus) -> {
 //        if (hasFocus) {
 //            SoftKeyboardUtil.showKeyboard(view, getActivity());
@@ -63,26 +66,7 @@ public class AddEditQuestFragment extends BaseFragment {
 //            SoftKeyboardUtil.hideKeyboard(view, getActivity());
 //        }
     };
-    private final View.OnClickListener onAddStartTimeViewClickListener = v -> {
-        SoftKeyboardUtil.hideKeyboard(v, getActivity());
-        pickTime(onStartTimeSetListener);
-    };
-    private final View.OnClickListener onAddTimeDueViewClickListener = v -> {
-        SoftKeyboardUtil.hideKeyboard(v, getActivity());
-        pickTime(onTimeDueSetListener);
-    };
-    private final View.OnClickListener onAddReminderViewClickListener = v ->
-            pickDate(onReminderDateSetListener);
-    private final View.OnClickListener onRemoveReminderViewClickListener = v -> {
-        //do nothing
-    };
-    @Inject
-    public ViewModelProvider.Factory viewModelFactory;
-    private AddEditQuestComponent addEditQuestComponent;
-    private FragmentAddEditQuestBinding binding;
-    private SubQuestsAdapter subQuestsAdapter;
-    private NavController navController;
-    private AddEditQuestViewModel viewModel;
+
     private final TimePickerDialog.OnTimeSetListener onStartTimeSetListener =
             (view, hourOfDay, minute) -> viewModel.setStartTime(hourOfDay, minute);
     private final TimePickerDialog.OnTimeSetListener onTimeDueSetListener =
@@ -97,6 +81,28 @@ public class AddEditQuestFragment extends BaseFragment {
         viewModel.setReminderDate(year, month, dayOfMonth);
         pickTime(onReminderTimeSetListener);
     };
+
+    private final View.OnClickListener onAddStartTimeViewClickListener = v -> {
+        SoftKeyboardUtil.hideKeyboard(v, getActivity());
+        pickTime(onStartTimeSetListener);
+    };
+    private final View.OnClickListener onAddTimeDueViewClickListener = v -> {
+        SoftKeyboardUtil.hideKeyboard(v, getActivity());
+        pickTime(onTimeDueSetListener);
+    };
+    private final View.OnClickListener onAddReminderViewClickListener = v ->
+            pickDate(onReminderDateSetListener);
+    private final View.OnClickListener onRemoveReminderViewClickListener = v -> {
+        //do nothing
+    };
+
+    @Inject
+    public ViewModelProvider.Factory viewModelFactory;
+    private AddEditQuestComponent addEditQuestComponent;
+    private FragmentAddEditQuestBinding binding;
+    private SubQuestsAdapter subQuestsAdapter;
+    private NavController navController;
+
     private final View.OnClickListener onRemoveDateDueViewClickListener =
             new View.OnClickListener() {
                 @Override

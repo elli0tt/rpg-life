@@ -3,6 +3,7 @@ package com.elli0tt.rpg_life.presentation.screen.rewards_progress_list
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.elli0tt.rpg_life.domain.constants.Constants
 import com.elli0tt.rpg_life.domain.model.RewardProgress
 import java.util.*
 import javax.inject.Inject
@@ -25,12 +26,26 @@ class RewardsProgressListViewModel @Inject constructor() : ViewModel() {
         val size = 50
         val result = ArrayList<RewardProgress>(size)
 
+        result.add(
+            RewardProgress(
+                name = "+1 глава книги в день",
+                startTimeInMillis = Calendar.getInstance().timeInMillis - Constants.MILLIS_IN_24_HOURS,
+                endTimeInMillis = Calendar.getInstance().timeInMillis + Constants.MILLIS_IN_24_HOURS * 2
+            )
+        )
+        result.add(
+            RewardProgress(
+                name = "+1 глава книги в день",
+                startTimeInMillis = Calendar.getInstance().timeInMillis - Constants.MILLIS_IN_24_HOURS * 2,
+                endTimeInMillis = Calendar.getInstance().timeInMillis - Constants.MILLIS_IN_24_HOURS
+            )
+        )
         repeat(size) {
             result.add(
                 RewardProgress(
                     name = "+1 глава книги в день",
                     startTimeInMillis = Calendar.getInstance().timeInMillis,
-                    endTimeInMillis = Calendar.getInstance().timeInMillis
+                    endTimeInMillis = Calendar.getInstance().timeInMillis + Constants.MILLIS_IN_24_HOURS
                 )
             )
         }

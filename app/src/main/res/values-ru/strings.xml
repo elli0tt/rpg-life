@@ -126,4 +126,10 @@
     <string name="rewards_shop_toolbar_title">Магазин наград</string>
     <string name="character_rewards_shop">Магазин наград</string>
     <string name="nav_rewards_shop">Награды</string>
+    <plurals name="rewards_progress_list_days_left">
+        <item quantity="zero">Осталось меньше суток</item>
+        <item quantity="one">Остался %1$d день</item>
+        <item quantity="few">Осталось %1$d дня</item>
+        <item quantity="many">Осталось %1$d дней</item>
+    </plurals>
 </resources>

@@ -236,7 +236,7 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
 
         private void findViews() {
             isCompletedCheckBox = itemView.findViewById(R.id.is_completed_check_box);
-            nameTextView = itemView.findViewById(R.id.name_text_view);
+            nameTextView = itemView.findViewById(R.id.nameTextView);
             difficultyTextView = itemView.findViewById(R.id.difficulty_text_view);
             isImportantLikeButton = itemView.findViewById(R.id.is_important_like_button);
             dateDueTextView = itemView.findViewById(R.id.date_due_text_view);
@@ -270,50 +270,50 @@ public class QuestsAdapter extends ListAdapter<Quest, QuestsAdapter.QuestsViewHo
         private void setConstraints(Quest quest) {
             if (quest.getDifficulty().equals(Difficulty.NOT_SET)) {
                 constraintSet.setMargin(R.id.date_due_text_view, ConstraintSet.START, 0);
-                constraintSet.connect(R.id.name_text_view, ConstraintSet.BOTTOM,
+                constraintSet.connect(R.id.nameTextView, ConstraintSet.BOTTOM,
                         R.id.date_due_text_view, ConstraintSet.TOP);
                 if (quest.getDateDueState().equals(Quest.DateState.NOT_SET)) {
                     constraintSet.connect(R.id.has_subquests_image_view, ConstraintSet.START,
                             R.id.is_completed_check_box, ConstraintSet.END, 0);
                     if (!quest.getHasSubquests()) {
-                        constraintSet.setMargin(R.id.name_text_view, ConstraintSet.TOP, 0);
-                        constraintSet.connect(R.id.name_text_view, ConstraintSet.BOTTOM,
+                        constraintSet.setMargin(R.id.nameTextView, ConstraintSet.TOP, 0);
+                        constraintSet.connect(R.id.nameTextView, ConstraintSet.BOTTOM,
                                 ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM);
                         constraintSet.connect(R.id.date_due_text_view, ConstraintSet.TOP,
                                 ConstraintSet.PARENT_ID, ConstraintSet.TOP);
                     } else {
-                        constraintSet.setMargin(R.id.name_text_view, ConstraintSet.TOP,
+                        constraintSet.setMargin(R.id.nameTextView, ConstraintSet.TOP,
                                 (int) getDimension(R.dimen.list_item_quest_start_start_margin_small));
-                        constraintSet.connect(R.id.name_text_view, ConstraintSet.BOTTOM,
+                        constraintSet.connect(R.id.nameTextView, ConstraintSet.BOTTOM,
                                 R.id.date_due_text_view, ConstraintSet.TOP);
                         constraintSet.connect(R.id.date_due_text_view, ConstraintSet.TOP,
-                                R.id.name_text_view, ConstraintSet.BOTTOM);
+                                R.id.nameTextView, ConstraintSet.BOTTOM);
                     }
                 } else {
                     constraintSet.connect(R.id.has_subquests_image_view, ConstraintSet.START,
                             R.id.repeat_image_view, ConstraintSet.END,
                             (int) getDimension(R.dimen.list_item_quest_start_start_margin_small));
-                    constraintSet.setMargin(R.id.name_text_view, ConstraintSet.TOP,
+                    constraintSet.setMargin(R.id.nameTextView, ConstraintSet.TOP,
                             (int) getDimension(R.dimen.list_item_quest_start_start_margin_small));
-                    constraintSet.connect(R.id.name_text_view, ConstraintSet.BOTTOM,
+                    constraintSet.connect(R.id.nameTextView, ConstraintSet.BOTTOM,
                             R.id.date_due_text_view, ConstraintSet.TOP);
                     constraintSet.connect(R.id.date_due_text_view, ConstraintSet.TOP,
-                            R.id.name_text_view, ConstraintSet.BOTTOM);
+                            R.id.nameTextView, ConstraintSet.BOTTOM);
                 }
             } else {
                 constraintSet.setMargin(R.id.date_due_text_view, ConstraintSet.START,
                         (int) getDimension(R.dimen.list_item_quest_start_start_margin_small));
-                constraintSet.connect(R.id.name_text_view, ConstraintSet.BOTTOM,
+                constraintSet.connect(R.id.nameTextView, ConstraintSet.BOTTOM,
                         R.id.difficulty_text_view, ConstraintSet.TOP);
                 constraintSet.connect(R.id.has_subquests_image_view, ConstraintSet.START,
                         R.id.repeat_image_view, ConstraintSet.END,
                         (int) getDimension(R.dimen.list_item_quest_start_start_margin_small));
-                constraintSet.setMargin(R.id.name_text_view, ConstraintSet.TOP,
+                constraintSet.setMargin(R.id.nameTextView, ConstraintSet.TOP,
                         (int) getDimension(R.dimen.list_item_quest_start_start_margin_small));
-                constraintSet.connect(R.id.name_text_view, ConstraintSet.BOTTOM,
+                constraintSet.connect(R.id.nameTextView, ConstraintSet.BOTTOM,
                         R.id.date_due_text_view, ConstraintSet.TOP);
                 constraintSet.connect(R.id.date_due_text_view, ConstraintSet.TOP,
-                        R.id.name_text_view, ConstraintSet.BOTTOM);
+                        R.id.nameTextView, ConstraintSet.BOTTOM);
             }
 
             constraintSet.applyTo(constraintLayout);

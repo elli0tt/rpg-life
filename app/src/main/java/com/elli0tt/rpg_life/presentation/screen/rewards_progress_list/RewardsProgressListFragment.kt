@@ -5,7 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.elli0tt.rpg_life.R
-import com.elli0tt.rpg_life.presentation.adapter.rewards_list.RewardsListAdapter
+import com.elli0tt.rpg_life.presentation.adapter.rewards_list.RewardsProgressAdapter
 import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment
 import com.elli0tt.rpg_life.presentation.extensions.injectViewModel
 import com.elli0tt.rpg_life.presentation.screen.rewards_progress_list.di.RewardsProgressListComponent
@@ -17,7 +17,7 @@ class RewardsProgressListFragment : BaseFragment(R.layout.fragment_rewards_list)
 
     private lateinit var viewModel: RewardsProgressListViewModel
 
-    private val rewardsRecyclerAdapter = RewardsListAdapter()
+    private val rewardsRecyclerAdapter = RewardsProgressAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

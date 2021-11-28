@@ -24,7 +24,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/name_text_view"
+            android:id="@+id/nameTextView"
             style="@style/QuestsTextViewMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
             android:textColor="@color/colorSecondary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/is_completed_check_box"
-            app:layout_constraintTop_toBottomOf="@id/name_text_view"
+            app:layout_constraintTop_toBottomOf="@id/nameTextView"
             tools:text="Impossible" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -55,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@id/difficulty_text_view"
-            app:layout_constraintTop_toBottomOf="@id/name_text_view"
+            app:layout_constraintTop_toBottomOf="@id/nameTextView"
             tools:text="128"
             tools:visibility="gone" />
 
@@ -84,7 +84,7 @@
             android:layout_marginStart="@dimen/list_item_quest_start_start_margin_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/difficulty_text_view"
-            app:layout_constraintTop_toBottomOf="@id/name_text_view"
+            app:layout_constraintTop_toBottomOf="@id/nameTextView"
             tools:text="31 Aug, 2020" />
 
         <androidx.appcompat.widget.AppCompatImageView
