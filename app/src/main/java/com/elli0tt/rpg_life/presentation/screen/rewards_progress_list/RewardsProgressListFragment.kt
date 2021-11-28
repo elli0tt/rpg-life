@@ -1,4 +1,4 @@
-package com.elli0tt.rpg_life.presentation.screen.rewards_list
+package com.elli0tt.rpg_life.presentation.screen.rewards_progress_list
 
 import android.os.Bundle
 import android.view.View
@@ -8,14 +8,14 @@ import com.elli0tt.rpg_life.R
 import com.elli0tt.rpg_life.presentation.adapter.rewards_list.RewardsListAdapter
 import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment
 import com.elli0tt.rpg_life.presentation.extensions.injectViewModel
-import com.elli0tt.rpg_life.presentation.screen.rewards_list.di.RewardsListComponent
+import com.elli0tt.rpg_life.presentation.screen.rewards_progress_list.di.RewardsProgressListComponent
 import kotlinx.android.synthetic.main.fragment_rewards_list.*
 
-class RewardsListFragment : BaseFragment(R.layout.fragment_rewards_list) {
+class RewardsProgressListFragment : BaseFragment(R.layout.fragment_rewards_list) {
 
-    private lateinit var rewardsListComponent: RewardsListComponent
+    private lateinit var rewardsProgressListComponent: RewardsProgressListComponent
 
-    private lateinit var viewModel: RewardsListViewModel
+    private lateinit var viewModel: RewardsProgressListViewModel
 
     private val rewardsRecyclerAdapter = RewardsListAdapter()
 
@@ -28,8 +28,8 @@ class RewardsListFragment : BaseFragment(R.layout.fragment_rewards_list) {
     }
 
     private fun initDagger() {
-        rewardsListComponent = appComponent.rewardsListComponent().create()
-        rewardsListComponent.inject(this)
+        rewardsProgressListComponent = appComponent.rewardsListComponent().create()
+        rewardsProgressListComponent.inject(this)
 
         viewModel = injectViewModel(viewModelFactory)
     }

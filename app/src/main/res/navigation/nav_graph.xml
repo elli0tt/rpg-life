@@ -242,6 +242,6 @@
         android:label="RewardsShopFragment" />
     <fragment
         android:id="@+id/rewards_list_screen"
-        android:name="com.elli0tt.rpg_life.presentation.screen.rewards_list.RewardsListFragment"
+        android:name="com.elli0tt.rpg_life.presentation.screen.rewards_progress_list.RewardsProgressListFragment"
         tools:layout="@layout/fragment_rewards_list" />
 </navigation>

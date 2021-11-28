@@ -3,10 +3,10 @@ package com.elli0tt.rpg_life.presentation.adapter.rewards_list
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.elli0tt.rpg_life.R
-import com.elli0tt.rpg_life.domain.model.Reward
+import com.elli0tt.rpg_life.domain.model.RewardProgress
 import com.elliot.patientapp.presentation.adapter.base.BaseListAdapter
 
-class RewardsListAdapter : BaseListAdapter<Reward, RewardsListViewHolder>() {
+class RewardsListAdapter : BaseListAdapter<RewardProgress, RewardsListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RewardsListViewHolder {
         val itemView = LayoutInflater.from(parent.context)
