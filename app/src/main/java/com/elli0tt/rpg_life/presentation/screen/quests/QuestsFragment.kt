@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.preference.PreferenceManager
@@ -27,12 +26,8 @@ import com.elli0tt.rpg_life.presentation.extensions.injectViewModel
 import com.elli0tt.rpg_life.presentation.screen.quests.di.QuestsComponent
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.view_fab_menu_card.view.*
-import javax.inject.Inject
 
 class QuestsFragment : BaseFragment(R.layout.fragment_quests) {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var questsComponent: QuestsComponent
 

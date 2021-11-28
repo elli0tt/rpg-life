@@ -6,7 +6,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
@@ -17,12 +16,8 @@ import com.elli0tt.rpg_life.presentation.adapter.add_skill_to_quest.AddSkillsToQ
 import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment
 import com.elli0tt.rpg_life.presentation.extensions.injectViewModel
 import com.elli0tt.rpg_life.presentation.screen.add_skills_to_quest.di.AddSkillsToQuestComponent
-import javax.inject.Inject
 
 class AddSkillsToQuestFragment : BaseFragment(R.layout.fragment_add_skills_to_quest) {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var addSkillsToQuestComponent: AddSkillsToQuestComponent
 

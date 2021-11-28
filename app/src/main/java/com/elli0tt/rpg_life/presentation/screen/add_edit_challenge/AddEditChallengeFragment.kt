@@ -25,12 +25,8 @@ import com.elli0tt.rpg_life.presentation.screen.add_edit_challenge.di.AddEditCha
 import com.elli0tt.rpg_life.presentation.screen.add_edit_quest.DifficultyPopupMenuIds
 import com.elli0tt.rpg_life.presentation.utils.SoftKeyboardUtil
 import java.util.*
-import javax.inject.Inject
 
 class AddEditChallengeFragment : BaseFragment() {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var addEditChallengeComponent: AddEditChallengeComponent
 

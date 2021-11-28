@@ -5,7 +5,6 @@ import android.view.*
 import android.view.View.OnFocusChangeListener
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
@@ -15,12 +14,8 @@ import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment
 import com.elli0tt.rpg_life.presentation.extensions.injectViewModel
 import com.elli0tt.rpg_life.presentation.screen.add_edit_skill.di.AddEditSkillComponent
 import com.elli0tt.rpg_life.presentation.utils.SoftKeyboardUtil
-import javax.inject.Inject
 
 class AddEditSkillFragment : BaseFragment() {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var addEditSkillComponent: AddEditSkillComponent
 

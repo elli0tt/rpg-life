@@ -17,9 +17,9 @@
         android:icon="@drawable/ic_round_import_contacts_white_24"
         android:title="@string/nav_quests" />
     <item
-        android:id="@+id/statistics_screen"
+        android:id="@+id/rewards_list_screen"
         android:icon="@drawable/ic_round_timeline_white_24"
-        android:title="@string/nav_statistics" />
+        android:title="@string/nav_rewards_list" />
     <item
         android:id="@+id/settings_screen"
         android:icon="@drawable/ic_round_settings_white_24"

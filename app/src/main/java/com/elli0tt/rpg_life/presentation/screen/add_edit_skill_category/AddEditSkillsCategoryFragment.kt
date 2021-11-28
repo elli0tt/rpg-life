@@ -4,18 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.elli0tt.rpg_life.databinding.FragmentAddEditSkillCategoryBinding
 import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment
 import com.elli0tt.rpg_life.presentation.extensions.injectViewModel
 import com.elli0tt.rpg_life.presentation.screen.add_edit_skill_category.di.AddEditSkillsCategoryComponent
-import javax.inject.Inject
 
 class AddEditSkillsCategoryFragment : BaseFragment() {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var addEditSkillsCategoryComponent: AddEditSkillsCategoryComponent
 

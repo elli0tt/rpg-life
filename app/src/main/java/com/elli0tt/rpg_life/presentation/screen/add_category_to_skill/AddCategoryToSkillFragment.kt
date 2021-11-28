@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
@@ -16,13 +15,8 @@ import com.elli0tt.rpg_life.presentation.adapter.add_category_to_skill.AddCatego
 import com.elli0tt.rpg_life.presentation.core.fragment.BaseFragment
 import com.elli0tt.rpg_life.presentation.extensions.injectViewModel
 import com.elli0tt.rpg_life.presentation.screen.add_category_to_skill.di.AddCategoryToSkillComponent
-import timber.log.Timber
-import javax.inject.Inject
 
 class AddCategoryToSkillFragment : BaseFragment(R.layout.fragment_add_category_to_skill) {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var addCategoryToSkillComponent: AddCategoryToSkillComponent
 

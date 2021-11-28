@@ -240,6 +240,8 @@
         android:id="@+id/rewards_shop_screen"
         android:name="com.elli0tt.rpg_life.presentation.screen.rewards_shop.RewardsShopFragment"
         android:label="RewardsShopFragment" />
-
-
+    <fragment
+        android:id="@+id/rewards_list_screen"
+        tools:layout="@layout/fragment_rewards_list"
+        android:name="com.elli0tt.rpg_life.presentation.screen.rewards_list.RewardsListFragment" />
 </navigation>

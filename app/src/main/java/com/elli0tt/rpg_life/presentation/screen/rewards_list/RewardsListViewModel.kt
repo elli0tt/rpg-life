@@ -5,9 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.elli0tt.rpg_life.domain.model.Reward
 import java.util.*
+import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-class RewardsListViewModel : ViewModel() {
+class RewardsListViewModel @Inject constructor() : ViewModel() {
 
     private var _rewardsList = MutableLiveData<List<Reward>>()
     val rewardsList: LiveData<List<Reward>> = _rewardsList
