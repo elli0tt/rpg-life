@@ -56,6 +56,9 @@ class RewardsProgressViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVi
             if (result > MAX_PERCENT) {
                 return MAX_PERCENT
             }
+            if (result < 0) {
+                return 0
+            }
             return result
         }
     }
