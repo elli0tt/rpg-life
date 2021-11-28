@@ -28,7 +28,7 @@ class RewardsProgressListFragment : BaseFragment(R.layout.fragment_rewards_list)
     }
 
     private fun initDagger() {
-        rewardsProgressListComponent = appComponent.rewardsListComponent().create()
+        rewardsProgressListComponent = appComponent.rewardsListComponentFactory().create()
         rewardsProgressListComponent.inject(this)
 
         viewModel = injectViewModel(viewModelFactory)

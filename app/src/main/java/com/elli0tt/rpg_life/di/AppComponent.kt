@@ -25,6 +25,7 @@ import com.elli0tt.rpg_life.presentation.screen.countdown_timer.di.CountDownComp
 import com.elli0tt.rpg_life.presentation.screen.countdown_timer.di.CountDownModule
 import com.elli0tt.rpg_life.presentation.screen.quests.di.QuestsComponent
 import com.elli0tt.rpg_life.presentation.screen.quests.di.QuestsModule
+import com.elli0tt.rpg_life.presentation.screen.reward_progress_detail.di.RewardProgressDetailComponent
 import com.elli0tt.rpg_life.presentation.screen.rewards_progress_list.di.RewardsProgressListComponent
 import com.elli0tt.rpg_life.presentation.screen.rewards_progress_list.di.RewardsProgressListModule
 import com.elli0tt.rpg_life.presentation.screen.rewards_shop.di.RewardsShopComponent
@@ -56,6 +57,7 @@ import javax.inject.Singleton
         CharacterModule::class,
         CountDownModule::class,
         QuestsModule::class,
+        RewardProgressDetailComponent::class,
         RewardsProgressListModule::class,
         RewardsShopModule::class,
         SkillsModule::class,
@@ -80,7 +82,8 @@ interface AppComponent {
     fun characterComponentFactory(): CharacterComponent.Factory
     fun countDownComponentFactory(): CountDownComponent.Factory
     fun questsComponentFactory(): QuestsComponent.Factory
-    fun rewardsListComponent(): RewardsProgressListComponent.Factory
+    fun rewardProgressDetailComponentFactory(): RewardProgressDetailComponent.Factory
+    fun rewardsListComponentFactory(): RewardsProgressListComponent.Factory
     fun rewardsShopComponentFactory(): RewardsShopComponent.Factory
     fun skillsComponentFactory(): SkillsComponent.Factory
     fun statisticsComponentFactory(): StatisticsComponent.Factory
