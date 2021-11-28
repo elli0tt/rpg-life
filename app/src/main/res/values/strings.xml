@@ -142,4 +142,6 @@
     <string name="rewards_shop_buy_button_text">Buy</string>
     <string name="rewards_shop_cancel_button_text">Cancel</string>
     <string name="rewards_shop_not_enough_money">Not enough money</string>
+
+    <string name="rewards_list_date">%1$s - %2$s</string>
 </resources>

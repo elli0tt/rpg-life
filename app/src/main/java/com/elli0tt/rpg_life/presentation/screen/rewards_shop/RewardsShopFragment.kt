@@ -15,9 +15,6 @@ import javax.inject.Inject
 
 class RewardsShopFragment : BaseFragment(R.layout.fragment_rewards_shop) {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
     private lateinit var rewardsShopComponent: RewardsShopComponent
 
     private lateinit var viewModel: RewardsShopViewModel

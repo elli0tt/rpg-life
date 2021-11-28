@@ -25,6 +25,8 @@ import com.elli0tt.rpg_life.presentation.screen.countdown_timer.di.CountDownComp
 import com.elli0tt.rpg_life.presentation.screen.countdown_timer.di.CountDownModule
 import com.elli0tt.rpg_life.presentation.screen.quests.di.QuestsComponent
 import com.elli0tt.rpg_life.presentation.screen.quests.di.QuestsModule
+import com.elli0tt.rpg_life.presentation.screen.rewards_list.di.RewardsListComponent
+import com.elli0tt.rpg_life.presentation.screen.rewards_list.di.RewardsListModule
 import com.elli0tt.rpg_life.presentation.screen.rewards_shop.di.RewardsShopComponent
 import com.elli0tt.rpg_life.presentation.screen.rewards_shop.di.RewardsShopModule
 import com.elli0tt.rpg_life.presentation.screen.skills.di.SkillsComponent
@@ -38,26 +40,29 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [
-    AppModule::class,
-    RepositoryModule::class,
-    ViewModelModule::class,
-    WorkManagerModule::class,
-    AddCategoryToSkillModule::class,
-    AddEditChallengeModule::class,
-    AddEditCharacteristicModule::class,
-    AddEditQuestModule::class,
-    AddEditSkillModule::class,
-    AddEditSkillsCategoryModule::class,
-    AddSkillsToQuestModule::class,
-    CharacterModule::class,
-    CountDownModule::class,
-    QuestsModule::class,
-    RewardsShopModule::class,
-    SkillsModule::class,
-    StatisticsModule::class,
-    StopwatchModule::class
-])
+@Component(
+    modules = [
+        AppModule::class,
+        RepositoryModule::class,
+        ViewModelModule::class,
+        WorkManagerModule::class,
+        AddCategoryToSkillModule::class,
+        AddEditChallengeModule::class,
+        AddEditCharacteristicModule::class,
+        AddEditQuestModule::class,
+        AddEditSkillModule::class,
+        AddEditSkillsCategoryModule::class,
+        AddSkillsToQuestModule::class,
+        CharacterModule::class,
+        CountDownModule::class,
+        QuestsModule::class,
+        RewardsListModule::class,
+        RewardsShopModule::class,
+        SkillsModule::class,
+        StatisticsModule::class,
+        StopwatchModule::class
+    ]
+)
 interface AppComponent {
 
     @Component.Factory
@@ -75,6 +80,7 @@ interface AppComponent {
     fun characterComponentFactory(): CharacterComponent.Factory
     fun countDownComponentFactory(): CountDownComponent.Factory
     fun questsComponentFactory(): QuestsComponent.Factory
+    fun rewardsListComponent(): RewardsListComponent.Factory
     fun rewardsShopComponentFactory(): RewardsShopComponent.Factory
     fun skillsComponentFactory(): SkillsComponent.Factory
     fun statisticsComponentFactory(): StatisticsComponent.Factory

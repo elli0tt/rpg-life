@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.elli0tt.rpg_life.R
-import com.elli0tt.rpg_life.domain.model.Reward
+import com.elli0tt.rpg_life.domain.model.OldReward
 
-class RewardsShopAdapter : ListAdapter<Reward, RewardsShopViewHolder>(DIFF_CALLBACK) {
+class RewardsShopAdapter : ListAdapter<OldReward, RewardsShopViewHolder>(DIFF_CALLBACK) {
 
     fun interface OnItemClickListener {
         fun onItemClick(position: Int)
@@ -26,12 +26,12 @@ class RewardsShopAdapter : ListAdapter<Reward, RewardsShopViewHolder>(DIFF_CALLB
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Reward>() {
-            override fun areItemsTheSame(oldItem: Reward, newItem: Reward): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<OldReward>() {
+            override fun areItemsTheSame(oldItem: OldReward, newItem: OldReward): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: Reward, newItem: Reward): Boolean {
+            override fun areContentsTheSame(oldItem: OldReward, newItem: OldReward): Boolean {
                 return true
             }
         }

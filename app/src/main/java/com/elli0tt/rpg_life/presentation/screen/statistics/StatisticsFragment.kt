@@ -21,9 +21,6 @@ import javax.inject.Inject
 
 class StatisticsFragment : BaseFragment(R.layout.fragment_statistics) {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
     private lateinit var statisticsComponent: StatisticsComponent
 
     private lateinit var viewModel: StatisticsViewModel

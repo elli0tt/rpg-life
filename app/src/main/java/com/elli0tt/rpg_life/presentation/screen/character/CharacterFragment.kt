@@ -28,9 +28,6 @@ import javax.inject.Inject
 
 class CharacterFragment : BaseFragment(R.layout.fragment_character) {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
     private lateinit var characterComponent: CharacterComponent
 
     private lateinit var navController: NavController

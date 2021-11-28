@@ -5,23 +5,25 @@ import androidx.room.PrimaryKey
 import java.util.*
 
 @Entity(tableName = "quest_table")
-data class Quest @JvmOverloads constructor(@PrimaryKey(autoGenerate = true) var id: Int = DEFAULT_ID,
-                                           var name: String = DEFAULT_NAME,
-                                           var description: String = DEFAULT_DESCRIPTION,
-                                           var difficulty: Difficulty = DEFAULT_DIFFICULTY,
-                                           var parentQuestId: Int = DEFAULT_PARENT_QUEST_ID,
-                                           var isSubQuest: Boolean = DEFAULT_IS_SUBQUEST,
-                                           var isImportant: Boolean = DEFAULT_IS_IMPORTANT,
-                                           var isCompleted: Boolean = DEFAULT_IS_COMPLETED,
-                                           var startDate: Calendar = DEFAULT_START_DATE,
-                                           var dateDue: Calendar = DEFAULT_DATE_DUE,
-                                           var startDateState: DateState = DEFAULT_START_DATE_STATE,
-                                           var dateDueState: DateState = DEFAULT_DATE_DUE_STATE,
-                                           var repeatState: RepeatState = DEFAULT_REPEAT_STATE,
-                                           var hasSubquests: Boolean = DEFAULT_HAS_SUBQUESTS,
-                                           var isChallenge: Boolean = DEFAULT_IS_CHALLENGE,
-                                           var totalDaysCount: Int = DEFAULT_TOTAL_DAYS_COUNT,
-                                           var dayNumber: Int = DEFAULT_DAY_NUMBER) {
+data class Quest @JvmOverloads constructor(
+    @PrimaryKey(autoGenerate = true) var id: Int = DEFAULT_ID,
+    var name: String = DEFAULT_NAME,
+    var description: String = DEFAULT_DESCRIPTION,
+    var difficulty: Difficulty = DEFAULT_DIFFICULTY,
+    var parentQuestId: Int = DEFAULT_PARENT_QUEST_ID,
+    var isSubQuest: Boolean = DEFAULT_IS_SUBQUEST,
+    var isImportant: Boolean = DEFAULT_IS_IMPORTANT,
+    var isCompleted: Boolean = DEFAULT_IS_COMPLETED,
+    var startDate: Calendar = DEFAULT_START_DATE,
+    var dateDue: Calendar = DEFAULT_DATE_DUE,
+    var startDateState: DateState = DEFAULT_START_DATE_STATE,
+    var dateDueState: DateState = DEFAULT_DATE_DUE_STATE,
+    var repeatState: RepeatState = DEFAULT_REPEAT_STATE,
+    var hasSubquests: Boolean = DEFAULT_HAS_SUBQUESTS,
+    var isChallenge: Boolean = DEFAULT_IS_CHALLENGE,
+    var totalDaysCount: Int = DEFAULT_TOTAL_DAYS_COUNT,
+    var dayNumber: Int = DEFAULT_DAY_NUMBER
+) {
 
     companion object {
         const val DEFAULT_ID = 0
