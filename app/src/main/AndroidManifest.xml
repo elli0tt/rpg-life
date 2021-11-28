@@ -34,5 +34,4 @@
 
         <receiver android:name="com.elli0tt.rpg_life.presentation.broadcast_receiver.QuestReminderBroadcastReceiver" />
     </application>
-
 </manifest>
